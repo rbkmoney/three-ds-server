@@ -1,0 +1,18 @@
+{
+  "messageType": "PRes",
+  "dsTransID": "e9ff1fc0-3898-4887-b338-2db51170b865",
+  "threeDSServerTransID": "3a832bcb-dcf4-4d76-ae18-702694ea12cf",
+  "messageVersion": "2.1.0",
+  "dsStartProtocolVersion": "2.1.0",
+  "dsEndProtocolVersion": "2.1.0",
+  "serialNum": "20190411083625236000",
+  "cardRangeData": [
+    {
+      "actionInd": "A",
+      "endRange": "7654320599999999",
+      "startRange": "7654320500000000",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0"
+    }
+  ]
+}

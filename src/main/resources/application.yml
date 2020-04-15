@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: @name@
+    description: @description@
+  output:
+    ansi:
+      enabled: always
+---
+management:
+  security:
+    flag: false
+  metrics:
+    export:
+      statsd:
+        flavor: etsy
+        enabled: false
+---
+info:
+  version: @version@
+  stage: dev
+---
+server:
+  port: @server.port@
+---
+client:
+  ssl:
+    trust-store: classpath:test
+    trust-store-password: test
+---
+environment:
+  ds-url: "test"
+  three-ds-server-url: "https://3ds.rbk.money/ds"
+  three-ds-server-ref-number: "test"
+  three-ds-server-network-timeout: 10000
+  message-version: "2.2.0"
+  valid-message-versions: ["2.1.0","2.2.0"]
+  p-message-version: "1.0.5"

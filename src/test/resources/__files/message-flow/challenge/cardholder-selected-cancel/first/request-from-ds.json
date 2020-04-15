@@ -1,0 +1,20 @@
+{
+  "threeDSServerTransID": "bc9f0b90-1041-47f0-94df-d692170ea0d7",
+  "acsTransID": "f888079d-dae8-4a18-81b0-be6e77355e71",
+  "messageType": "RReq",
+  "messageVersion": "2.1.0",
+  "challengeCancel": "01",
+  "authenticationType": "01",
+  "acsRenderingType": {
+    "acsInterface": "01",
+    "acsUiTemplate": "01"
+  },
+  "interactionCounter": "00",
+  "transStatusReason": "01",
+  "messageCategory": "01",
+  "eci": "00",
+  "authenticationValue": "AABBCCDDEEFFAABBCCDDEEFFAAA=",
+  "authenticationMethod": "10",
+  "transStatus": "U",
+  "dsTransID": "6a00d179-bcdd-4eb4-a7e9-40eb30023b05"
+}

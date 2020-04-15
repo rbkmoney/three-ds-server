@@ -1,0 +1,15 @@
+{
+  "messageType": "pArs",
+  "p_messageVersion": "1.0.5",
+  "messageVersion": "2.1.0",
+  "eci": "00",
+  "authenticationValue": "AABBCCDDEEFFAABBCCDDEEFFAAA=",
+  "sdkTransID": "a8fc0876-e83b-4a9a-b52a-a3550491258d",
+  "threeDSServerTransID": "ab4c9b80-adcd-4421-af27-9549dc6c2f4b",
+  "dsTransID": "15695ecb-49d8-487d-973b-6f31093b628d",
+  "acsTransID": "b6c3d553-e5c8-4501-b32e-39628de5e757",
+  "dsReferenceNumber": "3DS_LOA_DIS_PPFU_020100_00010",
+  "acsReferenceNumber": "3DS_LOA_ACS_PPFU_020100_00009",
+  "transStatus": "Y",
+  "acsOperatorID": "acsOperatorUL"
+}
