@@ -47,8 +47,6 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
     public Message convert(ValidationResult validationResult) {
         PArq pArq = (PArq) validationResult.getMessage();
 
-        String threeDSServerTransID = idGenerator.generateUUID();
-
         AReq aReq = AReq.builder()
                 .threeDSCompInd(getEnumWrapperValue(pArq.getThreeDSCompInd()))
                 .threeDSRequestorAuthenticationInd(getEnumWrapperValue(pArq.getThreeDSRequestorAuthenticationInd()))
@@ -63,7 +61,7 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .threeDSRequestorURL(pArq.getThreeDSRequestorURL())
                 .threeDSServerRefNumber(environmentProperties.getThreeDsServerRefNumber())
                 .threeDSServerOperatorID(pArq.getThreeDSServerOperatorID())
-                .threeDSServerTransID(threeDSServerTransID)
+                .threeDSServerTransID(idGenerator.generateUUID())
                 .threeDSServerURL(environmentProperties.getThreeDsServerUrl())
                 .threeRIInd(getEnumWrapperValue(pArq.getThreeRIInd()))
                 .acctType(getEnumWrapperValue(pArq.getAcctType()))

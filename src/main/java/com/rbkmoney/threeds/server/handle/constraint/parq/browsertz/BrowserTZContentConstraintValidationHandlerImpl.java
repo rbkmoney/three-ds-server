@@ -5,7 +5,10 @@ import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Component;
+
+import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +23,16 @@ public class BrowserTZContentConstraintValidationHandlerImpl implements PArqCons
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        return stringValidator.validateStringWithMinAndMaxLength("browserTZ", 5, 1, o.getBrowserTZ());
+        String browserTZ = o.getBrowserTZ();
+        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("browserTZ", 5, 1, browserTZ);
+        if (!validationResult.isValid()) {
+            return validationResult;
+        }
+
+        if (!NumberUtils.isCreatable(browserTZ)) {
+            return ConstraintValidationResult.failure(PATTERN, "browserTZ");
+        }
+
+        return ConstraintValidationResult.success();
     }
 }
