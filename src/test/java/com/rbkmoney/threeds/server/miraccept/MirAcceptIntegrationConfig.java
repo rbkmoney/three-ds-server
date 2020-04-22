@@ -41,8 +41,8 @@ import java.util.UUID;
         properties = {
 //                "environment.ds-url=https://ds1.mirconnect.ru:8443/ds/DServer",
                 "environment.ds-url=https://ds.vendorcert.mirconnect.ru:8443/ds/DServer",
-                "client.ssl.trust-store=classpath:3ds_server_pki/nspk.p12",
-                "client.ssl.trust-store-password=JxFvA6AUaOH5UgXa",
+                "client.ssl.trust-store=classpath:3ds_server_pki/mir2.p12",
+                "client.ssl.trust-store-password=vYOAkEF7V4UHLfMn",
                 "environment.three-ds-server-ref-number=2200040105",
                 "three-ds-server-url=https://nspk.3ds.rbk.money",
 //                "logging.level.org.apache.http=debug",
