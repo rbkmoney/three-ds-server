@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.impl;
 
-import com.rbkmoney.threeds.server.client.DsClient;
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.domain.error.ErrorCode;
 import com.rbkmoney.threeds.server.domain.root.Message;
@@ -18,7 +18,7 @@ import static com.rbkmoney.threeds.server.constants.MessageConstants.MESSAGE_IS_
 public class UnsupportedMessageTypeResponseHandlerImpl implements ResponseHandler {
 
     private final MessageToErrorResConverter errorConverter;
-    private final DsClient dsClient;
+    private final DirectoryServerProviderHolder providerHolder;
 
     @Override
     public boolean canHandle(Message o) {
@@ -44,7 +44,7 @@ public class UnsupportedMessageTypeResponseHandlerImpl implements ResponseHandle
 
     private void handleErrorMessage(Message result) {
         if (result instanceof Erro) {
-            dsClient.notificationDsAboutError((Erro) result);
+            providerHolder.getDsClient().notificationDsAboutError((Erro) result);
         }
     }
 }

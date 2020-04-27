@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.impl;
 
-import com.rbkmoney.threeds.server.client.DsClient;
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.Erro;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
@@ -16,7 +16,7 @@ public abstract class ResponseHandlerImpl implements ResponseHandler {
 
     private final Processor<ValidationResult, Message> processor;
     private final MessageValidatorService validator;
-    private final DsClient dsClient;
+    private final DirectoryServerProviderHolder providerHolder;
 
     @Override
     public Message handle(Message message) {
@@ -28,7 +28,7 @@ public abstract class ResponseHandlerImpl implements ResponseHandler {
 
     private void handleErrorMessage(Message result) {
         if (result instanceof Erro && ((Erro) result).isNotifyDsAboutError()) {
-            dsClient.notificationDsAboutError((Erro) result);
+            providerHolder.getDsClient().notificationDsAboutError((Erro) result);
         }
     }
 }

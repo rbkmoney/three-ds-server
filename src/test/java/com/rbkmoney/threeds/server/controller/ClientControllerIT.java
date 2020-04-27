@@ -3,12 +3,13 @@ package com.rbkmoney.threeds.server.controller;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.rbkmoney.threeds.server.TestBase;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
+import com.rbkmoney.threeds.server.client.DsClient;
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.config.MockConfig;
 import com.rbkmoney.threeds.server.service.CacheService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,10 +24,13 @@ import java.io.IOException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-@SpringBootTest(classes = {ThreeDsServerApplication.class, MockConfig.class}, properties = "spring.main.allow-bean-definition-overriding=true")
+@SpringBootTest(
+        classes = {ThreeDsServerApplication.class, MockConfig.class},
+        properties = "spring.main.allow-bean-definition-overriding=true")
 @AutoConfigureMockMvc
 public class ClientControllerIT extends TestBase {
 
@@ -36,12 +40,21 @@ public class ClientControllerIT extends TestBase {
     @Autowired
     private CacheService cacheService;
 
+    @Autowired
+    private DsClient testDsClient;
+
     @MockBean
     private IdGenerator idGenerator;
 
+    @MockBean
+    private DirectoryServerProviderHolder providerHolder;
+
     @Before
-    public void setUp() throws Exception {
-        Mockito.when(idGenerator.generateUUID()).thenReturn("bc9f0b90-1041-47f0-94df-d692170ea0d7");
+    public void setUp() {
+        when(idGenerator.generateUUID())
+                .thenReturn("bc9f0b90-1041-47f0-94df-d692170ea0d7");
+        when(providerHolder.getDsClient())
+                .thenReturn(testDsClient);
     }
 
     @Test
@@ -58,7 +71,8 @@ public class ClientControllerIT extends TestBase {
 
         mockMvc.perform(authRequest)
                 .andDo(print())
-                .andExpect(content().json(new ChallengeFlowCardholderSelectedCancel().responseToClient()));
+                .andExpect(content()
+                        .json(new ChallengeFlowCardholderSelectedCancel().responseToClient()));
     }
 
     @Test
@@ -78,7 +92,8 @@ public class ClientControllerIT extends TestBase {
 
         mockMvc.perform(prepRequest)
                 .andDo(print())
-                .andExpect(content().json(new PreparationFlow().responseToClient()));
+                .andExpect(content()
+                        .json(new PreparationFlow().responseToClient()));
 
         assertEquals("20190411083623719000", cacheService.getSerialNum(xULTestCaseRunId));
         assertFalse(cacheService.isInCardRange(xULTestCaseRunId, "7654320500000001"));
@@ -116,9 +131,7 @@ public class ClientControllerIT extends TestBase {
                             aResponse()
                                     .withStatus(HttpStatus.OK.value())
                                     .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
-                                    .withBody(responseFromDs())
-                    )
-            );
+                                    .withBody(responseFromDs())));
         }
     }
 
@@ -141,9 +154,7 @@ public class ClientControllerIT extends TestBase {
                                     .withStatus(HttpStatus.OK.value())
                                     .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
                                     .withHeader("x-ul-testcaserun-id", xULTestCaseRunId)
-                                    .withBody(readStringFromFile(PATH, "preparation-response.json"))
-                    )
-            );
+                                    .withBody(readStringFromFile(PATH, "preparation-response.json"))));
         }
 
         void givenSecondDsResponseStub(String xULTestCaseRunId) throws IOException {
@@ -154,9 +165,7 @@ public class ClientControllerIT extends TestBase {
                                     .withStatus(HttpStatus.OK.value())
                                     .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
                                     .withHeader("x-ul-testcaserun-id", xULTestCaseRunId)
-                                    .withBody(readStringFromFile(PATH, "preparation-response-2.json"))
-                    )
-            );
+                                    .withBody(readStringFromFile(PATH, "preparation-response-2.json"))));
         }
     }
 }
