@@ -51,15 +51,60 @@ public class ClientConfig {
     }
 
     @Bean
-    public DsClient dsClient(
-            RestTemplate restTemplate,
-            EnvironmentProperties environmentProperties,
+    public DsClient visaDsClient(
+            RestTemplate visaRestTemplate,
+            EnvironmentProperties visaEnvironmentProperties,
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver) {
         return new DsClientImpl(
-                restTemplate,
-                environmentProperties,
+                visaRestTemplate,
+                visaEnvironmentProperties,
+                messageToErrorConverter,
+                errorCodeResolver,
+                errorMessageResolver);
+    }
+
+    @Bean
+    public DsClient mastercardDsClient(
+            RestTemplate mastercardRestTemplate,
+            EnvironmentProperties mastercardEnvironmentProperties,
+            MessageToErrorResConverter messageToErrorConverter,
+            ErrorCodeResolver errorCodeResolver,
+            ErrorMessageResolver errorMessageResolver) {
+        return new DsClientImpl(
+                mastercardRestTemplate,
+                mastercardEnvironmentProperties,
+                messageToErrorConverter,
+                errorCodeResolver,
+                errorMessageResolver);
+    }
+
+    @Bean
+    public DsClient mirDsClient(
+            RestTemplate mirRestTemplate,
+            EnvironmentProperties mirEnvironmentProperties,
+            MessageToErrorResConverter messageToErrorConverter,
+            ErrorCodeResolver errorCodeResolver,
+            ErrorMessageResolver errorMessageResolver) {
+        return new DsClientImpl(
+                mirRestTemplate,
+                mirEnvironmentProperties,
+                messageToErrorConverter,
+                errorCodeResolver,
+                errorMessageResolver);
+    }
+
+    @Bean
+    public DsClient testDsClient(
+            RestTemplate testRestTemplate,
+            EnvironmentProperties testEnvironmentProperties,
+            MessageToErrorResConverter messageToErrorConverter,
+            ErrorCodeResolver errorCodeResolver,
+            ErrorMessageResolver errorMessageResolver) {
+        return new DsClientImpl(
+                testRestTemplate,
+                testEnvironmentProperties,
                 messageToErrorConverter,
                 errorCodeResolver,
                 errorMessageResolver);
@@ -67,7 +112,53 @@ public class ClientConfig {
 
     @Bean
     @RequestScope
-    public RestTemplate restTemplate(
+    public RestTemplate visaRestTemplate(
+            KeystoreProperties visaKeystoreProperties,
+            ResourceLoader resourceLoader,
+            EnvironmentProperties visaEnvironmentProperties) {
+        return restTemplate(
+                visaKeystoreProperties,
+                resourceLoader,
+                visaEnvironmentProperties);
+    }
+
+    @Bean
+    @RequestScope
+    public RestTemplate mastercardRestTemplate(
+            KeystoreProperties mastercardKeystoreProperties,
+            ResourceLoader resourceLoader,
+            EnvironmentProperties mastercardEnvironmentProperties) {
+        return restTemplate(
+                mastercardKeystoreProperties,
+                resourceLoader,
+                mastercardEnvironmentProperties);
+    }
+
+    @Bean
+    @RequestScope
+    public RestTemplate mirRestTemplate(
+            KeystoreProperties mirKeystoreProperties,
+            ResourceLoader resourceLoader,
+            EnvironmentProperties mirEnvironmentProperties) {
+        return restTemplate(
+                mirKeystoreProperties,
+                resourceLoader,
+                mirEnvironmentProperties);
+    }
+
+    @Bean
+    @RequestScope
+    public RestTemplate testRestTemplate(
+            KeystoreProperties testKeystoreProperties,
+            ResourceLoader resourceLoader,
+            EnvironmentProperties testEnvironmentProperties) {
+        return restTemplate(
+                testKeystoreProperties,
+                resourceLoader,
+                testEnvironmentProperties);
+    }
+
+    private RestTemplate restTemplate(
             KeystoreProperties keystoreProperties,
             ResourceLoader resourceLoader,
             EnvironmentProperties environmentProperties) {
