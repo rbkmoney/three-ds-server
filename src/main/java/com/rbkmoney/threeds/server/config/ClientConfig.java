@@ -28,6 +28,7 @@ import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.KeyStore;
@@ -40,26 +41,36 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class ClientConfig {
 
+    public static final String PKCS_12 = "pkcs12";
+
     @Bean
     @Primary
     public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
-        return objectMapper;
+        return new ObjectMapper()
+                .findAndRegisterModules();
     }
 
     @Bean
-    public DsClient dsClient(RestTemplate restTemplate,
-                             EnvironmentProperties environmentProperties,
-                             MessageToErrorResConverter messageToErrorConverter,
-                             ErrorCodeResolver errorCodeResolver,
-                             ErrorMessageResolver errorMessageResolver) {
-        return new DsClientImpl(restTemplate, environmentProperties, messageToErrorConverter, errorCodeResolver, errorMessageResolver);
+    public DsClient dsClient(
+            RestTemplate restTemplate,
+            EnvironmentProperties environmentProperties,
+            MessageToErrorResConverter messageToErrorConverter,
+            ErrorCodeResolver errorCodeResolver,
+            ErrorMessageResolver errorMessageResolver) {
+        return new DsClientImpl(
+                restTemplate,
+                environmentProperties,
+                messageToErrorConverter,
+                errorCodeResolver,
+                errorMessageResolver);
     }
 
     @Bean
     @RequestScope
-    public RestTemplate restTemplate(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader, EnvironmentProperties environmentProperties) {
+    public RestTemplate restTemplate(
+            KeystoreProperties keystoreProperties,
+            ResourceLoader resourceLoader,
+            EnvironmentProperties environmentProperties) {
         return new RestTemplateBuilder()
                 .requestFactory(() -> new HttpComponentsClientHttpRequestFactory(httpClient(keystoreProperties, resourceLoader)))
                 .setConnectTimeout(Duration.ofMillis(environmentProperties.getThreeDsServerNetworkTimeout()))
@@ -67,7 +78,9 @@ public class ClientConfig {
                 .build();
     }
 
-    private CloseableHttpClient httpClient(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader) {
+    private CloseableHttpClient httpClient(
+            KeystoreProperties keystoreProperties,
+            ResourceLoader resourceLoader) {
         SSLContext sslContext = sslContext(keystoreProperties, resourceLoader);
 
         return HttpClients.custom()
@@ -75,26 +88,42 @@ public class ClientConfig {
                 .build();
     }
 
-    private SSLContext sslContext(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader) {
+    private SSLContext sslContext(
+            KeystoreProperties keystoreProperties,
+            ResourceLoader resourceLoader) {
         try {
             return SSLContextBuilder.create()
-                    .loadTrustMaterial(trustStore(keystoreProperties, resourceLoader), keystoreProperties.getTrustStorePassword().toCharArray(), (n, v) -> true)
-                    .loadKeyMaterial(keyStore(keystoreProperties, resourceLoader), keystoreProperties.getTrustStorePassword().toCharArray())
+                    .loadTrustMaterial(
+                            trustStore(keystoreProperties, resourceLoader),
+                            keystoreProperties.getTrustStorePassword().toCharArray(),
+                            (n, v) -> true)
+                    .loadKeyMaterial(
+                            keyStore(keystoreProperties, resourceLoader),
+                            keystoreProperties.getTrustStorePassword().toCharArray())
                     .build();
         } catch (Exception ex) {
             throw new SSLContextBuilderException(ex);
         }
     }
 
-    private File trustStore(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader) throws IOException {
-        return resourceLoader.getResource(keystoreProperties.getTrustStore()).getFile();
+    private File trustStore(
+            KeystoreProperties keystoreProperties,
+            ResourceLoader resourceLoader) throws IOException {
+        return resourceLoader
+                .getResource(keystoreProperties.getTrustStore())
+                .getFile();
     }
 
-    private KeyStore keyStore(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
-        KeyStore keyStore = KeyStore.getInstance("pkcs12");
-        try (InputStream pKeyFileStream = Files.newInputStream(Path.of(resourceLoader.getResource(keystoreProperties.getTrustStore()).getURI()))) {
+    private KeyStore keyStore(
+            KeystoreProperties keystoreProperties,
+            ResourceLoader resourceLoader) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
+        KeyStore keyStore = KeyStore.getInstance(PKCS_12);
+        URI uri = resourceLoader.getResource(keystoreProperties.getTrustStore()).getURI();
+
+        try (InputStream pKeyFileStream = Files.newInputStream(Path.of(uri))) {
             keyStore.load(pKeyFileStream, keystoreProperties.getTrustStorePassword().toCharArray());
         }
+
         return keyStore;
     }
 }
