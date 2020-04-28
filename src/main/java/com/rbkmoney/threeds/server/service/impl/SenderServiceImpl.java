@@ -1,8 +1,10 @@
 package com.rbkmoney.threeds.server.service.impl;
 
 import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
+import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.Erro;
+import com.rbkmoney.threeds.server.service.DirectoryServerRouter;
 import com.rbkmoney.threeds.server.service.RequestHandleService;
 import com.rbkmoney.threeds.server.service.ResponseHandleService;
 import com.rbkmoney.threeds.server.service.SenderService;
@@ -17,6 +19,7 @@ public class SenderServiceImpl implements SenderService {
 
     private final RequestHandleService requestHandleService;
     private final ResponseHandleService responseHandleService;
+    private final DirectoryServerRouter directoryServerRouter;
     private final DirectoryServerProviderHolder providerHolder;
 
     @Override
@@ -30,6 +33,9 @@ public class SenderServiceImpl implements SenderService {
         if (dsRequestMessage instanceof Erro) {
             return dsRequestMessage;
         }
+
+        DirectoryServerProvider provider = directoryServerRouter.route(message);
+        providerHolder.setProvider(provider);
 
         Message dsResponseMessage = providerHolder.getDsClient().request(dsRequestMessage);
 

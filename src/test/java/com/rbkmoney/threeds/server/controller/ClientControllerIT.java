@@ -3,8 +3,6 @@ package com.rbkmoney.threeds.server.controller;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.rbkmoney.threeds.server.TestBase;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
-import com.rbkmoney.threeds.server.client.DsClient;
-import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.config.MockConfig;
 import com.rbkmoney.threeds.server.service.CacheService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
@@ -40,21 +38,13 @@ public class ClientControllerIT extends TestBase {
     @Autowired
     private CacheService cacheService;
 
-    @Autowired
-    private DsClient testDsClient;
-
     @MockBean
     private IdGenerator idGenerator;
-
-    @MockBean
-    private DirectoryServerProviderHolder providerHolder;
 
     @Before
     public void setUp() {
         when(idGenerator.generateUUID())
                 .thenReturn("bc9f0b90-1041-47f0-94df-d692170ea0d7");
-        when(providerHolder.getDsClient())
-                .thenReturn(testDsClient);
     }
 
     @Test

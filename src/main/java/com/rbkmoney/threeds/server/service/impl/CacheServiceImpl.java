@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.service.impl;
 
+import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.ActionInd;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
@@ -9,15 +10,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.rbkmoney.threeds.server.utils.CollectionsUtil.safeCollectionList;
 import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
 import static java.lang.Long.parseLong;
+import static java.util.Arrays.stream;
 
 @Service
 @RequiredArgsConstructor
@@ -70,6 +69,11 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public boolean isInCardRange(String tag, String acctNumber) {
+        if (!isTest(tag)) {
+            return isInCardRange(tag, parseLong(acctNumber));
+        }
+
+        // TODO [a.romanov]: are empty ranges ok for tests?
         return getCardRanges(tag).isEmpty()
                 || isInCardRange(tag, parseLong(acctNumber));
     }
@@ -145,5 +149,11 @@ public class CacheServiceImpl implements CacheService {
 
     private Set<CardRange> getCardRanges(String tag) {
         return cardRangesByTag.getOrDefault(tag, new HashSet<>());
+    }
+
+    private boolean isTest(String tag) {
+        return stream(DirectoryServerProvider.values())
+                .filter(provider -> provider == DirectoryServerProvider.TEST)
+                .noneMatch(provider -> provider.getTag().equals(tag));
     }
 }
