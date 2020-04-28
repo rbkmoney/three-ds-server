@@ -153,7 +153,7 @@ public class CacheServiceImpl implements CacheService {
 
     private boolean isTest(String tag) {
         return stream(DirectoryServerProvider.values())
-                .filter(provider -> provider == DirectoryServerProvider.TEST)
+                .filter(provider -> provider != DirectoryServerProvider.TEST)
                 .noneMatch(provider -> provider.getTag().equals(tag));
     }
 }

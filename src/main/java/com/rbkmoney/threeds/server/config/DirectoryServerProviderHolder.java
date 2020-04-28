@@ -4,7 +4,6 @@ import com.rbkmoney.threeds.server.client.DsClient;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -27,7 +26,6 @@ public class DirectoryServerProviderHolder {
     private final EnvironmentProperties mirEnvironmentProperties;
     private final EnvironmentProperties testEnvironmentProperties;
 
-    @Setter
     private DirectoryServerProvider provider;
 
     public DsClient getDsClient() {
@@ -64,5 +62,10 @@ public class DirectoryServerProviderHolder {
             default:
                 throw new IllegalArgumentException("Unknown Directory Server provider: " + provider);
         }
+    }
+
+    public void setProvider(DirectoryServerProvider provider) {
+        log.debug("Set provider={}", provider);
+        this.provider = provider;
     }
 }

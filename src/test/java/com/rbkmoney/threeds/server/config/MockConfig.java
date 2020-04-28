@@ -9,7 +9,6 @@ import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Validator;
@@ -27,24 +26,22 @@ import static org.mockito.Mockito.when;
 public class MockConfig {
 
     @Bean
-    @Primary
     public DsClient testDsClient(
-            RestTemplate restTemplate,
-            EnvironmentProperties environmentProperties,
+            RestTemplate testRestTemplate,
+            EnvironmentProperties testEnvironmentProperties,
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver) {
         return new DsClientImpl(
-                restTemplate,
-                environmentProperties,
+                testRestTemplate,
+                testEnvironmentProperties,
                 messageToErrorConverter,
                 errorCodeResolver,
                 errorMessageResolver);
     }
 
     @Bean
-    @Primary
-    public EnvironmentProperties environmentProperties() {
+    public EnvironmentProperties testEnvironmentProperties() {
         EnvironmentProperties environmentProperties = mock(EnvironmentProperties.class);
 
         when(environmentProperties.getDsUrl()).thenReturn(TEST_URL);
@@ -55,7 +52,6 @@ public class MockConfig {
     }
 
     @Bean
-    @Primary
     public EnvironmentMessageProperties environmentMessageProperties() {
         EnvironmentMessageProperties environmentMessageProperties = mock(EnvironmentMessageProperties.class);
         when(environmentMessageProperties.getMessageVersion()).thenReturn("2.1.0");
@@ -65,7 +61,6 @@ public class MockConfig {
     }
 
     @Bean
-    @Primary
     public Validator validator() {
         Validator mock = mock(Validator.class);
         when(mock.validate(any()))
@@ -75,8 +70,7 @@ public class MockConfig {
     }
 
     @Bean
-    @Primary
-    public RestTemplate restTemplate() {
+    public RestTemplate testRestTemplate() {
         return new RestTemplate();
     }
 }
