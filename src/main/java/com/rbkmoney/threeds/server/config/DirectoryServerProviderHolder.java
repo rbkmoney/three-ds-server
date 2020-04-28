@@ -1,6 +1,7 @@
 package com.rbkmoney.threeds.server.config;
 
 import com.rbkmoney.threeds.server.client.DsClient;
+import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,11 @@ public class DirectoryServerProviderHolder {
     private final DsClient mirDsClient;
     private final DsClient testDsClient;
 
+    private final EnvironmentProperties visaEnvironmentProperties;
+    private final EnvironmentProperties mastercardEnvironmentProperties;
+    private final EnvironmentProperties mirEnvironmentProperties;
+    private final EnvironmentProperties testEnvironmentProperties;
+
     @Setter
     private DirectoryServerProvider provider;
 
@@ -37,6 +43,24 @@ public class DirectoryServerProviderHolder {
                 return mirDsClient;
             case TEST:
                 return testDsClient;
+            default:
+                throw new IllegalArgumentException("Unknown Directory Server provider: " + provider);
+        }
+    }
+
+    public EnvironmentProperties getEnvironmentProperties() {
+        Objects.requireNonNull(provider, "Provider must be set!");
+
+        log.debug("Return EnvironmentProperties for provider={}", provider);
+        switch (provider) {
+            case VISA:
+                return visaEnvironmentProperties;
+            case MASTERCARD:
+                return mastercardEnvironmentProperties;
+            case MIR:
+                return mirEnvironmentProperties;
+            case TEST:
+                return testEnvironmentProperties;
             default:
                 throw new IllegalArgumentException("Unknown Directory Server provider: " + provider);
         }

@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.cardrange.acsendprotocolversion;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.cardrange.CardRangeConstraintValidationHandler;
@@ -15,7 +15,7 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 public class AcsEndProtocolVersionContentConstraintValidationHandlerImpl implements CardRangeConstraintValidationHandler {
 
     private final StringValidator stringValidator;
-    private final EnvironmentProperties environmentProperties;
+    private final DirectoryServerProviderHolder providerHolder;
 
     @Override
     public boolean canHandle(CardRange o) {
@@ -29,7 +29,7 @@ public class AcsEndProtocolVersionContentConstraintValidationHandlerImpl impleme
             return validationResult;
         }
 
-        if (!environmentProperties.getValidMessageVersions().contains(o.getAcsEndProtocolVersion())) {
+        if (!providerHolder.getEnvironmentProperties().getValidMessageVersions().contains(o.getAcsEndProtocolVersion())) {
             return ConstraintValidationResult.failure(PATTERN, "acsEndProtocolVersion");
         }
 

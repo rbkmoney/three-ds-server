@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
@@ -16,7 +16,7 @@ import static com.rbkmoney.threeds.server.utils.WrapperUtil.getListWrapperValue;
 @RequiredArgsConstructor
 public class PPrqToPReqConverter implements Converter<ValidationResult, Message> {
 
-    private final EnvironmentProperties environmentProperties;
+    private final DirectoryServerProviderHolder providerHolder;
     private final CacheService cacheService;
 
     @Override
@@ -24,7 +24,7 @@ public class PPrqToPReqConverter implements Converter<ValidationResult, Message>
         PPrq pPrq = (PPrq) validationResult.getMessage();
 
         PReq pReq = PReq.builder()
-                .threeDSServerRefNumber(environmentProperties.getThreeDsServerRefNumber())
+                .threeDSServerRefNumber(providerHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
                 .threeDSServerOperatorID(pPrq.getThreeDSServerOperatorID())
                 .threeDSServerTransID(pPrq.getThreeDSServerTransID())
                 .messageExtension(getListWrapperValue(pPrq.getMessageExtension()))

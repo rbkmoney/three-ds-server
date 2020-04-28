@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.acs.AcsRenderingType;
 import com.rbkmoney.threeds.server.domain.acs.AcsRenderingTypeWrapper;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
@@ -28,7 +28,7 @@ import static com.rbkmoney.threeds.server.utils.WrapperUtil.getListWrapperValue;
 public class AResToPArsConverter implements Converter<ValidationResult, Message> {
 
     private final CacheService cacheService;
-    private final EnvironmentProperties environmentProperties;
+    private final DirectoryServerProviderHolder providerHolder;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -74,7 +74,7 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .map(Message::getRequestMessage)
                 .map(message -> (PArq) message)
                 .map(PArq::getP_messageVersion)
-                .orElse(environmentProperties.getPMessageVersion());
+                .orElse(providerHolder.getEnvironmentProperties().getPMessageVersion());
     }
 
     private String getAcsURL(ARes aRes) {

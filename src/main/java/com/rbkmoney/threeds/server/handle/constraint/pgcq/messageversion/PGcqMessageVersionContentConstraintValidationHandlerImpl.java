@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.pgcq.messageversion;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PGcq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.pgcq.PGcqConstraintValidationHandler;
@@ -15,7 +15,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RequiredArgsConstructor
 public class PGcqMessageVersionContentConstraintValidationHandlerImpl implements PGcqConstraintValidationHandler {
 
-    private final EnvironmentProperties environmentProperties;
+    private final DirectoryServerProviderHolder providerHolder;
 
     @Override
     public boolean canHandle(PGcq o) {
@@ -34,7 +34,7 @@ public class PGcqMessageVersionContentConstraintValidationHandlerImpl implements
             return ConstraintValidationResult.failure(NOT_BLANK, "messageVersion");
         }
 
-        if (!environmentProperties.getValidMessageVersions().contains(messageVersion)) {
+        if (!providerHolder.getEnvironmentProperties().getValidMessageVersions().contains(messageVersion)) {
             return ConstraintValidationResult.failure(PATTERN, "messageVersion");
         }
 

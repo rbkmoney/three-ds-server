@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.pres.messageversion;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.pres.PResConstraintValidationHandler;
@@ -15,7 +15,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RequiredArgsConstructor
 public class PResMessageVersionContentConstraintValidationHandlerImpl implements PResConstraintValidationHandler {
 
-    private final EnvironmentProperties environmentProperties;
+    private final DirectoryServerProviderHolder providerHolder;
 
     @Override
     public boolean canHandle(PRes o) {
@@ -34,13 +34,13 @@ public class PResMessageVersionContentConstraintValidationHandlerImpl implements
             return ConstraintValidationResult.failure(NOT_BLANK, "messageVersion");
         }
 
-        if (!environmentProperties.getValidMessageVersions().contains(messageVersion)) {
+        if (!providerHolder.getEnvironmentProperties().getValidMessageVersions().contains(messageVersion)) {
             return ConstraintValidationResult.failure(PATTERN, "messageVersion");
         }
 
         String messageVersionAReq = o.getRequestMessage().getMessageVersion();
 
-        if (environmentProperties.getValidMessageVersions().contains(o.getMessageVersion()) && !messageVersionAReq.equals(o.getMessageVersion())) {
+        if (providerHolder.getEnvironmentProperties().getValidMessageVersions().contains(o.getMessageVersion()) && !messageVersionAReq.equals(o.getMessageVersion())) {
             return ConstraintValidationResult.failure(PATTERN, "messageVersion");
         }
 
