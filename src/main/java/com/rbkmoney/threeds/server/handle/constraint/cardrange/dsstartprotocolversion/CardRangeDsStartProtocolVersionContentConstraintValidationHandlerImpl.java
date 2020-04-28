@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.cardrange.dsstartprotocolversion;
 
-import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
+import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.cardrange.CardRangeConstraintValidationHandler;
@@ -15,7 +15,7 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 public class CardRangeDsStartProtocolVersionContentConstraintValidationHandlerImpl implements CardRangeConstraintValidationHandler {
 
     private final StringValidator stringValidator;
-    private final DirectoryServerProviderHolder providerHolder;
+    private final EnvironmentMessageProperties messageProperties;
 
     @Override
     public boolean canHandle(CardRange o) {
@@ -29,7 +29,7 @@ public class CardRangeDsStartProtocolVersionContentConstraintValidationHandlerIm
             return validationResult;
         }
 
-        if (!providerHolder.getEnvironmentProperties().getValidMessageVersions().contains(o.getDsStartProtocolVersion())) {
+        if (!messageProperties.getValidMessageVersions().contains(o.getDsStartProtocolVersion())) {
             return ConstraintValidationResult.failure(PATTERN, "dsStartProtocolVersion");
         }
 

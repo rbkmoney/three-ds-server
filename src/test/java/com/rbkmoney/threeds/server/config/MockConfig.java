@@ -2,6 +2,7 @@ package com.rbkmoney.threeds.server.config;
 
 import com.rbkmoney.threeds.server.client.DsClient;
 import com.rbkmoney.threeds.server.client.impl.DsClientImpl;
+import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
@@ -49,10 +50,18 @@ public class MockConfig {
         when(environmentProperties.getDsUrl()).thenReturn(TEST_URL);
         when(environmentProperties.getThreeDsServerUrl()).thenReturn("https://3ds.rbk.money/ds");
         when(environmentProperties.getThreeDsServerRefNumber()).thenReturn("3DS_LOA_SER_PPFU_020100_00008");
-        when(environmentProperties.getMessageVersion()).thenReturn("2.1.0");
-        when(environmentProperties.getPMessageVersion()).thenReturn("1.0.5");
 
         return environmentProperties;
+    }
+
+    @Bean
+    @Primary
+    public EnvironmentMessageProperties environmentMessageProperties() {
+        EnvironmentMessageProperties environmentMessageProperties = mock(EnvironmentMessageProperties.class);
+        when(environmentMessageProperties.getMessageVersion()).thenReturn("2.1.0");
+        when(environmentMessageProperties.getPMessageVersion()).thenReturn("1.0.5");
+
+        return environmentMessageProperties;
     }
 
     @Bean

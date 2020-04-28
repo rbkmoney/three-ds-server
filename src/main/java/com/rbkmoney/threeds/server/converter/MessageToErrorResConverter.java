@@ -1,7 +1,6 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
+import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.error.ErrorCode;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.TransactionalMessage;
@@ -21,7 +20,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RequiredArgsConstructor
 public class MessageToErrorResConverter implements Converter<ValidationResult, Message> {
 
-    private final DirectoryServerProviderHolder providerHolder;
+    private final EnvironmentMessageProperties messageProperties;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -55,7 +54,7 @@ public class MessageToErrorResConverter implements Converter<ValidationResult, M
                     .errorDescription(errorDescription)
                     .errorDetail(errorDetail)
                     .build();
-            error.setMessageVersion(providerHolder.getEnvironmentProperties().getMessageVersion());
+            error.setMessageVersion(messageProperties.getMessageVersion());
         }
         error.setNotifyDsAboutError(isNotifyDsAboutError(errorCode));
         return error;
@@ -70,15 +69,13 @@ public class MessageToErrorResConverter implements Converter<ValidationResult, M
     }
 
     private String getMessageVersion(Message message, Message requestMessage) {
-        EnvironmentProperties environmentProperties = providerHolder.getEnvironmentProperties();
-
         String messageVersion = getNullableString(
                 message.getMessageVersion(),
-                getMessageVersion(requestMessage, Message::getMessageVersion, environmentProperties.getMessageVersion()));
+                getMessageVersion(requestMessage, Message::getMessageVersion, messageProperties.getMessageVersion()));
 
-        return environmentProperties.getValidMessageVersions().contains(messageVersion)
+        return messageProperties.getValidMessageVersions().contains(messageVersion)
                 ? messageVersion
-                : environmentProperties.getMessageVersion();
+                : messageProperties.getMessageVersion();
     }
 
     private String getMessageVersion(Message requestMessage, Function<Message, String> messageVersionFunction, String other) {

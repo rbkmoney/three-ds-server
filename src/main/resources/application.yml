@@ -38,35 +38,27 @@ client:
       trust-store-password: test
 
 environment:
+  message:
+    message-version: "2.2.0"
+    valid-message-versions: ["2.1.0","2.2.0"]
+    p-message-version: "1.0.5"
   visa:
     ds-url: "visa"
     three-ds-server-url: "https://3ds.rbk.money/ds"
     three-ds-server-ref-number: "visa"
     three-ds-server-network-timeout: 10000
-    message-version: "2.2.0"
-    valid-message-versions: ["2.1.0","2.2.0"]
-    p-message-version: "1.0.5"
   mastercard:
     ds-url: "mastercard"
     three-ds-server-url: "https://3ds.rbk.money/ds"
     three-ds-server-ref-number: "mastercard"
     three-ds-server-network-timeout: 10000
-    message-version: "2.2.0"
-    valid-message-versions: ["2.1.0","2.2.0"]
-    p-message-version: "1.0.5"
   mir:
     ds-url: "mir"
     three-ds-server-url: "https://3ds.rbk.money/ds"
     three-ds-server-ref-number: "mir"
     three-ds-server-network-timeout: 10000
-    message-version: "2.2.0"
-    valid-message-versions: ["2.1.0","2.2.0"]
-    p-message-version: "1.0.5"
   test:
     ds-url: "test"
     three-ds-server-url: "https://3ds.rbk.money/ds"
     three-ds-server-ref-number: "test"
     three-ds-server-network-timeout: 10000
-    message-version: "2.2.0"
-    valid-message-versions: ["2.1.0","2.2.0"]
-    p-message-version: "1.0.5"

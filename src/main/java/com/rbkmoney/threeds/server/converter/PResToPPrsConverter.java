@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
+import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.ActionInd;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.domain.root.Message;
@@ -27,7 +27,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @RequiredArgsConstructor
 public class PResToPPrsConverter implements Converter<ValidationResult, Message> {
 
-    private final DirectoryServerProviderHolder providerHolder;
+    private final EnvironmentMessageProperties messageProperties;
     private final CacheService cacheService;
 
     @Override
@@ -62,7 +62,7 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
                 .map(Message::getRequestMessage)
                 .map(message -> (PPrq) message)
                 .map(PPrq::getP_messageVersion)
-                .orElse(providerHolder.getEnvironmentProperties().getPMessageVersion());
+                .orElse(messageProperties.getPMessageVersion());
     }
 
     private EnumWrapper<ActionInd> getActionIndEnumWrapper() {
