@@ -54,7 +54,7 @@ public class DsClientImpl implements DsClient {
     }
 
     @Override
-    public void notificationDsAboutError(Erro message) {
+    public void notifyDsAboutError(Erro message) {
         log.info("Handling ended with Error result, DS will be notified: message={}", message.toString());
 
         ResponseEntity<Message> messageResponseEntity = restTemplate.postForEntity(environmentProperties.getDsUrl(), message, Message.class);

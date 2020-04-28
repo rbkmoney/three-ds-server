@@ -28,7 +28,7 @@ public abstract class ResponseHandlerImpl implements ResponseHandler {
 
     private void handleErrorMessage(Message result) {
         if (result instanceof Erro && ((Erro) result).isNotifyDsAboutError()) {
-            providerHolder.getDsClient().notificationDsAboutError((Erro) result);
+            providerHolder.getDsClient().notifyDsAboutError((Erro) result);
         }
     }
 }

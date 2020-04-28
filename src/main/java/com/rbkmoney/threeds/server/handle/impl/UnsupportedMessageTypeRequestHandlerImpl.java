@@ -44,7 +44,7 @@ public class UnsupportedMessageTypeRequestHandlerImpl implements RequestHandler 
 
     private void handleErrorMessage(Message result) {
         if (result instanceof Erro) {
-            providerHolder.getDsClient().notificationDsAboutError((Erro) result);
+            providerHolder.getDsClient().notifyDsAboutError((Erro) result);
         }
     }
 }

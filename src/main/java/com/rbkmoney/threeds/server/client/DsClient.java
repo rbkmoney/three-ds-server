@@ -7,6 +7,5 @@ public interface DsClient {
 
     Message request(Message message);
 
-    void notificationDsAboutError(Erro message);
-
+    void notifyDsAboutError(Erro message);
 }
