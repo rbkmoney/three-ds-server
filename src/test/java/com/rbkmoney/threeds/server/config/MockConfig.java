@@ -6,7 +6,6 @@ import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -20,13 +19,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-// need "spring.main.allow-bean-definition-overriding=true" for replacing beans
+/**
+ * Need "spring.main.allow-bean-definition-overriding=true" for replacing beans
+ */
 @TestConfiguration
 public class MockConfig {
 
     @Bean
     @Primary
-    @Autowired
     public DsClient testDsClient(
             RestTemplate restTemplate,
             EnvironmentProperties environmentProperties,

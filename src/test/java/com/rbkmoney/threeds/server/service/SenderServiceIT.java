@@ -2,8 +2,6 @@ package com.rbkmoney.threeds.server.service;
 
 import com.rbkmoney.threeds.server.TestBase;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
-import com.rbkmoney.threeds.server.client.DsClient;
-import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.config.MockConfig;
 import com.rbkmoney.threeds.server.converter.ErroWrapperToErroConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
@@ -32,23 +30,15 @@ public class SenderServiceIT extends TestBase {
     private SenderService senderService;
 
     @Autowired
-    private DsClient testDsClient;
-
-    @Autowired
     private ErroWrapperToErroConverter erroWrapperToErroConverter;
 
     @MockBean
     private IdGenerator idGenerator;
 
-    @MockBean
-    private DirectoryServerProviderHolder providerHolder;
-
     @Before
     public void setUp() {
         when(idGenerator.generateUUID())
                 .thenReturn("ab4c9b80-adcd-4421-af27-9549dc6c2f4b");
-        when(providerHolder.getDsClient())
-                .thenReturn(testDsClient);
     }
 
     @Test

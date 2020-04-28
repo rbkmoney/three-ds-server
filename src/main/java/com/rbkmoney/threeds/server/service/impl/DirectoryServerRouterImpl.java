@@ -2,7 +2,7 @@ package com.rbkmoney.threeds.server.service.impl;
 
 import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
+import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.exeption.DirectoryServerRoutingException;
 import com.rbkmoney.threeds.server.service.CacheService;
 import com.rbkmoney.threeds.server.service.DirectoryServerRouter;
@@ -19,21 +19,21 @@ public class DirectoryServerRouterImpl implements DirectoryServerRouter {
 
     @Override
     public DirectoryServerProvider route(Message message) {
-        if (!(message instanceof PArq)) {
+        if (!(message instanceof AReq)) {
             return DirectoryServerProvider.TEST;
         }
 
-        PArq pArq = (PArq) message;
+        AReq aReq= (AReq) message;
 
-        if (pArq.getXULTestCaseRunId() != null) {
+        if (aReq.getXULTestCaseRunId() != null) {
             return DirectoryServerProvider.TEST;
         }
 
-        String acctNumber = pArq.getAcctNumber();
+        String acctNumber = aReq.getAcctNumber();
 
         return stream(DirectoryServerProvider.values())
                 .filter(provider -> cacheService.isInCardRange(provider.getTag(), acctNumber))
                 .findFirst()
-                .orElseThrow(() -> new DirectoryServerRoutingException("Unable to route pArq message with id=" + pArq.getThreeDSServerTransID()));
+                .orElseThrow(() -> new DirectoryServerRoutingException("Unable to route pArq message with id=" + aReq.getThreeDSServerTransID()));
     }
 }
