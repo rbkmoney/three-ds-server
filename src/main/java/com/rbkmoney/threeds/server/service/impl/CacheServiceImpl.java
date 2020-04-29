@@ -69,11 +69,11 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public boolean isInCardRange(String tag, String acctNumber) {
+        // TODO [a.romanov]: remove after BJ-893
         if (!isTest(tag)) {
             return isInCardRange(tag, parseLong(acctNumber));
         }
 
-        // TODO [a.romanov]: are empty ranges ok for tests?
         return getCardRanges(tag).isEmpty()
                 || isInCardRange(tag, parseLong(acctNumber));
     }

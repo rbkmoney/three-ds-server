@@ -19,7 +19,7 @@ public class PArqDirectoryServerRouter implements DirectoryServerRouter {
 
     @Override
     public DirectoryServerProvider route(Message message) {
-        PArq pArq= (PArq) message;
+        PArq pArq = (PArq) message;
 
         if (pArq.getXULTestCaseRunId() != null) {
             return DirectoryServerProvider.TEST;
