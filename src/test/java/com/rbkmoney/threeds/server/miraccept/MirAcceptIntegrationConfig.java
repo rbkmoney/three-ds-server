@@ -45,7 +45,7 @@ import java.util.UUID;
                 "client.ssl.trust-store-password=vYOAkEF7V4UHLfMn",
                 "environment.three-ds-server-ref-number=2200040105",
                 "three-ds-server-url=https://nspk.3ds.rbk.money",
-//                "logging.level.org.apache.http=debug",
+                "logging.level.org.apache.http=debug",
         }
 )
 @Ignore
@@ -60,7 +60,7 @@ public abstract class MirAcceptIntegrationConfig {
     private static final Random RANDOM = new Random();
 
     //nspk
-    protected static final String ACQUIRER_BIN = "220004";
+    protected static final String ACQUIRER_BIN = "2200040105";
     protected static final String ACQUIRER_MERCHANT_ID = "9295481501";
     protected static final String THREE_DS_REQUESTOR_ID = "2200040105";
     protected static final String THREE_DS_SERVER_OPERATOR_ID = "2200040105";
