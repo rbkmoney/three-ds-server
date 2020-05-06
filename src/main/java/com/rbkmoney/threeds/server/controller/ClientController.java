@@ -16,8 +16,9 @@ public class ClientController {
     private final SenderService senderService;
 
     @PostMapping
-    public ResponseEntity<Message> processMessage(@RequestHeader("x-ul-testcaserun-id") String xULTestCaseRunId,
-                                                  @RequestBody Message requestMessage) {
+    public ResponseEntity<Message> processMessage(
+            @RequestHeader(name = "x-ul-testcaserun-id", required = false) String xULTestCaseRunId,
+            @RequestBody Message requestMessage) {
         log.info("Begin handling /sdk message: message={}", requestMessage.toString());
 
         // todo remove or replace
