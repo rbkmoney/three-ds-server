@@ -61,7 +61,7 @@ public abstract class MirAcceptIntegrationConfig {
 
     //nspk
     protected static final String ACQUIRER_BIN = "2200040105";
-    protected static final String ACQUIRER_MERCHANT_ID = "9295481501";
+    protected static final String ACQUIRER_MERCHANT_ID = "RBK_mrc_1";
     protected static final String THREE_DS_REQUESTOR_ID = "2200040105";
     protected static final String THREE_DS_SERVER_OPERATOR_ID = "2200040105";
     protected static final String THREE_DS_SERVER_REF_NUMBER = "2200040105";
