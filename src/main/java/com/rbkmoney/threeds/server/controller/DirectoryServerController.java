@@ -1,7 +1,7 @@
 package com.rbkmoney.threeds.server.controller;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.service.RequestHandleService;
+import com.rbkmoney.threeds.server.service.DsRequestHandleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class DirectoryServerController {
 
-    private final RequestHandleService requestHandleService;
+    private final DsRequestHandleService dsRequestHandleService;
 
     @PostMapping
     public ResponseEntity<Message> processMessage(@RequestBody Message requestMessage) {
         log.info("Begin handling /ds message: message={}", requestMessage.toString());
 
-        Message responseMessage = requestHandleService.handle(requestMessage);
+        Message responseMessage = dsRequestHandleService.handle(requestMessage);
 
         log.info("End handling /ds message: message={}", responseMessage.toString());
 

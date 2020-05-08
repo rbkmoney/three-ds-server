@@ -14,6 +14,6 @@ public class MessageConstants {
     public static final String INVALID_MESSAGE_FOR_THE_RECEIVING_COMPONENT = "Invalid Message for the receiving component";
     public static final String MESSAGE_TYPE = "messageType";
     public static final String TIMEOUT_EXPIRY_REACHED_FOR_THE_TRANSACTION_AS_DEFINED_IN_SECTION_5_5 = "Timeout expiry reached for the transaction as defined in Section 5.5";
-    public static final String MESSAGE_IS_NOT_AREQ_ARES_CREQ_CRES_PREQ_PRES_RREQ_OR_RRES = "Message is not AReq, ARes, CReq, CRes, PReq, PRes, RReq, or RRes";
+    public static final String UNSUPPORTED_MESSAGE_TYPE = "Valid Message Type is sent to or from an inappropriate component (such as AReq message being sent to the 3DS Server)";
 
 }

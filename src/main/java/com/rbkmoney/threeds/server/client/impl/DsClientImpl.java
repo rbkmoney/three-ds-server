@@ -64,10 +64,10 @@ public class DsClientImpl implements DsClient {
 
     private Message getMessage(RestClientException ex, Message request, ErrorCode errorCode) {
         log.warn("Cant receive response from DS", ex);
-        return messageToErrorConverter.convert(getValidationResult(request, errorCode));
+        return messageToErrorConverter.convert(createFailureValidationResult(request, errorCode));
     }
 
-    private ValidationResult getValidationResult(Message request, ErrorCode errorCode) {
+    private ValidationResult createFailureValidationResult(Message request, ErrorCode errorCode) {
         return ValidationResult.failure(
                 errorCode,
                 errorMessageResolver.resolveDefaultErrorDetail(errorCode),
