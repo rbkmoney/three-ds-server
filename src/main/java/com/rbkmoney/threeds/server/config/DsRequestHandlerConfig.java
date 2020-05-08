@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DsHandlerConfig {
+public class DsRequestHandlerConfig {
 
     @Bean
     public DsRequestHandler rReqToRResHandler(
