@@ -4,7 +4,7 @@ import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.domain.error.ErrorCode;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.handle.RequestHandler;
+import com.rbkmoney.threeds.server.handle.DsRequestHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,7 +13,7 @@ import static com.rbkmoney.threeds.server.constants.MessageConstants.UNSUPPORTED
 
 @RequiredArgsConstructor
 @Slf4j
-public class UnsupportedMessageTypeRequestHandlerImpl implements RequestHandler {
+public class UnsupportedMessageTypeDsRequestHandlerImpl implements DsRequestHandler {
 
     private final MessageToErrorResConverter errorConverter;
 

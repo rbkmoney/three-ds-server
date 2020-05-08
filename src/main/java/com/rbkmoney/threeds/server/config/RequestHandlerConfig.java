@@ -16,13 +16,6 @@ import org.springframework.context.annotation.Configuration;
 public class RequestHandlerConfig {
 
     @Bean
-    public RequestHandler erroWrapperToErroRequestHandler(
-            Processor<ValidationResult, Message> erroWrapperToErroProcessorChain,
-            MessageValidatorService validator) {
-        return new ErroWrapperToErroRequestHandlerImpl(erroWrapperToErroProcessorChain, validator);
-    }
-
-    @Bean
     public RequestHandler pArqToAReqHandler(
             DirectoryServerProviderHolder providerHolder,
             PArqDirectoryServerRouter pArqDirectoryServerRouter,
@@ -63,16 +56,7 @@ public class RequestHandlerConfig {
     }
 
     @Bean
-    public RequestHandler rReqToRResHandler(
-            Processor<ValidationResult, Message> rReqToRResProcessorChain,
-            MessageValidatorService validator) {
-        return new RReqToRResHandlerImpl(rReqToRResProcessorChain, validator);
-    }
-
-    @Bean
-    public RequestHandler unsupportedMessageTypeRequestHandler(
-            MessageToErrorResConverter errorConverter,
-            DirectoryServerProviderHolder providerHolder) {
-        return new UnsupportedMessageTypeRequestHandlerImpl(errorConverter, providerHolder);
+    public RequestHandler unsupportedMessageTypeRequestHandler(MessageToErrorResConverter errorConverter) {
+        return new UnsupportedMessageTypeRequestHandlerImpl(errorConverter);
     }
 }

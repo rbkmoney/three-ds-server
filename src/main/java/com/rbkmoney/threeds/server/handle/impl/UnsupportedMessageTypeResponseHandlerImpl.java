@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.rbkmoney.threeds.server.constants.MessageConstants.INVALID_MESSAGE_FOR_THE_RECEIVING_COMPONENT;
-import static com.rbkmoney.threeds.server.constants.MessageConstants.MESSAGE_IS_NOT_AREQ_ARES_CREQ_CRES_PREQ_PRES_RREQ_OR_RRES;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.UNSUPPORTED_MESSAGE_TYPE;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -27,24 +27,18 @@ public class UnsupportedMessageTypeResponseHandlerImpl implements ResponseHandle
 
     @Override
     public Message handle(Message message) {
-        ValidationResult validationResult = getFailure(message);
+        ValidationResult validationResult = createFailure(message);
         Message result = errorConverter.convert(validationResult);
-        handleErrorMessage(result);
+        providerHolder.getDsClient().notifyDsAboutError((Erro) result);
         return result;
     }
 
-    private ValidationResult getFailure(Message message) {
+    private ValidationResult createFailure(Message message) {
         return ValidationResult.failure(
                 ErrorCode.MESSAGE_RECEIVED_INVALID_101,
                 INVALID_MESSAGE_FOR_THE_RECEIVING_COMPONENT,
-                MESSAGE_IS_NOT_AREQ_ARES_CREQ_CRES_PREQ_PRES_RREQ_OR_RRES,
+                UNSUPPORTED_MESSAGE_TYPE,
                 message
         );
-    }
-
-    private void handleErrorMessage(Message result) {
-        if (result instanceof Erro) {
-            providerHolder.getDsClient().notifyDsAboutError((Erro) result);
-        }
     }
 }
