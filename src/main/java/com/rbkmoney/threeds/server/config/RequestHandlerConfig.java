@@ -7,7 +7,7 @@ import com.rbkmoney.threeds.server.handle.RequestHandler;
 import com.rbkmoney.threeds.server.handle.impl.*;
 import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.router.impl.PArqDirectoryServerRouter;
-import com.rbkmoney.threeds.server.router.impl.PPrqDirectoryServerRouter;
+import com.rbkmoney.threeds.server.router.impl.TestDirectoryServerRouter;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,20 +30,26 @@ public class RequestHandlerConfig {
 
     @Bean
     public RequestHandler pGcqToPGcsHandler(
+            DirectoryServerProviderHolder providerHolder,
+            TestDirectoryServerRouter testDirectoryServerProvider,
             Processor<ValidationResult, Message> pGcqToPGcsProcessorChain,
             MessageValidatorService validator) {
-        return new PGcqToPGcsHandlerImpl(pGcqToPGcsProcessorChain, validator);
+        return new PGcqToPGcsHandlerImpl(
+                providerHolder,
+                testDirectoryServerProvider,
+                pGcqToPGcsProcessorChain,
+                validator);
     }
 
     @Bean
     public RequestHandler pPrqToPReqHandler(
             DirectoryServerProviderHolder providerHolder,
-            PPrqDirectoryServerRouter pPrqDirectoryServerProvider,
+            TestDirectoryServerRouter testDirectoryServerProvider,
             Processor<ValidationResult, Message> pPrqToPReqProcessorChain,
             MessageValidatorService validator) {
         return new PPrqToPReqHandlerImpl(
                 providerHolder,
-                pPrqDirectoryServerProvider,
+                testDirectoryServerProvider,
                 pPrqToPReqProcessorChain,
                 validator);
     }
