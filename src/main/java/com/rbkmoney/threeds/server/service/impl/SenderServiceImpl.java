@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.service.impl;
 
-import com.rbkmoney.threeds.server.client.DsClient;
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.Erro;
 import com.rbkmoney.threeds.server.service.RequestHandleService;
@@ -17,7 +17,7 @@ public class SenderServiceImpl implements SenderService {
 
     private final RequestHandleService requestHandleService;
     private final ResponseHandleService responseHandleService;
-    private final DsClient dsClient;
+    private final DirectoryServerProviderHolder providerHolder;
 
     @Override
     public Message sendToDs(Message message) {
@@ -31,7 +31,7 @@ public class SenderServiceImpl implements SenderService {
             return dsRequestMessage;
         }
 
-        Message dsResponseMessage = dsClient.request(dsRequestMessage);
+        Message dsResponseMessage = providerHolder.getDsClient().request(dsRequestMessage);
 
         log.info("Begin handling responded message: message={}", dsResponseMessage.toString());
 
@@ -51,7 +51,7 @@ public class SenderServiceImpl implements SenderService {
 
             log.info("End repeatable handling requested message: message={}", fixedDsRequestMessage.toString());
 
-            Message fixedDsResponseMessage = dsClient.request(fixedDsRequestMessage);
+            Message fixedDsResponseMessage = providerHolder.getDsClient().request(fixedDsRequestMessage);
 
             log.info("Begin handling responded message: message={}", fixedDsResponseMessage.toString());
 

@@ -7,17 +7,17 @@ import java.util.List;
 
 public interface CacheService {
 
-    void saveSerialNum(String xULTestCaseRunId, String serialNum);
+    void saveSerialNum(String tag, String serialNum);
 
-    String getSerialNum(String xULTestCaseRunId);
+    String getSerialNum(String tag);
 
-    void clearSerialNum(String xULTestCaseRunId);
+    void clearSerialNum(String tag);
 
-    void updateCardRanges(String xULTestCaseRunId, List<CardRange> cardRanges);
+    void updateCardRanges(String tag, List<CardRange> cardRanges);
 
-    boolean isInCardRange(String xULTestCaseRunId, String acctNumber);
+    boolean isInCardRange(String tag, String acctNumber);
 
-    boolean isValidCardRange(String xULTestCaseRunId, CardRange cardRange);
+    boolean isValidCardRange(String tag, CardRange cardRange);
 
     void saveRReqTransactionInfo(String threeDSServerTransID, RReqTransactionInfo rReqTransactionInfo);
 

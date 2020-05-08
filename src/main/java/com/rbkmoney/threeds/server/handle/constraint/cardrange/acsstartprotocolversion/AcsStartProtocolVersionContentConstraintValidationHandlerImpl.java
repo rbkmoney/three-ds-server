@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.cardrange.acsstartprotocolversion;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
+import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.cardrange.CardRangeConstraintValidationHandler;
@@ -15,7 +15,7 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 public class AcsStartProtocolVersionContentConstraintValidationHandlerImpl implements CardRangeConstraintValidationHandler {
 
     private final StringValidator stringValidator;
-    private final EnvironmentProperties environmentProperties;
+    private final EnvironmentMessageProperties messageProperties;
 
     @Override
     public boolean canHandle(CardRange o) {
@@ -29,7 +29,7 @@ public class AcsStartProtocolVersionContentConstraintValidationHandlerImpl imple
             return validationResult;
         }
 
-        if (!environmentProperties.getValidMessageVersions().contains(o.getAcsStartProtocolVersion())) {
+        if (!messageProperties.getValidMessageVersions().contains(o.getAcsStartProtocolVersion())) {
             return ConstraintValidationResult.failure(PATTERN, "acsStartProtocolVersion");
         }
 

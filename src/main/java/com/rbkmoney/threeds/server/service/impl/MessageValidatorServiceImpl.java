@@ -27,11 +27,11 @@ public class MessageValidatorServiceImpl implements MessageValidatorService {
         Set<ConstraintViolation<Message>> errors = validator.validate(message);
         return errors.stream()
                 .findAny()
-                .map(error -> getValidationResult(error, message))
+                .map(error -> createFailureValidationResult(error, message))
                 .orElse(ValidationResult.success(message));
     }
 
-    private ValidationResult getValidationResult(ConstraintViolation<Message> error, Message message) {
+    private ValidationResult createFailureValidationResult(ConstraintViolation<Message> error, Message message) {
         return ValidationResult.failure(
                 errorCodeResolver.resolve(error.getMessageTemplate()),
                 getErrorDetail(error),

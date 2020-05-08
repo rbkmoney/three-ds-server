@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.MerchantRiskIndicator;
 import com.rbkmoney.threeds.server.domain.MerchantRiskIndicatorWrapper;
 import com.rbkmoney.threeds.server.domain.account.AccountInfo;
@@ -40,7 +40,7 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
      */
     private static final int MAX_GRACE_PERIOD = 30;
 
-    private final EnvironmentProperties environmentProperties;
+    private final DirectoryServerProviderHolder providerHolder;
     private final IdGenerator idGenerator;
 
     @Override
@@ -61,10 +61,10 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .threeDSRequestorName(pArq.getThreeDSRequestorName())
                 .threeDSRequestorPriorAuthenticationInfo(getThreeDSRequestorPriorAuthenticationInfo(pArq))
                 .threeDSRequestorURL(pArq.getThreeDSRequestorURL())
-                .threeDSServerRefNumber(environmentProperties.getThreeDsServerRefNumber())
+                .threeDSServerRefNumber(providerHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
                 .threeDSServerOperatorID(pArq.getThreeDSServerOperatorID())
                 .threeDSServerTransID(threeDSServerTransID)
-                .threeDSServerURL(environmentProperties.getThreeDsServerUrl())
+                .threeDSServerURL(providerHolder.getEnvironmentProperties().getThreeDsServerUrl())
                 .threeRIInd(getEnumWrapperValue(pArq.getThreeRIInd()))
                 .acctType(getEnumWrapperValue(pArq.getAcctType()))
                 .acquirerBIN(pArq.getAcquirerBIN())

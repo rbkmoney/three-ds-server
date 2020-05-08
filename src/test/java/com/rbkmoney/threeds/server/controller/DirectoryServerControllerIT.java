@@ -17,7 +17,9 @@ import java.io.IOException;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@SpringBootTest(classes = {ThreeDsServerApplication.class, MockConfig.class}, properties = "spring.main.allow-bean-definition-overriding=true")
+@SpringBootTest(
+        classes = {ThreeDsServerApplication.class, MockConfig.class},
+        properties = "spring.main.allow-bean-definition-overriding=true")
 @AutoConfigureMockMvc
 public class DirectoryServerControllerIT extends TestBase {
 
@@ -34,7 +36,8 @@ public class DirectoryServerControllerIT extends TestBase {
 
         mockMvc.perform(requestBuilder)
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.content().json(new ChallengeFlow().responseToDs()));
+                .andExpect(MockMvcResultMatchers.content()
+                        .json(new ChallengeFlow().responseToDs()));
     }
 
     private class ChallengeFlow {

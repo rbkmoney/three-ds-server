@@ -11,7 +11,6 @@ import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,22 +19,26 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = {ThreeDsServerApplication.class, MockConfig.class}, properties = "spring.main.allow-bean-definition-overriding=true")
+@SpringBootTest(
+        classes = {ThreeDsServerApplication.class, MockConfig.class},
+        properties = "spring.main.allow-bean-definition-overriding=true")
 public class SenderServiceIT extends TestBase {
 
     @Autowired
     private SenderService senderService;
 
-    @MockBean
-    private IdGenerator idGenerator;
-
     @Autowired
     private ErroWrapperToErroConverter erroWrapperToErroConverter;
 
+    @MockBean
+    private IdGenerator idGenerator;
+
     @Before
-    public void setUp() throws Exception {
-        Mockito.when(idGenerator.generateUUID()).thenReturn("ab4c9b80-adcd-4421-af27-9549dc6c2f4b");
+    public void setUp() {
+        when(idGenerator.generateUUID())
+                .thenReturn("ab4c9b80-adcd-4421-af27-9549dc6c2f4b");
     }
 
     @Test
@@ -43,10 +46,10 @@ public class SenderServiceIT extends TestBase {
         givenAReqSuccessResponse();
 
         Message pArq = readMessageFromFile("happy-path-pArq.json");
-
         Message pArs = senderService.sendToDs(pArq);
 
-        assertEquals(readMessageFromFile("happy-path-pArs.json"), pArs);
+        Message expected = readMessageFromFile("happy-path-pArs.json");
+        assertEquals(expected, pArs);
         assertTrue(pArs instanceof PArs);
     }
 
@@ -55,10 +58,10 @@ public class SenderServiceIT extends TestBase {
         givenAReqErrorResponse();
 
         Message pArq = readMessageFromFile("happy-path-pArq.json");
-
         Message error = senderService.sendToDs(pArq);
 
-        assertEquals(erroWrapperToErroConverter.convert(ValidationResult.success(readMessageFromFile("error-path-Erro.json"))), error);
+        Message expected = erroWrapperToErroConverter.convert(ValidationResult.success(readMessageFromFile("error-path-Erro.json")));
+        assertEquals(expected, error);
         assertTrue(error instanceof Erro);
     }
 }

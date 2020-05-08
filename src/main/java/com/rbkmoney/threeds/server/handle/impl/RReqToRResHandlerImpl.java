@@ -6,7 +6,7 @@ import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
 
-public class RReqToRResHandlerImpl extends RequestHandlerImpl {
+public class RReqToRResHandlerImpl extends DsRequestHandlerImpl {
 
     public RReqToRResHandlerImpl(Processor<ValidationResult, Message> processor, MessageValidatorService validator) {
         super(processor, validator);

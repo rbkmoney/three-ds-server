@@ -24,7 +24,7 @@ public abstract class TestBase {
     public static final int PORT = 8000;
     public static final String TEST_URL = "http://localhost:" + PORT + "/";
 
-    private ObjectMapper objectMapper = objectMapper();
+    private final ObjectMapper objectMapper = objectMapper();
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -33,20 +33,20 @@ public abstract class TestBase {
     public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(PORT));
 
     private ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
-        return objectMapper;
+        return new ObjectMapper()
+                .findAndRegisterModules();
     }
 
     public Message readMessageFromFile(String fileName) throws IOException {
         return objectMapper.readValue(
                 IOUtils.toString(resourceLoader.getResource("classpath:__files/" + fileName).getInputStream(), Charsets.UTF_8),
-                Message.class
-        );
+                Message.class);
     }
 
     public String readStringFromFile(String path, String fileName) throws IOException {
-        return IOUtils.toString(resourceLoader.getResource("classpath:__files/" + path + fileName).getInputStream(), Charsets.UTF_8);
+        return IOUtils.toString(
+                resourceLoader.getResource("classpath:__files/" + path + fileName).getInputStream(),
+                Charsets.UTF_8);
     }
 
     public void givenAReqSuccessResponse() {
@@ -55,9 +55,7 @@ public abstract class TestBase {
                         aResponse()
                                 .withStatus(HttpStatus.OK.value())
                                 .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
-                                .withBodyFile("happy-path-ARes.json")
-                )
-        );
+                                .withBodyFile("happy-path-ARes.json")));
     }
 
     public void givenAReqErrorResponse() {
@@ -66,8 +64,6 @@ public abstract class TestBase {
                         aResponse()
                                 .withStatus(HttpStatus.OK.value())
                                 .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
-                                .withBodyFile("error-path-Erro.json")
-                )
-        );
+                                .withBodyFile("error-path-Erro.json")));
     }
 }

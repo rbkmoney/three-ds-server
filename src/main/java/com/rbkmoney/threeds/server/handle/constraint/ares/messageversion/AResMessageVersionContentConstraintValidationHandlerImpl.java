@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.ares.messageversion;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
+import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.ares.AResConstraintValidationHandler;
@@ -15,7 +15,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RequiredArgsConstructor
 public class AResMessageVersionContentConstraintValidationHandlerImpl implements AResConstraintValidationHandler {
 
-    private final EnvironmentProperties environmentProperties;
+    private final EnvironmentMessageProperties messageProperties;
 
     @Override
     public boolean canHandle(ARes o) {
@@ -34,13 +34,14 @@ public class AResMessageVersionContentConstraintValidationHandlerImpl implements
             return ConstraintValidationResult.failure(NOT_BLANK, "messageVersion");
         }
 
-        if (!environmentProperties.getValidMessageVersions().contains(messageVersion)) {
+        if (!messageProperties.getValidMessageVersions().contains(messageVersion)) {
             return ConstraintValidationResult.failure(PATTERN, "messageVersion");
         }
 
         String messageVersionAReq = o.getRequestMessage().getMessageVersion();
 
-        if (environmentProperties.getValidMessageVersions().contains(messageVersion) && !messageVersionAReq.equals(messageVersion)) {
+        if (messageProperties.getValidMessageVersions().contains(messageVersion)
+                && !messageVersionAReq.equals(messageVersion)) {
             return ConstraintValidationResult.failure(PATTERN, "messageVersion");
         }
 

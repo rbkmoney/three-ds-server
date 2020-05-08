@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.service.impl;
 
+import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.ActionInd;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
@@ -9,74 +10,77 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.rbkmoney.threeds.server.utils.CollectionsUtil.safeCollectionList;
 import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
 import static java.lang.Long.parseLong;
+import static java.util.Arrays.stream;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class CacheServiceImpl implements CacheService {
 
-    private final Map<String, String> serialNumById = new ConcurrentHashMap<>();
-    private final Map<String, RReqTransactionInfo> rReqTransactionInfoById = new ConcurrentHashMap<>();
-    private final Map<String, Set<CardRange>> cashedCardRangesMap = new ConcurrentHashMap<>();
+    private final Map<String, String> serialNumByTag = new ConcurrentHashMap<>();
+    private final Map<String, RReqTransactionInfo> rReqTransactionInfoByTag = new ConcurrentHashMap<>();
+    private final Map<String, Set<CardRange>> cardRangesByTag = new ConcurrentHashMap<>();
 
     @Override
-    public void saveSerialNum(String xULTestCaseRunId, String serialNum) {
-        serialNumById.put(xULTestCaseRunId, serialNum);
+    public void saveSerialNum(String tag, String serialNum) {
+        serialNumByTag.put(tag, serialNum);
     }
 
     @Override
-    public String getSerialNum(String xULTestCaseRunId) {
-        return serialNumById.get(xULTestCaseRunId);
+    public String getSerialNum(String tag) {
+        return serialNumByTag.get(tag);
     }
 
     @Override
-    public void clearSerialNum(String xULTestCaseRunId) {
-        serialNumById.remove(xULTestCaseRunId);
+    public void clearSerialNum(String tag) {
+        serialNumByTag.remove(tag);
     }
 
     @Override
-    public void updateCardRanges(String xULTestCaseRunId, List<CardRange> cardRanges) {
-        if (!cashedCardRangesMap.containsKey(xULTestCaseRunId)) {
-            cashedCardRangesMap.put(xULTestCaseRunId, new HashSet<>());
+    public void updateCardRanges(String tag, List<CardRange> cardRanges) {
+        if (!cardRangesByTag.containsKey(tag)) {
+            cardRangesByTag.put(tag, new HashSet<>());
         }
-        Set<CardRange> cashedCardRanges = getCashedCardRanges(xULTestCaseRunId);
-        safeCollectionList(cardRanges).forEach(
-                cardRange -> {
-                    switch (getEnumWrapperValue(cardRange.getActionInd())) {
-                        case ADD_CARD_RANGE_TO_CACHE:
-                            cashedCardRanges.add(cardRange);
-                        case MODIFY_CARD_RANGE_DATA:
-                            cashedCardRanges.remove(cardRange);
-                            cashedCardRanges.add(cardRange);
-                            break;
-                        case DELETE_CARD_RANGE_FROM_CACHE:
-                            cashedCardRanges.remove(cardRange);
-                            break;
-                        default:
-                            throw new NullPointerActionIndException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
-                    }
-                }
-        );
+
+        Set<CardRange> cachedCardRanges = getCardRanges(tag);
+
+        for (CardRange cardRange : safeCollectionList(cardRanges)) {
+            switch (getEnumWrapperValue(cardRange.getActionInd())) {
+                case ADD_CARD_RANGE_TO_CACHE:
+                    cachedCardRanges.add(cardRange);
+                case MODIFY_CARD_RANGE_DATA:
+                    cachedCardRanges.remove(cardRange);
+                    cachedCardRanges.add(cardRange);
+                    break;
+                case DELETE_CARD_RANGE_FROM_CACHE:
+                    cachedCardRanges.remove(cardRange);
+                    break;
+                default:
+                    throw new NullPointerActionIndException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
+            }
+        }
     }
 
     @Override
-    public boolean isInCardRange(String xULTestCaseRunId, String acctNumber) {
-        return getCashedCardRanges(xULTestCaseRunId).isEmpty()
-                || isInCardRange(xULTestCaseRunId, parseLong(acctNumber));
+    public boolean isInCardRange(String tag, String acctNumber) {
+        // TODO [a.romanov]: remove after BJ-893
+        if (!isTest(tag)) {
+            return isInCardRange(tag, parseLong(acctNumber));
+        }
+
+        return getCardRanges(tag).isEmpty()
+                || isInCardRange(tag, parseLong(acctNumber));
     }
 
     @Override
-    public boolean isValidCardRange(String xULTestCaseRunId, CardRange cardRange) {
-        Set<CardRange> cashedCardRanges = getCashedCardRanges(xULTestCaseRunId);
+    public boolean isValidCardRange(String tag, CardRange cardRange) {
+        Set<CardRange> cachedCardRanges = getCardRanges(tag);
         long startRange = parseLong(cardRange.getStartRange());
         long endRange = parseLong(cardRange.getEndRange());
         ActionInd actionInd = getEnumWrapperValue(cardRange.getActionInd());
@@ -87,10 +91,10 @@ public class CacheServiceImpl implements CacheService {
 
         switch (actionInd) {
             case ADD_CARD_RANGE_TO_CACHE:
-                return cashedCardRanges.isEmpty() || isValidForAddCardRange(xULTestCaseRunId, startRange, endRange);
+                return cachedCardRanges.isEmpty() || isValidForAddCardRange(tag, startRange, endRange);
             case MODIFY_CARD_RANGE_DATA:
             case DELETE_CARD_RANGE_FROM_CACHE:
-                return cashedCardRanges.isEmpty() || isValidForModifyOrDeleteCardRange(xULTestCaseRunId, startRange, endRange);
+                return cachedCardRanges.isEmpty() || isValidForModifyOrDeleteCardRange(tag, startRange, endRange);
             default:
                 throw new NullPointerActionIndException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
         }
@@ -98,55 +102,58 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public void saveRReqTransactionInfo(String threeDSServerTransID, RReqTransactionInfo rReqTransactionInfo) {
-        rReqTransactionInfoById.put(threeDSServerTransID, rReqTransactionInfo);
+        rReqTransactionInfoByTag.put(threeDSServerTransID, rReqTransactionInfo);
     }
 
     @Override
     public RReqTransactionInfo getRReqTransactionInfo(String threeDSServerTransID) {
-        return rReqTransactionInfoById.get(threeDSServerTransID);
+        return rReqTransactionInfoByTag.get(threeDSServerTransID);
     }
 
     @Override
     public void clearRReqTransactionInfo(String threeDSServerTransID) {
-        rReqTransactionInfoById.remove(threeDSServerTransID);
+        rReqTransactionInfoByTag.remove(threeDSServerTransID);
     }
 
-    private boolean isInCardRange(String xULTestCaseRunId, Long acctNumber) {
-        Set<CardRange> cashedCardRanges = getCashedCardRanges(xULTestCaseRunId);
-        return cashedCardRanges.stream()
+    private boolean isInCardRange(String tag, Long acctNumber) {
+        Set<CardRange> cachedCardRanges = getCardRanges(tag);
+        return cachedCardRanges.stream()
                 .anyMatch(
                         cardRange -> parseLong(cardRange.getStartRange()) <= acctNumber
-                                && acctNumber <= parseLong(cardRange.getEndRange())
-                );
+                                && acctNumber <= parseLong(cardRange.getEndRange()));
     }
 
-    private boolean isValidForAddCardRange(String xULTestCaseRunId, long startRange, long endRange) {
-        Set<CardRange> cashedCardRanges = getCashedCardRanges(xULTestCaseRunId);
-        return cashedCardRanges.stream()
+    private boolean isValidForAddCardRange(String tag, long startRange, long endRange) {
+        Set<CardRange> cachedCardRanges = getCardRanges(tag);
+        return cachedCardRanges.stream()
                 .allMatch(
-                        cr -> isFromTheLeftSide(startRange, endRange, cr)
-                                || isFromTheRightSide(startRange, endRange, cr)
-                );
+                        cardRange -> isFromTheLeftSide(startRange, endRange, cardRange)
+                                || isFromTheRightSide(startRange, endRange, cardRange));
     }
 
-    private boolean isValidForModifyOrDeleteCardRange(String xULTestCaseRunId, long startRange, long endRange) {
-        Set<CardRange> cashedCardRanges = getCashedCardRanges(xULTestCaseRunId);
-        return cashedCardRanges.stream()
+    private boolean isValidForModifyOrDeleteCardRange(String tag, long startRange, long endRange) {
+        Set<CardRange> cachedCardRanges = getCardRanges(tag);
+        return cachedCardRanges.stream()
                 .anyMatch(
-                        cr -> parseLong(cr.getStartRange()) == startRange
-                                && parseLong(cr.getEndRange()) == endRange
-                );
+                        cardRange -> parseLong(cardRange.getStartRange()) == startRange
+                                && parseLong(cardRange.getEndRange()) == endRange);
     }
 
-    private boolean isFromTheLeftSide(long startRange, long endRange, CardRange cr) {
-        return startRange < endRange && endRange < parseLong(cr.getStartRange());
+    private boolean isFromTheLeftSide(long startRange, long endRange, CardRange cardRange) {
+        return startRange < endRange && endRange < parseLong(cardRange.getStartRange());
     }
 
-    private boolean isFromTheRightSide(long startRange, long endRange, CardRange cr) {
-        return parseLong(cr.getEndRange()) < startRange && startRange < endRange;
+    private boolean isFromTheRightSide(long startRange, long endRange, CardRange cardRange) {
+        return parseLong(cardRange.getEndRange()) < startRange && startRange < endRange;
     }
 
-    private Set<CardRange> getCashedCardRanges(String xULTestCaseRunId) {
-        return cashedCardRangesMap.getOrDefault(xULTestCaseRunId, new HashSet<>());
+    private Set<CardRange> getCardRanges(String tag) {
+        return cardRangesByTag.getOrDefault(tag, new HashSet<>());
+    }
+
+    private boolean isTest(String tag) {
+        return stream(DirectoryServerProvider.values())
+                .filter(provider -> provider != DirectoryServerProvider.TEST)
+                .noneMatch(provider -> provider.getTag().equals(tag));
     }
 }

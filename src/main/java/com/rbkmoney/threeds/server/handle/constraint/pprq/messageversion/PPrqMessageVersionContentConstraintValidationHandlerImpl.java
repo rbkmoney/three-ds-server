@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.pprq.messageversion;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
+import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.pprq.PPrqConstraintValidationHandler;
@@ -15,7 +15,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RequiredArgsConstructor
 public class PPrqMessageVersionContentConstraintValidationHandlerImpl implements PPrqConstraintValidationHandler {
 
-    private final EnvironmentProperties environmentProperties;
+    private final EnvironmentMessageProperties messageProperties;
 
     @Override
     public boolean canHandle(PPrq o) {
@@ -34,7 +34,7 @@ public class PPrqMessageVersionContentConstraintValidationHandlerImpl implements
             return ConstraintValidationResult.failure(NOT_BLANK, "messageVersion");
         }
 
-        if (!environmentProperties.getValidMessageVersions().contains(messageVersion)) {
+        if (!messageProperties.getValidMessageVersions().contains(messageVersion)) {
             return ConstraintValidationResult.failure(PATTERN, "messageVersion");
         }
 
