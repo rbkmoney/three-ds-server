@@ -16,7 +16,7 @@ public class CReq {
     private String challengeDataEntry;
     private String challengeHTMLDataEntry;
     private String challengeCancel;
-    private String messageType;
+    private final String messageType = "CReq";
     private String messageVersion;
     private String threeDSServerTransID;
     private String sdkTransID;

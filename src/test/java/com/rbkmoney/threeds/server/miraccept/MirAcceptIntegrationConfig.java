@@ -1,5 +1,7 @@
 package com.rbkmoney.threeds.server.miraccept;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.domain.*;
 import com.rbkmoney.threeds.server.domain.account.*;
 import com.rbkmoney.threeds.server.domain.message.MessageExtension;
@@ -21,13 +23,16 @@ import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.serialization.TemporalAccessorWrapper;
 import com.rbkmoney.threeds.server.service.SenderService;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
@@ -38,17 +43,17 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
+        classes = {ThreeDsServerApplication.class, TestConfig.class},
         properties = {
-//                "environment.ds-url=https://ds1.mirconnect.ru:8443/ds/DServer",
                 "environment.ds-url=https://ds.vendorcert.mirconnect.ru:8443/ds/DServer",
                 "client.ssl.trust-store=classpath:3ds_server_pki/mir2.p12",
                 "client.ssl.trust-store-password=vYOAkEF7V4UHLfMn",
                 "environment.three-ds-server-ref-number=2200040105",
                 "three-ds-server-url=https://nspk.3ds.rbk.money",
                 "logging.level.org.apache.http=debug",
-        }
+        },
+        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
-@Ignore
 public abstract class MirAcceptIntegrationConfig {
 
     @Autowired
@@ -56,6 +61,9 @@ public abstract class MirAcceptIntegrationConfig {
 
     @Autowired
     protected RestTemplate restTemplate;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private static final Random RANDOM = new Random();
 
@@ -144,18 +152,27 @@ public abstract class MirAcceptIntegrationConfig {
         CReq cReq = CReq.builder()
                 .acsTransID(pArs.getAcsTransID())
                 .challengeWindowSize("05")
-                .messageType("CReq")
-                .messageVersion("2.1.0")
+                .messageVersion(pArs.getMessageVersion())
                 .threeDSServerTransID(pArs.getThreeDSServerTransID())
                 .build();
 
-        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
+        try {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+            HttpEntity<String> httpEntity = new HttpEntity<>(objectMapper.writeValueAsString(cReq), httpHeaders);
+
+            String body = restTemplate.postForEntity(pArs.getAcsURL(), httpEntity, String.class).getBody();
+
+            return objectMapper.readValue(body, CRes.class);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 
     protected CRes sendSetUpAs3dsClientTypeAPP(PArs pArs) {
         CReq cReq = CReq.builder()
                 .acsTransID(pArs.getAcsTransID())
-                .messageType("CReq")
                 .messageVersion("2.1.0")
                 .sdkTransID(pArs.getSdkTransID())
                 .threeDSServerTransID(pArs.getThreeDSServerTransID())
@@ -168,7 +185,6 @@ public abstract class MirAcceptIntegrationConfig {
     protected CRes sendAs3dsClientTypeAPP(PArs pArs) {
         CReq cReq = CReq.builder()
                 .acsTransID(pArs.getAcsTransID())
-                .messageType("CReq")
                 .messageVersion("2.1.0")
                 .sdkTransID(pArs.getSdkTransID())
                 .threeDSServerTransID(pArs.getThreeDSServerTransID())
@@ -182,7 +198,6 @@ public abstract class MirAcceptIntegrationConfig {
     protected CRes sendHTMLAs3dsClientTypeAPP(PArs pArs) {
         CReq cReq = CReq.builder()
                 .acsTransID(pArs.getAcsTransID())
-                .messageType("CReq")
                 .messageVersion("2.1.0")
                 .sdkTransID(pArs.getSdkTransID())
                 .threeDSServerTransID(pArs.getThreeDSServerTransID())
@@ -262,7 +277,7 @@ public abstract class MirAcceptIntegrationConfig {
     }
 
     protected String randomNumeric(int length) {
-        int leftLimit = 48; // letter 'a'
+        int leftLimit = 49; // letter 'a'
         int rightLimit = 57; // letter 'z'
         return RANDOM.ints(leftLimit, rightLimit + 1)
                 .limit(length)
