@@ -80,14 +80,15 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public boolean isValidCardRange(String tag, CardRange cardRange) {
-        Set<CardRange> cachedCardRanges = getCardRanges(tag);
-        long startRange = parseLong(cardRange.getStartRange());
-        long endRange = parseLong(cardRange.getEndRange());
         ActionInd actionInd = getEnumWrapperValue(cardRange.getActionInd());
-
+        // TODO [a.romanov]: test case only?
         if (actionInd == null) {
             return true;
         }
+
+        Set<CardRange> cachedCardRanges = getCardRanges(tag);
+        long startRange = parseLong(cardRange.getStartRange());
+        long endRange = parseLong(cardRange.getEndRange());
 
         switch (actionInd) {
             case ADD_CARD_RANGE_TO_CACHE:
