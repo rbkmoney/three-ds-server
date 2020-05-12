@@ -77,27 +77,6 @@ public class CacheServiceTest {
     }
 
     @Test
-    public void shouldClearRReqTransactionInfo() {
-        // Given
-        RReqTransactionInfo transactionInfo = RReqTransactionInfo.builder()
-                .acsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED)
-                .decoupledAuthMaxTime(LocalDateTime.MIN)
-                .deviceChannel(DeviceChannel.APP_BASED)
-                .build();
-
-        cacheService.saveRReqTransactionInfo(TEST_TAG, transactionInfo);
-        cacheService.saveRReqTransactionInfo(TRAP, RReqTransactionInfo.builder().build());
-
-        // When
-        cacheService.clearRReqTransactionInfo(TEST_TAG);
-        RReqTransactionInfo result = cacheService.getRReqTransactionInfo(TEST_TAG);
-
-        // Then
-        assertThat(result).isNull();
-        assertThat(cacheService.getRReqTransactionInfo(TRAP)).isNotNull();
-    }
-
-    @Test
     public void shouldReturnValidForCardRangeWithNullActionInd() {
         // Given
         CardRange cardRange = new CardRange();

@@ -1,5 +1,7 @@
 package com.rbkmoney.threeds.server.service.impl;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.ActionInd;
 import com.rbkmoney.threeds.server.domain.CardRange;
@@ -10,7 +12,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.rbkmoney.threeds.server.utils.CollectionsUtil.safeCollectionList;
@@ -24,8 +29,10 @@ import static java.util.Arrays.stream;
 public class CacheServiceImpl implements CacheService {
 
     private final Map<String, String> serialNumByTag = new ConcurrentHashMap<>();
-    private final Map<String, RReqTransactionInfo> rReqTransactionInfoByTag = new ConcurrentHashMap<>();
     private final Map<String, Set<CardRange>> cardRangesByTag = new ConcurrentHashMap<>();
+    private final Cache<String, RReqTransactionInfo> rReqTransactionInfoByTag = Caffeine.newBuilder()
+            .maximumSize(1000L)
+            .build();
 
     @Override
     public void saveSerialNum(String tag, String serialNum) {
@@ -108,12 +115,7 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public RReqTransactionInfo getRReqTransactionInfo(String threeDSServerTransID) {
-        return rReqTransactionInfoByTag.get(threeDSServerTransID);
-    }
-
-    @Override
-    public void clearRReqTransactionInfo(String threeDSServerTransID) {
-        rReqTransactionInfoByTag.remove(threeDSServerTransID);
+        return rReqTransactionInfoByTag.getIfPresent(threeDSServerTransID);
     }
 
     private boolean isInCardRange(String tag, Long acctNumber) {

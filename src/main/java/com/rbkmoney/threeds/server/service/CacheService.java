@@ -22,7 +22,4 @@ public interface CacheService {
     void saveRReqTransactionInfo(String threeDSServerTransID, RReqTransactionInfo rReqTransactionInfo);
 
     RReqTransactionInfo getRReqTransactionInfo(String threeDSServerTransID);
-
-    void clearRReqTransactionInfo(String threeDSServerTransID);
-
 }
