@@ -9,25 +9,25 @@ import org.springframework.context.annotation.Configuration;
 public class KeystoreConfig {
 
     @Bean
-    @ConfigurationProperties("client.ssl.visa")
+    @ConfigurationProperties("client.ds.ssl.visa")
     public KeystoreProperties visaKeystoreProperties() {
         return new KeystoreProperties();
     }
 
     @Bean
-    @ConfigurationProperties("client.ssl.mastercard")
+    @ConfigurationProperties("client.ds.ssl.mastercard")
     public KeystoreProperties mastercardKeystoreProperties() {
         return new KeystoreProperties();
     }
 
     @Bean
-    @ConfigurationProperties("client.ssl.mir")
+    @ConfigurationProperties("client.ds.ssl.mir")
     public KeystoreProperties mirKeystoreProperties() {
         return new KeystoreProperties();
     }
 
     @Bean
-    @ConfigurationProperties("client.ssl.test")
+    @ConfigurationProperties("client.ds.ssl.test")
     public KeystoreProperties testKeystoreProperties() {
         return new KeystoreProperties();
     }

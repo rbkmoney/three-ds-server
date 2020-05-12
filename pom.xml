@@ -27,6 +27,7 @@
         <dockerfile.base.service.tag>bc95d0d6dc13c693acd2b274531a7d604b877bf3</dockerfile.base.service.tag>
         <shared.resources.version>0.3.6</shared.resources.version>
         <dockerfile.registry>${env.REGISTRY}</dockerfile.registry>
+        <three-ds-server-storage-proto.version>1.5-e31a66c</three-ds-server-storage-proto.version>
     </properties>
 
     <dependencies>
@@ -55,6 +56,11 @@
             <groupId>com.rbkmoney</groupId>
             <artifactId>three-ds-server-domain-lib</artifactId>
             <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rbkmoney</groupId>
+            <artifactId>three-ds-server-storage-proto</artifactId>
+            <version>${three-ds-server-storage-proto.version}</version>
         </dependency>
 
         <!--spring-->

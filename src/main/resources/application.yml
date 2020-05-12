@@ -23,19 +23,23 @@ server:
   port: @server.port@
 
 client:
-  ssl:
-    visa:
-      trust-store: classpath:visa
-      trust-store-password: visa
-    mastercard:
-      trust-store: classpath:mastercard
-      trust-store-password: mastercard
-    mir:
-      trust-store: classpath:mir
-      trust-store-password: mir
-    test:
-      trust-store: classpath:test
-      trust-store-password: test
+  ds:
+    ssl:
+      visa:
+        trust-store: classpath:visa
+        trust-store-password: visa
+      mastercard:
+        trust-store: classpath:mastercard
+        trust-store-password: mastercard
+      mir:
+        trust-store: classpath:mir
+        trust-store-password: mir
+      test:
+        trust-store: classpath:test
+        trust-store-password: test
+  three-ds-server-storage:
+    url: http://changeit:8080
+    timeout: 5000
 
 environment:
   message:
