@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.visa;
 
+import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.domain.*;
 import com.rbkmoney.threeds.server.domain.account.*;
 import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptionsWrapper;
@@ -38,6 +39,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
+        classes = {ThreeDsServerApplication.class, TestConfig.class},
         properties = {
                 "environment.ds-url=https://visasecuretestsuite-vsts.3dsecure.net/ds2",
                 "client.ssl.trust-store=classpath:3ds_server_pki/visa.p12",
@@ -45,7 +47,8 @@ import java.util.UUID;
                 "environment.three-ds-server-ref-number=3DS_LOA_SER_DIPL_020200_00236",
                 "three-ds-server-url=https://visa.3ds.rbk.money",
                 "logging.level.org.apache.http=debug",
-        }
+        },
+        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
 @Ignore
 public abstract class VisaIntegrationConfig {

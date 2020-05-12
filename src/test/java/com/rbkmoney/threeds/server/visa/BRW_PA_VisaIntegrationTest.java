@@ -3,6 +3,7 @@ package com.rbkmoney.threeds.server.visa;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.domain.message.MessageCategory;
 import com.rbkmoney.threeds.server.domain.root.Message;
+import com.rbkmoney.threeds.server.domain.root.emvco.CRes;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInd;
@@ -127,6 +128,32 @@ public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
         assertEquals(TransactionStatus.AUTHENTICATION_REJECTED, pArs.getTransStatus());
         assertNull(pArs.getEci());
         assertNull(pArs.getAuthenticationValue());
+    }
+
+    @Test
+    public void test3DSS_210_106() {
+        String acctNumber = "4012000000003101";
+        DeviceChannel deviceChannel = DeviceChannel.BROWSER;
+        String acquirerBIN = "400551";
+        String messageVersion = "2.1.0";
+        MessageCategory messageCategory = MessageCategory.PAYMENT_AUTH;
+        String threeDSServerOperatorID = "10075020";
+        ThreeDSRequestorAuthenticationInd threeDSRequestorAuthenticationInd = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
+
+        PArq pArq = buildPArq(acctNumber, deviceChannel, acquirerBIN, messageVersion, messageCategory, threeDSServerOperatorID, threeDSRequestorAuthenticationInd);
+
+        Message message = senderService.sendToDs(pArq);
+
+        assertTrue(message instanceof PArs);
+
+        PArs pArs = (PArs) message;
+
+        assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
+        assertNotNull(pArs.getAcsURL());
+
+        CRes cRes = sendAs3dsClientTypeBRW(pArs);
+
+        assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL.getValue(), cRes.getTransStatus());
     }
 
     private PArq buildPArq(String acctNumber, DeviceChannel deviceChannel, String acquirerBIN, String messageVersion, MessageCategory messageCategory, String threeDSServerOperatorID, ThreeDSRequestorAuthenticationInd threeDSRequestorAuthenticationInd) {
