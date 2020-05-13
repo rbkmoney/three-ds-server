@@ -6,7 +6,7 @@ import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.service.impl.CacheServiceImpl;
+import com.rbkmoney.threeds.server.service.impl.InMemoryCacheService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class CacheServiceTest {
 
     @Before
     public void setUp() {
-        cacheService = new CacheServiceImpl();
+        cacheService = new InMemoryCacheService();
     }
 
     @Test

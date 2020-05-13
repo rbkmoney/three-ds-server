@@ -8,8 +8,6 @@ import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
 import com.rbkmoney.threeds.server.exeption.NullPointerActionIndException;
 import com.rbkmoney.threeds.server.service.CacheService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -24,9 +22,7 @@ import static java.lang.Long.parseLong;
 import static java.util.Arrays.stream;
 
 @Service
-@RequiredArgsConstructor
-@Slf4j
-public class CacheServiceImpl implements CacheService {
+public class InMemoryCacheService implements CacheService {
 
     private final Map<String, String> serialNumByTag = new ConcurrentHashMap<>();
     private final Map<String, Set<CardRange>> cardRangesByTag = new ConcurrentHashMap<>();
