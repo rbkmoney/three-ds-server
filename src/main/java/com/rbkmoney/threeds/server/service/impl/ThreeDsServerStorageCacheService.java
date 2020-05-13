@@ -3,9 +3,8 @@ package com.rbkmoney.threeds.server.service.impl;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfoStorageSrv;
+import com.rbkmoney.threeds.server.converter.RReqTransactionInfoConverter;
 import com.rbkmoney.threeds.server.domain.CardRange;
-import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
-import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
 import com.rbkmoney.threeds.server.exeption.ThreeDsServerStorageException;
 import com.rbkmoney.threeds.server.service.CacheService;
@@ -14,7 +13,6 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.thrift.TException;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 //@Service
@@ -26,6 +24,7 @@ public class ThreeDsServerStorageCacheService implements CacheService {
             .build();
 
     private final RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient;
+    private final RReqTransactionInfoConverter rReqTransactionInfoConverter;
 
     @Override
     public void saveSerialNum(String tag, String serialNum) {
@@ -62,13 +61,8 @@ public class ThreeDsServerStorageCacheService implements CacheService {
     @Override
     @Transactional
     public void saveRReqTransactionInfo(String threeDSServerTransID, RReqTransactionInfo rReqTransactionInfo) {
-        // TODO [a.romanov]: move to converter
-        var transactionInfo = new com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfo()
-                .setTransactionId(threeDSServerTransID)
-                .setDeviceChannel(rReqTransactionInfo.getDeviceChannel().getValue())
-                .setDecoupledAuthMaxTime(rReqTransactionInfo.getDecoupledAuthMaxTime().toString())
-                .setAcsDecConInd(rReqTransactionInfo.getAcsDecConInd().getValue());
         try {
+            var transactionInfo = rReqTransactionInfoConverter.toThrift(threeDSServerTransID, rReqTransactionInfo);
             rReqTransactionInfoStorageClient.saveRReqTransactionInfo(transactionInfo);
             rReqTransactionInfoByTag.put(threeDSServerTransID, rReqTransactionInfo);
         } catch (TException e) {
@@ -86,12 +80,7 @@ public class ThreeDsServerStorageCacheService implements CacheService {
     private RReqTransactionInfo getRReqTransactionInfoFromStorage(String id) {
         try {
             var transactionInfo = rReqTransactionInfoStorageClient.getRReqTransactionInfo(id);
-            // TODO [a.romanov]: move to converter
-            return RReqTransactionInfo.builder()
-                    .deviceChannel(DeviceChannel.valueOf(transactionInfo.getDeviceChannel()))
-                    .decoupledAuthMaxTime(LocalDateTime.parse(transactionInfo.getDecoupledAuthMaxTime()))
-                    .acsDecConInd(AcsDecConInd.valueOf(transactionInfo.getAcsDecConInd()))
-                    .build();
+            return rReqTransactionInfoConverter.toDTO(transactionInfo);
         } catch (TException e) {
             throw new ThreeDsServerStorageException(e);
         }
