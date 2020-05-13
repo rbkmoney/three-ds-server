@@ -6,6 +6,7 @@ import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
 import com.rbkmoney.damsel.three_ds_server_storage.GetCardRangesRequest;
 import com.rbkmoney.damsel.three_ds_server_storage.GetCardRangesResponse;
 import com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfoStorageSrv;
+import com.rbkmoney.threeds.server.converter.CardRangesConverter;
 import com.rbkmoney.threeds.server.converter.RReqTransactionInfoConverter;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
@@ -35,6 +36,7 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
     private final RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient;
     private final RReqTransactionInfoConverter rReqTransactionInfoConverter;
     private final CardRangesStorageSrv.Iface cardRangesStorageClient;
+    private final CardRangesConverter cardRangesConverter;
 
     @Override
     Set<CardRange> getCardRanges(String tag) {
@@ -98,9 +100,9 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
 
     private Set<CardRange> getCardRangesFromStorage(String tag) {
         try {
-            GetCardRangesResponse response = cardRangesStorageClient.getCardRanges(new GetCardRangesRequest(tag));
-            // TODO [a.romanov]: convert
-            return null;
+            GetCardRangesRequest request = new GetCardRangesRequest(tag);
+            GetCardRangesResponse response = cardRangesStorageClient.getCardRanges(request);
+            return cardRangesConverter.toDomain(response.getCardRanges());
         } catch (TException e) {
             throw new ThreeDsServerStorageException(e);
         }
