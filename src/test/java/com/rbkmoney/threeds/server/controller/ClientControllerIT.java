@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.rbkmoney.threeds.server.TestBase;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.config.MockConfig;
-import com.rbkmoney.threeds.server.service.CacheService;
+import com.rbkmoney.threeds.server.service.cache.CacheService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.junit.Before;
 import org.junit.Test;

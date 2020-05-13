@@ -46,6 +46,7 @@ public class SenderServiceIT extends TestBase {
         givenAReqSuccessResponse();
 
         Message pArq = readMessageFromFile("happy-path-pArq.json");
+        pArq.setXULTestCaseRunId("test-id");
         Message pArs = senderService.sendToDs(pArq);
 
         Message expected = readMessageFromFile("happy-path-pArs.json");
@@ -58,6 +59,7 @@ public class SenderServiceIT extends TestBase {
         givenAReqErrorResponse();
 
         Message pArq = readMessageFromFile("happy-path-pArq.json");
+        pArq.setXULTestCaseRunId("test-id");
         Message error = senderService.sendToDs(pArq);
 
         Message expected = erroWrapperToErroConverter.convert(ValidationResult.success(readMessageFromFile("error-path-Erro.json")));

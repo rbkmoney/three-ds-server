@@ -6,7 +6,8 @@ import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.service.impl.InMemoryCacheService;
+import com.rbkmoney.threeds.server.service.cache.CacheService;
+import com.rbkmoney.threeds.server.service.cache.InMemoryCacheService;
 import org.junit.Before;
 import org.junit.Test;
 

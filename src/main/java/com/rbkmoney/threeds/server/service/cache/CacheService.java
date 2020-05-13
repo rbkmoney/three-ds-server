@@ -1,4 +1,4 @@
-package com.rbkmoney.threeds.server.service;
+package com.rbkmoney.threeds.server.service.cache;
 
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
