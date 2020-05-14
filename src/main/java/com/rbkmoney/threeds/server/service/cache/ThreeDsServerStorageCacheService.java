@@ -47,17 +47,17 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
 
     @Override
     public void saveSerialNum(String tag, String serialNum) {
-        throw new NotImplementedException("TODO [a.romanov]");
+        throw new NotImplementedException("Method 'saveSerialNum' is not supposed to be called for this CacheService implementation!");
     }
 
     @Override
     public String getSerialNum(String tag) {
-        throw new NotImplementedException("TODO [a.romanov]");
+        throw new NotImplementedException("Method 'getSerialNum' is not supposed to be called for this CacheService implementation!");
     }
 
     @Override
     public void clearSerialNum(String tag) {
-        throw new NotImplementedException("TODO [a.romanov]");
+        throw new NotImplementedException("Method 'clearSerialNum' is not supposed to be called for this CacheService implementation!");
     }
 
     @Override

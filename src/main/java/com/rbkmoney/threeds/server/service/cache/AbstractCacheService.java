@@ -36,6 +36,14 @@ public abstract class AbstractCacheService implements CacheService {
         }
     }
 
+    boolean isInCardRange(String tag, Long acctNumber) {
+        Set<CardRange> cachedCardRanges = getCardRanges(tag);
+        return cachedCardRanges.stream()
+                .anyMatch(
+                        cardRange -> parseLong(cardRange.getStartRange()) <= acctNumber
+                                && acctNumber <= parseLong(cardRange.getEndRange()));
+    }
+
     private boolean isValidForAddCardRange(String tag, long startRange, long endRange) {
         Set<CardRange> cachedCardRanges = getCardRanges(tag);
         return cachedCardRanges.stream()
@@ -58,13 +66,5 @@ public abstract class AbstractCacheService implements CacheService {
 
     private boolean isFromTheRightSide(long startRange, long endRange, CardRange cardRange) {
         return parseLong(cardRange.getEndRange()) < startRange && startRange < endRange;
-    }
-
-    boolean isInCardRange(String tag, Long acctNumber) {
-        Set<CardRange> cachedCardRanges = getCardRanges(tag);
-        return cachedCardRanges.stream()
-                .anyMatch(
-                        cardRange -> parseLong(cardRange.getStartRange()) <= acctNumber
-                                && acctNumber <= parseLong(cardRange.getEndRange()));
     }
 }
