@@ -27,7 +27,7 @@ import static com.rbkmoney.threeds.server.utils.WrapperUtil.getListWrapperValue;
 @RequiredArgsConstructor
 public class AResToPArsConverter implements Converter<ValidationResult, Message> {
 
-    private final CacheService cacheService;
+    private final CacheService configurableCacheService;
     private final EnvironmentMessageProperties messageProperties;
 
     @Override
@@ -119,6 +119,6 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .acsDecConInd(getEnumWrapperValue(aRes.getAcsDecConInd()))
                 .build();
 
-        cacheService.saveRReqTransactionInfo(threeDSServerTransID, rReqTransactionInfo);
+        configurableCacheService.saveRReqTransactionInfo(threeDSServerTransID, rReqTransactionInfo);
     }
 }

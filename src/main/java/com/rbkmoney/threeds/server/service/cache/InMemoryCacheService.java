@@ -5,7 +5,6 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
 import com.rbkmoney.threeds.server.exeption.NullPointerActionIndException;
-import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +16,6 @@ import static com.rbkmoney.threeds.server.utils.CollectionsUtil.safeCollectionLi
 import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
 import static java.lang.Long.parseLong;
 
-@Service
 public class InMemoryCacheService extends AbstractCacheService {
 
     private final Map<String, String> serialNumByTag = new ConcurrentHashMap<>();

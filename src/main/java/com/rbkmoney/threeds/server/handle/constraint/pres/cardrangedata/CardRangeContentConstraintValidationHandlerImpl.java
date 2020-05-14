@@ -26,7 +26,7 @@ import static java.lang.Long.parseLong;
 public class CardRangeContentConstraintValidationHandlerImpl implements PResConstraintValidationHandler {
 
     private final DirectoryServerProviderHolder providerHolder;
-    private final CacheService cacheService;
+    private final CacheService configurableCacheService;
     private final Validator validator;
 
     @Override
@@ -74,7 +74,7 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
                 : providerHolder.getProvider().getTag();
 
         for (CardRange cardRange : safeCollectionList(cardRangeData)) {
-            if (!cacheService.isValidCardRange(tag, cardRange)) {
+            if (!configurableCacheService.isValidCardRange(tag, cardRange)) {
                 o.setHandleRepetitionNeeded(true);
 
                 return ConstraintValidationResult.failure(PATTERN, "cardRangeData");

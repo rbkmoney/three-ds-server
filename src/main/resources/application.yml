@@ -41,6 +41,9 @@ client:
     url: http://changeit:8080
     timeout: 5000
 
+storage:
+  in-memory-only: true
+
 environment:
   message:
     message-version: "2.2.0"

@@ -36,7 +36,7 @@ public class ClientControllerIT extends TestBase {
     private MockMvc mockMvc;
 
     @Autowired
-    private CacheService cacheService;
+    private CacheService inMemoryCacheService;
 
     @MockBean
     private IdGenerator idGenerator;
@@ -68,8 +68,8 @@ public class ClientControllerIT extends TestBase {
     @Test
     public void preparationFlow() throws Exception {
         String xULTestCaseRunId = "bc9f0b90-1041-47f0-94df-d692170ea0d7";
-        assertNull(cacheService.getSerialNum(xULTestCaseRunId));
-        assertTrue(cacheService.isInCardRange(xULTestCaseRunId, "7654320500000001"));
+        assertNull(inMemoryCacheService.getSerialNum(xULTestCaseRunId));
+        assertTrue(inMemoryCacheService.isInCardRange(xULTestCaseRunId, "7654320500000001"));
 
         new PreparationFlow().givenFirstDsResponseStub(xULTestCaseRunId);
 
@@ -85,8 +85,8 @@ public class ClientControllerIT extends TestBase {
                 .andExpect(content()
                         .json(new PreparationFlow().responseToClient()));
 
-        assertEquals("20190411083623719000", cacheService.getSerialNum(xULTestCaseRunId));
-        assertFalse(cacheService.isInCardRange(xULTestCaseRunId, "7654320500000001"));
+        assertEquals("20190411083623719000", inMemoryCacheService.getSerialNum(xULTestCaseRunId));
+        assertFalse(inMemoryCacheService.isInCardRange(xULTestCaseRunId, "7654320500000001"));
 
         new PreparationFlow().givenSecondDsResponseStub(xULTestCaseRunId);
 
@@ -94,8 +94,8 @@ public class ClientControllerIT extends TestBase {
                 .andDo(print())
                 .andExpect(content().json(new PreparationFlow().responseToClient()));
 
-        assertEquals("20190411083625236000", cacheService.getSerialNum(xULTestCaseRunId));
-        assertTrue(cacheService.isInCardRange(xULTestCaseRunId, "7654320500000001"));
+        assertEquals("20190411083625236000", inMemoryCacheService.getSerialNum(xULTestCaseRunId));
+        assertTrue(inMemoryCacheService.isInCardRange(xULTestCaseRunId, "7654320500000001"));
 
     }
 
