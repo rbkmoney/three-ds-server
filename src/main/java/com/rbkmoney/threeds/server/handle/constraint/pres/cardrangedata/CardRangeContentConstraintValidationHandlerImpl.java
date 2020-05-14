@@ -1,5 +1,7 @@
 package com.rbkmoney.threeds.server.handle.constraint.pres.cardrangedata;
 
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
+import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.dto.ConstraintType;
@@ -23,6 +25,7 @@ import static java.lang.Long.parseLong;
 @RequiredArgsConstructor
 public class CardRangeContentConstraintValidationHandlerImpl implements PResConstraintValidationHandler {
 
+    private final DirectoryServerProviderHolder providerHolder;
     private final CacheService cacheService;
     private final Validator validator;
 
@@ -66,8 +69,12 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
             return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
         }
 
+        String tag = providerHolder.getProvider() == DirectoryServerProvider.TEST
+                ? o.getXULTestCaseRunId()
+                : providerHolder.getProvider().getTag();
+
         for (CardRange cardRange : safeCollectionList(cardRangeData)) {
-            if (!cacheService.isValidCardRange(o.getXULTestCaseRunId(), cardRange)) {
+            if (!cacheService.isValidCardRange(tag, cardRange)) {
                 o.setHandleRepetitionNeeded(true);
 
                 return ConstraintValidationResult.failure(PATTERN, "cardRangeData");

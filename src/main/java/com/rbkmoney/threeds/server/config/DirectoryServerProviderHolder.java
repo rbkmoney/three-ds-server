@@ -3,6 +3,7 @@ package com.rbkmoney.threeds.server.config;
 import com.rbkmoney.threeds.server.client.DsClient;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ public class DirectoryServerProviderHolder {
     private final EnvironmentProperties mirEnvironmentProperties;
     private final EnvironmentProperties testEnvironmentProperties;
 
+    @Getter
     private DirectoryServerProvider provider;
 
     public DsClient getDsClient() {
