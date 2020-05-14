@@ -15,7 +15,7 @@ import static java.util.Arrays.stream;
 @RequiredArgsConstructor
 public class PArqDirectoryServerRouter implements DirectoryServerRouter {
 
-    private final CacheService cacheService;
+    private final CacheService threeDsServerStorageCacheService;
 
     @Override
     public DirectoryServerProvider route(Message message) {
@@ -28,7 +28,7 @@ public class PArqDirectoryServerRouter implements DirectoryServerRouter {
         String acctNumber = pArq.getAcctNumber();
 
         return stream(DirectoryServerProvider.values())
-                .filter(provider -> cacheService.isInCardRange(provider.getTag(), acctNumber))
+                .filter(provider -> threeDsServerStorageCacheService.isInCardRange(provider.getTag(), acctNumber))
                 .findFirst()
                 .orElseThrow(() -> new DirectoryServerRoutingException("Unable to route pArq message with id=" + pArq.getThreeDSServerTransID()));
     }

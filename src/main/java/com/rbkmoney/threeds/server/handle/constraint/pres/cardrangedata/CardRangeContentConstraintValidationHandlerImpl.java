@@ -89,7 +89,7 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
         List<Map.Entry<Long, Long>> cardRanges = newCardRanges.stream()
                 .map(cr -> new AbstractMap.SimpleEntry<>(parseLong(cr.getStartRange()), parseLong(cr.getEndRange())))
                 .filter(entry -> entry.getKey() < entry.getValue())
-                .sorted(Comparator.comparing(AbstractMap.SimpleEntry::getKey))
+                .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toList());
 
         for (int i = 1; i < cardRanges.size(); i++) {
