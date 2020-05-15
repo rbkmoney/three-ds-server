@@ -53,7 +53,7 @@ import java.util.*;
                 "environment.ds-url=https://visasecuretestsuite-vsts.3dsecure.net/ds2",
                 "environment.three-ds-server-ref-number=3DS_LOA_SER_DIPL_020200_00236",
                 "environment.three-ds-server-url=https://visa.3ds.rbk.money/ds",
-                "logging.level.org.apache.http=debug",
+//                "logging.level.org.apache.http=debug",
         },
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
@@ -75,7 +75,7 @@ public abstract class VisaIntegrationConfig {
                 .acsTransID(pArs.getAcsTransID())
                 .challengeWindowSize("05")
                 .messageType("CReq")
-                .messageVersion("2.1.0")
+                .messageVersion(pArs.getMessageVersion())
                 .threeDSServerTransID(pArs.getThreeDSServerTransID())
                 .build();
 

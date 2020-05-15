@@ -15,20 +15,25 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
+public class BRW_PA_V210_VisaIntegrationTest extends VisaIntegrationConfig {
+
+    private static final DeviceChannel DEVICE_CHANNEL = DeviceChannel.BROWSER;
+    private static final String ACQUIRER_BIN = "400551";
+    private static final String MESSAGE_VERSION = "2.1.0";
+    private static final MessageCategory MESSAGE_CATEGORY = MessageCategory.PAYMENT_AUTH;
+    private static final String THREE_DS_SERVER_OPERATOR_ID = "10075020";
+    private static final ThreeDSRequestorAuthenticationInd THREE_DS_REQUESTOR_AUTHENTICATION_IND = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
 
     @Test
     public void test3DSS_210_001() {
-        String threeDSServerOperatorID = "10075020";
-
         PPrq pPrq = PPrq.builder()
-                .threeDSServerOperatorID(threeDSServerOperatorID)
+                .threeDSServerOperatorID(THREE_DS_SERVER_OPERATOR_ID)
                 .threeDSServerTransID(randomId())
                 .p_messageVersion("1.0.5")
                 .threeDSRequestorID(randomNumeric(10))
                 .threeDSRequestorURL(randomUrl())
                 .build();
-        pPrq.setMessageVersion("2.1.0");
+        pPrq.setMessageVersion(MESSAGE_VERSION);
         pPrq.setXULTestCaseRunId(randomString());
 
         Message message = senderService.sendToDs(pPrq);
@@ -43,14 +48,8 @@ public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
     @Test
     public void test3DSS_210_101() {
         String acctNumber = "4012000000003010";
-        DeviceChannel deviceChannel = DeviceChannel.BROWSER;
-        String acquirerBIN = "400551";
-        String messageVersion = "2.1.0";
-        MessageCategory messageCategory = MessageCategory.PAYMENT_AUTH;
-        String threeDSServerOperatorID = "10075020";
-        ThreeDSRequestorAuthenticationInd threeDSRequestorAuthenticationInd = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
 
-        PArq pArq = buildPArq(acctNumber, deviceChannel, acquirerBIN, messageVersion, messageCategory, threeDSServerOperatorID, threeDSRequestorAuthenticationInd);
+        PArq pArq = buildPArq(acctNumber);
 
         Message message = senderService.sendToDs(pArq);
 
@@ -66,14 +65,8 @@ public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
     @Test
     public void test3DSS_210_102() {
         String acctNumber = "4012000000003028";
-        DeviceChannel deviceChannel = DeviceChannel.BROWSER;
-        String acquirerBIN = "400551";
-        String messageVersion = "2.1.0";
-        MessageCategory messageCategory = MessageCategory.PAYMENT_AUTH;
-        String threeDSServerOperatorID = "10075020";
-        ThreeDSRequestorAuthenticationInd threeDSRequestorAuthenticationInd = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
 
-        PArq pArq = buildPArq(acctNumber, deviceChannel, acquirerBIN, messageVersion, messageCategory, threeDSServerOperatorID, threeDSRequestorAuthenticationInd);
+        PArq pArq = buildPArq(acctNumber);
 
         Message message = senderService.sendToDs(pArq);
 
@@ -89,14 +82,8 @@ public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
     @Test
     public void test3DSS_210_103() {
         String acctNumber = "4012000000003036";
-        DeviceChannel deviceChannel = DeviceChannel.BROWSER;
-        String acquirerBIN = "400551";
-        String messageVersion = "2.1.0";
-        MessageCategory messageCategory = MessageCategory.PAYMENT_AUTH;
-        String threeDSServerOperatorID = "10075020";
-        ThreeDSRequestorAuthenticationInd threeDSRequestorAuthenticationInd = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
 
-        PArq pArq = buildPArq(acctNumber, deviceChannel, acquirerBIN, messageVersion, messageCategory, threeDSServerOperatorID, threeDSRequestorAuthenticationInd);
+        PArq pArq = buildPArq(acctNumber);
 
         Message message = senderService.sendToDs(pArq);
 
@@ -112,14 +99,8 @@ public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
     @Test
     public void test3DSS_210_104() {
         String acctNumber = "4012000000003044";
-        DeviceChannel deviceChannel = DeviceChannel.BROWSER;
-        String acquirerBIN = "400551";
-        String messageVersion = "2.1.0";
-        MessageCategory messageCategory = MessageCategory.PAYMENT_AUTH;
-        String threeDSServerOperatorID = "10075020";
-        ThreeDSRequestorAuthenticationInd threeDSRequestorAuthenticationInd = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
 
-        PArq pArq = buildPArq(acctNumber, deviceChannel, acquirerBIN, messageVersion, messageCategory, threeDSServerOperatorID, threeDSRequestorAuthenticationInd);
+        PArq pArq = buildPArq(acctNumber);
 
         Message message = senderService.sendToDs(pArq);
 
@@ -135,14 +116,8 @@ public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
     @Test
     public void test3DSS_210_105() {
         String acctNumber = "4012000000003051";
-        DeviceChannel deviceChannel = DeviceChannel.BROWSER;
-        String acquirerBIN = "400551";
-        String messageVersion = "2.1.0";
-        MessageCategory messageCategory = MessageCategory.PAYMENT_AUTH;
-        String threeDSServerOperatorID = "10075020";
-        ThreeDSRequestorAuthenticationInd threeDSRequestorAuthenticationInd = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
 
-        PArq pArq = buildPArq(acctNumber, deviceChannel, acquirerBIN, messageVersion, messageCategory, threeDSServerOperatorID, threeDSRequestorAuthenticationInd);
+        PArq pArq = buildPArq(acctNumber);
 
         Message message = senderService.sendToDs(pArq);
 
@@ -158,14 +133,8 @@ public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
     @Test
     public void test3DSS_210_106() {
         String acctNumber = "4012000000003101";
-        DeviceChannel deviceChannel = DeviceChannel.BROWSER;
-        String acquirerBIN = "400551";
-        String messageVersion = "2.1.0";
-        MessageCategory messageCategory = MessageCategory.PAYMENT_AUTH;
-        String threeDSServerOperatorID = "10075020";
-        ThreeDSRequestorAuthenticationInd threeDSRequestorAuthenticationInd = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
 
-        PArq pArq = buildPArq(acctNumber, deviceChannel, acquirerBIN, messageVersion, messageCategory, threeDSServerOperatorID, threeDSRequestorAuthenticationInd);
+        PArq pArq = buildPArq(acctNumber);
 
         Message message = senderService.sendToDs(pArq);
 
@@ -181,10 +150,10 @@ public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL.getValue(), cRes.getTransStatus());
     }
 
-    private PArq buildPArq(String acctNumber, DeviceChannel deviceChannel, String acquirerBIN, String messageVersion, MessageCategory messageCategory, String threeDSServerOperatorID, ThreeDSRequestorAuthenticationInd threeDSRequestorAuthenticationInd) {
+    private PArq buildPArq(String acctNumber) {
         PArq pArq = PArq.builder()
                 .acctNumber(acctNumber)
-                .acquirerBIN(acquirerBIN)
+                .acquirerBIN(ACQUIRER_BIN)
                 .acquirerMerchantID(randomNumeric(10))
                 .browserAcceptHeader(randomString())
                 .browserIP(randomIP())
@@ -196,24 +165,24 @@ public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
                 .browserTZ(randomNumeric(4))
                 .browserUserAgent(randomString())
                 .cardExpiryDate(randomCardExpiryDate())
-                .deviceChannel(getEnumWrapper(deviceChannel))
+                .deviceChannel(getEnumWrapper(DEVICE_CHANNEL))
                 .mcc(randomNumeric(4))
                 .merchantCountryCode(randomMerchantCountryCode())
                 .merchantName(randomString())
-                .messageCategory(getEnumWrapper(messageCategory))
+                .messageCategory(getEnumWrapper(MESSAGE_CATEGORY))
                 .notificationURL(randomUrl())
                 .purchaseAmount(randomNumeric(5))
                 .purchaseCurrency(randomPurchaseCurrency())
                 .purchaseDate(randomLocalDateTime())
                 .purchaseExponent(randomPurchaseExponent())
                 .threeDSCompInd(randomThreeDsMethodCompletionIndicator())
-                .threeDSRequestorAuthenticationInd(getEnumWrapper(threeDSRequestorAuthenticationInd))
+                .threeDSRequestorAuthenticationInd(getEnumWrapper(THREE_DS_REQUESTOR_AUTHENTICATION_IND))
                 .threeDSRequestorID(randomNumeric(10))
                 .threeDSRequestorName(randomString())
                 .threeDSRequestorURL(randomUrl())
-                .threeDSServerOperatorID(threeDSServerOperatorID)
+                .threeDSServerOperatorID(THREE_DS_SERVER_OPERATOR_ID)
                 .build();
-        pArq.setMessageVersion(messageVersion);
+        pArq.setMessageVersion(MESSAGE_VERSION);
         pArq.setXULTestCaseRunId(randomString());
         pArq.setBillingAddress(new Address());
         pArq.setShippingAddress(new Address());
