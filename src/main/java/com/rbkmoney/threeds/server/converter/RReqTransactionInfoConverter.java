@@ -12,9 +12,9 @@ public class RReqTransactionInfoConverter {
     public com.rbkmoney.threeds.server.dto.RReqTransactionInfo toDomain(
             com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfo transactionInfo) {
         return com.rbkmoney.threeds.server.dto.RReqTransactionInfo.builder()
-                .deviceChannel(DeviceChannel.valueOf(transactionInfo.getDeviceChannel()))
+                .deviceChannel(DeviceChannel.of(transactionInfo.getDeviceChannel()))
                 .decoupledAuthMaxTime(LocalDateTime.parse(transactionInfo.getDecoupledAuthMaxTime()))
-                .acsDecConInd(AcsDecConInd.valueOf(transactionInfo.getAcsDecConInd()))
+                .acsDecConInd(AcsDecConInd.of(transactionInfo.getAcsDecConInd()))
                 .build();
     }
 
