@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.rbkmoney.threeds.server.helper.CardRangeHelper.cardRange;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
 
 public class InMemoryCacheServiceTest {
 
@@ -53,7 +54,7 @@ public class InMemoryCacheServiceTest {
         String result = cacheService.getSerialNum(TEST_TAG);
 
         // Then
-        assertThat(result).isNull();
+        assertNull(result);
         assertThat(cacheService.getSerialNum(TRAP)).isEqualTo(TRAP);
     }
 
@@ -85,7 +86,7 @@ public class InMemoryCacheServiceTest {
         boolean isInCardRange = cacheService.isInCardRange(TEST_TAG, acctNumber);
 
         // Then
-        assertThat(isInCardRange).isTrue();
+        assertTrue(isInCardRange);
     }
 
     @Test
@@ -102,7 +103,7 @@ public class InMemoryCacheServiceTest {
         boolean isInCardRange = cacheService.isInCardRange(TEST_TAG, acctNumber);
 
         // Then
-        assertThat(isInCardRange).isTrue();
+        assertTrue(isInCardRange);
     }
 
     @Test
@@ -119,7 +120,7 @@ public class InMemoryCacheServiceTest {
         boolean isInCardRange = cacheService.isInCardRange(TEST_TAG, acctNumber);
 
         // Then
-        assertThat(isInCardRange).isFalse();
+        assertFalse(isInCardRange);
     }
 
     @Test
@@ -133,7 +134,7 @@ public class InMemoryCacheServiceTest {
         boolean isAdded = cacheService.isInCardRange(TEST_TAG, "1050");
 
         // Then
-        assertThat(isAdded).isTrue();
+        assertTrue(isAdded);
     }
 
     @Test
@@ -151,7 +152,7 @@ public class InMemoryCacheServiceTest {
         boolean isModified = cacheService.isInCardRange(TEST_TAG, "1050");
 
         // Then
-        assertThat(isModified).isTrue();
+        assertTrue(isModified);
     }
 
     @Test
@@ -170,6 +171,6 @@ public class InMemoryCacheServiceTest {
         boolean isDeleted = !cacheService.isInCardRange(TEST_TAG, "1050");
 
         // Then
-        assertThat(isDeleted).isTrue();
+        assertTrue(isDeleted);
     }
 }

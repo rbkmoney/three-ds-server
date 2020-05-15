@@ -10,7 +10,8 @@ import org.junit.Test;
 import java.util.List;
 
 import static com.rbkmoney.threeds.server.helper.CardRangeHelper.cardRange;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AbstractCacheServiceTest {
 
@@ -33,7 +34,7 @@ public class AbstractCacheServiceTest {
         boolean isValid = cacheService.isValidCardRange(TEST_TAG, cardRange);
 
         // Then
-        assertThat(isValid).isTrue();
+        assertTrue(isValid);
     }
 
     @Test
@@ -49,9 +50,9 @@ public class AbstractCacheServiceTest {
         boolean isDeleteValid = cacheService.isValidCardRange(TEST_TAG, deleteRange);
 
         // Then
-        assertThat(isAddValid).isTrue();
-        assertThat(isModifyValid).isTrue();
-        assertThat(isDeleteValid).isTrue();
+        assertTrue(isAddValid);
+        assertTrue(isModifyValid);
+        assertTrue(isDeleteValid);
     }
 
     @Test
@@ -68,7 +69,7 @@ public class AbstractCacheServiceTest {
         boolean isValid = cacheService.isValidCardRange(TEST_TAG, addRange);
 
         // Then
-        assertThat(isValid).isTrue();
+        assertTrue(isValid);
     }
 
     @Test
@@ -85,7 +86,7 @@ public class AbstractCacheServiceTest {
         boolean isValid = cacheService.isValidCardRange(TEST_TAG, addRange);
 
         // Then
-        assertThat(isValid).isFalse();
+        assertFalse(isValid);
     }
 
     @Test
@@ -102,7 +103,7 @@ public class AbstractCacheServiceTest {
         boolean isValid = cacheService.isValidCardRange(TEST_TAG, addRange);
 
         // Then
-        assertThat(isValid).isTrue();
+        assertFalse(isValid);
     }
 
     @Test
@@ -119,7 +120,7 @@ public class AbstractCacheServiceTest {
         boolean isValid = cacheService.isValidCardRange(TEST_TAG, addRange);
 
         // Then
-        assertThat(isValid).isFalse();
+        assertFalse(isValid);
     }
 
     @Test
@@ -136,7 +137,7 @@ public class AbstractCacheServiceTest {
         boolean isValid = cacheService.isValidCardRange(TEST_TAG, addRange);
 
         // Then
-        assertThat(isValid).isTrue();
+        assertTrue(isValid);
     }
 
     @Test
@@ -153,6 +154,6 @@ public class AbstractCacheServiceTest {
         boolean isValid = cacheService.isValidCardRange(TEST_TAG, addRange);
 
         // Then
-        assertThat(isValid).isFalse();
+        assertFalse(isValid);
     }
 }

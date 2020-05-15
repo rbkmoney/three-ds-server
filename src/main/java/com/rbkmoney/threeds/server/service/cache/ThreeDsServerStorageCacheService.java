@@ -74,7 +74,7 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
 
     @Override
     public void updateCardRanges(String tag, List<CardRange> cardRanges) {
-        // TODO [a.romanov]: save to storage and save to cache
+        // TODO [a.romanov]: save to storage
     }
 
     @Override

@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class ThreeDsServerStorageCacheServiceTest {
@@ -113,7 +114,7 @@ public class ThreeDsServerStorageCacheServiceTest {
         boolean isInCardRange = cacheService.isInCardRange(TEST_TAG, acctNumber);
 
         // Then
-        assertThat(isInCardRange).isFalse();
+        assertFalse(isInCardRange);
     }
 
     // TODO [a.romanov]: provide tests for update CardRanges flow
