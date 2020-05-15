@@ -26,7 +26,7 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     private static final ThreeDSRequestorAuthenticationInd THREE_DS_REQUESTOR_AUTHENTICATION_IND = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
 
     @Test
-    public void test3DSS_220_001() {
+    public void testRequired3DSS_220_001() {
         PPrq pPrq = PPrq.builder()
                 .threeDSServerOperatorID(THREE_DS_SERVER_OPERATOR_ID)
                 .threeDSServerTransID(randomId())
@@ -47,7 +47,7 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    public void test3DSS_220_101() {
+    public void testRequired3DSS_220_101() {
         String acctNumber = "4012000000001006";
 
         PArq pArq = buildPArq(acctNumber);
@@ -64,7 +64,7 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    public void test3DSS_220_102() {
+    public void testRequired3DSS_220_102() {
         String acctNumber = "4012000000001014";
 
         PArq pArq = buildPArq(acctNumber);
@@ -81,7 +81,7 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    public void test3DSS_220_103() {
+    public void testRequired3DSS_220_103() {
         String acctNumber = "4012000000001022";
 
         PArq pArq = buildPArq(acctNumber);
@@ -98,7 +98,7 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    public void test3DSS_220_104() {
+    public void testRequired3DSS_220_104() {
         String acctNumber = "4012000000001030";
 
         PArq pArq = buildPArq(acctNumber);
@@ -115,7 +115,7 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    public void test3DSS_220_105() {
+    public void testRequired3DSS_220_105() {
         String acctNumber = "4012000000001048";
 
         PArq pArq = buildPArq(acctNumber);
@@ -133,7 +133,7 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    public void test3DSS_220_106() {
+    public void testRequired3DSS_220_106() {
         String acctNumber = "4012000000001055";
 
         PArq pArq = buildPArq(acctNumber);
@@ -150,7 +150,7 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    public void test3DSS_220_107() {
+    public void testRequired3DSS_220_107() {
         String acctNumber = "4012000000001097";
 
         PArq pArq = buildPArq(acctNumber);

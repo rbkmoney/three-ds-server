@@ -23,7 +23,7 @@ public class THREERI_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     private static final ThreeDSRequestorAuthenticationInd THREE_DS_REQUESTOR_AUTHENTICATION_IND = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
 
     @Test
-    public void test3DSS_220_301() {
+    public void testRequired3DSS_220_301() {
         String acctNumber = "4012000000001063";
 
         PArq pArq = buildPArq(acctNumber);
