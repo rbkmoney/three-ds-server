@@ -43,6 +43,11 @@ client:
 
 storage:
   in-memory-only: true
+  cache:
+    rreq-transaction-info:
+      size: 1000
+    card-ranges:
+      expiration-hours: 1
 
 environment:
   message:

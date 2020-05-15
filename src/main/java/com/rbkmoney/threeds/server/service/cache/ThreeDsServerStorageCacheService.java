@@ -11,7 +11,6 @@ import com.rbkmoney.threeds.server.converter.RReqTransactionInfoConverter;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
 import com.rbkmoney.threeds.server.exeption.ThreeDsServerStorageException;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.thrift.TException;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,20 +21,34 @@ import java.util.Set;
 
 import static java.lang.Long.parseLong;
 
-@RequiredArgsConstructor
 public class ThreeDsServerStorageCacheService extends AbstractCacheService {
-
-    private final Cache<String, Set<CardRange>> cardRangesByTag = Caffeine.newBuilder()
-            .expireAfterWrite(Duration.ofHours(1L)) // TODO [a.romanov]: duration
-            .build();
-    private final Cache<String, RReqTransactionInfo> rReqTransactionInfoByTag = Caffeine.newBuilder()
-            .maximumSize(1000L) // TODO [a.romanov]: size?
-            .build();
 
     private final RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient;
     private final RReqTransactionInfoConverter rReqTransactionInfoConverter;
+    private final Cache<String, RReqTransactionInfo> rReqTransactionInfoByTag;
+
     private final CardRangesStorageSrv.Iface cardRangesStorageClient;
     private final CardRangesConverter cardRangesConverter;
+    private final Cache<String, Set<CardRange>> cardRangesByTag;
+
+    public ThreeDsServerStorageCacheService(
+            RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient,
+            RReqTransactionInfoConverter rReqTransactionInfoConverter,
+            long rReqTransactionInfoCacheSize,
+            CardRangesStorageSrv.Iface cardRangesStorageClient,
+            CardRangesConverter cardRangesConverter,
+            long cardRangesCacheExpirationHours) {
+        this.rReqTransactionInfoStorageClient = rReqTransactionInfoStorageClient;
+        this.rReqTransactionInfoConverter = rReqTransactionInfoConverter;
+        this.rReqTransactionInfoByTag = Caffeine.newBuilder()
+                .maximumSize(rReqTransactionInfoCacheSize)
+                .build();
+        this.cardRangesStorageClient = cardRangesStorageClient;
+        this.cardRangesConverter = cardRangesConverter;
+        this.cardRangesByTag = Caffeine.newBuilder()
+                .expireAfterWrite(Duration.ofHours(cardRangesCacheExpirationHours))
+                .build();
+    }
 
     @Override
     Set<CardRange> getCardRanges(String tag) {

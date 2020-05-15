@@ -18,11 +18,17 @@ import static java.lang.Long.parseLong;
 
 public class InMemoryCacheService extends AbstractCacheService {
 
-    private final Map<String, String> serialNumByTag = new ConcurrentHashMap<>();
-    private final Map<String, Set<CardRange>> cardRangesByTag = new ConcurrentHashMap<>();
-    private final Cache<String, RReqTransactionInfo> rReqTransactionInfoByTag = Caffeine.newBuilder()
-            .maximumSize(1000L)
-            .build();
+    private final Map<String, String> serialNumByTag;
+    private final Map<String, Set<CardRange>> cardRangesByTag;
+    private final Cache<String, RReqTransactionInfo> rReqTransactionInfoByTag;
+
+    public InMemoryCacheService(long rReqTransactionInfoCacheSize) {
+        this.serialNumByTag = new ConcurrentHashMap<>();
+        this.cardRangesByTag = new ConcurrentHashMap<>();
+        this.rReqTransactionInfoByTag = Caffeine.newBuilder()
+                .maximumSize(rReqTransactionInfoCacheSize)
+                .build();
+    }
 
     @Override
     Set<CardRange> getCardRanges(String tag) {

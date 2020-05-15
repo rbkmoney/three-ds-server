@@ -26,7 +26,7 @@ public class CacheServiceTest {
 
     @Before
     public void setUp() {
-        cacheService = new InMemoryCacheService();
+        cacheService = new InMemoryCacheService(100L);
     }
 
     @Test

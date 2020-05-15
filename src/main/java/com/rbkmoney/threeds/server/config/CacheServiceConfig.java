@@ -17,21 +17,26 @@ import org.springframework.context.annotation.Configuration;
 public class CacheServiceConfig {
 
     @Bean
-    public CacheService inMemoryCacheService() {
-        return new InMemoryCacheService();
+    public CacheService inMemoryCacheService(
+            @Value("${storage.cache.rreq-transaction-info.size}") long rReqTransactionInfoCacheSize) {
+        return new InMemoryCacheService(rReqTransactionInfoCacheSize);
     }
 
     @Bean
     public CacheService threeDsServerStorageCacheService(
             RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient,
             RReqTransactionInfoConverter rReqTransactionInfoConverter,
+            @Value("${storage.cache.rreq-transaction-info.size}") long rReqTransactionInfoCacheSize,
             CardRangesStorageSrv.Iface cardRangesStorageClient,
-            CardRangesConverter cardRangesConverter) {
+            CardRangesConverter cardRangesConverter,
+            @Value("${storage.cache.card-ranges.expiration-hours}") long cardRangesCacheExpirationHours) {
         return new ThreeDsServerStorageCacheService(
                 rReqTransactionInfoStorageClient,
                 rReqTransactionInfoConverter,
+                rReqTransactionInfoCacheSize,
                 cardRangesStorageClient,
-                cardRangesConverter);
+                cardRangesConverter,
+                cardRangesCacheExpirationHours);
     }
 
     @Bean
