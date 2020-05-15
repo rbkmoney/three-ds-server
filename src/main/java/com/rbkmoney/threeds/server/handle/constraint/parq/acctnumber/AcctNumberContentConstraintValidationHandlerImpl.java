@@ -18,7 +18,7 @@ public class AcctNumberContentConstraintValidationHandlerImpl implements PArqCon
 
     private final DirectoryServerProviderHolder providerHolder;
     private final StringValidator stringValidator;
-    private final CacheService configurableCacheService;
+    private final CacheService cacheService;
 
     @Override
     public boolean canHandle(PArq o) {
@@ -38,7 +38,7 @@ public class AcctNumberContentConstraintValidationHandlerImpl implements PArqCon
                 ? o.getXULTestCaseRunId()
                 : providerHolder.getProvider().getTag();
 
-        if (!configurableCacheService.isInCardRange(tag, acctNumber)) {
+        if (!cacheService.isInCardRange(tag, acctNumber)) {
             return ConstraintValidationResult.failure(OUT_OF_CARD_RANGE, "acctNumber");
         }
 

@@ -42,7 +42,7 @@ client:
     timeout: 5000
 
 storage:
-  in-memory-only: true
+  mode: IN_MEMORY
   cache:
     rreq-transaction-info:
       size: 1000

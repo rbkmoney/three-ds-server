@@ -28,7 +28,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 public class PResToPPrsConverter implements Converter<ValidationResult, Message> {
 
     private final EnvironmentMessageProperties messageProperties;
-    private final CacheService inMemoryCacheService;
+    private final CacheService cacheService;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -43,8 +43,8 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
         }
 
         if (pRes.getSerialNum() != null) {
-            inMemoryCacheService.saveSerialNum(pRes.getXULTestCaseRunId(), pRes.getSerialNum());
-            inMemoryCacheService.updateCardRanges(pRes.getXULTestCaseRunId(), cardRangeData);
+            cacheService.saveSerialNum(pRes.getXULTestCaseRunId(), pRes.getSerialNum());
+            cacheService.updateCardRanges(pRes.getXULTestCaseRunId(), cardRangeData);
         }
 
         PPrs pPrs = PPrs.builder()

@@ -23,7 +23,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RequiredArgsConstructor
 public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqConstraintValidationHandler {
 
-    private final CacheService configurableCacheService;
+    private final CacheService cacheService;
 
     @Override
     public boolean canHandle(RReq o) {
@@ -43,7 +43,7 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
 
         MessageCategory messageCategory = getEnumWrapperValue(o.getMessageCategory());
 
-        RReqTransactionInfo rReqTransactionInfo = configurableCacheService.getRReqTransactionInfo(o.getThreeDSServerTransID());
+        RReqTransactionInfo rReqTransactionInfo = cacheService.getRReqTransactionInfo(o.getThreeDSServerTransID());
 
         DeviceChannel deviceChannel = rReqTransactionInfo.getDeviceChannel();
         LocalDateTime decoupledAuthMaxTime = rReqTransactionInfo.getDecoupledAuthMaxTime();

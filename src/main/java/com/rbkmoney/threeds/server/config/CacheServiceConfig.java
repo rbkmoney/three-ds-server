@@ -9,6 +9,7 @@ import com.rbkmoney.threeds.server.service.cache.InMemoryCacheService;
 import com.rbkmoney.threeds.server.service.cache.ThreeDsServerStorageCacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,12 +18,14 @@ import org.springframework.context.annotation.Configuration;
 public class CacheServiceConfig {
 
     @Bean
+    @ConditionalOnProperty(name = "storage.mode", havingValue = "IN_MEMORY")
     public CacheService inMemoryCacheService(
             @Value("${storage.cache.rreq-transaction-info.size}") long rReqTransactionInfoCacheSize) {
         return new InMemoryCacheService(rReqTransactionInfoCacheSize);
     }
 
     @Bean
+    @ConditionalOnProperty(name = "storage.mode", havingValue = "REMOTE")
     public CacheService threeDsServerStorageCacheService(
             RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient,
             RReqTransactionInfoConverter rReqTransactionInfoConverter,
@@ -37,19 +40,5 @@ public class CacheServiceConfig {
                 cardRangesStorageClient,
                 cardRangesConverter,
                 cardRangesCacheExpirationHours);
-    }
-
-    @Bean
-    public CacheService configurableCacheService(
-            @Value("${storage.in-memory-only}") boolean isInMemoryOnlyStorage,
-            CacheService inMemoryCacheService,
-            CacheService threeDsServerStorageCacheService) {
-        if (isInMemoryOnlyStorage) {
-            log.warn("Property 'storage.in-memory-only' is set to TRUE. " +
-                    "Consider switching it to FALSE if you're seeing this message on production environment");
-            return inMemoryCacheService;
-        }
-
-        return threeDsServerStorageCacheService;
     }
 }

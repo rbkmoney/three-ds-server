@@ -17,7 +17,7 @@ import static com.rbkmoney.threeds.server.utils.WrapperUtil.getListWrapperValue;
 public class PPrqToPReqConverter implements Converter<ValidationResult, Message> {
 
     private final DirectoryServerProviderHolder providerHolder;
-    private final CacheService inMemoryCacheService;
+    private final CacheService cacheService;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -28,13 +28,13 @@ public class PPrqToPReqConverter implements Converter<ValidationResult, Message>
                 .threeDSServerOperatorID(pPrq.getThreeDSServerOperatorID())
                 .threeDSServerTransID(pPrq.getThreeDSServerTransID())
                 .messageExtension(getListWrapperValue(pPrq.getMessageExtension()))
-                .serialNum(inMemoryCacheService.getSerialNum(pPrq.getXULTestCaseRunId()))
+                .serialNum(cacheService.getSerialNum(pPrq.getXULTestCaseRunId()))
                 .threeDSRequestorURL(pPrq.getThreeDSRequestorURL())
                 .build();
         pReq.setMessageVersion(pPrq.getMessageVersion());
         pReq.setRequestMessage(pPrq);
 
-        inMemoryCacheService.clearSerialNum(pPrq.getXULTestCaseRunId());
+        cacheService.clearSerialNum(pPrq.getXULTestCaseRunId());
 
         return pReq;
     }
