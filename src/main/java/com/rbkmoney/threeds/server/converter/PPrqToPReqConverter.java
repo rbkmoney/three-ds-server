@@ -33,6 +33,7 @@ public class PPrqToPReqConverter implements Converter<ValidationResult, Message>
                 .build();
         pReq.setMessageVersion(pPrq.getMessageVersion());
         pReq.setRequestMessage(pPrq);
+        pReq.setXULTestCaseRunId(pPrq.getXULTestCaseRunId());
 
         cacheService.clearSerialNum(pPrq.getXULTestCaseRunId());
 

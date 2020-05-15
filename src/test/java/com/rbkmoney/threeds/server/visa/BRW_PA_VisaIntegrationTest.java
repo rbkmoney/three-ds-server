@@ -6,6 +6,8 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.CRes;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
+import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
+import com.rbkmoney.threeds.server.domain.root.proprietary.PPrs;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInd;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
@@ -14,6 +16,29 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
+
+    @Test
+    public void test3DSS_210_001() {
+        String threeDSServerOperatorID = "10075020";
+
+        PPrq pPrq = PPrq.builder()
+                .threeDSServerOperatorID(threeDSServerOperatorID)
+                .threeDSServerTransID(randomId())
+                .p_messageVersion("1.0.5")
+                .threeDSRequestorID(randomNumeric(10))
+                .threeDSRequestorURL(randomUrl())
+                .build();
+        pPrq.setMessageVersion("2.1.0");
+        pPrq.setXULTestCaseRunId(randomString());
+
+        Message message = senderService.sendToDs(pPrq);
+
+        assertTrue(message instanceof PPrs);
+
+        PPrs pPrs = (PPrs) message;
+
+        assertTrue(pPrs.getP_completed());
+    }
 
     @Test
     public void test3DSS_210_101() {
@@ -151,7 +176,7 @@ public class BRW_PA_VisaIntegrationTest extends VisaIntegrationConfig {
         assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
         assertNotNull(pArs.getAcsURL());
 
-        CRes cRes = sendAs3dsClientTypeBRW(pArs);
+        CRes cRes = sendAs3dsRequestorWithTypeBRW(pArs);
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL.getValue(), cRes.getTransStatus());
     }

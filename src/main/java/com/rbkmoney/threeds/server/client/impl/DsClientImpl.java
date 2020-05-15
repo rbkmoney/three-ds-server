@@ -11,10 +11,13 @@ import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
@@ -43,7 +46,10 @@ public class DsClientImpl implements DsClient {
 
             responseMessage.setRequestMessage(requestMessage);
             // todo remove or replace
-            responseMessage.setXULTestCaseRunId(responseMessageEntity.getHeaders().getFirst("x-ul-testcaserun-id"));
+            HttpHeaders headers = responseMessageEntity.getHeaders();
+            String xULTestCaseRunId = Optional.ofNullable(headers.getFirst("x-ul-testcaserun-id"))
+                    .orElse(requestMessage.getXULTestCaseRunId());
+            responseMessage.setXULTestCaseRunId(xULTestCaseRunId);
 
             return responseMessage;
         } catch (ResourceAccessException ex) {

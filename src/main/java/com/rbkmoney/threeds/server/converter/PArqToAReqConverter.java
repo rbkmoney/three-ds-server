@@ -145,6 +145,7 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .build();
         aReq.setMessageVersion(pArq.getMessageVersion());
         aReq.setRequestMessage(pArq);
+        aReq.setXULTestCaseRunId(pArq.getXULTestCaseRunId());
         return aReq;
     }
 

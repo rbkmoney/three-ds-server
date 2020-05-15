@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.visa;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.domain.*;
 import com.rbkmoney.threeds.server.domain.account.*;
@@ -22,35 +23,40 @@ import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.serialization.TemporalAccessorWrapper;
 import com.rbkmoney.threeds.server.service.SenderService;
-import org.junit.Ignore;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
         classes = {ThreeDsServerApplication.class, TestConfig.class},
         properties = {
-                "environment.ds-url=https://visasecuretestsuite-vsts.3dsecure.net/ds2",
                 "client.ssl.trust-store=classpath:3ds_server_pki/visa.p12",
                 "client.ssl.trust-store-password=Hd03tFk6iO3XiZ9a",
+                "environment.ds-url=https://visasecuretestsuite-vsts.3dsecure.net/ds2",
                 "environment.three-ds-server-ref-number=3DS_LOA_SER_DIPL_020200_00236",
-                "three-ds-server-url=https://visa.3ds.rbk.money",
+                "environment.three-ds-server-url=https://visa.3ds.rbk.money/ds",
                 "logging.level.org.apache.http=debug",
         },
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
-@Ignore
 public abstract class VisaIntegrationConfig {
 
     @Autowired
@@ -59,9 +65,12 @@ public abstract class VisaIntegrationConfig {
     @Autowired
     protected RestTemplate restTemplate;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     private static final Random RANDOM = new Random();
 
-    protected CRes sendAs3dsClientTypeBRW(PArs pArs) {
+    protected CRes sendAs3dsRequestorWithTypeBRW(PArs pArs) {
         CReq cReq = CReq.builder()
                 .acsTransID(pArs.getAcsTransID())
                 .challengeWindowSize("05")
@@ -70,7 +79,32 @@ public abstract class VisaIntegrationConfig {
                 .threeDSServerTransID(pArs.getThreeDSServerTransID())
                 .build();
 
-        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
+        try {
+            byte[] bytesCReq = objectMapper.writeValueAsBytes(cReq);
+
+            String encodeCReq = Base64.getEncoder().encodeToString(bytesCReq);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+            map.add("creq", encodeCReq);
+
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+            ResponseEntity<String> response = restTemplate.postForEntity(pArs.getAcsURL(), request, String.class);
+
+            String html = response.getBody();
+            Document document = Jsoup.parse(html);
+            Element element = document.select("input[name=cres]").first();
+            String decodeCRes = element.attr("value");
+
+            byte[] byteCRes = Base64.getDecoder().decode(decodeCRes);
+
+            return objectMapper.readValue(byteCRes, CRes.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected void fullFilling(PArq pArq) {
