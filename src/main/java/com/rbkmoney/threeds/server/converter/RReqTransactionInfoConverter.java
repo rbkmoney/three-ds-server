@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Service
 public class RReqTransactionInfoConverter {
 
-    public com.rbkmoney.threeds.server.dto.RReqTransactionInfo toDTO(
+    public com.rbkmoney.threeds.server.dto.RReqTransactionInfo toDomain(
             com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfo transactionInfo) {
         return com.rbkmoney.threeds.server.dto.RReqTransactionInfo.builder()
                 .deviceChannel(DeviceChannel.valueOf(transactionInfo.getDeviceChannel()))
@@ -18,7 +18,7 @@ public class RReqTransactionInfoConverter {
                 .build();
     }
 
-    public com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfo toThrift(
+    public com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfo toDTO(
             String threeDSServerTransID,
             com.rbkmoney.threeds.server.dto.RReqTransactionInfo transactionInfo) {
         return new com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfo()

@@ -86,7 +86,7 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
     @Transactional
     public void saveRReqTransactionInfo(String threeDSServerTransID, RReqTransactionInfo rReqTransactionInfo) {
         try {
-            var transactionInfo = rReqTransactionInfoConverter.toThrift(threeDSServerTransID, rReqTransactionInfo);
+            var transactionInfo = rReqTransactionInfoConverter.toDTO(threeDSServerTransID, rReqTransactionInfo);
             rReqTransactionInfoStorageClient.saveRReqTransactionInfo(transactionInfo);
             rReqTransactionInfoByTag.put(threeDSServerTransID, rReqTransactionInfo);
         } catch (TException e) {
@@ -104,7 +104,7 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
     private RReqTransactionInfo getRReqTransactionInfoFromStorage(String threeDSServerTransID) {
         try {
             var transactionInfo = rReqTransactionInfoStorageClient.getRReqTransactionInfo(threeDSServerTransID);
-            return rReqTransactionInfoConverter.toDTO(transactionInfo);
+            return rReqTransactionInfoConverter.toDomain(transactionInfo);
         } catch (TException e) {
             throw new ThreeDsServerStorageException(e);
         }
