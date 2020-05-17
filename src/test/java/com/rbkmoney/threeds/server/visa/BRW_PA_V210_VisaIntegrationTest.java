@@ -11,6 +11,7 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PPrs;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInd;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -41,6 +42,35 @@ public class BRW_PA_V210_VisaIntegrationTest extends VisaIntegrationConfig {
         assertTrue(message instanceof PPrs);
 
         PPrs pPrs = (PPrs) message;
+
+        assertTrue(pPrs.getP_completed());
+    }
+
+    @Test
+    public void testOptional3DSS_210_002() {
+        PPrq pPrq = PPrq.builder()
+                .threeDSServerOperatorID(THREE_DS_SERVER_OPERATOR_ID)
+                .threeDSServerTransID(randomId())
+                .p_messageVersion("1.0.5")
+                .threeDSRequestorID(randomNumeric(10))
+                .threeDSRequestorURL(randomUrl())
+                .build();
+        pPrq.setMessageVersion(MESSAGE_VERSION);
+        pPrq.setXULTestCaseRunId(randomString());
+
+        Message message = senderService.sendToDs(pPrq);
+
+        assertTrue(message instanceof PPrs);
+
+        PPrs pPrs = (PPrs) message;
+
+        assertTrue(pPrs.getP_completed());
+
+        message = senderService.sendToDs(pPrq);
+
+        assertTrue(message instanceof PPrs);
+
+        pPrs = (PPrs) message;
 
         assertTrue(pPrs.getP_completed());
     }
@@ -148,6 +178,25 @@ public class BRW_PA_V210_VisaIntegrationTest extends VisaIntegrationConfig {
         CRes cRes = sendAs3dsRequestorWithTypeBRW(pArs);
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL.getValue(), cRes.getTransStatus());
+    }
+
+    @Test
+    @Ignore
+    // todo нет описания теста в user guide
+    public void testOptional3DSS_210_401() {
+        String acctNumber = "";
+
+        PArq pArq = buildPArq(acctNumber);
+
+        Message message = senderService.sendToDs(pArq);
+
+        assertTrue(message instanceof PArs);
+
+        PArs pArs = (PArs) message;
+
+        assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL, pArs.getTransStatus());
+        assertEquals("05", pArs.getEci());
+        assertNotNull(pArs.getAuthenticationValue());
     }
 
     private PArq buildPArq(String acctNumber) {
