@@ -9,7 +9,6 @@ import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthe
 import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeRIInd;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -24,13 +23,12 @@ public class THREERI_NPA_V210_VisaIntegrationTest extends VisaIntegrationConfig 
     private static final ThreeDSRequestorAuthenticationInd THREE_DS_REQUESTOR_AUTHENTICATION_IND = ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION;
 
     @Test
-    @Ignore
-    // todo нет описания теста в user guide
     public void testOptional3DSS_210_302() {
-        String acctNumber = "";
+        String acctNumber = "4012000000003135";
 
         PArq pArq = buildPArq(acctNumber);
-
+        pArq.setThreeRIInd(getEnumWrapper(ThreeRIInd.RESERVED_FOR_DS_USED_80));
+        
         Message message = senderService.sendToDs(pArq);
 
         assertTrue(message instanceof PArs);

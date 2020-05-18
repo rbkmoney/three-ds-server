@@ -2,6 +2,7 @@ package com.rbkmoney.threeds.server.visa;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
+import com.rbkmoney.threeds.server.domain.*;
 import com.rbkmoney.threeds.server.domain.account.*;
 import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptionsWrapper;
 import com.rbkmoney.threeds.server.domain.message.MessageExtension;

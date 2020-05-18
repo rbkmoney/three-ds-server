@@ -28,7 +28,9 @@ public class AResInfoOnlyConstraintValidationHandlerImpl implements AResConstrai
 
         if (!(threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_RISK_ANALYSIS_PERFORMED
                 || threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_DATA_SHARE_ONLY
-                || threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_AUTH_ALREADY_PERFORMED)) {
+                || threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_AUTH_ALREADY_PERFORMED
+                //todo for visa test (мб добавить условие на роутинг)
+                || threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.RESERVED_FOR_DS_USED_82)) {
             return ConstraintValidationResult.failure(PATTERN, "transStatus");
         }
 

@@ -9,9 +9,10 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrs;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInd;
+import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorChallengeInd;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
+import com.rbkmoney.threeds.server.domain.transaction.TransactionStatusReason;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -181,12 +182,11 @@ public class BRW_PA_V210_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    @Ignore
-    // todo нет описания теста в user guide
     public void testOptional3DSS_210_401() {
-        String acctNumber = "";
+        String acctNumber = "4012000000001204";
 
         PArq pArq = buildPArq(acctNumber);
+        pArq.setThreeDSRequestorChallengeInd(getEnumWrapper(ThreeDSRequestorChallengeInd.RESERVED_FOR_DS_USED_82));
 
         Message message = senderService.sendToDs(pArq);
 
@@ -194,8 +194,9 @@ public class BRW_PA_V210_VisaIntegrationTest extends VisaIntegrationConfig {
 
         PArs pArs = (PArs) message;
 
-        assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL, pArs.getTransStatus());
-        assertEquals("05", pArs.getEci());
+        assertEquals(TransactionStatus.NOT_AUTHENTICATED_DENIED, pArs.getTransStatus());
+        assertEquals(TransactionStatusReason.RESERVED_FOR_DS_USED_89, pArs.getTransStatusReason());
+        assertEquals("07", pArs.getEci());
         assertNotNull(pArs.getAuthenticationValue());
     }
 

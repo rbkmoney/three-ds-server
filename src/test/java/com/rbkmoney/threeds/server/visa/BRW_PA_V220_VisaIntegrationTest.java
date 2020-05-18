@@ -15,7 +15,6 @@ import com.rbkmoney.threeds.server.domain.transaction.TransactionStatusReason;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
 import com.rbkmoney.threeds.server.domain.whitelist.WhiteListStatus;
 import com.rbkmoney.threeds.server.domain.whitelist.WhiteListStatusSource;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -391,12 +390,11 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    @Ignore
-    // todo нет описания теста в user guide
     public void testOptional3DSS_220_601() {
-        String acctNumber = "";
+        String acctNumber = "4012000000001170";
 
         PArq pArq = buildPArq(acctNumber);
+        pArq.setThreeDSRequestorChallengeInd(getEnumWrapper(ThreeDSRequestorChallengeInd.NO_CHALLENGE_RISK_ANALYSIS_PERFORMED));
 
         Message message = senderService.sendToDs(pArq);
 
@@ -410,12 +408,11 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    @Ignore
-    // todo нет описания теста в user guide
     public void testOptional3DSS_220_602() {
-        String acctNumber = "";
+        String acctNumber = "4012000000001220";
 
         PArq pArq = buildPArq(acctNumber);
+        pArq.setThreeDSRequestorChallengeInd(getEnumWrapper(ThreeDSRequestorChallengeInd.NO_CHALLENGE_RISK_ANALYSIS_PERFORMED));
 
         Message message = senderService.sendToDs(pArq);
 
@@ -424,17 +421,17 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
         PArs pArs = (PArs) message;
 
         assertEquals(TransactionStatus.NOT_AUTHENTICATED_DENIED, pArs.getTransStatus());
+        assertEquals(TransactionStatusReason.CARD_AUTH_FAILED, pArs.getTransStatusReason());
         assertNull(pArs.getEci());
         assertNull(pArs.getAuthenticationValue());
     }
 
     @Test
-    @Ignore
-    // todo нет описания теста в user guide
     public void testOptional3DSS_220_603() {
-        String acctNumber = "";
+        String acctNumber = "4012000000001238";
 
         PArq pArq = buildPArq(acctNumber);
+        pArq.setThreeDSRequestorChallengeInd(getEnumWrapper(ThreeDSRequestorChallengeInd.NO_CHALLENGE_RISK_ANALYSIS_PERFORMED));
 
         Message message = senderService.sendToDs(pArq);
 
@@ -451,12 +448,12 @@ public class BRW_PA_V220_VisaIntegrationTest extends VisaIntegrationConfig {
     }
 
     @Test
-    @Ignore
-    // todo нет описания теста в user guide
     public void testOptional3DSS_220_701() {
-        String acctNumber = "";
+        String acctNumber = "4012000000001212";
 
         PArq pArq = buildPArq(acctNumber);
+        pArq.setThreeDSRequestorID("11764405");
+        pArq.setThreeDSRequestorChallengeInd(getEnumWrapper(ThreeDSRequestorChallengeInd.RESERVED_FOR_DS_USED_82));
 
         Message message = senderService.sendToDs(pArq);
 
