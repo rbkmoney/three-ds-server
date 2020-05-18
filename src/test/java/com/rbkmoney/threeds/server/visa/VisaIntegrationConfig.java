@@ -2,7 +2,6 @@ package com.rbkmoney.threeds.server.visa;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
-import com.rbkmoney.threeds.server.domain.*;
 import com.rbkmoney.threeds.server.domain.account.*;
 import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptionsWrapper;
 import com.rbkmoney.threeds.server.domain.message.MessageExtension;
@@ -26,6 +25,7 @@ import com.rbkmoney.threeds.server.service.SenderService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -57,6 +57,7 @@ import java.util.*;
         },
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
+@Ignore
 public abstract class VisaIntegrationConfig {
 
     @Autowired
