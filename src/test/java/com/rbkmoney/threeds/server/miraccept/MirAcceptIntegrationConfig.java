@@ -23,33 +23,36 @@ import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.serialization.TemporalAccessorWrapper;
 import com.rbkmoney.threeds.server.service.SenderService;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
         classes = {ThreeDsServerApplication.class, TestConfig.class},
         properties = {
-                "environment.ds-url=https://ds.vendorcert.mirconnect.ru:8443/ds/DServer",
                 "client.ssl.trust-store=classpath:3ds_server_pki/mir2.p12",
                 "client.ssl.trust-store-password=vYOAkEF7V4UHLfMn",
+                "environment.ds-url=https://ds.vendorcert.mirconnect.ru:8443/ds/DServer",
                 "environment.three-ds-server-ref-number=2200040105",
-                "three-ds-server-url=https://nspk.3ds.rbk.money",
+                "environment.three-ds-server-url=https://nspk.3ds.rbk.money/ds",
                 "logging.level.org.apache.http=debug",
         },
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
@@ -78,6 +81,97 @@ public abstract class MirAcceptIntegrationConfig {
     protected static final String MERCHANT_COUNTRY_CODE = "643";
     protected static final String PURCHASE_CURRENCY = "643";
     protected static final String MESSAGE_VERSION = "2.1.0";
+
+    protected CRes sendAs3dsClientTypeBRW(PArs pArs) {
+        CReq cReq = CReq.builder()
+                .acsTransID(pArs.getAcsTransID())
+                .challengeWindowSize("05")
+                .messageVersion(pArs.getMessageVersion())
+                .threeDSServerTransID(pArs.getThreeDSServerTransID())
+                .build();
+
+        try {
+            byte[] bytesCReq = objectMapper.writeValueAsBytes(cReq);
+
+            String encodeCReq = Base64.getEncoder().encodeToString(bytesCReq);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+            map.add("creq", encodeCReq);
+
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+            ResponseEntity<String> response = restTemplate.postForEntity(pArs.getAcsURL(), request, String.class);
+
+            String html = response.getBody();
+            Document document = Jsoup.parse(html);
+            Element element = document.select("form[name=form]").first();
+            String urlSubmit = element.attr("action");
+
+            headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+            map = new LinkedMultiValueMap<>();
+            map.add("password", "1qwezxc");
+            map.add("submit", "Submit");
+
+            request = new HttpEntity<>(map, headers);
+
+            response = restTemplate.postForEntity(urlSubmit, request, String.class);
+
+            html = response.getBody();
+            document = Jsoup.parse(html);
+            element = document.select("input[name=cres]").first();
+            String decodeCRes = element.attr("value");
+
+            byte[] byteCRes = Base64.getDecoder().decode(decodeCRes);
+
+            return objectMapper.readValue(byteCRes, CRes.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected CRes sendSetUpAs3dsClientTypeAPP(PArs pArs) {
+        CReq cReq = CReq.builder()
+                .acsTransID(pArs.getAcsTransID())
+                .messageVersion("2.1.0")
+                .sdkTransID(pArs.getSdkTransID())
+                .threeDSServerTransID(pArs.getThreeDSServerTransID())
+                .sdkCounterStoA("001")
+                .build();
+
+        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
+    }
+
+    protected CRes sendAs3dsClientTypeAPP(PArs pArs) {
+        CReq cReq = CReq.builder()
+                .acsTransID(pArs.getAcsTransID())
+                .messageVersion("2.1.0")
+                .sdkTransID(pArs.getSdkTransID())
+                .threeDSServerTransID(pArs.getThreeDSServerTransID())
+                .sdkCounterStoA("002")
+                .challengeDataEntry(randomString())
+                .build();
+
+        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
+    }
+
+    protected CRes sendHTMLAs3dsClientTypeAPP(PArs pArs) {
+        CReq cReq = CReq.builder()
+                .acsTransID(pArs.getAcsTransID())
+                .messageVersion("2.1.0")
+                .sdkTransID(pArs.getSdkTransID())
+                .threeDSServerTransID(pArs.getThreeDSServerTransID())
+                .sdkCounterStoA("002")
+                .challengeCancel("01")
+                .challengeHTMLDataEntry(randomString())
+                .build();
+
+        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
+    }
 
     protected void fullFilling(PArq pArq) {
         pArq.setAcctType(getEnumWrapper(AccountType.DEBIT));
@@ -146,67 +240,6 @@ public abstract class MirAcceptIntegrationConfig {
         pArq.getThreeDSRequestorAuthenticationInfo().setThreeDSReqAuthData(randomString());
         pArq.setThreeDSRequestorChallengeInd(getEnumWrapper(ThreeDSRequestorChallengeInd.CHALLENGE_REQUESTED_MANDATE));
         pArq.setThreeDSRequestorPriorAuthenticationInfo(new ThreeDSRequestorPriorAuthenticationInfoWrapper());
-    }
-
-    protected CRes sendAs3dsClientTypeBRW(PArs pArs) {
-        CReq cReq = CReq.builder()
-                .acsTransID(pArs.getAcsTransID())
-                .challengeWindowSize("05")
-                .messageVersion(pArs.getMessageVersion())
-                .threeDSServerTransID(pArs.getThreeDSServerTransID())
-                .build();
-
-        try {
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-            HttpEntity<String> httpEntity = new HttpEntity<>(objectMapper.writeValueAsString(cReq), httpHeaders);
-
-            String body = restTemplate.postForEntity(pArs.getAcsURL(), httpEntity, String.class).getBody();
-
-            return objectMapper.readValue(body, CRes.class);
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    protected CRes sendSetUpAs3dsClientTypeAPP(PArs pArs) {
-        CReq cReq = CReq.builder()
-                .acsTransID(pArs.getAcsTransID())
-                .messageVersion("2.1.0")
-                .sdkTransID(pArs.getSdkTransID())
-                .threeDSServerTransID(pArs.getThreeDSServerTransID())
-                .sdkCounterStoA("001")
-                .build();
-
-        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
-    }
-
-    protected CRes sendAs3dsClientTypeAPP(PArs pArs) {
-        CReq cReq = CReq.builder()
-                .acsTransID(pArs.getAcsTransID())
-                .messageVersion("2.1.0")
-                .sdkTransID(pArs.getSdkTransID())
-                .threeDSServerTransID(pArs.getThreeDSServerTransID())
-                .sdkCounterStoA("002")
-                .challengeDataEntry(randomString())
-                .build();
-
-        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
-    }
-
-    protected CRes sendHTMLAs3dsClientTypeAPP(PArs pArs) {
-        CReq cReq = CReq.builder()
-                .acsTransID(pArs.getAcsTransID())
-                .messageVersion("2.1.0")
-                .sdkTransID(pArs.getSdkTransID())
-                .threeDSServerTransID(pArs.getThreeDSServerTransID())
-                .sdkCounterStoA("002")
-                .challengeCancel("01")
-                .challengeHTMLDataEntry(randomString())
-                .build();
-
-        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
     }
 
     protected <T extends Valuable> EnumWrapper<T> getEnumWrapper(T value) {
