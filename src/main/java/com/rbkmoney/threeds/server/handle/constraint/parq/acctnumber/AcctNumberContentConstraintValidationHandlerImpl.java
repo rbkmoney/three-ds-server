@@ -1,7 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.parq.acctnumber;
 
 import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
-import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
@@ -34,11 +33,7 @@ public class AcctNumberContentConstraintValidationHandlerImpl implements PArqCon
             return validationResult;
         }
 
-        String tag = providerHolder.getProvider() == DirectoryServerProvider.TEST
-                ? o.getXULTestCaseRunId()
-                : providerHolder.getProvider().getTag();
-
-        if (!cacheService.isInCardRange(tag, acctNumber)) {
+        if (!cacheService.isInCardRange(providerHolder.getTag(o), acctNumber)) {
             return ConstraintValidationResult.failure(OUT_OF_CARD_RANGE, "acctNumber");
         }
 
