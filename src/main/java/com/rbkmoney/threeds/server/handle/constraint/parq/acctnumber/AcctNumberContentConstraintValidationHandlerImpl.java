@@ -1,10 +1,11 @@
 package com.rbkmoney.threeds.server.handle.constraint.parq.acctnumber;
 
+import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
-import com.rbkmoney.threeds.server.service.CacheService;
+import com.rbkmoney.threeds.server.service.cache.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.OUT_OF_CARD_RANGE;
 @RequiredArgsConstructor
 public class AcctNumberContentConstraintValidationHandlerImpl implements PArqConstraintValidationHandler {
 
+    private final DirectoryServerProviderHolder providerHolder;
     private final StringValidator stringValidator;
     private final CacheService cacheService;
 
@@ -31,7 +33,7 @@ public class AcctNumberContentConstraintValidationHandlerImpl implements PArqCon
             return validationResult;
         }
 
-        if (!cacheService.isInCardRange(o.getXULTestCaseRunId(), acctNumber)) {
+        if (!cacheService.isInCardRange(providerHolder.getTag(o), acctNumber)) {
             return ConstraintValidationResult.failure(OUT_OF_CARD_RANGE, "acctNumber");
         }
 

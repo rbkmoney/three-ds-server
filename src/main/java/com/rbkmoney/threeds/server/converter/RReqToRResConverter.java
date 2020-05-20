@@ -6,7 +6,6 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.RReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.RRes;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.core.convert.converter.Converter;
@@ -18,8 +17,6 @@ import static com.rbkmoney.threeds.server.utils.WrapperUtil.getListWrapperValue;
 @Component
 @RequiredArgsConstructor
 public class RReqToRResConverter implements Converter<ValidationResult, Message> {
-
-    private final CacheService cacheService;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -34,8 +31,6 @@ public class RReqToRResConverter implements Converter<ValidationResult, Message>
                 .sdkTransID(rReq.getSdkTransID())
                 .build();
         rRes.setMessageVersion(rReq.getMessageVersion());
-
-        cacheService.clearRReqTransactionInfo(rReq.getThreeDSServerTransID());
 
         return rRes;
     }

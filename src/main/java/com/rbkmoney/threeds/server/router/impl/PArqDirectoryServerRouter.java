@@ -4,7 +4,7 @@ import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.exeption.DirectoryServerRoutingException;
-import com.rbkmoney.threeds.server.service.CacheService;
+import com.rbkmoney.threeds.server.service.cache.CacheService;
 import com.rbkmoney.threeds.server.router.DirectoryServerRouter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

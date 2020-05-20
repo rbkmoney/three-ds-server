@@ -27,6 +27,7 @@
         <dockerfile.base.service.tag>bc95d0d6dc13c693acd2b274531a7d604b877bf3</dockerfile.base.service.tag>
         <shared.resources.version>0.3.6</shared.resources.version>
         <dockerfile.registry>${env.REGISTRY}</dockerfile.registry>
+        <three-ds-server-storage-proto.version>1.5-e31a66c</three-ds-server-storage-proto.version>
     </properties>
 
     <dependencies>
@@ -54,7 +55,12 @@
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>three-ds-server-domain-lib</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rbkmoney</groupId>
+            <artifactId>three-ds-server-storage-proto</artifactId>
+            <version>${three-ds-server-storage-proto.version}</version>
         </dependency>
 
         <!--spring-->
@@ -75,6 +81,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
         </dependency>
 
         <!--third party-->
@@ -103,6 +113,11 @@
             <artifactId>commons-validator</artifactId>
             <version>1.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>2.8.2</version>
+        </dependency>
 
         <!--test-->
         <dependency>
@@ -119,6 +134,12 @@
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock</artifactId>
             <version>2.19.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.16.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

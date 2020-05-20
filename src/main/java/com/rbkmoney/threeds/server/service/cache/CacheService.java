@@ -1,4 +1,4 @@
-package com.rbkmoney.threeds.server.service;
+package com.rbkmoney.threeds.server.service.cache;
 
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
@@ -22,7 +22,4 @@ public interface CacheService {
     void saveRReqTransactionInfo(String threeDSServerTransID, RReqTransactionInfo rReqTransactionInfo);
 
     RReqTransactionInfo getRReqTransactionInfo(String threeDSServerTransID);
-
-    void clearRReqTransactionInfo(String threeDSServerTransID);
-
 }

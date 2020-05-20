@@ -3,6 +3,7 @@ package com.rbkmoney.threeds.server.config;
 import com.rbkmoney.threeds.server.client.DsClient;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
+import com.rbkmoney.threeds.server.domain.root.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -67,5 +68,12 @@ public class DirectoryServerProviderHolder {
     public void setProvider(DirectoryServerProvider provider) {
         log.debug("Set provider={}", provider);
         this.provider = provider;
+    }
+
+    public String getTag(Message message) {
+        return provider == DirectoryServerProvider.TEST
+                ? message.getXULTestCaseRunId()
+                : provider.getTag();
+
     }
 }

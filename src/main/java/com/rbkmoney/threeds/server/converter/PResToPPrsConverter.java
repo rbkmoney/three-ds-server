@@ -11,16 +11,16 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PPrs;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
-import com.rbkmoney.threeds.server.service.CacheService;
+import com.rbkmoney.threeds.server.service.cache.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static com.rbkmoney.threeds.server.utils.WrapperUtil.getListWrapperValue;
+import static java.util.Collections.emptyList;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
@@ -35,12 +35,11 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
         PRes pRes = (PRes) validationResult.getMessage();
         List<CardRange> cardRangeData = Optional.ofNullable(pRes.getCardRangeData())
                 .map(ListWrapper::getValue)
-                .orElse(Collections.emptyList());
+                .orElse(emptyList());
 
         if (((PReq) pRes.getRequestMessage()).getSerialNum() == null) {
             cardRangeData.forEach(
-                    cardRange -> cardRange.setActionInd(getActionIndEnumWrapper())
-            );
+                    cardRange -> cardRange.setActionInd(getActionIndEnumWrapper()));
         }
 
         if (pRes.getSerialNum() != null) {
@@ -54,6 +53,7 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
                 .messageExtension(getListWrapperValue(pRes.getMessageExtension()))
                 .build();
         pPrs.setMessageVersion(pRes.getMessageVersion());
+
         return pPrs;
     }
 
@@ -68,6 +68,7 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
     private EnumWrapper<ActionInd> getActionIndEnumWrapper() {
         EnumWrapper<ActionInd> wrapper = new EnumWrapper<>();
         wrapper.setValue(ActionInd.ADD_CARD_RANGE_TO_CACHE);
+
         return wrapper;
     }
 }
