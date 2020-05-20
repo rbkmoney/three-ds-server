@@ -1,4 +1,4 @@
-package com.rbkmoney.threeds.server.converter;
+package com.rbkmoney.threeds.server.converter.thrift;
 
 import com.rbkmoney.threeds.server.domain.CardRange;
 import org.springframework.stereotype.Service;
