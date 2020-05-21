@@ -7,9 +7,9 @@ import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
 
-public class PResToRBKMoneyPreparationFlowResponseHandlerImpl extends ResponseHandlerImpl {
+public class PResToRBKMoneyPreparationResponseHandlerImpl extends ResponseHandlerImpl {
 
-    public PResToRBKMoneyPreparationFlowResponseHandlerImpl(
+    public PResToRBKMoneyPreparationResponseHandlerImpl(
             Processor<ValidationResult, Message> processor,
             MessageValidatorService validator,
             DirectoryServerProviderHolder providerHolder) {

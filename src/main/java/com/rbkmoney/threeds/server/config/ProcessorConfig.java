@@ -83,6 +83,13 @@ public class ProcessorConfig {
         return getValidationResultMessageProcessor(converter, errorConverter);
     }
 
+    @Bean
+    public Processor<ValidationResult, Message> pResToRBKMoneyPreparationResponseProcessorChain(
+            PResToRBKMoneyPreparationResponseConverter converter,
+            MessageToErrorResConverter errorConverter) {
+        return getValidationResultMessageProcessor(converter, errorConverter);
+    }
+
     private Processor<ValidationResult, Message> getValidationResultMessageProcessor(
             Converter<ValidationResult, Message> converter,
             MessageToErrorResConverter errorConverter) {

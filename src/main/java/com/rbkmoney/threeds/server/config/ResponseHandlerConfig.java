@@ -46,6 +46,17 @@ public class ResponseHandlerConfig {
     }
 
     @Bean
+    public ResponseHandler pResToRBKMoneyPreparationResponseHandler(
+            Processor<ValidationResult, Message> pResToRBKMoneyPreparationResponseProcessorChain,
+            MessageValidatorService validator,
+            DirectoryServerProviderHolder providerHolder) {
+        return new PResToRBKMoneyPreparationResponseHandlerImpl(
+                pResToRBKMoneyPreparationResponseProcessorChain,
+                validator,
+                providerHolder);
+    }
+
+    @Bean
     public ResponseHandler unsupportedMessageTypeResponseHandler(
             MessageToErrorResConverter errorConverter,
             DirectoryServerProviderHolder providerHolder) {
