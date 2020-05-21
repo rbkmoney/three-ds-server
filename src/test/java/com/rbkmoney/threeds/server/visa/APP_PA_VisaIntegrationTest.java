@@ -11,6 +11,10 @@ import com.rbkmoney.threeds.server.domain.unwrapped.Address;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
+import org.jose4j.jwe.ContentEncryptionAlgorithmIdentifiers;
+import org.jose4j.jwe.JsonWebEncryption;
+import org.jose4j.jwe.KeyManagementAlgorithmIdentifiers;
+import org.jose4j.jwx.HeaderParameterNames;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -256,5 +260,17 @@ public class APP_PA_VisaIntegrationTest extends VisaIntegrationConfig {
         pArq.setShippingAddress(new Address());
         fullFilling(pArq);
         return pArq;
+    }
+
+    private String asd() {
+        String deviceInfoJson = randomDeviceInfoJson();
+        JsonWebEncryption jwe = new JsonWebEncryption();
+        jwe.setHeader(HeaderParameterNames.CONTENT_TYPE, "JWT");
+        jwe.setKey(keyEncrypt.getPublicKey());
+        jwe.setPayload(signedJwt);
+        jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.RSA_OAEP_256);
+        jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_256_GCM);
+        String encryptedJwt = jwe.getCompactSerialization();
+        System.out.println("Encrypted ::" + encryptedJwt);
     }
 }

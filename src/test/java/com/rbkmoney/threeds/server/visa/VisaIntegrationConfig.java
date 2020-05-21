@@ -277,6 +277,10 @@ public abstract class VisaIntegrationConfig {
         return randomString(10);
     }
 
+    protected String randomDeviceInfoJson() {
+        return "{\"DV\":\"1.0\",\"DD\":{\"C001\":\"iOS\",\"C002\":\"iPhone 5c\",\"C003\":\" iPhone OS \",\"C004\":\"9.2\",\"C005\":\"enUS\",\"C006\":\"GMT-6\",\"C009\":\"John's iPhone\"},\" DPNA\":{\"C010\":\"RE01\",\"C011\":\"RE03\"},\"SW\":[\"SW01\",\"SW04\"]}";
+    }
+
     protected String randomString(int length) {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
