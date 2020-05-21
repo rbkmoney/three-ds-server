@@ -14,61 +14,78 @@ import org.springframework.core.convert.converter.Converter;
 public class ProcessorConfig {
 
     @Bean
-    public Processor<ValidationResult, Message> aResToPArsProcessorChain(AResToPArsConverter converter,
-                                                                         MessageToErrorResConverter errorConverter) {
+    public Processor<ValidationResult, Message> aResToPArsProcessorChain(
+            AResToPArsConverter converter,
+            MessageToErrorResConverter errorConverter) {
         return getValidationResultMessageProcessor(converter, errorConverter);
     }
 
     @Bean
-    public Processor<ValidationResult, Message> dummyProcessorChain(DummyConverter converter,
-                                                                    MessageToErrorResConverter errorConverter) {
+    public Processor<ValidationResult, Message> dummyProcessorChain(
+            DummyConverter converter,
+            MessageToErrorResConverter errorConverter) {
         return getValidationResultMessageProcessor(converter, errorConverter);
     }
 
     @Bean
-    public Processor<ValidationResult, Message> erroWrapperToErroProcessorChain(ErroWrapperToErroConverter converter,
-                                                                                MessageToErrorResConverter errorConverter) {
+    public Processor<ValidationResult, Message> erroWrapperToErroProcessorChain(
+            ErroWrapperToErroConverter converter,
+            MessageToErrorResConverter errorConverter) {
         return getValidationResultMessageProcessor(converter, errorConverter);
     }
 
     @Bean
-    public Processor<ValidationResult, Message> pArqToAReqProcessorChain(PArqToAReqConverter converter,
-                                                                         MessageToErrorResConverter errorConverter) {
+    public Processor<ValidationResult, Message> pArqToAReqProcessorChain(
+            PArqToAReqConverter converter,
+            MessageToErrorResConverter errorConverter) {
         return getValidationResultMessageProcessor(converter, errorConverter);
     }
 
     @Bean
-    public Processor<ValidationResult, Message> pGcqToPGcsProcessorChain(PGcqToPGcsConverter converter,
-                                                                         MessageToErrorResConverter errorConverter) {
+    public Processor<ValidationResult, Message> pGcqToPGcsProcessorChain(
+            PGcqToPGcsConverter converter,
+            MessageToErrorResConverter errorConverter) {
         return getValidationResultMessageProcessor(converter, errorConverter);
     }
 
     @Bean
-    public Processor<ValidationResult, Message> pPrqToPReqProcessorChain(PPrqToPReqConverter converter,
-                                                                         MessageToErrorResConverter errorConverter) {
+    public Processor<ValidationResult, Message> pPrqToPReqProcessorChain(
+            PPrqToPReqConverter converter,
+            MessageToErrorResConverter errorConverter) {
         return getValidationResultMessageProcessor(converter, errorConverter);
     }
 
     @Bean
-    public Processor<ValidationResult, Message> pResToPPrsProcessorChain(PResToPPrsConverter converter,
-                                                                         MessageToErrorResConverter errorConverter) {
+    public Processor<ValidationResult, Message> pResToPPrsProcessorChain(
+            PResToPPrsConverter converter,
+            MessageToErrorResConverter errorConverter) {
         return getValidationResultMessageProcessor(converter, errorConverter);
     }
 
     @Bean
-    public Processor<ValidationResult, Message> rReqToRResProcessorChain(RReqToRResConverter converter,
-                                                                         MessageToErrorResConverter errorConverter) {
+    public Processor<ValidationResult, Message> rReqToRResProcessorChain(
+            RReqToRResConverter converter,
+            MessageToErrorResConverter errorConverter) {
         return getValidationResultMessageProcessor(converter, errorConverter);
     }
 
     @Bean
-    public Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain(PReqToFixedPReqConverter converter,
-                                                                              MessageToErrorResConverter errorConverter) {
+    public Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain(
+            PReqToFixedPReqConverter converter,
+            MessageToErrorResConverter errorConverter) {
         return getValidationResultMessageProcessor(converter, errorConverter);
     }
 
-    private Processor<ValidationResult, Message> getValidationResultMessageProcessor(Converter<ValidationResult, Message> converter,
-                                                                                     MessageToErrorResConverter errorConverter) {
+    @Bean
+    public Processor<ValidationResult, Message> rbkMoneyPreparationRequestToPReqProcessorChain(
+            RBKMoneyPreparationRequestToPReqConverter converter,
+            MessageToErrorResConverter errorConverter) {
+        return getValidationResultMessageProcessor(converter, errorConverter);
+    }
+
+    private Processor<ValidationResult, Message> getValidationResultMessageProcessor(
+            Converter<ValidationResult, Message> converter,
+            MessageToErrorResConverter errorConverter) {
         Processor<ValidationResult, Message> validProcessor = new ValidProcessorImpl(null, converter);
         return new ErrorProcessorImpl(validProcessor, errorConverter);
     }

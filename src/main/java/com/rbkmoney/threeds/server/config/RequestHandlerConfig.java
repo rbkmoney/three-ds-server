@@ -7,6 +7,7 @@ import com.rbkmoney.threeds.server.handle.RequestHandler;
 import com.rbkmoney.threeds.server.handle.impl.*;
 import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.router.impl.PArqDirectoryServerRouter;
+import com.rbkmoney.threeds.server.router.impl.RBKMoneyPreparationRequestDirectoryServerRouter;
 import com.rbkmoney.threeds.server.router.impl.TestDirectoryServerRouter;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
 import org.springframework.context.annotation.Bean;
@@ -31,12 +32,12 @@ public class RequestHandlerConfig {
     @Bean
     public RequestHandler pGcqToPGcsHandler(
             DirectoryServerProviderHolder providerHolder,
-            TestDirectoryServerRouter testDirectoryServerProvider,
+            TestDirectoryServerRouter testDirectoryServerRouter,
             Processor<ValidationResult, Message> pGcqToPGcsProcessorChain,
             MessageValidatorService validator) {
         return new PGcqToPGcsHandlerImpl(
                 providerHolder,
-                testDirectoryServerProvider,
+                testDirectoryServerRouter,
                 pGcqToPGcsProcessorChain,
                 validator);
     }
@@ -44,12 +45,12 @@ public class RequestHandlerConfig {
     @Bean
     public RequestHandler pPrqToPReqHandler(
             DirectoryServerProviderHolder providerHolder,
-            TestDirectoryServerRouter testDirectoryServerProvider,
+            TestDirectoryServerRouter testDirectoryServerRouter,
             Processor<ValidationResult, Message> pPrqToPReqProcessorChain,
             MessageValidatorService validator) {
         return new PPrqToPReqHandlerImpl(
                 providerHolder,
-                testDirectoryServerProvider,
+                testDirectoryServerRouter,
                 pPrqToPReqProcessorChain,
                 validator);
     }
@@ -59,6 +60,19 @@ public class RequestHandlerConfig {
             Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain,
             MessageValidatorService validator) {
         return new PReqToFixedPReqHandlerImpl(pReqToFixedPReqProcessorChain, validator);
+    }
+
+    @Bean
+    public RequestHandler rbkMoneyPreparationRequestToPReqHandler(
+            DirectoryServerProviderHolder providerHolder,
+            RBKMoneyPreparationRequestDirectoryServerRouter rbkMoneyPreparationRequestDirectoryServerRouter,
+            Processor<ValidationResult, Message> rbkMoneyPreparationRequestToPReqProcessorChain,
+            MessageValidatorService validator) {
+        return new RBKMoneyPreparationRequestToPReqHandlerImpl(
+                providerHolder,
+                rbkMoneyPreparationRequestDirectoryServerRouter,
+                rbkMoneyPreparationRequestToPReqProcessorChain,
+                validator);
     }
 
     @Bean

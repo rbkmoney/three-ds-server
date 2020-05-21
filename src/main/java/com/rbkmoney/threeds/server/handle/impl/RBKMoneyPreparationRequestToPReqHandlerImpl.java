@@ -9,12 +9,12 @@ import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.router.DirectoryServerRouter;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
 
-public class RBKMoneyPreparationRequestHandlerImpl extends RequestHandlerImpl {
+public class RBKMoneyPreparationRequestToPReqHandlerImpl extends RequestHandlerImpl {
 
     private final DirectoryServerProviderHolder providerHolder;
     private final DirectoryServerRouter directoryServerRouter;
 
-    public RBKMoneyPreparationRequestHandlerImpl(
+    public RBKMoneyPreparationRequestToPReqHandlerImpl(
             DirectoryServerProviderHolder providerHolder,
             DirectoryServerRouter directoryServerRouter,
             Processor<ValidationResult, Message> processor,
