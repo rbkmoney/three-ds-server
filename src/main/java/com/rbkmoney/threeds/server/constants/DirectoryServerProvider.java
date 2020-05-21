@@ -14,12 +14,12 @@ public enum DirectoryServerProvider {
     TEST("test");
 
     @Getter
-    private final String tag;
+    private final String providerId;
 
-    public static DirectoryServerProvider of(String tag) {
+    public static DirectoryServerProvider of(String providerId) {
         return stream(DirectoryServerProvider.values())
-                .filter(p -> p.getTag().equals(tag))
+                .filter(p -> p.getProviderId().equals(providerId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Unknown tag: " + tag));
+                .orElseThrow(() -> new IllegalArgumentException("Unknown providerId: " + providerId));
     }
 }

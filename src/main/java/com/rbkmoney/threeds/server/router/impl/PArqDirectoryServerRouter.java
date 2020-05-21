@@ -28,7 +28,7 @@ public class PArqDirectoryServerRouter implements DirectoryServerRouter {
         String acctNumber = pArq.getAcctNumber();
 
         return stream(DirectoryServerProvider.values())
-                .filter(provider -> cacheService.isInCardRange(provider.getTag(), acctNumber))
+                .filter(provider -> cacheService.isInCardRange(provider.getProviderId(), acctNumber))
                 .findFirst()
                 .orElseThrow(() -> new DirectoryServerRoutingException("Unable to route pArq message with id=" + pArq.getThreeDSServerTransID()));
     }
