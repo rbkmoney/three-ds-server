@@ -79,3 +79,4 @@ env.list
 
 # keys & certs
 src/main/resources/3ds_server_pki/
+*.DS_Store
