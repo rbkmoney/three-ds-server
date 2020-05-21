@@ -57,7 +57,7 @@ public class RequestHandlerConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "preparation-flow", havingValue = "TEST_PLATFORM")
+    @ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "TEST_PLATFORM")
     public RequestHandler pReqToFixedPReqHandler(
             Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain,
             MessageValidatorService validator) {
@@ -65,7 +65,7 @@ public class RequestHandlerConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "preparation-flow", havingValue = "RBK_MONEY")
+    @ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "RBK_MONEY")
     public RequestHandler rbkMoneyPreparationRequestToPReqHandler(
             DirectoryServerProviderHolder providerHolder,
             RBKMoneyPreparationRequestDirectoryServerRouter rbkMoneyPreparationRequestDirectoryServerRouter,

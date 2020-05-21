@@ -75,4 +75,10 @@ environment:
     three-ds-server-ref-number: "test"
     three-ds-server-network-timeout: 10000
 
-preparation-flow: TEST_PLATFORM # RBK_MONEY|TEST_PLATFORM
+preparation-flow:
+  mode: TEST_PLATFORM # RBK_MONEY|TEST_PLATFORM
+  on-startup:
+    enabled: false
+  on-schedule:
+    enabled: false
+    cron: "-"

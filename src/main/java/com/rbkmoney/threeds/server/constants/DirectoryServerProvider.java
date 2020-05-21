@@ -14,11 +14,11 @@ public enum DirectoryServerProvider {
     TEST("test");
 
     @Getter
-    private final String providerId;
+    private final String id;
 
     public static DirectoryServerProvider of(String providerId) {
         return stream(DirectoryServerProvider.values())
-                .filter(p -> p.getProviderId().equals(providerId))
+                .filter(p -> p.getId().equals(providerId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown providerId: " + providerId));
     }

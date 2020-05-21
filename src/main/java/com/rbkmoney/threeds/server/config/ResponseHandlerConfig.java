@@ -39,7 +39,7 @@ public class ResponseHandlerConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "preparation-flow", havingValue = "TEST_PLATFORM")
+    @ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "TEST_PLATFORM")
     public ResponseHandler pResToPPrsHandler(
             Processor<ValidationResult, Message> pResToPPrsProcessorChain,
             MessageValidatorService validator,
@@ -48,7 +48,7 @@ public class ResponseHandlerConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "preparation-flow", havingValue = "RBK_MONEY")
+    @ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "RBK_MONEY")
     public ResponseHandler pResToRBKMoneyPreparationResponseHandler(
             Processor<ValidationResult, Message> pResToRBKMoneyPreparationResponseProcessorChain,
             MessageValidatorService validator,
