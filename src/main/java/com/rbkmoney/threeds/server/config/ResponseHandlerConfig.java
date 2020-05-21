@@ -7,6 +7,7 @@ import com.rbkmoney.threeds.server.handle.ResponseHandler;
 import com.rbkmoney.threeds.server.handle.impl.*;
 import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -38,6 +39,7 @@ public class ResponseHandlerConfig {
     }
 
     @Bean
+    @ConditionalOnProperty(name = "preparation-flow", havingValue = "TEST_PLATFORM")
     public ResponseHandler pResToPPrsHandler(
             Processor<ValidationResult, Message> pResToPPrsProcessorChain,
             MessageValidatorService validator,
@@ -46,6 +48,7 @@ public class ResponseHandlerConfig {
     }
 
     @Bean
+    @ConditionalOnProperty(name = "preparation-flow", havingValue = "RBK_MONEY")
     public ResponseHandler pResToRBKMoneyPreparationResponseHandler(
             Processor<ValidationResult, Message> pResToRBKMoneyPreparationResponseProcessorChain,
             MessageValidatorService validator,

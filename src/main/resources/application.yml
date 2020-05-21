@@ -74,3 +74,5 @@ environment:
     three-ds-server-url: "https://3ds.rbk.money/ds"
     three-ds-server-ref-number: "test"
     three-ds-server-network-timeout: 10000
+
+preparation-flow: TEST_PLATFORM # RBK_MONEY|TEST_PLATFORM

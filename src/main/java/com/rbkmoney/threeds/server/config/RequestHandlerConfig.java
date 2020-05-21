@@ -10,6 +10,7 @@ import com.rbkmoney.threeds.server.router.impl.PArqDirectoryServerRouter;
 import com.rbkmoney.threeds.server.router.impl.RBKMoneyPreparationRequestDirectoryServerRouter;
 import com.rbkmoney.threeds.server.router.impl.TestDirectoryServerRouter;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -56,6 +57,7 @@ public class RequestHandlerConfig {
     }
 
     @Bean
+    @ConditionalOnProperty(name = "preparation-flow", havingValue = "TEST_PLATFORM")
     public RequestHandler pReqToFixedPReqHandler(
             Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain,
             MessageValidatorService validator) {
@@ -63,6 +65,7 @@ public class RequestHandlerConfig {
     }
 
     @Bean
+    @ConditionalOnProperty(name = "preparation-flow", havingValue = "RBK_MONEY")
     public RequestHandler rbkMoneyPreparationRequestToPReqHandler(
             DirectoryServerProviderHolder providerHolder,
             RBKMoneyPreparationRequestDirectoryServerRouter rbkMoneyPreparationRequestDirectoryServerRouter,
