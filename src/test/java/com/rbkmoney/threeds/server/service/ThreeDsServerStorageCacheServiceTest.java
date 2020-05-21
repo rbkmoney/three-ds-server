@@ -116,6 +116,4 @@ public class ThreeDsServerStorageCacheServiceTest {
         // Then
         assertFalse(isInCardRange);
     }
-
-    // TODO [a.romanov]: provide tests for update CardRanges flow
 }

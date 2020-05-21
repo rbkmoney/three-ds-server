@@ -1,0 +1,93 @@
+{
+  "messageType": "RBKMONEY_PREPARATION_RESPONSE",
+  "providerId": "visa",
+  "serialNum": "20190411083623719000",
+  "addedCardRanges": [
+    {
+      "startRange": "6543200100000",
+      "endRange": "6543200199999"
+    },
+    {
+      "startRange": "65432102000000",
+      "endRange": "65432102999999"
+    },
+    {
+      "startRange": "7654310400000000",
+      "endRange": "7654310499999999"
+    },
+    {
+      "startRange": "7654340600000000",
+      "endRange": "7654340699999999"
+    },
+    {
+      "startRange": "7654350700000000",
+      "endRange": "7654350799999999"
+    },
+    {
+      "startRange": "7654360800000000",
+      "endRange": "7654360899999999"
+    },
+    {
+      "startRange": "7654370900000000",
+      "endRange": "7654370999999999"
+    },
+    {
+      "startRange": "7654381000000000",
+      "endRange": "7654381099999999"
+    },
+    {
+      "startRange": "7654391100000000",
+      "endRange": "7654391199999999"
+    },
+    {
+      "startRange": "8765411200000000",
+      "endRange": "8765411299999999"
+    },
+    {
+      "startRange": "8765431400000000",
+      "endRange": "8765431499999999"
+    },
+    {
+      "startRange": "8765441500000000",
+      "endRange": "8765441599999999"
+    },
+    {
+      "startRange": "8765451600000000",
+      "endRange": "8765451699999999"
+    },
+    {
+      "startRange": "8765461700000000",
+      "endRange": "8765461799999999"
+    },
+    {
+      "startRange": "8765471800000000",
+      "endRange": "8765471899999999"
+    },
+    {
+      "startRange": "8765481900000000",
+      "endRange": "8765481999999999"
+    },
+    {
+      "startRange": "8765492000000000",
+      "endRange": "8765492099999999"
+    },
+    {
+      "startRange": "1876542400000000000",
+      "endRange": "1876542499999999999"
+    },
+    {
+      "startRange": "8765422500000000",
+      "endRange": "8765422599999999"
+    },
+    {
+      "startRange": "9876512600000000",
+      "endRange": "9876512699999999"
+    },
+    {
+      "startRange": "765430270000000",
+      "endRange": "765430279999999"
+    }
+  ],
+  "modifiedCardRanges": [],
+  "deletedCardRanges": []
+}
