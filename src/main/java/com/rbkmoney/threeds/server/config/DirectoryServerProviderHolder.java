@@ -73,7 +73,7 @@ public class DirectoryServerProviderHolder {
     public String getTag(Message message) {
         return provider == DirectoryServerProvider.TEST
                 ? message.getXULTestCaseRunId()
-                : provider.getTag();
+                : provider.getId();
 
     }
 }

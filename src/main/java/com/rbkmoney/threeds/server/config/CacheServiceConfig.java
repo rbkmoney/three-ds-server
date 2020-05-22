@@ -25,7 +25,7 @@ public class CacheServiceConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "storage.mode", havingValue = "REMOTE")
+    @ConditionalOnProperty(name = "storage.mode", havingValue = "EXTERNAL")
     public CacheService threeDsServerStorageCacheService(
             RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient,
             RReqTransactionInfoConverter rReqTransactionInfoConverter,

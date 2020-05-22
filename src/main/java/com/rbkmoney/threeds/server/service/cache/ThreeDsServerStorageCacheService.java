@@ -74,7 +74,7 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
 
     @Override
     public void updateCardRanges(String tag, List<CardRange> cardRanges) {
-        // TODO [a.romanov]: save to storage
+        throw new NotImplementedException("Method 'updateCardRanges' is not supposed to be called for this CacheService implementation!");
     }
 
     @Override

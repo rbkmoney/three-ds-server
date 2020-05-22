@@ -16,7 +16,6 @@ public abstract class AbstractCacheService implements CacheService {
     @Override
     public boolean isValidCardRange(String tag, CardRange cardRange) {
         ActionInd actionInd = getEnumWrapperValue(cardRange.getActionInd());
-        // TODO [a.romanov]: test case only?
         if (actionInd == null) {
             return true;
         }

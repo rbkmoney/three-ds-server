@@ -9,8 +9,12 @@ public class EnvironmentProperties {
     @Length(max = 2048)
     private String dsUrl;
     @Length(max = 2048)
+    private String threeDsRequestorUrl;
+    @Length(max = 2048)
     private String threeDsServerUrl;
     @Length(max = 32)
     private String threeDsServerRefNumber;
+    @Length(max = 32)
+    private String threeDsServerOperatorId;
     private int threeDsServerNetworkTimeout;
 }

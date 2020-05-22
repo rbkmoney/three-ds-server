@@ -62,6 +62,7 @@ public class InMemoryCacheService extends AbstractCacheService {
             switch (getEnumWrapperValue(cardRange.getActionInd())) {
                 case ADD_CARD_RANGE_TO_CACHE:
                     cachedCardRanges.add(cardRange);
+                    break;
                 case MODIFY_CARD_RANGE_DATA:
                     cachedCardRanges.remove(cardRange);
                     cachedCardRanges.add(cardRange);

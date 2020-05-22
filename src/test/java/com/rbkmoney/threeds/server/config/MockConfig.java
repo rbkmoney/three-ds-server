@@ -41,6 +41,21 @@ public class MockConfig {
     }
 
     @Bean
+    public DsClient visaDsClient(
+            RestTemplate testRestTemplate,
+            EnvironmentProperties testEnvironmentProperties,
+            MessageToErrorResConverter messageToErrorConverter,
+            ErrorCodeResolver errorCodeResolver,
+            ErrorMessageResolver errorMessageResolver) {
+        return new DsClientImpl(
+                testRestTemplate,
+                testEnvironmentProperties,
+                messageToErrorConverter,
+                errorCodeResolver,
+                errorMessageResolver);
+    }
+
+    @Bean
     public EnvironmentProperties testEnvironmentProperties() {
         EnvironmentProperties environmentProperties = mock(EnvironmentProperties.class);
 
