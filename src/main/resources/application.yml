@@ -56,23 +56,31 @@ environment:
     p-message-version: "1.0.5"
   visa:
     ds-url: "visa"
+    three-ds-requestor-url: "visa"
     three-ds-server-url: "https://3ds.rbk.money/ds"
     three-ds-server-ref-number: "visa"
+    three-ds-server-operator-id: "visa"
     three-ds-server-network-timeout: 10000
   mastercard:
     ds-url: "mastercard"
+    three-ds-requestor-url: "mastercard"
     three-ds-server-url: "https://3ds.rbk.money/ds"
     three-ds-server-ref-number: "mastercard"
+    three-ds-server-operator-id: "mastercard"
     three-ds-server-network-timeout: 10000
   mir:
     ds-url: "mir"
+    three-ds-requestor-url: "mir"
     three-ds-server-url: "https://3ds.rbk.money/ds"
     three-ds-server-ref-number: "mir"
+    three-ds-server-operator-id: "mir"
     three-ds-server-network-timeout: 10000
   test:
     ds-url: "test"
+    three-ds-requestor-url: "test"
     three-ds-server-url: "https://3ds.rbk.money/ds"
     three-ds-server-ref-number: "test"
+    three-ds-server-operator-id: "test"
     three-ds-server-network-timeout: 10000
 
 preparation-flow:
