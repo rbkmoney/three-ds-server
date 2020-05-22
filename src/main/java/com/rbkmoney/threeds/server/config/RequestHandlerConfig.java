@@ -44,6 +44,14 @@ public class RequestHandlerConfig {
     }
 
     @Bean
+    public RequestHandler pReqToFixedPReqHandler(
+            Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain,
+            MessageValidatorService validator) {
+        return new PReqToFixedPReqHandlerImpl(pReqToFixedPReqProcessorChain, validator);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "TEST_PLATFORM")
     public RequestHandler pPrqToPReqHandler(
             DirectoryServerProviderHolder providerHolder,
             TestDirectoryServerRouter testDirectoryServerRouter,
@@ -54,14 +62,6 @@ public class RequestHandlerConfig {
                 testDirectoryServerRouter,
                 pPrqToPReqProcessorChain,
                 validator);
-    }
-
-    @Bean
-    @ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "TEST_PLATFORM")
-    public RequestHandler pReqToFixedPReqHandler(
-            Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain,
-            MessageValidatorService validator) {
-        return new PReqToFixedPReqHandlerImpl(pReqToFixedPReqProcessorChain, validator);
     }
 
     @Bean
