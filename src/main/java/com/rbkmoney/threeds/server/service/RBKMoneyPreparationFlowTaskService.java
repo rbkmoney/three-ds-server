@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
 
 @Service
 @RequiredArgsConstructor
-public class RBKMoneyPreparationFlowService {
+public class RBKMoneyPreparationFlowTaskService {
 
     private final CardRangesStorageSrv.Iface cardRangesStorage;
 
