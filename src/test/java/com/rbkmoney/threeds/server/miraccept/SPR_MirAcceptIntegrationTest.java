@@ -125,7 +125,7 @@ public class SPR_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig {
                 .purchaseAmount(purchaseAmount)
                 .purchaseCurrency(PURCHASE_CURRENCY)
                 .purchaseDate(randomLocalDateTime())
-                .purchaseExponent(randomNumeric(1))
+                .purchaseExponent("2")
                 .threeDSCompInd(getEnumWrapper(ThreeDsMethodCompletionIndicator.SUCCESSFULLY_COMPLETED))
                 .threeDSRequestorAuthenticationInd(getEnumWrapper(ThreeDSRequestorAuthenticationInd.PAYMENT_TRANSACTION))
                 .threeDSRequestorID(THREE_DS_REQUESTOR_ID)

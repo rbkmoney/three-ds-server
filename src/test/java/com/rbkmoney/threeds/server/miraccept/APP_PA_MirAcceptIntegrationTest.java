@@ -226,7 +226,7 @@ public class APP_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
                 .purchaseAmount(purchaseAmount)
                 .purchaseCurrency(PURCHASE_CURRENCY)
                 .purchaseDate(randomLocalDateTime())
-                .purchaseExponent(randomNumeric(1))
+                .purchaseExponent("2")
                 .sdkAppID(randomId())
                 .sdkEncData(randomString())
                 .sdkEphemPubKey(getSdkEphemPubKey())

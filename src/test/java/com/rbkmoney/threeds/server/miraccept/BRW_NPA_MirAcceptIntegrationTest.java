@@ -49,7 +49,6 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL, pArs.getTransStatus());
         assertEquals("02", pArs.getEci());
-        assertNotNull(pArs.getAuthenticationValue());
     }
 
     @Test
@@ -133,7 +132,6 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL, pArs.getTransStatus());
         assertEquals("02", pArs.getEci());
-        assertNotNull(pArs.getAuthenticationValue());
     }
 
     @Test
@@ -173,7 +171,7 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
                 .cardExpiryDate(CARD_EXPIRY_DATE)
                 .deviceChannel(getEnumWrapper(DEVICE_CHANNEL))
                 .mcc(randomNumeric(4))
-                .merchantCountryCode(randomNumeric(3))
+                .merchantCountryCode("643")
                 .merchantName(randomString())
                 .messageCategory(getEnumWrapper(MESSAGE_CATEGORY))
                 .notificationURL(randomUrl())

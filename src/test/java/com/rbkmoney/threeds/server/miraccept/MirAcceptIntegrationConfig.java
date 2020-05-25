@@ -14,10 +14,7 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
 import com.rbkmoney.threeds.server.domain.ship.ShipAddressUsageInd;
 import com.rbkmoney.threeds.server.domain.ship.ShipIndicator;
 import com.rbkmoney.threeds.server.domain.ship.ShipNameIndicator;
-import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSReqAuthMethod;
-import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInfoWrapper;
-import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorChallengeInd;
-import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorPriorAuthenticationInfoWrapper;
+import com.rbkmoney.threeds.server.domain.threedsrequestor.*;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionType;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
@@ -177,7 +174,7 @@ public abstract class MirAcceptIntegrationConfig {
         pArq.setAcctType(getEnumWrapper(AccountType.DEBIT));
         pArq.setAddrMatch(getEnumWrapper(AddressMatch.SAME_ADDRESS));
         pArq.getBillingAddress().setAddrCity(randomString());
-        pArq.getBillingAddress().setAddrCountry(randomNumeric(3));
+        pArq.getBillingAddress().setAddrCountry("643");
         pArq.getBillingAddress().setAddrLine1(randomString());
         pArq.getBillingAddress().setAddrLine2(randomString());
         pArq.getBillingAddress().setAddrLine3(randomString());
@@ -196,7 +193,7 @@ public abstract class MirAcceptIntegrationConfig {
         pArq.setRecurringExpiry(randomLocalDate());
         pArq.setRecurringFrequency(randomNumeric(3));
         pArq.getShippingAddress().setAddrCity(randomString());
-        pArq.getShippingAddress().setAddrCountry(randomNumeric(3));
+        pArq.getShippingAddress().setAddrCountry("643");
         pArq.getShippingAddress().setAddrLine1(randomString());
         pArq.getShippingAddress().setAddrLine2(randomString());
         pArq.getShippingAddress().setAddrLine3(randomString());
@@ -240,6 +237,10 @@ public abstract class MirAcceptIntegrationConfig {
         pArq.getThreeDSRequestorAuthenticationInfo().setThreeDSReqAuthData(randomString());
         pArq.setThreeDSRequestorChallengeInd(getEnumWrapper(ThreeDSRequestorChallengeInd.CHALLENGE_REQUESTED_MANDATE));
         pArq.setThreeDSRequestorPriorAuthenticationInfo(new ThreeDSRequestorPriorAuthenticationInfoWrapper());
+        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthData(randomString());
+        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthMethod(getEnumWrapper(ThreeDSReqPriorAuthMethod.OTHER_METHODS));
+        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthTimestamp(getTemporalAccessorWrapper(LocalDateTime.now()));
+        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorRef(randomId());
     }
 
     protected <T extends Valuable> EnumWrapper<T> getEnumWrapper(T value) {
