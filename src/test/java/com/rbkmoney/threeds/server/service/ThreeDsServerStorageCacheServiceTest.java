@@ -1,13 +1,13 @@
 package com.rbkmoney.threeds.server.service;
 
 import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
+import com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfoStorageSrv;
 import com.rbkmoney.damsel.three_ds_server_storage.GetCardRangesResponse;
-import com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfoStorageSrv;
 import com.rbkmoney.threeds.server.converter.thrift.CardRangesConverter;
-import com.rbkmoney.threeds.server.converter.thrift.RReqTransactionInfoConverter;
+import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfoConverter;
 import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
-import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
+import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.service.cache.CacheService;
 import com.rbkmoney.threeds.server.service.cache.ThreeDsServerStorageCacheService;
 import org.apache.thrift.TException;
@@ -27,17 +27,17 @@ public class ThreeDsServerStorageCacheServiceTest {
     private static final String TEST_TAG = "TEST_TAG";
 
     private CardRangesStorageSrv.Iface cardRangesStorageClient;
-    private RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient;
+    private ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient;
 
     private CacheService cacheService;
 
     @Before
     public void setUp() {
-        rReqTransactionInfoStorageClient = mock(RReqTransactionInfoStorageSrv.Iface.class);
+        challengeFlowTransactionInfoStorageClient = mock(ChallengeFlowTransactionInfoStorageSrv.Iface.class);
         cardRangesStorageClient = mock(CardRangesStorageSrv.Iface.class);
         cacheService = new ThreeDsServerStorageCacheService(
-                rReqTransactionInfoStorageClient,
-                new RReqTransactionInfoConverter(),
+                challengeFlowTransactionInfoStorageClient,
+                new ChallengeFlowTransactionInfoConverter(),
                 100L,
                 cardRangesStorageClient,
                 new CardRangesConverter(),
@@ -45,25 +45,25 @@ public class ThreeDsServerStorageCacheServiceTest {
     }
 
     @Test
-    public void shouldSaveAndGetRReqTransactionInfo() throws TException {
+    public void shouldSaveAndGetTransactionInfo() throws TException {
         // Given
-        RReqTransactionInfo transactionInfo = RReqTransactionInfo.builder()
+        ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
                 .acsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED)
                 .decoupledAuthMaxTime(LocalDateTime.MIN)
                 .deviceChannel(DeviceChannel.APP_BASED)
                 .build();
 
-        ArgumentCaptor<com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfo> expected =
-                ArgumentCaptor.forClass(com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfo.class);
+        ArgumentCaptor<com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo> expected =
+                ArgumentCaptor.forClass(com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo.class);
 
         // When
-        cacheService.saveRReqTransactionInfo(TEST_TAG, transactionInfo);
-        RReqTransactionInfo result = cacheService.getRReqTransactionInfo(TEST_TAG);
+        cacheService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
+        ChallengeFlowTransactionInfo result = cacheService.getChallengeFlowTransactionInfo(TEST_TAG);
 
         // Then
         assertThat(result).isEqualTo(transactionInfo);
-        verify(rReqTransactionInfoStorageClient, only())
-                .saveRReqTransactionInfo(expected.capture());
+
+        verify(challengeFlowTransactionInfoStorageClient, only()).saveChallengeFlowTransactionInfo(expected.capture());
 
         var saved = expected.getValue();
         assertThat(saved.getTransactionId())
@@ -77,23 +77,23 @@ public class ThreeDsServerStorageCacheServiceTest {
     }
 
     @Test
-    public void shouldGetRReqTransactionInfoWhenCacheIsEmpty() throws TException {
+    public void shouldGetTransactionInfoWhenCacheIsEmpty() throws TException {
         // Given
-        var stored = new com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfo()
+        var stored = new com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo()
                 .setTransactionId(TEST_TAG)
                 .setAcsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED.getValue())
                 .setDecoupledAuthMaxTime(LocalDateTime.MIN.toString())
                 .setDeviceChannel(DeviceChannel.APP_BASED.getValue());
 
-        when(rReqTransactionInfoStorageClient.getRReqTransactionInfo(TEST_TAG))
+        when(challengeFlowTransactionInfoStorageClient.getChallengeFlowTransactionInfo(TEST_TAG))
                 .thenReturn(stored);
 
         // When
-        RReqTransactionInfo result = cacheService.getRReqTransactionInfo(TEST_TAG);
+        ChallengeFlowTransactionInfo result = cacheService.getChallengeFlowTransactionInfo(TEST_TAG);
 
         // Then
-        verify(rReqTransactionInfoStorageClient, only())
-                .getRReqTransactionInfo(TEST_TAG);
+        verify(challengeFlowTransactionInfoStorageClient, only())
+                .getChallengeFlowTransactionInfo(TEST_TAG);
         assertThat(result.getAcsDecConInd())
                 .isEqualTo(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED);
         assertThat(result.getDecoupledAuthMaxTime())

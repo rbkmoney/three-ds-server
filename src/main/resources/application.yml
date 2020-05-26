@@ -44,7 +44,7 @@ client:
 storage:
   mode: IN_MEMORY
   cache:
-    rreq-transaction-info:
+    challenge-flow-transaction-info:
       size: 1000
     card-ranges:
       expiration-hours: 1

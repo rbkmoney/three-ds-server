@@ -9,10 +9,11 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class RReqTransactionInfo {
+public class ChallengeFlowTransactionInfo {
 
     private DeviceChannel deviceChannel;
     private LocalDateTime decoupledAuthMaxTime;
     private AcsDecConInd acsDecConInd;
+    private String acsUrl;
 
 }

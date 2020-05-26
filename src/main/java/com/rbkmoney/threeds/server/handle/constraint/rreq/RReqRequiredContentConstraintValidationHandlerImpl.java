@@ -5,8 +5,8 @@ import com.rbkmoney.threeds.server.domain.authentication.AuthenticationType;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.domain.message.MessageCategory;
 import com.rbkmoney.threeds.server.domain.root.emvco.RReq;
+import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
-import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
 import com.rbkmoney.threeds.server.service.cache.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -43,11 +43,11 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
 
         MessageCategory messageCategory = getEnumWrapperValue(o.getMessageCategory());
 
-        RReqTransactionInfo rReqTransactionInfo = cacheService.getRReqTransactionInfo(o.getThreeDSServerTransID());
+        ChallengeFlowTransactionInfo transactionInfo = cacheService.getChallengeFlowTransactionInfo(o.getThreeDSServerTransID());
 
-        DeviceChannel deviceChannel = rReqTransactionInfo.getDeviceChannel();
-        LocalDateTime decoupledAuthMaxTime = rReqTransactionInfo.getDecoupledAuthMaxTime();
-        AcsDecConInd acsDecConInd = rReqTransactionInfo.getAcsDecConInd();
+        DeviceChannel deviceChannel = transactionInfo.getDeviceChannel();
+        LocalDateTime decoupledAuthMaxTime = transactionInfo.getDecoupledAuthMaxTime();
+        AcsDecConInd acsDecConInd = transactionInfo.getAcsDecConInd();
 
         if (!o.isRelevantMessageVersion()) {
             if (getEnumWrapperValue(o.getTransStatusReason()) != null

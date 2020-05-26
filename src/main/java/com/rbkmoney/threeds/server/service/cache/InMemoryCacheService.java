@@ -3,7 +3,7 @@ package com.rbkmoney.threeds.server.service.cache;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.rbkmoney.threeds.server.domain.CardRange;
-import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
+import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.exeption.NullPointerActionIndException;
 
 import java.util.HashSet;
@@ -20,13 +20,13 @@ public class InMemoryCacheService extends AbstractCacheService {
 
     private final Map<String, String> serialNumByTag;
     private final Map<String, Set<CardRange>> cardRangesByTag;
-    private final Cache<String, RReqTransactionInfo> rReqTransactionInfoByTag;
+    private final Cache<String, ChallengeFlowTransactionInfo> challengeFlowTransactionInfoByTag;
 
-    public InMemoryCacheService(long rReqTransactionInfoCacheSize) {
+    public InMemoryCacheService(long challengeFlowTransactionInfoCacheSize) {
         this.serialNumByTag = new ConcurrentHashMap<>();
         this.cardRangesByTag = new ConcurrentHashMap<>();
-        this.rReqTransactionInfoByTag = Caffeine.newBuilder()
-                .maximumSize(rReqTransactionInfoCacheSize)
+        this.challengeFlowTransactionInfoByTag = Caffeine.newBuilder()
+                .maximumSize(challengeFlowTransactionInfoCacheSize)
                 .build();
     }
 
@@ -83,12 +83,12 @@ public class InMemoryCacheService extends AbstractCacheService {
     }
 
     @Override
-    public void saveRReqTransactionInfo(String threeDSServerTransID, RReqTransactionInfo rReqTransactionInfo) {
-        rReqTransactionInfoByTag.put(threeDSServerTransID, rReqTransactionInfo);
+    public void saveChallengeFlowTransactionInfo(String threeDSServerTransID, ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
+        challengeFlowTransactionInfoByTag.put(threeDSServerTransID, challengeFlowTransactionInfo);
     }
 
     @Override
-    public RReqTransactionInfo getRReqTransactionInfo(String threeDSServerTransID) {
-        return rReqTransactionInfoByTag.getIfPresent(threeDSServerTransID);
+    public ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDSServerTransID) {
+        return challengeFlowTransactionInfoByTag.getIfPresent(threeDSServerTransID);
     }
 }

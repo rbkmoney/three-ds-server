@@ -1,7 +1,7 @@
 package com.rbkmoney.threeds.server.service.cache;
 
 import com.rbkmoney.threeds.server.domain.CardRange;
-import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
+import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface CacheService {
 
     boolean isValidCardRange(String tag, CardRange cardRange);
 
-    void saveRReqTransactionInfo(String threeDSServerTransID, RReqTransactionInfo rReqTransactionInfo);
+    void saveChallengeFlowTransactionInfo(String threeDSServerTransID, ChallengeFlowTransactionInfo challengeFlowTransactionInfo);
 
-    RReqTransactionInfo getRReqTransactionInfo(String threeDSServerTransID);
+    ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDSServerTransID);
 }

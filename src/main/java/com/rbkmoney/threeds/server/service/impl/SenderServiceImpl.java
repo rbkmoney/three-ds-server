@@ -3,6 +3,7 @@ package com.rbkmoney.threeds.server.service.impl;
 import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.Erro;
+import com.rbkmoney.threeds.server.domain.root.proprietary.PGcs;
 import com.rbkmoney.threeds.server.service.RequestHandleService;
 import com.rbkmoney.threeds.server.service.ResponseHandleService;
 import com.rbkmoney.threeds.server.service.SenderService;
@@ -27,7 +28,7 @@ public class SenderServiceImpl implements SenderService {
 
         log.info("End handling requested message: message={}", dsRequestMessage.toString());
 
-        if (dsRequestMessage instanceof Erro) {
+        if (dsRequestMessage instanceof Erro || dsRequestMessage instanceof PGcs) {
             return dsRequestMessage;
         }
 

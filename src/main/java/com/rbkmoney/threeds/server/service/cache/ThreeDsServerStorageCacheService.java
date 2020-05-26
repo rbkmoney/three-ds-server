@@ -3,13 +3,13 @@ package com.rbkmoney.threeds.server.service.cache;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
+import com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfoStorageSrv;
 import com.rbkmoney.damsel.three_ds_server_storage.GetCardRangesRequest;
 import com.rbkmoney.damsel.three_ds_server_storage.GetCardRangesResponse;
-import com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfoStorageSrv;
 import com.rbkmoney.threeds.server.converter.thrift.CardRangesConverter;
-import com.rbkmoney.threeds.server.converter.thrift.RReqTransactionInfoConverter;
+import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfoConverter;
 import com.rbkmoney.threeds.server.domain.CardRange;
-import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
+import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.exeption.ThreeDsServerStorageException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.thrift.TException;
@@ -23,25 +23,25 @@ import static java.lang.Long.parseLong;
 
 public class ThreeDsServerStorageCacheService extends AbstractCacheService {
 
-    private final RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient;
-    private final RReqTransactionInfoConverter rReqTransactionInfoConverter;
-    private final Cache<String, RReqTransactionInfo> rReqTransactionInfoByTag;
+    private final ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient;
+    private final ChallengeFlowTransactionInfoConverter challengeFlowTransactionInfoConverter;
+    private final Cache<String, ChallengeFlowTransactionInfo> challengeFlowTransactionInfoByTag;
 
     private final CardRangesStorageSrv.Iface cardRangesStorageClient;
     private final CardRangesConverter cardRangesConverter;
     private final Cache<String, Set<CardRange>> cardRangesByTag;
 
     public ThreeDsServerStorageCacheService(
-            RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient,
-            RReqTransactionInfoConverter rReqTransactionInfoConverter,
-            long rReqTransactionInfoCacheSize,
+            ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient,
+            ChallengeFlowTransactionInfoConverter challengeFlowTransactionInfoConverter,
+            long challengeFlowTransactionInfoCacheSize,
             CardRangesStorageSrv.Iface cardRangesStorageClient,
             CardRangesConverter cardRangesConverter,
             long cardRangesCacheExpirationHours) {
-        this.rReqTransactionInfoStorageClient = rReqTransactionInfoStorageClient;
-        this.rReqTransactionInfoConverter = rReqTransactionInfoConverter;
-        this.rReqTransactionInfoByTag = Caffeine.newBuilder()
-                .maximumSize(rReqTransactionInfoCacheSize)
+        this.challengeFlowTransactionInfoStorageClient = challengeFlowTransactionInfoStorageClient;
+        this.challengeFlowTransactionInfoConverter = challengeFlowTransactionInfoConverter;
+        this.challengeFlowTransactionInfoByTag = Caffeine.newBuilder()
+                .maximumSize(challengeFlowTransactionInfoCacheSize)
                 .build();
         this.cardRangesStorageClient = cardRangesStorageClient;
         this.cardRangesConverter = cardRangesConverter;
@@ -84,27 +84,27 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
 
     @Override
     @Transactional
-    public void saveRReqTransactionInfo(String threeDSServerTransID, RReqTransactionInfo rReqTransactionInfo) {
+    public void saveChallengeFlowTransactionInfo(String threeDSServerTransID, ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
         try {
-            var transactionInfo = rReqTransactionInfoConverter.toThrift(threeDSServerTransID, rReqTransactionInfo);
-            rReqTransactionInfoStorageClient.saveRReqTransactionInfo(transactionInfo);
-            rReqTransactionInfoByTag.put(threeDSServerTransID, rReqTransactionInfo);
+            var transactionInfo = challengeFlowTransactionInfoConverter.toThrift(threeDSServerTransID, challengeFlowTransactionInfo);
+            challengeFlowTransactionInfoStorageClient.saveChallengeFlowTransactionInfo(transactionInfo);
+            challengeFlowTransactionInfoByTag.put(threeDSServerTransID, challengeFlowTransactionInfo);
         } catch (TException e) {
             throw new ThreeDsServerStorageException(e);
         }
     }
 
     @Override
-    public RReqTransactionInfo getRReqTransactionInfo(String threeDSServerTransID) {
-        return rReqTransactionInfoByTag.get(
+    public ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDSServerTransID) {
+        return challengeFlowTransactionInfoByTag.get(
                 threeDSServerTransID,
-                this::getRReqTransactionInfoFromStorage);
+                this::getChallengeFlowTransactionInfoFromStorage);
     }
 
-    private RReqTransactionInfo getRReqTransactionInfoFromStorage(String threeDSServerTransID) {
+    private ChallengeFlowTransactionInfo getChallengeFlowTransactionInfoFromStorage(String threeDSServerTransID) {
         try {
-            var transactionInfo = rReqTransactionInfoStorageClient.getRReqTransactionInfo(threeDSServerTransID);
-            return rReqTransactionInfoConverter.toDomain(transactionInfo);
+            var transactionInfo = challengeFlowTransactionInfoStorageClient.getChallengeFlowTransactionInfo(threeDSServerTransID);
+            return challengeFlowTransactionInfoConverter.toDomain(transactionInfo);
         } catch (TException e) {
             throw new ThreeDsServerStorageException(e);
         }

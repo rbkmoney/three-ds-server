@@ -10,7 +10,7 @@ import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
-import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
+import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.service.cache.CacheService;
@@ -37,7 +37,7 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
         TransactionStatus transStatus = getEnumWrapperValue(aRes.getTransStatus());
         if (transStatus == TransactionStatus.CHALLENGE_REQUIRED_DECOUPLED_AUTH
                 || transStatus == TransactionStatus.CHALLENGE_REQUIRED) {
-            saveRReqTransactionInfoInCache(aRes);
+            cacheChallengeFlowTransactionInfo(aRes);
         }
 
         PArs pArs = PArs.builder()
@@ -108,17 +108,19 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
         }
     }
 
-    private void saveRReqTransactionInfoInCache(ARes aRes) {
+    private void cacheChallengeFlowTransactionInfo(ARes aRes) {
         AReq aReq = (AReq) aRes.getRequestMessage();
+        ;
 
         String threeDSServerTransID = aRes.getThreeDSServerTransID();
 
-        RReqTransactionInfo rReqTransactionInfo = RReqTransactionInfo.builder()
+        ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
                 .deviceChannel(aReq.getDeviceChannel())
                 .decoupledAuthMaxTime(aReq.getDecoupledAuthMaxTime())
                 .acsDecConInd(getEnumWrapperValue(aRes.getAcsDecConInd()))
+                .acsUrl(aRes.getAcsURL())
                 .build();
 
-        cacheService.saveRReqTransactionInfo(threeDSServerTransID, rReqTransactionInfo);
+        cacheService.saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
     }
 }
