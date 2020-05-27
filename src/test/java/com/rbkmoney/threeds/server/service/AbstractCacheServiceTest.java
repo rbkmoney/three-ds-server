@@ -97,13 +97,13 @@ public class AbstractCacheServiceTest {
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1112", "1120"));
         cacheService.updateCardRanges(TEST_TAG, cachedCardRanges);
 
-        CardRange addRange = cardRange(ActionInd.MODIFY_CARD_RANGE_DATA, "1000", "1099");
+        CardRange modifyRange = cardRange(ActionInd.MODIFY_CARD_RANGE_DATA, "1000", "1099");
 
         // When
-        boolean isValid = cacheService.isValidCardRange(TEST_TAG, addRange);
+        boolean isValid = cacheService.isValidCardRange(TEST_TAG, modifyRange);
 
         // Then
-        assertFalse(isValid);
+        assertTrue(isValid);
     }
 
     @Test
