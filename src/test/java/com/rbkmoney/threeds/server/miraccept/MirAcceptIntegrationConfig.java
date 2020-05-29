@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,9 +63,10 @@ import java.util.function.Function;
         },
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
+@Ignore
 public abstract class MirAcceptIntegrationConfig {
 
-    private static boolean WRITE_DATA_IN_FILE = true;
+    private static boolean WRITE_DATA_IN_FILE = false;
 
     @Autowired
     protected SenderService senderService;
