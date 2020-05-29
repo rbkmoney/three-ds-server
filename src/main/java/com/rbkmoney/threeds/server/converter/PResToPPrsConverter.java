@@ -54,6 +54,7 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
                 .messageExtension(getListWrapperValue(pRes.getMessageExtension()))
                 .build();
         pPrs.setMessageVersion(pRes.getMessageVersion());
+        pPrs.setRequestMessage(pRes);
         return pPrs;
     }
 

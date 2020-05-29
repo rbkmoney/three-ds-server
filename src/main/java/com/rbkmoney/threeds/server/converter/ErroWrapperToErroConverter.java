@@ -32,6 +32,7 @@ public class ErroWrapperToErroConverter implements Converter<ValidationResult, M
                 .handleRepetitionNeeded(false)
                 .build();
         errorRes.setMessageVersion(erroWrapper.getMessageVersion());
+        errorRes.setRequestMessage(erroWrapper);
         return errorRes;
     }
 }

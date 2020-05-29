@@ -34,6 +34,7 @@ public class RReqToRResConverter implements Converter<ValidationResult, Message>
                 .sdkTransID(rReq.getSdkTransID())
                 .build();
         rRes.setMessageVersion(rReq.getMessageVersion());
+        rRes.setRequestMessage(rReq);
 
         cacheService.clearRReqTransactionInfo(rReq.getThreeDSServerTransID());
 

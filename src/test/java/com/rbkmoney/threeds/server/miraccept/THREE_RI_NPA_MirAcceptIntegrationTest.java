@@ -33,6 +33,8 @@ public class THREE_RI_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationC
 
         assertEquals(TransactionStatus.TECHNICAL_PROBLEM, pArs.getTransStatus());
         assertEquals(TransactionStatusReason.CARDHOLDER_NOT_ENROLLED, pArs.getTransStatusReason());
+
+        writeInFileAppend(pArs, TestNumber.THREE_RI_NPA_5_2);
     }
 
     @Test
@@ -47,6 +49,8 @@ public class THREE_RI_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationC
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL, pArs.getTransStatus());
         assertEquals("02", pArs.getEci());
+
+        writeInFileAppend(pArs, TestNumber.THREE_RI_NPA_5_3);
     }
 
     @Test
@@ -61,6 +65,8 @@ public class THREE_RI_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationC
 
         assertEquals(TransactionStatus.NOT_AUTHENTICATED_DENIED, pArs.getTransStatus());
         assertEquals(TransactionStatusReason.CARD_AUTH_FAILED, pArs.getTransStatusReason());
+
+        writeInFileAppend(pArs, TestNumber.THREE_RI_NPA_5_4);
     }
 
     @Test
@@ -75,6 +81,8 @@ public class THREE_RI_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationC
 
         assertEquals(TransactionStatus.AUTHENTICATION_REJECTED, pArs.getTransStatus());
         assertEquals(TransactionStatusReason.STOLEN_CARD, pArs.getTransStatusReason());
+
+        writeInFileAppend(pArs, TestNumber.THREE_RI_NPA_5_5);
     }
 
     private PArq buildPArq(String acctNumber) {

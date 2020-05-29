@@ -47,6 +47,7 @@ public class MessageToErrorResConverter implements Converter<ValidationResult, M
                     .build();
             error.setMessageVersion(getMessageVersion(message, requestMessage));
             error.setHandleRepetitionNeeded(message.isHandleRepetitionNeeded());
+            error.setRequestMessage(requestMessage);
         } else {
             error = Erro.builder()
                     .errorCode(errorCode)

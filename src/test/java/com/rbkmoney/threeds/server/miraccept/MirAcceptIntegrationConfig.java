@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.miraccept;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.domain.*;
@@ -20,12 +21,14 @@ import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.serialization.TemporalAccessorWrapper;
 import com.rbkmoney.threeds.server.service.SenderService;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,10 +39,15 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
+import java.util.function.Function;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -56,6 +64,8 @@ import java.util.*;
 )
 public abstract class MirAcceptIntegrationConfig {
 
+    private static boolean WRITE_DATA_IN_FILE = true;
+
     @Autowired
     protected SenderService senderService;
 
@@ -64,6 +74,9 @@ public abstract class MirAcceptIntegrationConfig {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     private static final Random RANDOM = new Random();
 
@@ -79,7 +92,7 @@ public abstract class MirAcceptIntegrationConfig {
     protected static final String PURCHASE_CURRENCY = "643";
     protected static final String MESSAGE_VERSION = "2.1.0";
 
-    protected CRes sendAs3dsClientTypeBRW(PArs pArs) {
+    protected CRes sendAs3dsClientTypeBRW(PArs pArs, Function<String, ResponseEntity<String>> function) {
         CReq cReq = CReq.builder()
                 .acsTransID(pArs.getAcsTransID())
                 .challengeWindowSize("05")
@@ -107,16 +120,7 @@ public abstract class MirAcceptIntegrationConfig {
             Element element = document.select("form[name=form]").first();
             String urlSubmit = element.attr("action");
 
-            headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-            map = new LinkedMultiValueMap<>();
-            map.add("password", "1qwezxc");
-            map.add("submit", "Submit");
-
-            request = new HttpEntity<>(map, headers);
-
-            response = restTemplate.postForEntity(urlSubmit, request, String.class);
+            response = function.apply(urlSubmit);
 
             html = response.getBody();
             document = Jsoup.parse(html);
@@ -131,43 +135,59 @@ public abstract class MirAcceptIntegrationConfig {
         }
     }
 
-    protected CRes sendSetUpAs3dsClientTypeAPP(PArs pArs) {
-        CReq cReq = CReq.builder()
-                .acsTransID(pArs.getAcsTransID())
-                .messageVersion("2.1.0")
-                .sdkTransID(pArs.getSdkTransID())
-                .threeDSServerTransID(pArs.getThreeDSServerTransID())
-                .sdkCounterStoA("001")
-                .build();
+    protected Function<String, ResponseEntity<String>> submitWithCorrectPassword() {
+        return urlSubmit -> {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+            map.add("password", "1qwezxc");
+            map.add("submit", "Submit");
+
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+            return restTemplate.postForEntity(urlSubmit, request, String.class);
+        };
     }
 
-    protected CRes sendAs3dsClientTypeAPP(PArs pArs) {
-        CReq cReq = CReq.builder()
-                .acsTransID(pArs.getAcsTransID())
-                .messageVersion("2.1.0")
-                .sdkTransID(pArs.getSdkTransID())
-                .threeDSServerTransID(pArs.getThreeDSServerTransID())
-                .sdkCounterStoA("002")
-                .challengeDataEntry(randomString())
-                .build();
+    protected Function<String, ResponseEntity<String>> submitWithIncorrectPassword() {
+        return urlSubmit -> {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+            map.add("password", "1zxcqwe");
+            map.add("submit", "Submit");
+
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+            ResponseEntity<String> response = restTemplate.postForEntity(urlSubmit, request, String.class);
+
+            String html = response.getBody();
+            Document document = Jsoup.parse(html);
+            Element element = document.select("form[name=form]").first();
+            urlSubmit = element.attr("action");
+
+            response = restTemplate.postForEntity(urlSubmit, request, String.class);
+
+            html = response.getBody();
+            document = Jsoup.parse(html);
+            element = document.select("form[name=form]").first();
+            urlSubmit = element.attr("action");
+
+            response = restTemplate.postForEntity(urlSubmit, request, String.class);
+
+            html = response.getBody();
+            document = Jsoup.parse(html);
+            element = document.select("a.cancel").first();
+            urlSubmit = element.attr("href");
+
+            return restTemplate.getForEntity(urlSubmit, String.class);
+        };
     }
 
-    protected CRes sendHTMLAs3dsClientTypeAPP(PArs pArs) {
-        CReq cReq = CReq.builder()
-                .acsTransID(pArs.getAcsTransID())
-                .messageVersion("2.1.0")
-                .sdkTransID(pArs.getSdkTransID())
-                .threeDSServerTransID(pArs.getThreeDSServerTransID())
-                .sdkCounterStoA("002")
-                .challengeCancel("01")
-                .challengeHTMLDataEntry(randomString())
-                .build();
-
-        return restTemplate.postForEntity(pArs.getAcsURL(), cReq, CRes.class).getBody();
+    protected Function<String, ResponseEntity<String>> justCancel() {
+        return urlSubmit -> restTemplate.getForEntity(urlSubmit + "?cancel=true", String.class);
     }
 
     protected void fullFilling(PArq pArq) {
@@ -241,6 +261,69 @@ public abstract class MirAcceptIntegrationConfig {
         pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthMethod(getEnumWrapper(ThreeDSReqPriorAuthMethod.OTHER_METHODS));
         pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthTimestamp(getTemporalAccessorWrapper(LocalDateTime.now()));
         pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorRef(randomId());
+    }
+
+    protected void writeInFileAppend(PArs pArs, TestNumber testNumber) {
+        writeInFile(pArs, testNumber, StandardOpenOption.APPEND);
+    }
+
+    protected void writeInFileTruncate(PArs pArs, TestNumber testNumber) {
+        writeInFile(pArs, testNumber, StandardOpenOption.TRUNCATE_EXISTING);
+    }
+
+    private void writeInFile(PArs pArs, TestNumber testNumber, StandardOpenOption standardOpenOption) {
+        if (WRITE_DATA_IN_FILE) {
+            try {
+                String text = String.format("%s %s = %s; %s = %s; %s = %s\n",
+                        testNumber.getValue(),
+                        "acsTransID", pArs.getAcsTransID(),
+                        "dsTransID", pArs.getDsTransID(),
+                        "threeDSServerTransID", pArs.getThreeDSServerTransID());
+
+                Files.write(Paths.get(resourceLoader.getResource("classpath:__files/nspk_data").getURL().toURI()), text.getBytes(), standardOpenOption);
+            } catch (IOException | URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @RequiredArgsConstructor
+    public enum TestNumber {
+
+        BRW_PA_1_1("[BRW PA 1-1]"),
+        BRW_PA_1_2("[BRW PA 1-2]"),
+        BRW_PA_1_3("[BRW PA 1-3]"),
+        BRW_PA_1_4("[BRW PA 1-4]"),
+        BRW_PA_1_5("[BRW PA 1-5]"),
+        BRW_PA_1_6("[BRW PA 1-6]"),
+        BRW_PA_1_7("[BRW PA 1-7]"),
+        BRW_PA_1_8("[BRW PA 1-8]"),
+        BRW_PA_1_9("[BRW PA 1-9]"),
+        BRW_PA_1_10("[BRW PA 1-10]"),
+        BRW_NPA_2_1("[BRW NPA 2-1]"),
+        BRW_NPA_2_3("[BRW NPA 2-3]"),
+        BRW_NPA_2_4("[BRW NPA 2-4]"),
+        BRW_NPA_2_5("[BRW NPA 2-5]"),
+        BRW_NPA_2_6("[BRW NPA 2-6]"),
+        BRW_NPA_2_7("[BRW NPA 2-7]"),
+        BRW_NPA_2_9("[BRW NPA 2-9]"),
+        BRW_NPA_2_10("[BRW NPA 2-10]"),
+        THREE_RI_NPA_5_2("[3RI NPA 5-2]"),
+        THREE_RI_NPA_5_3("[3RI NPA 5-3]"),
+        THREE_RI_NPA_5_4("[3RI NPA 5-4]"),
+        THREE_RI_NPA_5_5("[3RI NPA 5-5]"),
+        FSS_PA_6_1("[FSS PA 6-1]"),
+        FSS_PA_6_2("[FSS PA 6-2]"),
+        FSS_PA_6_3("[FSS PA 6-3]"),
+        FSS_PA_6_4("[FSS PA 6-4]");
+
+        private final String value;
+
+        @JsonValue
+        public String getValue() {
+            return value;
+        }
+
     }
 
     protected <T extends Valuable> EnumWrapper<T> getEnumWrapper(T value) {

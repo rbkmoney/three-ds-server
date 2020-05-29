@@ -35,6 +35,8 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
 
         assertEquals(TransactionStatus.NOT_AUTHENTICATED_DENIED, pArs.getTransStatus());
         assertEquals(TransactionStatusReason.INVALID_CARD_NUMBER, pArs.getTransStatusReason());
+
+        writeInFileAppend(pArs, TestNumber.BRW_NPA_2_1);
     }
 
     @Test
@@ -49,6 +51,9 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL, pArs.getTransStatus());
         assertEquals("02", pArs.getEci());
+        // todo nspk assertNotNull(pArs.getAuthenticationValue());
+
+        writeInFileAppend(pArs, TestNumber.BRW_NPA_2_3);
     }
 
     @Test
@@ -63,6 +68,8 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
 
         assertEquals(TransactionStatus.NOT_AUTHENTICATED_DENIED, pArs.getTransStatus());
         assertEquals(TransactionStatusReason.CARD_AUTH_FAILED, pArs.getTransStatusReason());
+
+        writeInFileAppend(pArs, TestNumber.BRW_NPA_2_4);
     }
 
     @Test
@@ -77,6 +84,8 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
 
         assertEquals(TransactionStatus.AUTHENTICATION_REJECTED, pArs.getTransStatus());
         assertEquals(TransactionStatusReason.STOLEN_CARD, pArs.getTransStatusReason());
+
+        writeInFileAppend(pArs, TestNumber.BRW_NPA_2_5);
     }
 
     @Test
@@ -94,9 +103,11 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
 
-        CRes cRes = sendAs3dsClientTypeBRW(pArs);
+        CRes cRes = sendAs3dsClientTypeBRW(pArs, submitWithCorrectPassword());
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL.getValue(), cRes.getTransStatus());
+
+        writeInFileAppend(pArs, TestNumber.BRW_NPA_2_6);
     }
 
     @Test
@@ -114,9 +125,11 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
 
-        CRes cRes = sendAs3dsClientTypeBRW(pArs);
+        CRes cRes = sendAs3dsClientTypeBRW(pArs, submitWithIncorrectPassword());
 
         assertEquals(TransactionStatus.NOT_AUTHENTICATED_DENIED.getValue(), cRes.getTransStatus());
+
+        writeInFileAppend(pArs, TestNumber.BRW_NPA_2_7);
     }
 
     @Test
@@ -132,6 +145,9 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL, pArs.getTransStatus());
         assertEquals("02", pArs.getEci());
+        // todo nspk assertNotNull(pArs.getAuthenticationValue());
+
+        writeInFileAppend(pArs, TestNumber.BRW_NPA_2_9);
     }
 
     @Test
@@ -149,9 +165,11 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
 
-        CRes cRes = sendAs3dsClientTypeBRW(pArs);
+        CRes cRes = sendAs3dsClientTypeBRW(pArs, justCancel());
 
         assertEquals(TransactionStatus.NOT_AUTHENTICATED_DENIED.getValue(), cRes.getTransStatus());
+
+        writeInFileAppend(pArs, TestNumber.BRW_NPA_2_10);
     }
 
     private PArq buildPArq(String acctNumber) {

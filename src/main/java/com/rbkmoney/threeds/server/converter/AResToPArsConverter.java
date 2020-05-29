@@ -66,6 +66,7 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .whiteListStatusSource(getEnumWrapperValue(aRes.getWhiteListStatusSource()))
                 .build();
         pArs.setMessageVersion(aRes.getMessageVersion());
+        pArs.setRequestMessage(aRes);
         return pArs;
     }
 

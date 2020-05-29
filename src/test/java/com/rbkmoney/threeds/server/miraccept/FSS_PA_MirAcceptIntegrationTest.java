@@ -15,10 +15,9 @@ import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-public class SPR_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig {
+public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig {
 
     private static final DeviceChannel DEVICE_CHANNEL = DeviceChannel.BROWSER;
     private static final MessageCategory MESSAGE_CATEGORY = MessageCategory.PAYMENT_AUTH;
@@ -38,7 +37,9 @@ public class SPR_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig {
         assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
-        assertEquals("-200", pArs.getMessageExtension().get(0).getData().get("totalScore"));
+        // todo nspk assertEquals("-200", pArs.getMessageExtension().get(0).getData().get("totalScore"));
+
+        writeInFileAppend(pArs, TestNumber.FSS_PA_6_1);
     }
 
     @Test
@@ -54,11 +55,13 @@ public class SPR_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig {
         assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
-        assertEquals("80", pArs.getMessageExtension().get(0).getData().get("totalScore"));
+        // todo nspk assertEquals("80", pArs.getMessageExtension().get(0).getData().get("totalScore"));
 
-        CRes cRes = sendAs3dsClientTypeBRW(pArs);
+        CRes cRes = sendAs3dsClientTypeBRW(pArs, submitWithCorrectPassword());
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL.getValue(), cRes.getTransStatus());
+
+        writeInFileAppend(pArs, TestNumber.FSS_PA_6_2);
     }
 
     @Test
@@ -74,11 +77,13 @@ public class SPR_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig {
         assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
-        assertEquals("900", pArs.getMessageExtension().get(0).getData().get("totalScore"));
+        // todo nspk assertEquals("900", pArs.getMessageExtension().get(0).getData().get("totalScore"));
 
-        CRes cRes = sendAs3dsClientTypeBRW(pArs);
+        CRes cRes = sendAs3dsClientTypeBRW(pArs, justCancel());
 
         assertEquals(TransactionStatus.NOT_AUTHENTICATED_DENIED.getValue(), cRes.getTransStatus());
+
+        writeInFileAppend(pArs, TestNumber.FSS_PA_6_3);
     }
 
     @Test
@@ -94,11 +99,13 @@ public class SPR_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig {
         assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
-        assertTrue(pArs.getMessageExtension().isEmpty());
+        assertNull(pArs.getMessageExtension());
 
-        CRes cRes = sendAs3dsClientTypeBRW(pArs);
+        CRes cRes = sendAs3dsClientTypeBRW(pArs, submitWithCorrectPassword());
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL.getValue(), cRes.getTransStatus());
+
+        writeInFileAppend(pArs, TestNumber.FSS_PA_6_4);
     }
 
     private PArq buildPArq(String purchaseAmount) {
