@@ -15,7 +15,8 @@ import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig {
 
@@ -37,7 +38,7 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
         assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
-        // todo nspk assertEquals("-200", pArs.getMessageExtension().get(0).getData().get("totalScore"));
+        assertEquals("-200", getTotalScore(pArs));
 
         writeInFileAppend(pArs, TestNumber.FSS_PA_6_1);
     }
@@ -55,7 +56,7 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
         assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
-        // todo nspk assertEquals("80", pArs.getMessageExtension().get(0).getData().get("totalScore"));
+        assertEquals("80", getTotalScore(pArs));
 
         CRes cRes = sendAs3dsClientTypeBRW(pArs, submitWithCorrectPassword());
 
@@ -77,7 +78,7 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
         assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
-        // todo nspk assertEquals("900", pArs.getMessageExtension().get(0).getData().get("totalScore"));
+        assertEquals("900", getTotalScore(pArs));
 
         CRes cRes = sendAs3dsClientTypeBRW(pArs, justCancel());
 
@@ -99,7 +100,7 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
         assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
-        assertNull(pArs.getMessageExtension());
+//        assertNull(pArs.getMessageExtension());
 
         CRes cRes = sendAs3dsClientTypeBRW(pArs, submitWithCorrectPassword());
 
@@ -145,5 +146,9 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
         pArq.setBillingAddress(new Address());
         pArq.setShippingAddress(new Address());
         return pArq;
+    }
+
+    private String getTotalScore(PArs pArs) {
+        return String.valueOf(pArs.getMessageExtension().get(0).getData().get("totalScore"));
     }
 }
