@@ -117,5 +117,6 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
         private final String messageType = "CReq";
         private String messageVersion;
         private String threeDSServerTransID;
+
     }
 }

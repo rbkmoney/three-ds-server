@@ -31,6 +31,7 @@ public class RequestHandlerConfig {
     }
 
     @Bean
+    @ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "TEST_PLATFORM")
     public RequestHandler pGcqToPGcsHandler(
             DirectoryServerProviderHolder providerHolder,
             TestDirectoryServerRouter testDirectoryServerRouter,
