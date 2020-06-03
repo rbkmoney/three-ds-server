@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.NOT_AUTHENTICATED_ATTEMPTS_PERFORMED;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class AResAuthAttemptsPerformedConstraintValidationHandlerImpl implements
 
     @Override
     public boolean canHandle(ARes o) {
-        return getEnumWrapperValue(o.getTransStatus()) == NOT_AUTHENTICATED_ATTEMPTS_PERFORMED;
+        return getValue(o.getTransStatus()) == NOT_AUTHENTICATED_ATTEMPTS_PERFORMED;
     }
 
     @Override

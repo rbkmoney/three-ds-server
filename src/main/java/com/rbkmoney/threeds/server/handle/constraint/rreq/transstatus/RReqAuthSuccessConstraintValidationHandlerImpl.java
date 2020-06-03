@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -18,12 +18,12 @@ public class RReqAuthSuccessConstraintValidationHandlerImpl implements RReqConst
 
     @Override
     public boolean canHandle(RReq o) {
-        return getEnumWrapperValue(o.getTransStatus()) == AUTHENTICATION_VERIFICATION_SUCCESSFUL;
+        return getValue(o.getTransStatus()) == AUTHENTICATION_VERIFICATION_SUCCESSFUL;
     }
 
     @Override
     public ConstraintValidationResult handle(RReq o) {
-        if (getEnumWrapperValue(o.getMessageCategory()) == MessageCategory.PAYMENT_AUTH
+        if (getValue(o.getMessageCategory()) == MessageCategory.PAYMENT_AUTH
                 && o.getAuthenticationValue() == null) {
             return ConstraintValidationResult.failure(NOT_NULL, "authenticationValue");
         }

@@ -4,7 +4,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
-import com.rbkmoney.threeds.server.exeption.NullPointerActionIndException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -12,8 +11,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.rbkmoney.threeds.server.utils.CollectionsUtil.safeCollectionList;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Collections.safeList;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.lang.Long.parseLong;
 
 public class InMemoryCacheService extends AbstractCacheService {
@@ -58,8 +57,8 @@ public class InMemoryCacheService extends AbstractCacheService {
 
         Set<CardRange> cachedCardRanges = getCardRanges(tag);
 
-        for (CardRange cardRange : safeCollectionList(cardRanges)) {
-            switch (getEnumWrapperValue(cardRange.getActionInd())) {
+        for (CardRange cardRange : safeList(cardRanges)) {
+            switch (getValue(cardRange.getActionInd())) {
                 case ADD_CARD_RANGE_TO_CACHE:
                     cachedCardRanges.add(cardRange);
                     break;
@@ -71,7 +70,7 @@ public class InMemoryCacheService extends AbstractCacheService {
                     cachedCardRanges.remove(cardRange);
                     break;
                 default:
-                    throw new NullPointerActionIndException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
+                    throw new IllegalArgumentException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
             }
         }
     }

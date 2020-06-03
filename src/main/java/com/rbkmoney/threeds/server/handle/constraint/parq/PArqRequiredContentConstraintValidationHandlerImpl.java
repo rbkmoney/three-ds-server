@@ -4,14 +4,14 @@ import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.domain.message.MessageCategory;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
-import com.rbkmoney.threeds.server.utils.WrapperUtil;
+import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -34,8 +34,8 @@ public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqC
             return validationResult;
         }
 
-        DeviceChannel deviceChannel = getEnumWrapperValue(o.getDeviceChannel());
-        MessageCategory messageCategory = getEnumWrapperValue(o.getMessageCategory());
+        DeviceChannel deviceChannel = getValue(o.getDeviceChannel());
+        MessageCategory messageCategory = getValue(o.getMessageCategory());
 
         if (deviceChannel == DeviceChannel.BROWSER) {
             validationResult = validateRequiredConditionField(o.getThreeDSCompInd(), "threeDSCompInd");
@@ -52,13 +52,13 @@ public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqC
         }
 
         if (!o.isRelevantMessageVersion()) {
-            if (getEnumWrapperValue(o.getThreeRIInd()) != null
-                    && getEnumWrapperValue(o.getThreeRIInd()).isReservedValueForNotRelevantMessageVersion()) {
+            if (getValue(o.getThreeRIInd()) != null
+                    && getValue(o.getThreeRIInd()).isReservedValueForNotRelevantMessageVersion()) {
                 return ConstraintValidationResult.failure(PATTERN, "threeRIInd");
             }
 
-            if (getEnumWrapperValue(o.getThreeDSRequestorChallengeInd()) != null
-                    && getEnumWrapperValue(o.getThreeDSRequestorChallengeInd()).isReservedValueForNotRelevantMessageVersion()) {
+            if (getValue(o.getThreeDSRequestorChallengeInd()) != null
+                    && getValue(o.getThreeDSRequestorChallengeInd()).isReservedValueForNotRelevantMessageVersion()) {
                 return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorChallengeInd");
             }
         }
@@ -158,7 +158,7 @@ public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqC
         }
 
         if (messageCategory == MessageCategory.PAYMENT_AUTH) {
-            validationResult = WrapperUtil.validateRequiredConditionField(o.getPurchaseDate(), "purchaseDate");
+            validationResult = Wrappers.validateRequiredConditionField(o.getPurchaseDate(), "purchaseDate");
             if (!validationResult.isValid()) {
                 return validationResult;
             }

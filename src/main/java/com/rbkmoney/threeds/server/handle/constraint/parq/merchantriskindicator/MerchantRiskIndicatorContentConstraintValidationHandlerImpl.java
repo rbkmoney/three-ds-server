@@ -5,14 +5,14 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
+import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperGarbageValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getTemporalAccessorGarbageValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
@@ -68,23 +68,23 @@ public class MerchantRiskIndicatorContentConstraintValidationHandlerImpl impleme
             }
         }
 
-        if (getEnumWrapperGarbageValue(merchantRiskIndicator.getDeliveryTimeframe()) != null) {
+        if (getGarbageValue(merchantRiskIndicator.getDeliveryTimeframe()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "merchantRiskIndicator.deliveryTimeframe");
         }
 
-        if (getTemporalAccessorGarbageValue(merchantRiskIndicator.getPreOrderDate()) != null) {
+        if (Wrappers.getGarbageValue(merchantRiskIndicator.getPreOrderDate()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "merchantRiskIndicator.preOrderDate");
         }
 
-        if (getEnumWrapperGarbageValue(merchantRiskIndicator.getPreOrderPurchaseInd()) != null) {
+        if (getGarbageValue(merchantRiskIndicator.getPreOrderPurchaseInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "merchantRiskIndicator.preOrderPurchaseInd");
         }
 
-        if (getEnumWrapperGarbageValue(merchantRiskIndicator.getReorderItemsInd()) != null) {
+        if (getGarbageValue(merchantRiskIndicator.getReorderItemsInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "merchantRiskIndicator.reorderItemsInd");
         }
 
-        if (getEnumWrapperGarbageValue(merchantRiskIndicator.getShipIndicator()) != null) {
+        if (getGarbageValue(merchantRiskIndicator.getShipIndicator()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "merchantRiskIndicator.shipIndicator");
         }
 

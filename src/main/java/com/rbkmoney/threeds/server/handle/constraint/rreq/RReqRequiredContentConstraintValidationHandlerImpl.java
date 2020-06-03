@@ -7,7 +7,7 @@ import com.rbkmoney.threeds.server.domain.message.MessageCategory;
 import com.rbkmoney.threeds.server.domain.root.emvco.RReq;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
+import com.rbkmoney.threeds.server.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +15,8 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.*;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
@@ -41,7 +41,7 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
             return validationResult;
         }
 
-        MessageCategory messageCategory = getEnumWrapperValue(o.getMessageCategory());
+        MessageCategory messageCategory = getValue(o.getMessageCategory());
 
         ChallengeFlowTransactionInfo transactionInfo = cacheService.getChallengeFlowTransactionInfo(o.getThreeDSServerTransID());
 
@@ -50,18 +50,18 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
         AcsDecConInd acsDecConInd = transactionInfo.getAcsDecConInd();
 
         if (!o.isRelevantMessageVersion()) {
-            if (getEnumWrapperValue(o.getTransStatusReason()) != null
-                    && getEnumWrapperValue(o.getTransStatusReason()).isReservedValueForNotRelevantMessageVersion()) {
+            if (getValue(o.getTransStatusReason()) != null
+                    && getValue(o.getTransStatusReason()).isReservedValueForNotRelevantMessageVersion()) {
                 return ConstraintValidationResult.failure(PATTERN, "transStatusReason");
             }
 
-            if (getEnumWrapperValue(o.getChallengeCancel()) != null
-                    && getEnumWrapperValue(o.getChallengeCancel()).isReservedValueForNotRelevantMessageVersion()) {
+            if (getValue(o.getChallengeCancel()) != null
+                    && getValue(o.getChallengeCancel()).isReservedValueForNotRelevantMessageVersion()) {
                 return ConstraintValidationResult.failure(PATTERN, "challengeCancel");
             }
 
-            if (getEnumWrapperValue(o.getAuthenticationMethod()) != null
-                    && getEnumWrapperValue(o.getAuthenticationMethod()).isReservedValueForNotRelevantMessageVersion()) {
+            if (getValue(o.getAuthenticationMethod()) != null
+                    && getValue(o.getAuthenticationMethod()).isReservedValueForNotRelevantMessageVersion()) {
                 return ConstraintValidationResult.failure(PATTERN, "authenticationMethod");
             }
         }
@@ -102,7 +102,7 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
                 return ConstraintValidationResult.failure(AUTH_DEC_TIME_IS_EXPIRED, "Timeout expiry reached for the transaction as defined in Section 5.5");
             }
 
-            AuthenticationType authenticationType = getEnumWrapperValue(o.getAuthenticationType());
+            AuthenticationType authenticationType = getValue(o.getAuthenticationType());
             if (authenticationType != null && authenticationType != AuthenticationType.DECOUPLED) {
                 return ConstraintValidationResult.failure(PATTERN, "authenticationType");
             }

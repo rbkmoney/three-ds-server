@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class DecoupledAuthWillBeUsedConstraintValidationHandlerImpl implements A
 
     @Override
     public boolean canHandle(ARes o) {
-        return getEnumWrapperValue(o.getAcsDecConInd()) == AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED;
+        return getValue(o.getAcsDecConInd()) == AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED;
     }
 
     @Override

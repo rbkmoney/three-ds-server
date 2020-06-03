@@ -38,7 +38,7 @@ public class MessageExtensionUtil {
         return messageExtension.stream()
                 .flatMap(me -> me.getData().entrySet().stream())
                 .map(Map.Entry::getValue)
-                .anyMatch(s -> isBlank(s) || s.length() > MAX_LENGTH_DATA);
+                .anyMatch(o -> o == null || o.toString().length() > MAX_LENGTH_DATA);
     }
 
     public static boolean isInvalidName(List<MessageExtension> messageExtension) {

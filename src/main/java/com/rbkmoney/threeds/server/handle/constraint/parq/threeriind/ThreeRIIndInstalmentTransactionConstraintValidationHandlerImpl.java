@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeRIInd.INSTALMENT_TRANSACTION;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -18,12 +18,12 @@ public class ThreeRIIndInstalmentTransactionConstraintValidationHandlerImpl impl
 
     @Override
     public boolean canHandle(PArq o) {
-        return getEnumWrapperValue(o.getThreeRIInd()) == INSTALMENT_TRANSACTION;
+        return getValue(o.getThreeRIInd()) == INSTALMENT_TRANSACTION;
     }
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        MessageCategory messageCategory = getEnumWrapperValue(o.getMessageCategory());
+        MessageCategory messageCategory = getValue(o.getMessageCategory());
 
         if (o.isRelevantMessageVersion()) {
             if (o.getPurchaseInstalData() == null) {

@@ -4,7 +4,7 @@ import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
 import com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfoStorageSrv;
 import com.rbkmoney.threeds.server.converter.thrift.CardRangesConverter;
 import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfoConverter;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
+import com.rbkmoney.threeds.server.service.CacheService;
 import com.rbkmoney.threeds.server.service.cache.InMemoryCacheService;
 import com.rbkmoney.threeds.server.service.cache.ThreeDsServerStorageCacheService;
 import lombok.extern.slf4j.Slf4j;

@@ -6,13 +6,14 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInd;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeRIInd;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
+import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInd.INSTALMENT_TRANSACTION;
 import static com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInd.RECURRING_TRANSACTION;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.*;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
@@ -25,36 +26,36 @@ public class PArqNotRequiredEnumGarbageWrapperContentConstraintValidationHandler
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        DeviceChannel deviceChannel = getEnumWrapperValue(o.getDeviceChannel());
-        MessageCategory messageCategory = getEnumWrapperValue(o.getMessageCategory());
+        DeviceChannel deviceChannel = Wrappers.getValue(o.getDeviceChannel());
+        MessageCategory messageCategory = Wrappers.getValue(o.getMessageCategory());
 
-        if (getEnumWrapperGarbageValue(o.getAddrMatch()) != null) {
+        if (getGarbageValue(o.getAddrMatch()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "addrMatch");
         }
 
         if (!(o.getBrowserJavascriptEnabled() != null && o.getBrowserJavascriptEnabled() && deviceChannel == DeviceChannel.BROWSER)
-                && getEnumWrapperGarbageValue(o.getBrowserColorDepth()) != null) {
+                && getGarbageValue(o.getBrowserColorDepth()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "browserColorDepth");
         }
 
-        Object purchaseDateGarbageValue = getTemporalAccessorGarbageValue(o.getPurchaseDate());
-        if (!(getEnumWrapperValue(o.getThreeRIInd()) == ThreeRIInd.INSTALMENT_TRANSACTION)) {
+        Object purchaseDateGarbageValue = Wrappers.getGarbageValue(o.getPurchaseDate());
+        if (!(Wrappers.getValue(o.getThreeRIInd()) == ThreeRIInd.INSTALMENT_TRANSACTION)) {
             if (messageCategory != MessageCategory.NON_PAYMENT_AUTH && purchaseDateGarbageValue != null) {
                 return ConstraintValidationResult.failure(PATTERN, "purchaseDate");
             }
 
-            if (getTemporalAccessorGarbageValue(o.getRecurringExpiry()) != null) {
+            if (Wrappers.getGarbageValue(o.getRecurringExpiry()) != null) {
                 return ConstraintValidationResult.failure(PATTERN, "recurringExpiry");
             }
         }
 
-        ThreeDSRequestorAuthenticationInd authenticationInd = getEnumWrapperValue(o.getThreeDSRequestorAuthenticationInd());
+        ThreeDSRequestorAuthenticationInd authenticationInd = Wrappers.getValue(o.getThreeDSRequestorAuthenticationInd());
         if (!(authenticationInd == INSTALMENT_TRANSACTION || authenticationInd == RECURRING_TRANSACTION)) {
             if (messageCategory != MessageCategory.NON_PAYMENT_AUTH && purchaseDateGarbageValue != null) {
                 return ConstraintValidationResult.failure(PATTERN, "purchaseDate");
             }
 
-            if (getTemporalAccessorGarbageValue(o.getRecurringExpiry()) != null) {
+            if (Wrappers.getGarbageValue(o.getRecurringExpiry()) != null) {
                 return ConstraintValidationResult.failure(PATTERN, "recurringExpiry");
             }
         }
@@ -63,45 +64,45 @@ public class PArqNotRequiredEnumGarbageWrapperContentConstraintValidationHandler
             return ConstraintValidationResult.failure(PATTERN, "purchaseDate");
         }
 
-        if (getEnumWrapperGarbageValue(o.getTransType()) != null) {
+        if (getGarbageValue(o.getTransType()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "transType");
         }
 
-        if (getEnumWrapperGarbageValue(o.getAcctType()) != null) {
+        if (getGarbageValue(o.getAcctType()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctType");
         }
 
-        if (getEnumWrapperGarbageValue(o.getThreeDSRequestorChallengeInd()) != null) {
+        if (getGarbageValue(o.getThreeDSRequestorChallengeInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorChallengeInd");
         }
 
-        if (getEnumWrapperGarbageValue(o.getThreeDSRequestorAuthenticationInd()) != null) {
+        if (getGarbageValue(o.getThreeDSRequestorAuthenticationInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorAuthenticationInd");
         }
 
         if (deviceChannel != DeviceChannel.THREE_REQUESTOR_INITIATED
-                && getEnumWrapperGarbageValue(o.getThreeRIInd()) != null) {
+                && getGarbageValue(o.getThreeRIInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "threeRIInd");
         }
 
         if (deviceChannel != DeviceChannel.BROWSER
-                && getEnumWrapperGarbageValue(o.getThreeDSCompInd()) != null) {
+                && getGarbageValue(o.getThreeDSCompInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "threeDSCompInd");
         }
 
-        if (getEnumWrapperGarbageValue(o.getThreeDSRequestorDecReqInd()) != null) {
+        if (getGarbageValue(o.getThreeDSRequestorDecReqInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorDecReqInd");
         }
 
-        if (o.getPayTokenInd() == null && getEnumWrapperGarbageValue(o.getPayTokenSource()) != null) {
+        if (o.getPayTokenInd() == null && getGarbageValue(o.getPayTokenSource()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "payTokenSource");
         }
 
-        if (getEnumWrapperValue(o.getWhiteListStatusSource()) == null && getEnumWrapperGarbageValue(o.getWhiteListStatus()) != null) {
+        if (Wrappers.getValue(o.getWhiteListStatusSource()) == null && getGarbageValue(o.getWhiteListStatus()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "whiteListStatus");
         }
 
-        if (getEnumWrapperValue(o.getWhiteListStatus()) == null && getEnumWrapperGarbageValue(o.getWhiteListStatusSource()) != null) {
+        if (Wrappers.getValue(o.getWhiteListStatus()) == null && getGarbageValue(o.getWhiteListStatusSource()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "whiteListStatusSource");
         }
 

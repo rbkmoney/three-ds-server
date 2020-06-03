@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.CHALLENGE_REQUIRED;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +16,7 @@ public class RReqChallengeRequiredConstraintValidationHandlerImpl implements RRe
 
     @Override
     public boolean canHandle(RReq o) {
-        return getEnumWrapperValue(o.getTransStatus()) == CHALLENGE_REQUIRED;
+        return getValue(o.getTransStatus()) == CHALLENGE_REQUIRED;
     }
 
     @Override

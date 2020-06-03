@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +24,7 @@ public class CardholderInfoContentConstraintValidationHandlerImpl implements ARe
 
     @Override
     public ConstraintValidationResult handle(ARes o) {
-        AcsDecConInd acsDecConInd = getEnumWrapperValue(o.getAcsDecConInd());
+        AcsDecConInd acsDecConInd = getValue(o.getAcsDecConInd());
         ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("cardholderInfo", 128, o.getCardholderInfo());
 
         if (acsDecConInd == AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED) {

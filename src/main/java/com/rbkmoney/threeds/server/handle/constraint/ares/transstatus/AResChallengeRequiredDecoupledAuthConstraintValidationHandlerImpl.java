@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.CHALLENGE_REQUIRED_DECOUPLED_AUTH;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class AResChallengeRequiredDecoupledAuthConstraintValidationHandlerImpl i
 
     @Override
     public boolean canHandle(ARes o) {
-        return getEnumWrapperValue(o.getTransStatus()) == CHALLENGE_REQUIRED_DECOUPLED_AUTH;
+        return getValue(o.getTransStatus()) == CHALLENGE_REQUIRED_DECOUPLED_AUTH;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class AResChallengeRequiredDecoupledAuthConstraintValidationHandlerImpl i
             return validationResult;
         }
 
-        if (getEnumWrapperValue(o.getAcsDecConInd()) == AcsDecConInd.DECOUPLED_AUTH_WILL_NOT_BE_USED) {
+        if (getValue(o.getAcsDecConInd()) == AcsDecConInd.DECOUPLED_AUTH_WILL_NOT_BE_USED) {
             return ConstraintValidationResult.failure(PATTERN, "acsDecConInd");
         }
 
@@ -52,7 +52,7 @@ public class AResChallengeRequiredDecoupledAuthConstraintValidationHandlerImpl i
             return validationResult;
         }
 
-        if (getEnumWrapperValue(o.getAuthenticationType()) != AuthenticationType.DECOUPLED) {
+        if (getValue(o.getAuthenticationType()) != AuthenticationType.DECOUPLED) {
             return ConstraintValidationResult.failure(PATTERN, "authenticationType");
         }
 

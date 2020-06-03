@@ -14,4 +14,5 @@ public class EnvironmentMessageProperties {
     private String messageVersion;
     private List<String> validMessageVersions;
     private String pMessageVersion;
+
 }

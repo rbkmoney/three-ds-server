@@ -4,8 +4,8 @@ import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.exeption.DirectoryServerRoutingException;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
 import com.rbkmoney.threeds.server.router.DirectoryServerRouter;
+import com.rbkmoney.threeds.server.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +20,6 @@ public class PArqDirectoryServerRouter implements DirectoryServerRouter {
     @Override
     public DirectoryServerProvider route(Message message) {
         PArq pArq = (PArq) message;
-
-        if (pArq.getXULTestCaseRunId() != null) {
-            return DirectoryServerProvider.TEST;
-        }
 
         String acctNumber = pArq.getAcctNumber();
 

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +16,7 @@ public class DecoupledPrefferedConstraintValidationHandlerImpl implements PArqCo
 
     @Override
     public boolean canHandle(PArq o) {
-        return getEnumWrapperValue(o.getThreeDSRequestorDecReqInd()) == ThreeDSRequestorDecReqInd.DECOUPLED_AUTH_IS_PREFFERED;
+        return getValue(o.getThreeDSRequestorDecReqInd()) == ThreeDSRequestorDecReqInd.DECOUPLED_AUTH_IS_PREFFERED;
     }
 
     @Override

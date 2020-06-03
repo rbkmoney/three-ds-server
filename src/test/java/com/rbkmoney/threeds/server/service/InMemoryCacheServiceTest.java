@@ -5,7 +5,6 @@ import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
 import com.rbkmoney.threeds.server.service.cache.InMemoryCacheService;
 import org.junit.Before;
 import org.junit.Test;

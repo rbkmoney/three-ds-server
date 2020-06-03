@@ -1,16 +1,16 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
+import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
+import com.rbkmoney.threeds.server.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getListWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class PPrqToPReqConverter implements Converter<ValidationResult, Message>
                 .threeDSServerRefNumber(providerHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
                 .threeDSServerOperatorID(pPrq.getThreeDSServerOperatorID())
                 .threeDSServerTransID(pPrq.getThreeDSServerTransID())
-                .messageExtension(getListWrapperValue(pPrq.getMessageExtension()))
+                .messageExtension(getValue(pPrq.getMessageExtension()))
                 .serialNum(cacheService.getSerialNum(pPrq.getXULTestCaseRunId()))
                 .threeDSRequestorURL(pPrq.getThreeDSRequestorURL())
                 .build();

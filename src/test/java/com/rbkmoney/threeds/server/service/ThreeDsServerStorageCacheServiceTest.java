@@ -8,7 +8,6 @@ import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfo
 import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
 import com.rbkmoney.threeds.server.service.cache.ThreeDsServerStorageCacheService;
 import org.apache.thrift.TException;
 import org.junit.Before;

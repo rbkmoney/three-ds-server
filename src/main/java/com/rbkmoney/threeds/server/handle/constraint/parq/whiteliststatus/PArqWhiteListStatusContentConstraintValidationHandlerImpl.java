@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -17,7 +17,7 @@ public class PArqWhiteListStatusContentConstraintValidationHandlerImpl implement
 
     @Override
     public boolean canHandle(PArq o) {
-        return getEnumWrapperValue(o.getWhiteListStatus()) != null;
+        return getValue(o.getWhiteListStatus()) != null;
     }
 
     @Override
@@ -27,8 +27,8 @@ public class PArqWhiteListStatusContentConstraintValidationHandlerImpl implement
             return validationResult;
         }
 
-        if (getEnumWrapperValue(o.getWhiteListStatus()) != WhiteListStatus.WHITELISTED &&
-                getEnumWrapperValue(o.getWhiteListStatus()) != WhiteListStatus.NOT_WHITELISTED) {
+        if (getValue(o.getWhiteListStatus()) != WhiteListStatus.WHITELISTED &&
+                getValue(o.getWhiteListStatus()) != WhiteListStatus.NOT_WHITELISTED) {
             return ConstraintValidationResult.failure(PATTERN, "whiteListStatus");
         }
 

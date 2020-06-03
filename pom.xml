@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>three-ds-server</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.9.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Three ds server</name>
@@ -28,7 +28,7 @@
         <shared.resources.version>0.3.6</shared.resources.version>
         <dockerfile.registry>${env.REGISTRY}</dockerfile.registry>
         <three-ds-server-storage-proto.version>1.10-8ee9d23</three-ds-server-storage-proto.version>
-        <three-ds-server-domain-lib.version>1.0.3</three-ds-server-domain-lib.version>
+        <three-ds-server-domain-lib.version>1.0.5</three-ds-server-domain-lib.version>
     </properties>
 
     <dependencies>

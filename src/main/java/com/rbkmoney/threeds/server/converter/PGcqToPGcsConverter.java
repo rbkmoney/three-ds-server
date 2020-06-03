@@ -1,15 +1,12 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rbkmoney.threeds.server.domain.ChallengeWindowSize;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PGcq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PGcs;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
+import com.rbkmoney.threeds.server.service.CacheService;
+import com.rbkmoney.threeds.server.utils.CReqEncoder;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +17,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.io.StringWriter;
-import java.util.Base64;
 
 @Component
 @RequiredArgsConstructor
@@ -33,7 +29,7 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
 
     private final VelocityEngine templateEngine;
 
-    private final ObjectMapper objectMapper;
+    private final CReqEncoder cReqEncoder;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -57,7 +53,7 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
     }
 
     private CReqData createCReqData(PGcq pGcq) throws JsonProcessingException {
-        String encodeCReq = createAndEncodeCReq(pGcq);
+        String encodeCReq = cReqEncoder.createAndEncodeCReq(pGcq);
 
         var transactionInfo = cacheService.getChallengeFlowTransactionInfo(pGcq.getThreeDSServerTransID());
 
@@ -79,22 +75,6 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
         return writer.toString();
     }
 
-    private String createAndEncodeCReq(PGcq pGcq) throws JsonProcessingException {
-        CReq cReq = createCReq(pGcq);
-
-        byte[] bytesCReq = objectMapper.writeValueAsBytes(cReq);
-
-        return Base64.getEncoder().encodeToString(bytesCReq);
-    }
-
-    private CReq createCReq(PGcq pGcq) {
-        return CReq.builder()
-                .acsTransID(pGcq.getAcsTransID())
-                .challengeWindowSize(pGcq.getChallengeWindowSize().getValue())
-                .messageVersion(pGcq.getMessageVersion())
-                .threeDSServerTransID(pGcq.getThreeDSServerTransID())
-                .build();
-    }
 
     @Data
     @Builder
@@ -103,20 +83,6 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
         private String acsURL;
         private String encodeCreq;
         private String threeDSSessionData;
-
-    }
-
-    @Data
-    @Builder
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
-    private static class CReq {
-
-        private String acsTransID;
-        private ChallengeWindowSize challengeWindowSize;
-        private final String messageType = "CReq";
-        private String messageVersion;
-        private String threeDSServerTransID;
 
     }
 }

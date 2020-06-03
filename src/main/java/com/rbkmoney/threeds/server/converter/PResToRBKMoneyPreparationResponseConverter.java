@@ -1,6 +1,5 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.ActionInd;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.domain.root.Message;
@@ -8,7 +7,7 @@ import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationResponse;
 import com.rbkmoney.threeds.server.dto.CardRangeDTO;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.exeption.NullPointerActionIndException;
+import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
@@ -45,7 +44,7 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
         List<CardRangeDTO> deletedCardRanges = new ArrayList<>();
 
         for (CardRange cardRange : cardRangeData) {
-            switch (getEnumWrapperValue(cardRange.getActionInd())) {
+            switch (getValue(cardRange.getActionInd())) {
                 case ADD_CARD_RANGE_TO_CACHE:
                     addedCardRanges.add(toDTO(cardRange));
                     break;
@@ -56,17 +55,20 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
                     deletedCardRanges.add(toDTO(cardRange));
                     break;
                 default:
-                    throw new NullPointerActionIndException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
+                    throw new IllegalArgumentException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
             }
         }
 
-        return RBKMoneyPreparationResponse.builder()
+
+        RBKMoneyPreparationResponse response = RBKMoneyPreparationResponse.builder()
                 .providerId(providerHolder.getTag(pRes))
                 .serialNum(pRes.getSerialNum())
                 .addedCardRanges(addedCardRanges)
                 .modifiedCardRanges(modifiedCardRanges)
                 .deletedCardRanges(deletedCardRanges)
                 .build();
+        response.setMessageVersion(pRes.getMessageVersion());
+        return response;
     }
 
     private void fillEmptyActionInd(CardRange cardRange) {

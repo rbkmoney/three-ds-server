@@ -10,8 +10,7 @@ public enum DirectoryServerProvider {
 
     VISA("visa"),
     MASTERCARD("mastercard"),
-    MIR("mir"),
-    TEST("test");
+    MIR("mir");
 
     @Getter
     private final String id;

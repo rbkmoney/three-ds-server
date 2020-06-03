@@ -6,4 +6,5 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 public interface DirectoryServerRouter {
 
     DirectoryServerProvider route(Message message);
+
 }

@@ -1,12 +1,12 @@
 package com.rbkmoney.threeds.server.handle.constraint.pres.cardrangedata;
 
-import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.dto.ConstraintType;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.pres.PResConstraintValidationHandler;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
+import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
+import com.rbkmoney.threeds.server.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +16,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.CollectionsUtil.safeCollectionList;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Collections.safeList;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.lang.Long.parseLong;
 
 @Component
@@ -46,7 +46,7 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
             return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
         }
 
-        for (CardRange cardRange : safeCollectionList(cardRangeData)) {
+        for (CardRange cardRange : safeList(cardRangeData)) {
             Set<ConstraintViolation<CardRange>> cardRangeErrors = validator.validate(cardRange);
             if (!cardRangeErrors.isEmpty()) {
                 o.setHandleRepetitionNeeded(true);
@@ -68,7 +68,7 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
             return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
         }
 
-        for (CardRange cardRange : safeCollectionList(cardRangeData)) {
+        for (CardRange cardRange : safeList(cardRangeData)) {
             if (!cacheService.isValidCardRange(providerHolder.getTag(o), cardRange)) {
                 o.setHandleRepetitionNeeded(true);
 
@@ -80,8 +80,8 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
     }
 
     private List<CardRange> filterNewCardRanges(List<CardRange> cardRangeData) {
-        return safeCollectionList(cardRangeData).stream()
-                .filter(cardRange -> getEnumWrapperValue(cardRange.getActionInd()) == null)
+        return safeList(cardRangeData).stream()
+                .filter(cardRange -> getValue(cardRange.getActionInd()) == null)
                 .collect(Collectors.toList());
     }
 
