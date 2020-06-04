@@ -59,16 +59,13 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
             }
         }
 
-
-        RBKMoneyPreparationResponse response = RBKMoneyPreparationResponse.builder()
+        return RBKMoneyPreparationResponse.builder()
                 .providerId(providerHolder.getTag(pRes))
                 .serialNum(pRes.getSerialNum())
                 .addedCardRanges(addedCardRanges)
                 .modifiedCardRanges(modifiedCardRanges)
                 .deletedCardRanges(deletedCardRanges)
                 .build();
-        response.setMessageVersion(pRes.getMessageVersion());
-        return response;
     }
 
     private void fillEmptyActionInd(CardRange cardRange) {

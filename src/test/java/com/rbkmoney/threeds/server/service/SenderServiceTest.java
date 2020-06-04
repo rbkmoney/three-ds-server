@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(
         classes = {ThreeDsServerApplication.class, MockConfig.class},
         properties = "spring.main.allow-bean-definition-overriding=true")
-public class SenderServiceIT extends TestBase {
+public class SenderServiceTest extends TestBase {
 
     @Autowired
     private SenderService senderService;

@@ -1,0 +1,6 @@
+{
+  "messageType": "RBKMONEY_GET_CHALLENGE_REQUEST",
+  "threeDSServerTransID": "bc9f0b90-1041-47f0-94df-d692170ea0d7",
+  "acsTransID": "bc9f0b90-1041-47f0-94df-d692170ea0d7",
+  "challengeWindowSize": "05"
+}

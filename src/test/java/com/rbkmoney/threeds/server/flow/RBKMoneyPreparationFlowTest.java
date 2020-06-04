@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 "spring.main.allow-bean-definition-overriding=true",
                 "preparation-flow.mode=RBK_MONEY_PLATFORM"})
 @AutoConfigureMockMvc
-public class RBKMoneyPreparationFlowIT extends TestBase {
+public class RBKMoneyPreparationFlowTest extends TestBase {
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,8 +39,7 @@ public class RBKMoneyPreparationFlowIT extends TestBase {
 
     @Before
     public void setUp() {
-        when(idGenerator.generateUUID())
-                .thenReturn("bc9f0b90-1041-47f0-94df-d692170ea0d7");
+        when(idGenerator.generateUUID()).thenReturn("bc9f0b90-1041-47f0-94df-d692170ea0d7");
     }
 
     @Test
@@ -63,7 +62,7 @@ public class RBKMoneyPreparationFlowIT extends TestBase {
 
     private class PreparationFlow {
 
-        private static final String PATH = "message-flow/preparation/rbk-money/";
+        private static final String PATH = "message-flow/preparation/rbk-money-platform/";
 
         String incomingRequest() throws IOException {
             return readStringFromFile(PATH, "client-prep-request.json");

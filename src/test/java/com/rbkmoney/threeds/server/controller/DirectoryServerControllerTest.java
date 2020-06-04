@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         classes = {ThreeDsServerApplication.class, MockConfig.class},
         properties = "spring.main.allow-bean-definition-overriding=true")
 @AutoConfigureMockMvc
-public class DirectoryServerControllerIT extends TestBase {
+public class DirectoryServerControllerTest extends TestBase {
 
     @Autowired
     private MockMvc mockMvc;

@@ -1,0 +1,9 @@
+{
+  "threeDSServerTransID": "8c3595c6-8f26-4dfb-aff9-cd6a1f847567",
+  "acsTransID": "b263f169-c495-43c0-a9b8-0e457ebb0a01",
+  "messageType": "pGcq",
+  "p_messageVersion": "1.0.5",
+  "messageVersion": "2.2.0",
+  "challengeWindowSize": "05",
+  "threeDSSessionData": "threeDSSessionData"
+}
