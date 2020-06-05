@@ -1,14 +1,11 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
-import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyGetChallengeRequest;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationRequest;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.handle.RequestHandler;
-import com.rbkmoney.threeds.server.handle.impl.UnsupportedMessageTypeRequestHandler;
 import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.router.impl.PArqDirectoryServerRouter;
@@ -61,17 +58,5 @@ public class RequestHandlerConfig {
                 rbkMoneyPreparationRequestToPReqProcessorChain,
                 validator,
                 message -> message instanceof RBKMoneyPreparationRequest);
-    }
-
-    @Bean
-    public RequestHandler pReqToFixedPReqHandler(
-            Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain,
-            MessageValidatorService validator) {
-        return createRequestHandler(pReqToFixedPReqProcessorChain, validator, message -> message instanceof PReq);
-    }
-
-    @Bean
-    public RequestHandler unsupportedMessageTypeRequestHandler(MessageToErrorResConverter errorConverter) {
-        return new UnsupportedMessageTypeRequestHandler(errorConverter);
     }
 }

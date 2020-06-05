@@ -1,14 +1,11 @@
 package com.rbkmoney.threeds.server.config.testplatform;
 
-import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PGcq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.handle.RequestHandler;
-import com.rbkmoney.threeds.server.handle.impl.UnsupportedMessageTypeRequestHandler;
 import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -40,17 +37,5 @@ public class RequestHandlerConfig {
             Processor<ValidationResult, Message> pPrqToPReqProcessorChain,
             MessageValidatorService validator) {
         return createRequestHandler(pPrqToPReqProcessorChain, validator, message -> message instanceof PPrq);
-    }
-
-    @Bean
-    public RequestHandler pReqToFixedPReqHandler(
-            Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain,
-            MessageValidatorService validator) {
-        return createRequestHandler(pReqToFixedPReqProcessorChain, validator, message -> message instanceof PReq);
-    }
-
-    @Bean
-    public RequestHandler unsupportedMessageTypeRequestHandler(MessageToErrorResConverter errorConverter) {
-        return new UnsupportedMessageTypeRequestHandler(errorConverter);
     }
 }
