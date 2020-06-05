@@ -6,13 +6,12 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.RReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.RRes;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
+import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getListWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class RReqToRResConverter implements Converter<ValidationResult, Message>
                 .threeDSServerTransID(rReq.getThreeDSServerTransID())
                 .acsTransID(rReq.getAcsTransID())
                 .dsTransID(rReq.getDsTransID())
-                .messageExtension(getListWrapperValue(rReq.getMessageExtension()))
+                .messageExtension(getValue(rReq.getMessageExtension()))
                 .resultsStatus(analyzeRReqMessageStatus(rReq))
                 .sdkTransID(rReq.getSdkTransID())
                 .build();
@@ -36,7 +35,7 @@ public class RReqToRResConverter implements Converter<ValidationResult, Message>
     }
 
     private ResultsStatus analyzeRReqMessageStatus(RReq message) {
-        ChallengeCancel challengeCancel = getEnumWrapperValue(message.getChallengeCancel());
+        ChallengeCancel challengeCancel = Wrappers.getValue(message.getChallengeCancel());
         if (challengeCancel == null) {
             return ResultsStatus.RREQ_RECEIVED_FOR_FURTHER_PROCESSING;
         }
@@ -52,7 +51,7 @@ public class RReqToRResConverter implements Converter<ValidationResult, Message>
             case TRANSACTION_TIMED_OUT_FIRST_CREQ_NOT_RECEIVED:
                 return ResultsStatus.CREQ_NOT_SENT_TO_ACS;
             default:
-                throw new NotImplementedException(String.format("This is reserved value, challengeCancel='%s'", message.getChallengeCancel()));
+                throw new IllegalArgumentException(String.format("ChallengeCancel is reserved value, unsupported, challengeCancel='%s'", message.getChallengeCancel()));
         }
     }
 }

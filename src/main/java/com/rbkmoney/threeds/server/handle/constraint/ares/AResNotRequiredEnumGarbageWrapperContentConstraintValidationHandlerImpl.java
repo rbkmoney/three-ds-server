@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.*;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperGarbageValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -27,38 +27,38 @@ public class AResNotRequiredEnumGarbageWrapperContentConstraintValidationHandler
         MessageCategory messageCategory = ((AReq) o.getRequestMessage()).getMessageCategory();
 
         if (messageCategory != MessageCategory.PAYMENT_AUTH
-                && getEnumWrapperGarbageValue(o.getTransStatus()) != null) {
+                && getGarbageValue(o.getTransStatus()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "transStatus");
         }
 
-        TransactionStatus transactionStatus = getEnumWrapperValue(o.getTransStatus());
+        TransactionStatus transactionStatus = getValue(o.getTransStatus());
 
         if (!isRequiredCondition(messageCategory, transactionStatus)
-                && getEnumWrapperGarbageValue(o.getTransStatusReason()) != null) {
+                && getGarbageValue(o.getTransStatusReason()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "transStatusReason");
         }
 
         if (!(transactionStatus == TransactionStatus.CHALLENGE_REQUIRED
                 || transactionStatus == TransactionStatus.CHALLENGE_REQUIRED_DECOUPLED_AUTH)) {
-            if (getEnumWrapperGarbageValue(o.getAcsChallengeMandated()) != null) {
+            if (getGarbageValue(o.getAcsChallengeMandated()) != null) {
                 return ConstraintValidationResult.failure(PATTERN, "acsChallengeMandated");
             }
 
-            if (getEnumWrapperGarbageValue(o.getAuthenticationType()) != null) {
+            if (getGarbageValue(o.getAuthenticationType()) != null) {
                 return ConstraintValidationResult.failure(PATTERN, "authenticationType");
             }
         }
 
         if (transactionStatus != TransactionStatus.CHALLENGE_REQUIRED_DECOUPLED_AUTH
-                && getEnumWrapperGarbageValue(o.getAcsDecConInd()) != null) {
+                && getGarbageValue(o.getAcsDecConInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acsDecConInd");
         }
 
-        if (getEnumWrapperValue(o.getWhiteListStatusSource()) == null && getEnumWrapperGarbageValue(o.getWhiteListStatus()) != null) {
+        if (getValue(o.getWhiteListStatusSource()) == null && getGarbageValue(o.getWhiteListStatus()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "whiteListStatus");
         }
 
-        if (getEnumWrapperValue(o.getWhiteListStatus()) == null && getEnumWrapperGarbageValue(o.getWhiteListStatusSource()) != null) {
+        if (getValue(o.getWhiteListStatus()) == null && getGarbageValue(o.getWhiteListStatusSource()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "whiteListStatusSource");
         }
 

@@ -11,7 +11,7 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PPrs;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
+import com.rbkmoney.threeds.server.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getListWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.util.Collections.emptyList;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
@@ -50,7 +50,7 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
         PPrs pPrs = PPrs.builder()
                 .p_messageVersion(getP_messageVersion(pRes))
                 .p_completed(!isEmpty(cardRangeData))
-                .messageExtension(getListWrapperValue(pRes.getMessageExtension()))
+                .messageExtension(getValue(pRes.getMessageExtension()))
                 .build();
         pPrs.setMessageVersion(pRes.getMessageVersion());
 

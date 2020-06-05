@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperGarbageValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class PGcqNotRequiredEnumGarbageWrapperContentConstraintValidationHandler
 
     @Override
     public ConstraintValidationResult handle(PGcq o) {
-        if (getEnumWrapperGarbageValue(o.getChallengeWindowSize()) != null) {
+        if (getGarbageValue(o.getChallengeWindowSize()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "challengeWindowSize");
         }
 

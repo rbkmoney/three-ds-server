@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.*;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperGarbageValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -24,39 +24,39 @@ public class RReqNotRequiredEnumGarbageWrapperContentConstraintValidationHandler
 
     @Override
     public ConstraintValidationResult handle(RReq o) {
-        TransactionStatus transactionStatus = getEnumWrapperValue(o.getTransStatus());
-        MessageCategory messageCategory = getEnumWrapperValue(o.getMessageCategory());
+        TransactionStatus transactionStatus = getValue(o.getTransStatus());
+        MessageCategory messageCategory = getValue(o.getMessageCategory());
 
         if (messageCategory != MessageCategory.PAYMENT_AUTH
-                && getEnumWrapperGarbageValue(o.getTransStatus()) != null) {
+                && getGarbageValue(o.getTransStatus()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "transStatus");
         }
 
         if (!isRequiredCondition(transactionStatus, messageCategory)
-                && getEnumWrapperGarbageValue(o.getTransStatusReason()) != null) {
+                && getGarbageValue(o.getTransStatusReason()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "transStatusReason");
         }
 
-        if (getEnumWrapperGarbageValue(o.getAuthenticationMethod()) != null) {
+        if (getGarbageValue(o.getAuthenticationMethod()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "authenticationMethod");
         }
 
         if (!(transactionStatus == AUTHENTICATION_VERIFICATION_SUCCESSFUL
                 || transactionStatus == NOT_AUTHENTICATED_DENIED)
-                && getEnumWrapperGarbageValue(o.getAuthenticationType()) != null) {
+                && getGarbageValue(o.getAuthenticationType()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "authenticationType");
         }
 
-        if (getEnumWrapperValue(o.getTransStatusReason()) != TransactionStatusReason.TRANSACTION_TIMED_OUT_AT_ACS
-                && getEnumWrapperGarbageValue(o.getChallengeCancel()) != null) {
+        if (getValue(o.getTransStatusReason()) != TransactionStatusReason.TRANSACTION_TIMED_OUT_AT_ACS
+                && getGarbageValue(o.getChallengeCancel()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "challengeCancel");
         }
 
-        if (getEnumWrapperValue(o.getWhiteListStatusSource()) == null && getEnumWrapperGarbageValue(o.getWhiteListStatus()) != null) {
+        if (getValue(o.getWhiteListStatusSource()) == null && getGarbageValue(o.getWhiteListStatus()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "whiteListStatus");
         }
 
-        if (getEnumWrapperValue(o.getWhiteListStatus()) == null && getEnumWrapperGarbageValue(o.getWhiteListStatusSource()) != null) {
+        if (getValue(o.getWhiteListStatus()) == null && getGarbageValue(o.getWhiteListStatusSource()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "whiteListStatusSource");
         }
 

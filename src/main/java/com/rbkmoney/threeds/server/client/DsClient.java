@@ -8,4 +8,5 @@ public interface DsClient {
     Message request(Message message);
 
     void notifyDsAboutError(Erro message);
+
 }

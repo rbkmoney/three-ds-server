@@ -1,7 +1,7 @@
 package com.rbkmoney.threeds.server.config;
 
 import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
-import com.rbkmoney.damsel.three_ds_server_storage.RReqTransactionInfoStorageSrv;
+import com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfoStorageSrv;
 import com.rbkmoney.woody.thrift.impl.http.THSpawnClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -24,12 +24,12 @@ public class ThreeDsServerStorageConfig {
     }
 
     @Bean
-    public RReqTransactionInfoStorageSrv.Iface rReqTransactionInfoStorageClient(
+    public ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient(
             @Value("${client.three-ds-server-storage.url}") Resource url,
             @Value("${client.three-ds-server-storage.timeout}") int timeout) throws IOException {
         return new THSpawnClientBuilder()
                 .withAddress(url.getURI())
                 .withNetworkTimeout(timeout)
-                .build(RReqTransactionInfoStorageSrv.Iface.class);
+                .build(ChallengeFlowTransactionInfoStorageSrv.Iface.class);
     }
 }

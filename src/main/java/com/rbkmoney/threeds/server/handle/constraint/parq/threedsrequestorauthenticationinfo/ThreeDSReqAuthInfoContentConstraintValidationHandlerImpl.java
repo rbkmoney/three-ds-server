@@ -5,13 +5,13 @@ import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthe
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
+import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperGarbageValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getTemporalAccessorGarbageValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
@@ -37,11 +37,11 @@ public class ThreeDSReqAuthInfoContentConstraintValidationHandlerImpl implements
             return ConstraintValidationResult.failure(NOT_NULL, "threeDSRequestorAuthenticationInfo.threeDSReqAuthData");
         }
 
-        if (getEnumWrapperGarbageValue(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthMethod()) != null) {
+        if (getGarbageValue(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthMethod()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod");
         }
 
-        if (getTemporalAccessorGarbageValue(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthTimestamp()) != null) {
+        if (Wrappers.getGarbageValue(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthTimestamp()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthTimestamp");
         }
 

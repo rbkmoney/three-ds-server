@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class AResAuthSuccessConstraintValidationHandlerImpl implements AResConst
 
     @Override
     public boolean canHandle(ARes o) {
-        return getEnumWrapperValue(o.getTransStatus()) == AUTHENTICATION_VERIFICATION_SUCCESSFUL;
+        return getValue(o.getTransStatus()) == AUTHENTICATION_VERIFICATION_SUCCESSFUL;
     }
 
     @Override

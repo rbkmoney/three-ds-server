@@ -5,12 +5,12 @@ import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorPrior
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
+import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperGarbageValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getTemporalAccessorGarbageValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
@@ -41,11 +41,11 @@ public class ThreeDSReqPriorAuthInfoContentConstraintValidationHandlerImpl imple
             }
         }
 
-        if (getEnumWrapperGarbageValue(threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorAuthMethod()) != null) {
+        if (getGarbageValue(threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorAuthMethod()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthMethod");
         }
 
-        if (getTemporalAccessorGarbageValue(threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorAuthTimestamp()) != null) {
+        if (Wrappers.getGarbageValue(threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorAuthTimestamp()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthTimestamp");
         }
 

@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.CHALLENGE_REQUIRED;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class AResChallengeRequiredConstraintValidationHandlerImpl implements ARe
 
     @Override
     public boolean canHandle(ARes o) {
-        return getEnumWrapperValue(o.getTransStatus()) == CHALLENGE_REQUIRED;
+        return getValue(o.getTransStatus()) == CHALLENGE_REQUIRED;
     }
 
     @Override

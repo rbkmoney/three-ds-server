@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -22,8 +22,8 @@ public class ErroWrapperToErroConverter implements Converter<ValidationResult, M
                 .threeDSServerTransID(erroWrapper.getThreeDSServerTransID())
                 .acsTransID(erroWrapper.getAcsTransID())
                 .dsTransID(erroWrapper.getDsTransID())
-                .errorCode(getEnumWrapperValue(erroWrapper.getErrorCode()))
-                .errorComponent(getEnumWrapperValue(erroWrapper.getErrorComponent()))
+                .errorCode(getValue(erroWrapper.getErrorCode()))
+                .errorComponent(getValue(erroWrapper.getErrorComponent()))
                 .errorDescription(erroWrapper.getErrorDescription())
                 .errorDetail(erroWrapper.getErrorDetail())
                 .errorMessageType(erroWrapper.getErrorMessageType())

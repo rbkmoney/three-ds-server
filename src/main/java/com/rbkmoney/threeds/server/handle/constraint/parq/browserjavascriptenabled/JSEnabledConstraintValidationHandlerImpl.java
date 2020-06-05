@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class JSEnabledConstraintValidationHandlerImpl implements PArqConstraintV
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        DeviceChannel deviceChannel = getEnumWrapperValue(o.getDeviceChannel());
+        DeviceChannel deviceChannel = getValue(o.getDeviceChannel());
         ConstraintValidationResult validationResult;
 
         if (deviceChannel == DeviceChannel.BROWSER

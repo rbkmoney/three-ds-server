@@ -11,4 +11,5 @@ import org.springframework.stereotype.Component;
 public class StorageProperties {
 
     private StorageMode mode;
+
 }

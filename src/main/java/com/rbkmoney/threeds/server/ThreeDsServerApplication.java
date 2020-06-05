@@ -13,5 +13,4 @@ public class ThreeDsServerApplication extends SpringApplication {
     public static void main(String[] args) {
         SpringApplication.run(ThreeDsServerApplication.class, args);
     }
-
 }

@@ -1,6 +1,5 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.config.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.domain.MerchantRiskIndicator;
 import com.rbkmoney.threeds.server.domain.MerchantRiskIndicatorWrapper;
 import com.rbkmoney.threeds.server.domain.account.AccountInfo;
@@ -13,10 +12,12 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.*;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
+import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.serialization.TemporalAccessorWrapper;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
+import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.*;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -50,13 +51,13 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
         String threeDSServerTransID = idGenerator.generateUUID();
 
         AReq aReq = AReq.builder()
-                .threeDSCompInd(getEnumWrapperValue(pArq.getThreeDSCompInd()))
-                .threeDSRequestorAuthenticationInd(getEnumWrapperValue(pArq.getThreeDSRequestorAuthenticationInd()))
+                .threeDSCompInd(Wrappers.getValue(pArq.getThreeDSCompInd()))
+                .threeDSRequestorAuthenticationInd(Wrappers.getValue(pArq.getThreeDSRequestorAuthenticationInd()))
                 .threeDSRequestorAuthenticationInfo(getThreeDSRequestorAuthenticationInfo(pArq))
 //              .threeDSReqAuthMethodInd(null) todo null? emvco: -
-                .threeDSRequestorChallengeInd(getEnumWrapperValue(pArq.getThreeDSRequestorChallengeInd()))
+                .threeDSRequestorChallengeInd(Wrappers.getValue(pArq.getThreeDSRequestorChallengeInd()))
                 .threeDSRequestorDecMaxTime(pArq.getThreeDSRequestorDecMaxTime())
-                .threeDSRequestorDecReqInd(getEnumWrapperValue(pArq.getThreeDSRequestorDecReqInd()))
+                .threeDSRequestorDecReqInd(Wrappers.getValue(pArq.getThreeDSRequestorDecReqInd()))
                 .threeDSRequestorID(pArq.getThreeDSRequestorID())
                 .threeDSRequestorName(pArq.getThreeDSRequestorName())
                 .threeDSRequestorPriorAuthenticationInfo(getThreeDSRequestorPriorAuthenticationInfo(pArq))
@@ -65,18 +66,18 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .threeDSServerOperatorID(pArq.getThreeDSServerOperatorID())
                 .threeDSServerTransID(threeDSServerTransID)
                 .threeDSServerURL(providerHolder.getEnvironmentProperties().getThreeDsServerUrl())
-                .threeRIInd(getEnumWrapperValue(pArq.getThreeRIInd()))
-                .acctType(getEnumWrapperValue(pArq.getAcctType()))
+                .threeRIInd(Wrappers.getValue(pArq.getThreeRIInd()))
+                .acctType(Wrappers.getValue(pArq.getAcctType()))
                 .acquirerBIN(pArq.getAcquirerBIN())
                 .acquirerMerchantID(pArq.getAcquirerMerchantID())
-                .addrMatch(getEnumWrapperValue(pArq.getAddrMatch()))
+                .addrMatch(Wrappers.getValue(pArq.getAddrMatch()))
                 .broadInfo(pArq.getBroadInfo())
                 .browserAcceptHeader(pArq.getBrowserAcceptHeader())
                 .browserIP(pArq.getBrowserIP())
                 .browserJavaEnabled(pArq.getBrowserJavaEnabled())
                 .browserJavascriptEnabled(pArq.getBrowserJavascriptEnabled())
                 .browserLanguage(pArq.getBrowserLanguage())
-                .browserColorDepth(getEnumWrapperValue(pArq.getBrowserColorDepth()))
+                .browserColorDepth(Wrappers.getValue(pArq.getBrowserColorDepth()))
                 .browserScreenHeight(pArq.getBrowserScreenHeight())
                 .browserScreenWidth(pArq.getBrowserScreenWidth())
                 .browserTZ(pArq.getBrowserTZ())
@@ -112,27 +113,27 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                                 .build()
                 )
                 .workPhone(pArq.getWorkPhone())
-                .deviceChannel(getEnumWrapperValue(pArq.getDeviceChannel()))
+                .deviceChannel(Wrappers.getValue(pArq.getDeviceChannel()))
 //              .deviceInfo(null) emvco: source ds
                 .deviceRenderOptions(getDeviceRenderOptions(pArq))
 //              .dsReferenceNumber(null) emvco: source ds
 //              .dsTransID(null) emvco: source ds
 //              .dsURL(null) emvco: source ds
                 .payTokenInd(pArq.getPayTokenInd())
-                .payTokenSource(getEnumWrapperValue(pArq.getPayTokenSource()))
+                .payTokenSource(Wrappers.getValue(pArq.getPayTokenSource()))
                 .purchaseInstalData(getPurchaseInstalData(pArq))
                 .mcc(pArq.getMcc())
                 .merchantCountryCode(pArq.getMerchantCountryCode())
                 .merchantName(pArq.getMerchantName())
                 .merchantRiskIndicator(getMerchantRiskIndicator(pArq))
-                .messageCategory(getEnumWrapperValue(pArq.getMessageCategory()))
-                .messageExtension(getListWrapperValue(pArq.getMessageExtension()))
+                .messageCategory(Wrappers.getValue(pArq.getMessageCategory()))
+                .messageExtension(getValue(pArq.getMessageExtension()))
                 .notificationURL(pArq.getNotificationURL())
                 .purchaseAmount(pArq.getPurchaseAmount())
                 .purchaseCurrency(pArq.getPurchaseCurrency())
                 .purchaseExponent(pArq.getPurchaseExponent())
-                .purchaseDate(getTemporalAccessorValue(pArq.getPurchaseDate()))
-                .recurringExpiry(getTemporalAccessorValue(pArq.getRecurringExpiry()))
+                .purchaseDate(Wrappers.getValue(pArq.getPurchaseDate()))
+                .recurringExpiry(Wrappers.getValue(pArq.getRecurringExpiry()))
                 .recurringFrequency(pArq.getRecurringFrequency())
                 .sdkAppID(pArq.getSdkAppID())
                 .sdkEncData(pArq.getSdkEncData())
@@ -140,9 +141,9 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .sdkMaxTimeout(pArq.getSdkMaxTimeout())
                 .sdkReferenceNumber(pArq.getSdkReferenceNumber())
                 .sdkTransID(pArq.getSdkTransID())
-                .transType(getEnumWrapperValue(pArq.getTransType()))
-                .whiteListStatus(getEnumWrapperValue(pArq.getWhiteListStatus()))
-                .whiteListStatusSource(getEnumWrapperValue(pArq.getWhiteListStatusSource()))
+                .transType(Wrappers.getValue(pArq.getTransType()))
+                .whiteListStatus(Wrappers.getValue(pArq.getWhiteListStatus()))
+                .whiteListStatusSource(Wrappers.getValue(pArq.getWhiteListStatusSource()))
                 .decoupledAuthMaxTime(getDecAuthMaxTime(pArq))
                 .build();
         aReq.setMessageVersion(pArq.getMessageVersion());
@@ -249,8 +250,8 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
     }
 
     private String getPurchaseInstalData(PArq pArq) {
-        if (getEnumWrapperValue(pArq.getThreeDSRequestorAuthenticationInd()) == ThreeDSRequestorAuthenticationInd.INSTALMENT_TRANSACTION
-                || getEnumWrapperValue(pArq.getThreeRIInd()) == ThreeRIInd.INSTALMENT_TRANSACTION) {
+        if (Wrappers.getValue(pArq.getThreeDSRequestorAuthenticationInd()) == ThreeDSRequestorAuthenticationInd.INSTALMENT_TRANSACTION
+                || Wrappers.getValue(pArq.getThreeRIInd()) == ThreeRIInd.INSTALMENT_TRANSACTION) {
             return pArq.getPurchaseInstalData();
         }
         return null;

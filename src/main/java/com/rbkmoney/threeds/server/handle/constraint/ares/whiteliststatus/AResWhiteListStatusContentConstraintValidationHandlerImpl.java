@@ -6,8 +6,8 @@ import com.rbkmoney.threeds.server.handle.constraint.ares.AResConstraintValidati
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -15,7 +15,7 @@ public class AResWhiteListStatusContentConstraintValidationHandlerImpl implement
 
     @Override
     public boolean canHandle(ARes o) {
-        return getEnumWrapperValue(o.getWhiteListStatus()) != null;
+        return getValue(o.getWhiteListStatus()) != null;
     }
 
     @Override

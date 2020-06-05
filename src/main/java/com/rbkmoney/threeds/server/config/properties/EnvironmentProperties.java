@@ -17,4 +17,5 @@ public class EnvironmentProperties {
     @Length(max = 32)
     private String threeDsServerOperatorId;
     private int threeDsServerNetworkTimeout;
+
 }

@@ -17,12 +17,12 @@
       "name": "preparation-flow.mode",
       "values": [
         {
-          "value": "RBK_MONEY",
-          "description": "Use custom RBK.money preparation flow to interact with ThreeDsServerStorage."
+          "value": "RBK_MONEY_PLATFORM",
+          "description": "Use for create RBK.money production beans."
         },
         {
           "value": "TEST_PLATFORM",
-          "description": "Use pPrq/pPrs preparation flow from UL 3DS Test Platform."
+          "description": "Use for create UL 3DS Test Platform beans."
         }
       ]
     }

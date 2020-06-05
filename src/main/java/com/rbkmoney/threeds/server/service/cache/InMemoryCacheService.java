@@ -3,8 +3,7 @@ package com.rbkmoney.threeds.server.service.cache;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.rbkmoney.threeds.server.domain.CardRange;
-import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
-import com.rbkmoney.threeds.server.exeption.NullPointerActionIndException;
+import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 
 import java.util.HashSet;
 import java.util.List;
@@ -12,21 +11,21 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.rbkmoney.threeds.server.utils.CollectionsUtil.safeCollectionList;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Collections.safeList;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.lang.Long.parseLong;
 
 public class InMemoryCacheService extends AbstractCacheService {
 
     private final Map<String, String> serialNumByTag;
     private final Map<String, Set<CardRange>> cardRangesByTag;
-    private final Cache<String, RReqTransactionInfo> rReqTransactionInfoByTag;
+    private final Cache<String, ChallengeFlowTransactionInfo> challengeFlowTransactionInfoByTag;
 
-    public InMemoryCacheService(long rReqTransactionInfoCacheSize) {
+    public InMemoryCacheService(long challengeFlowTransactionInfoCacheSize) {
         this.serialNumByTag = new ConcurrentHashMap<>();
         this.cardRangesByTag = new ConcurrentHashMap<>();
-        this.rReqTransactionInfoByTag = Caffeine.newBuilder()
-                .maximumSize(rReqTransactionInfoCacheSize)
+        this.challengeFlowTransactionInfoByTag = Caffeine.newBuilder()
+                .maximumSize(challengeFlowTransactionInfoCacheSize)
                 .build();
     }
 
@@ -58,8 +57,8 @@ public class InMemoryCacheService extends AbstractCacheService {
 
         Set<CardRange> cachedCardRanges = getCardRanges(tag);
 
-        for (CardRange cardRange : safeCollectionList(cardRanges)) {
-            switch (getEnumWrapperValue(cardRange.getActionInd())) {
+        for (CardRange cardRange : safeList(cardRanges)) {
+            switch (getValue(cardRange.getActionInd())) {
                 case ADD_CARD_RANGE_TO_CACHE:
                     cachedCardRanges.add(cardRange);
                     break;
@@ -71,7 +70,7 @@ public class InMemoryCacheService extends AbstractCacheService {
                     cachedCardRanges.remove(cardRange);
                     break;
                 default:
-                    throw new NullPointerActionIndException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
+                    throw new IllegalArgumentException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
             }
         }
     }
@@ -83,12 +82,12 @@ public class InMemoryCacheService extends AbstractCacheService {
     }
 
     @Override
-    public void saveRReqTransactionInfo(String threeDSServerTransID, RReqTransactionInfo rReqTransactionInfo) {
-        rReqTransactionInfoByTag.put(threeDSServerTransID, rReqTransactionInfo);
+    public void saveChallengeFlowTransactionInfo(String threeDSServerTransID, ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
+        challengeFlowTransactionInfoByTag.put(threeDSServerTransID, challengeFlowTransactionInfo);
     }
 
     @Override
-    public RReqTransactionInfo getRReqTransactionInfo(String threeDSServerTransID) {
-        return rReqTransactionInfoByTag.getIfPresent(threeDSServerTransID);
+    public ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDSServerTransID) {
+        return challengeFlowTransactionInfoByTag.getIfPresent(threeDSServerTransID);
     }
 }

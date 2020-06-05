@@ -5,13 +5,13 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
+import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperGarbageValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getTemporalAccessorGarbageValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
@@ -64,51 +64,51 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
             return ConstraintValidationResult.failure(NOT_NULL, "acctInfo.txnActivityYear");
         }
 
-        if (getEnumWrapperGarbageValue(acctInfo.getChAccAgeInd()) != null) {
+        if (getGarbageValue(acctInfo.getChAccAgeInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccAgeInd");
         }
 
-        if (getTemporalAccessorGarbageValue(acctInfo.getChAccChange()) != null) {
+        if (Wrappers.getGarbageValue(acctInfo.getChAccChange()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccChange");
         }
 
-        if (getEnumWrapperGarbageValue(acctInfo.getChAccChangeInd()) != null) {
+        if (getGarbageValue(acctInfo.getChAccChangeInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccChangeInd");
         }
 
-        if (getTemporalAccessorGarbageValue(acctInfo.getChAccDate()) != null) {
+        if (Wrappers.getGarbageValue(acctInfo.getChAccDate()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccDate");
         }
 
-        if (getTemporalAccessorGarbageValue(acctInfo.getChAccPwChange()) != null) {
+        if (Wrappers.getGarbageValue(acctInfo.getChAccPwChange()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccPwChange");
         }
 
-        if (getEnumWrapperGarbageValue(acctInfo.getChAccPwChangeInd()) != null) {
+        if (getGarbageValue(acctInfo.getChAccPwChangeInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccPwChangeInd");
         }
 
-        if (getTemporalAccessorGarbageValue(acctInfo.getPaymentAccAge()) != null) {
+        if (Wrappers.getGarbageValue(acctInfo.getPaymentAccAge()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.paymentAccAge");
         }
 
-        if (getEnumWrapperGarbageValue(acctInfo.getPaymentAccInd()) != null) {
+        if (getGarbageValue(acctInfo.getPaymentAccInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.paymentAccInd");
         }
 
-        if (getTemporalAccessorGarbageValue(acctInfo.getShipAddressUsage()) != null) {
+        if (Wrappers.getGarbageValue(acctInfo.getShipAddressUsage()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.shipAddressUsage");
         }
 
-        if (getEnumWrapperGarbageValue(acctInfo.getShipAddressUsageInd()) != null) {
+        if (getGarbageValue(acctInfo.getShipAddressUsageInd()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.shipAddressUsageInd");
         }
 
-        if (getEnumWrapperGarbageValue(acctInfo.getShipNameIndicator()) != null) {
+        if (getGarbageValue(acctInfo.getShipNameIndicator()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.shipNameIndicator");
         }
 
-        if (getEnumWrapperGarbageValue(acctInfo.getSuspiciousAccActivity()) != null) {
+        if (getGarbageValue(acctInfo.getSuspiciousAccActivity()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.suspiciousAccActivity");
         }
 

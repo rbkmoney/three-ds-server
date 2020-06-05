@@ -4,4 +4,5 @@ public enum StorageMode {
 
     EXTERNAL,
     IN_MEMORY
+
 }

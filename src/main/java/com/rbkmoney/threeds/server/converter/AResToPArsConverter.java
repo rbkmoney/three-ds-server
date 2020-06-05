@@ -10,18 +10,18 @@ import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
-import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
+import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
+import com.rbkmoney.threeds.server.service.CacheService;
+import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getListWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
@@ -34,10 +34,10 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
     public Message convert(ValidationResult validationResult) {
         ARes aRes = (ARes) validationResult.getMessage();
 
-        TransactionStatus transStatus = getEnumWrapperValue(aRes.getTransStatus());
+        TransactionStatus transStatus = Wrappers.getValue(aRes.getTransStatus());
         if (transStatus == TransactionStatus.CHALLENGE_REQUIRED_DECOUPLED_AUTH
                 || transStatus == TransactionStatus.CHALLENGE_REQUIRED) {
-            saveRReqTransactionInfoInCache(aRes);
+            cacheChallengeFlowTransactionInfo(aRes);
         }
 
         PArs pArs = PArs.builder()
@@ -53,17 +53,17 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .acsOperatorID(aRes.getAcsOperatorID())
                 .acsSignedContent(getAcsSignedContent(aRes))
                 .acsURL(getAcsURL(aRes))
-                .authenticationType(getEnumWrapperValue(aRes.getAuthenticationType()))
-                .acsChallengeMandated(getEnumWrapperValue(aRes.getAcsChallengeMandated()))
+                .authenticationType(Wrappers.getValue(aRes.getAuthenticationType()))
+                .acsChallengeMandated(Wrappers.getValue(aRes.getAcsChallengeMandated()))
                 .eci(aRes.getEci())
-                .messageExtension(getListWrapperValue(aRes.getMessageExtension()))
+                .messageExtension(getValue(aRes.getMessageExtension()))
                 .sdkTransID(aRes.getSdkTransID())
-                .transStatusReason(getEnumWrapperValue(aRes.getTransStatusReason()))
+                .transStatusReason(Wrappers.getValue(aRes.getTransStatusReason()))
                 .cardholderInfo(aRes.getCardholderInfo())
                 .broadInfo(aRes.getBroadInfo())
-                .acsDecConInd(getEnumWrapperValue(aRes.getAcsDecConInd()))
-                .whiteListStatus(getEnumWrapperValue(aRes.getWhiteListStatus()))
-                .whiteListStatusSource(getEnumWrapperValue(aRes.getWhiteListStatusSource()))
+                .acsDecConInd(Wrappers.getValue(aRes.getAcsDecConInd()))
+                .whiteListStatus(Wrappers.getValue(aRes.getWhiteListStatus()))
+                .whiteListStatusSource(Wrappers.getValue(aRes.getWhiteListStatusSource()))
                 .build();
         pArs.setMessageVersion(aRes.getMessageVersion());
         return pArs;
@@ -108,17 +108,19 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
         }
     }
 
-    private void saveRReqTransactionInfoInCache(ARes aRes) {
+    private void cacheChallengeFlowTransactionInfo(ARes aRes) {
         AReq aReq = (AReq) aRes.getRequestMessage();
+        ;
 
         String threeDSServerTransID = aRes.getThreeDSServerTransID();
 
-        RReqTransactionInfo rReqTransactionInfo = RReqTransactionInfo.builder()
+        ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
                 .deviceChannel(aReq.getDeviceChannel())
                 .decoupledAuthMaxTime(aReq.getDecoupledAuthMaxTime())
-                .acsDecConInd(getEnumWrapperValue(aRes.getAcsDecConInd()))
+                .acsDecConInd(Wrappers.getValue(aRes.getAcsDecConInd()))
+                .acsUrl(aRes.getAcsURL())
                 .build();
 
-        cacheService.saveRReqTransactionInfo(threeDSServerTransID, rReqTransactionInfo);
+        cacheService.saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
     }
 }

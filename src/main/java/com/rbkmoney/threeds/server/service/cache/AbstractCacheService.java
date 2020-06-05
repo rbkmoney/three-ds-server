@@ -2,11 +2,11 @@ package com.rbkmoney.threeds.server.service.cache;
 
 import com.rbkmoney.threeds.server.domain.ActionInd;
 import com.rbkmoney.threeds.server.domain.CardRange;
-import com.rbkmoney.threeds.server.exeption.NullPointerActionIndException;
+import com.rbkmoney.threeds.server.service.CacheService;
 
 import java.util.Set;
 
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.lang.Long.parseLong;
 
 public abstract class AbstractCacheService implements CacheService {
@@ -15,7 +15,7 @@ public abstract class AbstractCacheService implements CacheService {
 
     @Override
     public boolean isValidCardRange(String tag, CardRange cardRange) {
-        ActionInd actionInd = getEnumWrapperValue(cardRange.getActionInd());
+        ActionInd actionInd = getValue(cardRange.getActionInd());
         if (actionInd == null) {
             return true;
         }
@@ -31,7 +31,7 @@ public abstract class AbstractCacheService implements CacheService {
             case DELETE_CARD_RANGE_FROM_CACHE:
                 return cachedCardRanges.isEmpty() || isValidForModifyOrDeleteCardRange(tag, startRange, endRange);
             default:
-                throw new NullPointerActionIndException("Missing Action Indicator in Card Range Data, cardRange=" + cardRange);
+                throw new IllegalArgumentException("Missing Action Indicator in Card Range Data, cardRange=" + cardRange);
         }
     }
 

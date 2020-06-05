@@ -6,8 +6,8 @@ import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidati
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -15,7 +15,7 @@ public class PArqWhiteListStatusSourceContentConstraintValidationHandlerImpl imp
 
     @Override
     public boolean canHandle(PArq o) {
-        return getEnumWrapperValue(o.getWhiteListStatusSource()) != null;
+        return getValue(o.getWhiteListStatusSource()) != null;
     }
 
     @Override

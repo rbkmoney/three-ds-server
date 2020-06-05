@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.TECHNICAL_PROBLEM;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -17,12 +17,12 @@ public class RReqAuthProblemConstraintValidationHandlerImpl implements RReqConst
 
     @Override
     public boolean canHandle(RReq o) {
-        return getEnumWrapperValue(o.getTransStatus()) == TECHNICAL_PROBLEM;
+        return getValue(o.getTransStatus()) == TECHNICAL_PROBLEM;
     }
 
     @Override
     public ConstraintValidationResult handle(RReq o) {
-        if (getEnumWrapperValue(o.getMessageCategory()) == MessageCategory.PAYMENT_AUTH) {
+        if (getValue(o.getMessageCategory()) == MessageCategory.PAYMENT_AUTH) {
             return validateRequiredConditionField(o.getTransStatusReason(), "transStatusReason");
         }
 

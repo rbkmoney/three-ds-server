@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.NOT_AUTHENTICATED_DENIED;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class AResAuthDeniedConstraintValidationHandlerImpl implements AResConstr
 
     @Override
     public boolean canHandle(ARes o) {
-        return getEnumWrapperValue(o.getTransStatus()) == NOT_AUTHENTICATED_DENIED;
+        return getValue(o.getTransStatus()) == NOT_AUTHENTICATED_DENIED;
     }
 
     @Override

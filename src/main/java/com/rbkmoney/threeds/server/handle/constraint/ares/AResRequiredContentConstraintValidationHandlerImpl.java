@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.getEnumWrapperValue;
-import static com.rbkmoney.threeds.server.utils.WrapperUtil.validateRequiredConditionField;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
+import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
 @Component
 @RequiredArgsConstructor
@@ -27,8 +27,8 @@ public class AResRequiredContentConstraintValidationHandlerImpl implements AResC
         DeviceChannel deviceChannel = ((AReq) o.getRequestMessage()).getDeviceChannel();
         MessageCategory messageCategory = ((AReq) o.getRequestMessage()).getMessageCategory();
 
-        if (!o.isRelevantMessageVersion() && getEnumWrapperValue(o.getTransStatusReason()) != null
-                && getEnumWrapperValue(o.getTransStatusReason()).isReservedValueForNotRelevantMessageVersion()) {
+        if (!o.isRelevantMessageVersion() && getValue(o.getTransStatusReason()) != null
+                && getValue(o.getTransStatusReason()).isReservedValueForNotRelevantMessageVersion()) {
             return ConstraintValidationResult.failure(PATTERN, "transStatusReason");
         }
 

@@ -4,8 +4,7 @@ import com.rbkmoney.threeds.server.domain.ActionInd;
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
-import com.rbkmoney.threeds.server.dto.RReqTransactionInfo;
-import com.rbkmoney.threeds.server.service.cache.CacheService;
+import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.service.cache.InMemoryCacheService;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,19 +58,19 @@ public class InMemoryCacheServiceTest {
     }
 
     @Test
-    public void shouldSaveAndGetRReqTransactionInfo() {
+    public void shouldSaveAndGetTransactionInfo() {
         // Given
-        RReqTransactionInfo transactionInfo = RReqTransactionInfo.builder()
+        ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
                 .acsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED)
                 .decoupledAuthMaxTime(LocalDateTime.MIN)
                 .deviceChannel(DeviceChannel.APP_BASED)
                 .build();
 
-        cacheService.saveRReqTransactionInfo(TRAP, RReqTransactionInfo.builder().build());
+        cacheService.saveChallengeFlowTransactionInfo(TRAP, ChallengeFlowTransactionInfo.builder().build());
 
         // When
-        cacheService.saveRReqTransactionInfo(TEST_TAG, transactionInfo);
-        RReqTransactionInfo result = cacheService.getRReqTransactionInfo(TEST_TAG);
+        cacheService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
+        ChallengeFlowTransactionInfo result = cacheService.getChallengeFlowTransactionInfo(TEST_TAG);
 
         // Then
         assertThat(result).isEqualTo(transactionInfo);

@@ -7,4 +7,5 @@ public class KeystoreProperties {
 
     private String trustStore;
     private String trustStorePassword;
+
 }
