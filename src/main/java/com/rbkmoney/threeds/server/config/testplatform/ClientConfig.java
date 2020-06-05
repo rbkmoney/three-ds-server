@@ -41,7 +41,6 @@ public class ClientConfig {
     }
 
     @Bean
-    @RequestScope
     public DsClient testDsClient(
             RestTemplate testRestTemplate,
             EnvironmentProperties testEnvironmentProperties,

@@ -50,7 +50,6 @@ public class ClientConfig {
     }
 
     @Bean
-    @RequestScope
     public DsClient visaDsClient(
             RestTemplate visaRestTemplate,
             EnvironmentProperties visaEnvironmentProperties,
@@ -66,7 +65,6 @@ public class ClientConfig {
     }
 
     @Bean
-    @RequestScope
     public DsClient mastercardDsClient(
             RestTemplate mastercardRestTemplate,
             EnvironmentProperties mastercardEnvironmentProperties,
@@ -82,7 +80,6 @@ public class ClientConfig {
     }
 
     @Bean
-    @RequestScope
     public DsClient mirDsClient(
             RestTemplate mirRestTemplate,
             EnvironmentProperties mirEnvironmentProperties,
