@@ -209,7 +209,7 @@ public class BRW_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         // todo nspk ssertEquals(AcsChallengeMandated.CHALLENGE_MANDATED, pArs.getAcsChallengeMandated());
 
-        CRes cRes = sendAs3dsClientTypeBRW(pArs, justCancel());
+        CRes cRes = sendAs3dsClientTypeBRW(pArs, justCancel(), "01");
 
         assertEquals(TransactionStatus.NOT_AUTHENTICATED_DENIED.getValue(), cRes.getTransStatus());
 

@@ -66,7 +66,7 @@ import java.util.function.Function;
 @Ignore
 public abstract class MirAcceptIntegrationConfig {
 
-    private static boolean WRITE_DATA_IN_FILE = false;
+    private static boolean WRITE_DATA_IN_FILE = true;
 
     @Autowired
     protected SenderService senderService;
@@ -95,9 +95,13 @@ public abstract class MirAcceptIntegrationConfig {
     protected static final String MESSAGE_VERSION = "2.1.0";
 
     protected CRes sendAs3dsClientTypeBRW(PArs pArs, Function<String, ResponseEntity<String>> function) {
+        return sendAs3dsClientTypeBRW(pArs, function, "05");
+    }
+
+    protected CRes sendAs3dsClientTypeBRW(PArs pArs, Function<String, ResponseEntity<String>> function, String challengeWindowSize) {
         CReq cReq = CReq.builder()
                 .acsTransID(pArs.getAcsTransID())
-                .challengeWindowSize("05")
+                .challengeWindowSize(challengeWindowSize)
                 .messageVersion(pArs.getMessageVersion())
                 .threeDSServerTransID(pArs.getThreeDSServerTransID())
                 .build();
@@ -276,11 +280,9 @@ public abstract class MirAcceptIntegrationConfig {
     private void writeInFile(PArs pArs, TestNumber testNumber, StandardOpenOption standardOpenOption) {
         if (WRITE_DATA_IN_FILE) {
             try {
-                String text = String.format("%s %s = %s; %s = %s; %s = %s\n",
+                String text = String.format("%s (\"%s\": \"%s\")\n",
                         testNumber.getValue(),
-                        "acsTransID", pArs.getAcsTransID(),
-                        "dsTransID", pArs.getDsTransID(),
-                        "threeDSServerTransID", pArs.getThreeDSServerTransID());
+                        "dsTransID", pArs.getDsTransID());
 
                 Files.write(Paths.get(resourceLoader.getResource("classpath:__files/nspk_data").getURL().toURI()), text.getBytes(), standardOpenOption);
             } catch (IOException | URISyntaxException e) {
@@ -292,32 +294,32 @@ public abstract class MirAcceptIntegrationConfig {
     @RequiredArgsConstructor
     public enum TestNumber {
 
-        BRW_PA_1_1("[BRW PA 1-1]"),
-        BRW_PA_1_2("[BRW PA 1-2]"),
-        BRW_PA_1_3("[BRW PA 1-3]"),
-        BRW_PA_1_4("[BRW PA 1-4]"),
-        BRW_PA_1_5("[BRW PA 1-5]"),
-        BRW_PA_1_6("[BRW PA 1-6]"),
-        BRW_PA_1_7("[BRW PA 1-7]"),
-        BRW_PA_1_8("[BRW PA 1-8]"),
-        BRW_PA_1_9("[BRW PA 1-9]"),
-        BRW_PA_1_10("[BRW PA 1-10]"),
-        BRW_NPA_2_1("[BRW NPA 2-1]"),
-        BRW_NPA_2_3("[BRW NPA 2-3]"),
-        BRW_NPA_2_4("[BRW NPA 2-4]"),
-        BRW_NPA_2_5("[BRW NPA 2-5]"),
-        BRW_NPA_2_6("[BRW NPA 2-6]"),
-        BRW_NPA_2_7("[BRW NPA 2-7]"),
-        BRW_NPA_2_9("[BRW NPA 2-9]"),
-        BRW_NPA_2_10("[BRW NPA 2-10]"),
-        THREE_RI_NPA_5_2("[3RI NPA 5-2]"),
-        THREE_RI_NPA_5_3("[3RI NPA 5-3]"),
-        THREE_RI_NPA_5_4("[3RI NPA 5-4]"),
-        THREE_RI_NPA_5_5("[3RI NPA 5-5]"),
-        FSS_PA_6_1("[FSS PA 6-1]"),
-        FSS_PA_6_2("[FSS PA 6-2]"),
-        FSS_PA_6_3("[FSS PA 6-3]"),
-        FSS_PA_6_4("[FSS PA 6-4]");
+        BRW_PA_1_1("1-1"),
+        BRW_PA_1_2("1-2"),
+        BRW_PA_1_3("1-3"),
+        BRW_PA_1_4("1-4"),
+        BRW_PA_1_5("1-5"),
+        BRW_PA_1_6("1-6"),
+        BRW_PA_1_7("1-7"),
+        BRW_PA_1_8("1-8"),
+        BRW_PA_1_9("1-9"),
+        BRW_PA_1_10("1-10"),
+        BRW_NPA_2_1("2-1"),
+        BRW_NPA_2_3("2-3"),
+        BRW_NPA_2_4("2-4"),
+        BRW_NPA_2_5("2-5"),
+        BRW_NPA_2_6("2-6"),
+        BRW_NPA_2_7("2-7"),
+        BRW_NPA_2_9("2-9"),
+        BRW_NPA_2_10("2-10"),
+        THREE_RI_NPA_5_2("5-2"),
+        THREE_RI_NPA_5_3("5-3"),
+        THREE_RI_NPA_5_4("5-4"),
+        THREE_RI_NPA_5_5("5-5"),
+        FSS_PA_6_1("6-1"),
+        FSS_PA_6_2("6-2"),
+        FSS_PA_6_3("6-3"),
+        FSS_PA_6_4("6-4");
 
         private final String value;
 

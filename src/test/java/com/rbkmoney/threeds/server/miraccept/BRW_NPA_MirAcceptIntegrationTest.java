@@ -51,7 +51,6 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL, pArs.getTransStatus());
         assertEquals("02", pArs.getEci());
-        // todo nspk assertNotNull(pArs.getAuthenticationValue());
 
         writeInFileAppend(pArs, TestNumber.BRW_NPA_2_3);
     }
@@ -145,7 +144,6 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
 
         assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL, pArs.getTransStatus());
         assertEquals("02", pArs.getEci());
-        // todo nspk assertNotNull(pArs.getAuthenticationValue());
 
         writeInFileAppend(pArs, TestNumber.BRW_NPA_2_9);
     }
