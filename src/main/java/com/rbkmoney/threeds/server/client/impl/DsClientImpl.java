@@ -47,9 +47,7 @@ public class DsClientImpl implements DsClient {
             responseMessage.setRequestMessage(requestMessage);
             // todo remove or replace
             HttpHeaders headers = responseMessageEntity.getHeaders();
-            String xULTestCaseRunId = Optional.ofNullable(headers.getFirst("x-ul-testcaserun-id"))
-                    .orElse(requestMessage.getXULTestCaseRunId());
-            responseMessage.setXULTestCaseRunId(xULTestCaseRunId);
+            responseMessage.setUlTestCaseId(getTestCaseRunId(requestMessage, headers));
 
             return responseMessage;
         } catch (ResourceAccessException ex) {
@@ -80,5 +78,11 @@ public class DsClientImpl implements DsClient {
                 errorMessageResolver.resolveDefaultErrorDescription(errorCode),
                 request
         );
+    }
+
+    private String getTestCaseRunId(Message requestMessage, HttpHeaders headers) {
+        return Optional
+                .ofNullable(headers.getFirst("x-ul-testcaserun-id"))
+                .orElse(requestMessage.getUlTestCaseId());
     }
 }

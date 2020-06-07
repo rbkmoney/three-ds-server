@@ -158,7 +158,7 @@ public class BRW_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
                 .threeDSServerTransID(randomId())
                 .build();
         pPrq.setMessageVersion("2.1.0");
-        pPrq.setXULTestCaseRunId(randomString());
+        pPrq.setUlTestCaseId(randomString());
 
         Message message = senderService.sendToDs(pPrq);
 
@@ -207,7 +207,7 @@ public class BRW_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
         assertEquals(TransactionStatus.CHALLENGE_REQUIRED, pArs.getTransStatus());
         assertNotNull(pArs.getAcsURL());
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
-        // todo nspk ssertEquals(AcsChallengeMandated.CHALLENGE_MANDATED, pArs.getAcsChallengeMandated());
+//      todo nspk assertEquals(AcsChallengeMandated.CHALLENGE_MANDATED, pArs.getAcsChallengeMandated());
 
         CRes cRes = sendAs3dsClientTypeBRW(pArs, justCancel(), "01");
 
@@ -249,7 +249,7 @@ public class BRW_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
                 .threeDSServerOperatorID(THREE_DS_SERVER_OPERATOR_ID)
                 .build();
         pArq.setMessageVersion(MESSAGE_VERSION);
-        pArq.setXULTestCaseRunId(randomString());
+        pArq.setUlTestCaseId(randomString());
         pArq.setBillingAddress(new Address());
         pArq.setShippingAddress(new Address());
         return pArq;

@@ -25,7 +25,7 @@ public class PReqToFixedPReqConverter implements Converter<ValidationResult, Mes
                 .build();
         pReqFixed.setMessageVersion(pReq.getMessageVersion());
         pReqFixed.setRequestMessage(pReq.getRequestMessage());
-        pReqFixed.setXULTestCaseRunId(pReq.getXULTestCaseRunId());
+        pReqFixed.setUlTestCaseId(pReq.getUlTestCaseId());
         return pReqFixed;
     }
 }

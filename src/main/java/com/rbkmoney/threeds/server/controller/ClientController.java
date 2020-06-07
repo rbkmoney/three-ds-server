@@ -16,12 +16,12 @@ public class ClientController {
     private final SenderService senderService;
 
     @PostMapping
-    public ResponseEntity<Message> processMessage(@RequestHeader("x-ul-testcaserun-id") String xULTestCaseRunId,
+    public ResponseEntity<Message> processMessage(@RequestHeader("x-ul-testcaserun-id") String ulTestCaseId,
                                                   @RequestBody Message requestMessage) {
         log.info("Begin handling /sdk message: message={}", requestMessage.toString());
 
         // todo remove or replace
-        requestMessage.setXULTestCaseRunId(xULTestCaseRunId);
+        requestMessage.setUlTestCaseId(ulTestCaseId);
         Message responseMessage = senderService.sendToDs(requestMessage);
 
         log.info("End handling /sdk message: message={}", responseMessage.toString());

@@ -163,7 +163,7 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
         assertEquals(AuthenticationType.STATIC, pArs.getAuthenticationType());
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
 
-        CRes cRes = sendAs3dsClientTypeBRW(pArs, justCancel());
+        CRes cRes = sendAs3dsClientTypeBRW(pArs, justCancel(), "01");
 
         assertEquals(TransactionStatus.NOT_AUTHENTICATED_DENIED.getValue(), cRes.getTransStatus());
 
@@ -199,7 +199,7 @@ public class BRW_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig
                 .threeDSServerOperatorID(THREE_DS_SERVER_OPERATOR_ID)
                 .build();
         pArq.setMessageVersion(MESSAGE_VERSION);
-        pArq.setXULTestCaseRunId(randomString());
+        pArq.setUlTestCaseId(randomString());
         pArq.setBillingAddress(new Address());
         pArq.setShippingAddress(new Address());
         return pArq;

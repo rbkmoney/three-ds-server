@@ -103,7 +103,7 @@ public class THREE_RI_NPA_MirAcceptIntegrationTest extends MirAcceptIntegrationC
                 .threeRIInd(getEnumWrapper(threeRIInd))
                 .build();
         pArq.setMessageVersion(MESSAGE_VERSION);
-        pArq.setXULTestCaseRunId(randomString());
+        pArq.setUlTestCaseId(randomString());
         pArq.setBillingAddress(new Address());
         pArq.setShippingAddress(new Address());
         return pArq;

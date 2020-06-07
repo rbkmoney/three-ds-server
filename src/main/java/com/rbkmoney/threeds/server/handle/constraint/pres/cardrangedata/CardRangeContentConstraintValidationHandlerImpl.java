@@ -67,7 +67,7 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
         }
 
         for (CardRange cardRange : safeCollectionList(cardRangeData)) {
-            if (!cacheService.isValidCardRange(o.getXULTestCaseRunId(), cardRange)) {
+            if (!cacheService.isValidCardRange(o.getUlTestCaseId(), cardRange)) {
                 o.setHandleRepetitionNeeded(true);
 
                 return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
