@@ -5,7 +5,6 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
-import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -72,7 +71,7 @@ public class MerchantRiskIndicatorContentConstraintValidationHandlerImpl impleme
             return ConstraintValidationResult.failure(PATTERN, "merchantRiskIndicator.deliveryTimeframe");
         }
 
-        if (Wrappers.getGarbageValue(merchantRiskIndicator.getPreOrderDate()) != null) {
+        if (getGarbageValue(merchantRiskIndicator.getPreOrderDate()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "merchantRiskIndicator.preOrderDate");
         }
 

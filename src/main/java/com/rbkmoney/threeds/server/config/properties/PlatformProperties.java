@@ -1,15 +1,15 @@
 package com.rbkmoney.threeds.server.config.properties;
 
-import com.rbkmoney.threeds.server.constants.PreparationFlowMode;
+import com.rbkmoney.threeds.server.constants.PlatformMode;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties("preparation-flow")
-public class PreparationFlowProperties {
+@ConfigurationProperties("platform")
+public class PlatformProperties {
 
-    private PreparationFlowMode mode;
+    private PlatformMode mode;
 
 }

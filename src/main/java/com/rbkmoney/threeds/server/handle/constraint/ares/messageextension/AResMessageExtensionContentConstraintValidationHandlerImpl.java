@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.CRITICAL_MESSAGE_EXTENSION_NOT_RECOGNISED;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.MessageExtensionUtil.*;
+import static com.rbkmoney.threeds.server.utils.MessageExtensions.*;
 
 @Component
 @RequiredArgsConstructor

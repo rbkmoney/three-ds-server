@@ -21,7 +21,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import static com.rbkmoney.threeds.server.config.builder.RestTemplateBuilder.restTemplate;
 
 @Configuration
-@ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "RBK_MONEY_PLATFORM")
+@ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 public class ClientConfig {
 
     @Bean

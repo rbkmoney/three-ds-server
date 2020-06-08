@@ -5,7 +5,6 @@ import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthe
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
-import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +40,7 @@ public class ThreeDSReqAuthInfoContentConstraintValidationHandlerImpl implements
             return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod");
         }
 
-        if (Wrappers.getGarbageValue(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthTimestamp()) != null) {
+        if (getGarbageValue(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthTimestamp()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthTimestamp");
         }
 

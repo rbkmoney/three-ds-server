@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRequestHandler;
 
 @Configuration
-@ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "TEST_PLATFORM")
+@ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
 public class RequestHandlerConfig {
 
     @Bean

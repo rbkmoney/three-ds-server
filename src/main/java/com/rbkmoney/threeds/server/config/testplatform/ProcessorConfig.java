@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import static com.rbkmoney.threeds.server.config.builder.ProcessorBuilder.createProcessorChain;
 
 @Configuration
-@ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "TEST_PLATFORM")
+@ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
 public class ProcessorConfig {
 
     @Bean

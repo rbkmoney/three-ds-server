@@ -5,16 +5,16 @@
       "values": [
         {
           "value": "IN_MEMORY",
-          "description": "Keep all data in memory using InMemoryCacheService."
+          "description": "Keep all data in memory."
         },
         {
           "value": "EXTERNAL",
-          "description": "Use external ThreeDsServerStorage."
+          "description": "Use external Storage."
         }
       ]
     },
     {
-      "name": "preparation-flow.mode",
+      "name": "platform.mode",
       "values": [
         {
           "value": "RBK_MONEY_PLATFORM",
