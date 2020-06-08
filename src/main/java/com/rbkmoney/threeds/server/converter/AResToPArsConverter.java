@@ -14,7 +14,6 @@ import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.service.CacheService;
-import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -34,7 +33,7 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
     public Message convert(ValidationResult validationResult) {
         ARes aRes = (ARes) validationResult.getMessage();
 
-        TransactionStatus transStatus = Wrappers.getValue(aRes.getTransStatus());
+        TransactionStatus transStatus = getValue(aRes.getTransStatus());
         if (transStatus == TransactionStatus.CHALLENGE_REQUIRED_DECOUPLED_AUTH
                 || transStatus == TransactionStatus.CHALLENGE_REQUIRED) {
             cacheChallengeFlowTransactionInfo(aRes);
@@ -53,17 +52,17 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .acsOperatorID(aRes.getAcsOperatorID())
                 .acsSignedContent(getAcsSignedContent(aRes))
                 .acsURL(getAcsURL(aRes))
-                .authenticationType(Wrappers.getValue(aRes.getAuthenticationType()))
-                .acsChallengeMandated(Wrappers.getValue(aRes.getAcsChallengeMandated()))
+                .authenticationType(getValue(aRes.getAuthenticationType()))
+                .acsChallengeMandated(getValue(aRes.getAcsChallengeMandated()))
                 .eci(aRes.getEci())
                 .messageExtension(getValue(aRes.getMessageExtension()))
                 .sdkTransID(aRes.getSdkTransID())
-                .transStatusReason(Wrappers.getValue(aRes.getTransStatusReason()))
+                .transStatusReason(getValue(aRes.getTransStatusReason()))
                 .cardholderInfo(aRes.getCardholderInfo())
                 .broadInfo(aRes.getBroadInfo())
-                .acsDecConInd(Wrappers.getValue(aRes.getAcsDecConInd()))
-                .whiteListStatus(Wrappers.getValue(aRes.getWhiteListStatus()))
-                .whiteListStatusSource(Wrappers.getValue(aRes.getWhiteListStatusSource()))
+                .acsDecConInd(getValue(aRes.getAcsDecConInd()))
+                .whiteListStatus(getValue(aRes.getWhiteListStatus()))
+                .whiteListStatusSource(getValue(aRes.getWhiteListStatusSource()))
                 .build();
         pArs.setMessageVersion(aRes.getMessageVersion());
         return pArs;
@@ -117,7 +116,7 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
         ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
                 .deviceChannel(aReq.getDeviceChannel())
                 .decoupledAuthMaxTime(aReq.getDecoupledAuthMaxTime())
-                .acsDecConInd(Wrappers.getValue(aRes.getAcsDecConInd()))
+                .acsDecConInd(getValue(aRes.getAcsDecConInd()))
                 .acsUrl(aRes.getAcsURL())
                 .build();
 

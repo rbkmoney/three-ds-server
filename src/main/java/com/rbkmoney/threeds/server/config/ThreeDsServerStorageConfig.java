@@ -15,8 +15,8 @@ public class ThreeDsServerStorageConfig {
 
     @Bean
     public CardRangesStorageSrv.Iface cardRangesStorageClient(
-            @Value("${client.three-ds-server-storage.url}") Resource url,
-            @Value("${client.three-ds-server-storage.timeout}") int timeout) throws IOException {
+            @Value("${client.three-ds-server-storage.card-ranges.url}") Resource url,
+            @Value("${client.three-ds-server-storage.card-ranges.timeout}") int timeout) throws IOException {
         return new THSpawnClientBuilder()
                 .withAddress(url.getURI())
                 .withNetworkTimeout(timeout)
@@ -25,8 +25,8 @@ public class ThreeDsServerStorageConfig {
 
     @Bean
     public ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient(
-            @Value("${client.three-ds-server-storage.url}") Resource url,
-            @Value("${client.three-ds-server-storage.timeout}") int timeout) throws IOException {
+            @Value("${client.three-ds-server-storage.challenge-flow-transaction-info.url}") Resource url,
+            @Value("${client.three-ds-server-storage.challenge-flow-transaction-info.timeout}") int timeout) throws IOException {
         return new THSpawnClientBuilder()
                 .withAddress(url.getURI())
                 .withNetworkTimeout(timeout)

@@ -4,7 +4,6 @@ import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.domain.message.MessageCategory;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
-import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -158,7 +157,7 @@ public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqC
         }
 
         if (messageCategory == MessageCategory.PAYMENT_AUTH) {
-            validationResult = Wrappers.validateRequiredConditionField(o.getPurchaseDate(), "purchaseDate");
+            validationResult = validateRequiredConditionField(o.getPurchaseDate(), "purchaseDate");
             if (!validationResult.isValid()) {
                 return validationResult;
             }

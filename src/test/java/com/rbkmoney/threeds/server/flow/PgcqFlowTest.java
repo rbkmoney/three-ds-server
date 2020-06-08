@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         classes = {ThreeDsServerApplication.class, MockConfig.class},
         properties = {
                 "spring.main.allow-bean-definition-overriding=true",
-                "preparation-flow.mode=TEST_PLATFORM"})
+                "platform.mode=TEST_PLATFORM"})
 @AutoConfigureMockMvc
 public class PgcqFlowTest extends TestBase {
 

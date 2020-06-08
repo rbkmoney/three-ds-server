@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         classes = {ThreeDsServerApplication.class, MockConfig.class},
         properties = {
                 "spring.main.allow-bean-definition-overriding=true",
-                "preparation-flow.mode=RBK_MONEY_PLATFORM"})
+                "platform.mode=RBK_MONEY_PLATFORM"})
 @AutoConfigureMockMvc
 public class RBKMoneyPreparationFlowTest extends TestBase {
 

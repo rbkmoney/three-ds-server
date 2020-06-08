@@ -19,7 +19,7 @@ import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRe
 import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRequestHandlerWithRouting;
 
 @Configuration
-@ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "RBK_MONEY_PLATFORM")
+@ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 public class RequestHandlerConfig {
 
     @Bean

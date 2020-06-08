@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
-public class MessageExtensionUtil {
+public class MessageExtensions {
 
     private static final int MAX_SIZE = 10;
     private static final int MAX_LENGTH_DATA = 8059;

@@ -6,7 +6,6 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.RReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.RRes;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -35,7 +34,7 @@ public class RReqToRResConverter implements Converter<ValidationResult, Message>
     }
 
     private ResultsStatus analyzeRReqMessageStatus(RReq message) {
-        ChallengeCancel challengeCancel = Wrappers.getValue(message.getChallengeCancel());
+        ChallengeCancel challengeCancel = getValue(message.getChallengeCancel());
         if (challengeCancel == null) {
             return ResultsStatus.RREQ_RECEIVED_FOR_FURTHER_PROCESSING;
         }

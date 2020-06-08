@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Configuration
-@ConditionalOnProperty(name = "preparation-flow.mode", havingValue = "TEST_PLATFORM")
+@ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
 public class ClientConfig {
 
     @Bean

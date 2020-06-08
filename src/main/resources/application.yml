@@ -38,8 +38,12 @@ client:
         trust-store: classpath:test
         trust-store-password: test
   three-ds-server-storage:
-    url: http://changeit:8080
-    timeout: 5000
+    card-ranges:
+      url: http://changeit:8080
+      timeout: 5000
+    challenge-flow-transaction-info:
+      url: http://changeit:8080
+      timeout: 5000
 
 storage:
   mode: IN_MEMORY
@@ -48,6 +52,16 @@ storage:
       size: 1000
     card-ranges:
       expiration-hours: 1
+
+platform:
+  mode: TEST_PLATFORM
+
+preparation-flow:
+  on-startup:
+    enabled: false
+  on-schedule:
+    enabled: false
+    cron: "-"
 
 environment:
   message:
@@ -82,11 +96,3 @@ environment:
     three-ds-server-ref-number: "test"
     three-ds-server-operator-id: "test"
     three-ds-server-network-timeout: 10000
-
-preparation-flow:
-  mode: TEST_PLATFORM
-  on-startup:
-    enabled: false
-  on-schedule:
-    enabled: false
-    cron: "-"

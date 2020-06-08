@@ -5,7 +5,6 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
-import com.rbkmoney.threeds.server.utils.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -68,7 +67,7 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccAgeInd");
         }
 
-        if (Wrappers.getGarbageValue(acctInfo.getChAccChange()) != null) {
+        if (getGarbageValue(acctInfo.getChAccChange()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccChange");
         }
 
@@ -76,11 +75,11 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccChangeInd");
         }
 
-        if (Wrappers.getGarbageValue(acctInfo.getChAccDate()) != null) {
+        if (getGarbageValue(acctInfo.getChAccDate()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccDate");
         }
 
-        if (Wrappers.getGarbageValue(acctInfo.getChAccPwChange()) != null) {
+        if (getGarbageValue(acctInfo.getChAccPwChange()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccPwChange");
         }
 
@@ -88,7 +87,7 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.chAccPwChangeInd");
         }
 
-        if (Wrappers.getGarbageValue(acctInfo.getPaymentAccAge()) != null) {
+        if (getGarbageValue(acctInfo.getPaymentAccAge()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.paymentAccAge");
         }
 
@@ -96,7 +95,7 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.paymentAccInd");
         }
 
-        if (Wrappers.getGarbageValue(acctInfo.getShipAddressUsage()) != null) {
+        if (getGarbageValue(acctInfo.getShipAddressUsage()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "acctInfo.shipAddressUsage");
         }
 
