@@ -59,5 +59,4 @@ public abstract class TestBase {
                 resourceLoader.getResource("classpath:__files/" + fullPath).getInputStream(),
                 Charsets.UTF_8);
     }
-
 }

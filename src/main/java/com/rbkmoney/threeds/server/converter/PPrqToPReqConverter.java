@@ -28,13 +28,13 @@ public class PPrqToPReqConverter implements Converter<ValidationResult, Message>
                 .threeDSServerOperatorID(pPrq.getThreeDSServerOperatorID())
                 .threeDSServerTransID(pPrq.getThreeDSServerTransID())
                 .messageExtension(getValue(pPrq.getMessageExtension()))
-                .serialNum(cacheService.getSerialNum(pPrq.getXULTestCaseRunId()))
+                .serialNum(cacheService.getSerialNum(pPrq.getUlTestCaseId()))
                 .threeDSRequestorURL(pPrq.getThreeDSRequestorURL())
                 .build();
         pReq.setMessageVersion(pPrq.getMessageVersion());
         pReq.setRequestMessage(pPrq);
 
-        cacheService.clearSerialNum(pPrq.getXULTestCaseRunId());
+        cacheService.clearSerialNum(pPrq.getUlTestCaseId());
 
         return pReq;
     }

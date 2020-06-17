@@ -49,7 +49,7 @@ public class SenderServiceTest extends TestBase {
         new FrictionlessFlow().givenAReqSuccessResponse();
 
         Message pArq = readMessageFromFile("happy-path-pArq.json");
-        pArq.setXULTestCaseRunId("test-id");
+        pArq.setUlTestCaseId("test-id");
         Message pArs = senderService.sendToDs(pArq);
 
         Message expected = readMessageFromFile("happy-path-pArs.json");
@@ -62,7 +62,7 @@ public class SenderServiceTest extends TestBase {
         new FrictionlessFlow().givenAReqErrorResponse();
 
         Message pArq = readMessageFromFile("happy-path-pArq.json");
-        pArq.setXULTestCaseRunId("test-id");
+        pArq.setUlTestCaseId("test-id");
         Message error = senderService.sendToDs(pArq);
 
         Message expected = erroWrapperToErroConverter.convert(ValidationResult.success(readMessageFromFile("error-path-Erro.json")));

@@ -43,7 +43,7 @@ public class DsClientImpl implements DsClient {
 
             responseMessage.setRequestMessage(requestMessage);
             // todo remove or replace
-            responseMessage.setXULTestCaseRunId(responseMessageEntity.getHeaders().getFirst("x-ul-testcaserun-id"));
+            responseMessage.setUlTestCaseId(responseMessageEntity.getHeaders().getFirst("x-ul-testcaserun-id"));
 
             return responseMessage;
         } catch (ResourceAccessException ex) {

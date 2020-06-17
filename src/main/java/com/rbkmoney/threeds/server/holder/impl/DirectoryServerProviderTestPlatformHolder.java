@@ -32,6 +32,6 @@ public class DirectoryServerProviderTestPlatformHolder implements DirectoryServe
 
     @Override
     public String getTag(Message message) {
-        return message.getXULTestCaseRunId();
+        return message.getUlTestCaseId();
     }
 }
