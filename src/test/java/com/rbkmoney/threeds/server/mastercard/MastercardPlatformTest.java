@@ -2,19 +2,19 @@ package com.rbkmoney.threeds.server.mastercard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.rbkmoney.threeds.server.TestBase;
-import com.rbkmoney.threeds.server.ThreeDsServerApplication;
-import com.rbkmoney.threeds.server.config.MockConfig;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.rbkmoney.threeds.server.config.AbstractMastercardConfig;
+import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import lombok.Data;
-import org.junit.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,102 +30,192 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-@SpringBootTest(
-        classes = {ThreeDsServerApplication.class, MockConfig.class},
-        properties = {
-                "spring.main.allow-bean-definition-overriding=true",
-                "storage.mode=IN_MEMORY",
-                "platform.mode=TEST_PLATFORM",
-                "preparation-flow.on-startup.enabled=false",
-                "preparation-flow.on-schedule.enabled=false"})
-@AutoConfigureMockMvc
-public class MastercardPlatformTest extends TestBase {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class MastercardPlatformTest extends AbstractMastercardConfig {
 
     @MockBean
     private IdGenerator idGenerator;
 
-    @Before
-    public void setUp() {
-        String threeDSServerTransID = "6f8ebd84-4dc0-4a2c-a783-3c7e180736a9";
-//        ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
-//                .acsUrl("asd")
-//                .build();
-//
-        when(idGenerator.generateUUID()).thenReturn(threeDSServerTransID);
-//        when(cacheService.getChallengeFlowTransactionInfo(eq(threeDSServerTransID)))
-//                .thenReturn(transactionInfo);
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private JsonMapper jsonMapper;
+
+    @Test
+    public void TC_SERVER_00001_001() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("a90b2aed-5eee-49ab-b131-2c173656e141");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00001_001");
     }
 
-    //    @Test
-    public void asd() throws IOException {
-//        String parq = "{\"messageType\":\"pArq\",\"messageVersion\":\"2.1.0\",\"acctNumber\":\"5204240692223900190\",\"cardExpiryDate\":\"2212\",\"deviceChannel\":{\"garbageValue\":null,\"value\":\"03\",\"garbage\":false},\"messageCategory\":{\"garbageValue\":null,\"value\":\"02\",\"garbage\":false},\"p_messageVersion\":\"1.0.5\",\"threeDSRequestorID\":\"709\",\"threeDSRequestorName\":\"EMVCo 3DS Test Requestor\",\"threeDSRequestorURL\":\"https://mictp.mastercard.int:45096/UL/08dc2cff-9b76-4562-a554-0a5a4b6c78fc\",\"billAddrCity\":\"City Name\",\"billAddrCountry\":\"840\",\"billAddrLine1\":\"Address Line 1\",\"billAddrLine2\":\"Address Line 2\",\"billAddrLine3\":\"Address Line 3\",\"billAddrPostCode\":\"Postal Code\",\"billAddrState\":\"AZ\",\"cardholderName\":\"Challenge One\",\"email\":\"example@example.com\",\"homePhone\":{\"cc\":\"123\",\"subscriber\":\"123456789\"},\"mobilePhone\":{\"cc\":\"123\",\"subscriber\":\"123456789\"},\"shipAddrCity\":\"City Name\",\"shipAddrCountry\":\"840\",\"shipAddrLine1\":\"Address Line 1\",\"shipAddrLine2\":\"Address Line 2\",\"shipAddrLine3\":\"Address Line 3\",\"shipAddrPostCode\":\"Postal Code\",\"shipAddrState\":\"AZ\",\"workPhone\":{\"cc\":\"123\",\"subscriber\":\"123456789\"},\"acctID\":\"EMVCo 3DS Test Account 000000001\",\"acctInfo\":{\"chAccAgeInd\":{\"garbageValue\":null,\"value\":\"05\",\"garbage\":false},\"chAccChange\":{\"garbageValue\":null,\"value\":[2017,1,1],\"garbage\":false},\"chAccChangeInd\":{\"garbageValue\":null,\"value\":\"04\",\"garbage\":false},\"chAccDate\":{\"garbageValue\":null,\"value\":[2017,1,1],\"garbage\":false},\"chAccPwChange\":{\"garbageValue\":null,\"value\":[2017,1,1],\"garbage\":false},\"chAccPwChangeInd\":{\"garbageValue\":null,\"value\":\"05\",\"garbage\":false},\"nbPurchaseAccount\":\"1\",\"provisionAttemptsDay\":\"0\",\"txnActivityDay\":\"1\",\"txnActivityYear\":\"1\",\"paymentAccAge\":{\"garbageValue\":null,\"value\":[2017,1,1],\"garbage\":false},\"paymentAccInd\":{\"garbageValue\":null,\"value\":\"05\",\"garbage\":false},\"shipAddressUsage\":{\"garbageValue\":null,\"value\":[2017,1,1],\"garbage\":false},\"shipAddressUsageInd\":{\"garbageValue\":null,\"value\":\"04\",\"garbage\":false},\"shipNameIndicator\":{\"garbageValue\":null,\"value\":\"01\",\"garbage\":false},\"suspiciousAccActivity\":{\"garbageValue\":null,\"value\":\"01\",\"garbage\":false}},\"acctType\":{\"garbageValue\":null,\"value\":\"02\",\"garbage\":false},\"merchantRiskIndicator\":{\"deliveryEmailAddress\":\"example@example.com\",\"deliveryTimeframe\":{\"garbageValue\":null,\"value\":\"02\",\"garbage\":false},\"giftCardAmount\":\"1\",\"giftCardCount\":\"01\",\"giftCardCurr\":\"840\",\"preOrderDate\":{\"garbageValue\":null,\"value\":[2030,1,1],\"garbage\":false},\"preOrderPurchaseInd\":{\"garbageValue\":null,\"value\":\"01\",\"garbage\":false},\"reorderItemsInd\":{\"garbageValue\":null,\"value\":\"01\",\"garbage\":false},\"shipIndicator\":{\"garbageValue\":null,\"value\":\"01\",\"garbage\":false}},\"threeRIInd\":\"04\",\"threeDSServerOperatorID\":\"threeDSServerOperatorUL\"}\n" +
-//                "{\"messageType\":\"AReq\",\"messageVersion\":\"2.1.0\",\"threeDSRequestorID\":\"709\",\"threeDSRequestorName\":\"EMVCo 3DS Test Requestor\",\"threeDSRequestorURL\":\"https://mictp.mastercard.int:45096/UL/08dc2cff-9b76-4562-a554-0a5a4b6c78fc\",\"threeDSServerRefNumber\":\"3DS_LOA_SER_PPFU_020100_00008\",\"threeDSServerOperatorID\":\"threeDSServerOperatorUL\",\"threeDSServerTransID\":\"6f8ebd84-4dc0-4a2c-a783-3c7e180736a9\",\"threeDSServerURL\":\"https://3ds.rbk.money/ds\",\"threeRIInd\":\"04\",\"acctType\":\"02\",\"cardExpiryDate\":\"2212\",\"acctInfo\":{\"chAccAgeInd\":\"05\",\"chAccChange\":\"20170101\",\"chAccChangeInd\":\"04\",\"chAccDate\":\"20170101\",\"chAccPwChange\":\"20170101\",\"chAccPwChangeInd\":\"05\",\"nbPurchaseAccount\":\"1\",\"provisionAttemptsDay\":\"0\",\"txnActivityDay\":\"1\",\"txnActivityYear\":\"1\",\"paymentAccAge\":\"20170101\",\"paymentAccInd\":\"05\",\"shipAddressUsage\":\"20170101\",\"shipAddressUsageInd\":\"04\",\"shipNameIndicator\":\"01\",\"suspiciousAccActivity\":\"01\"},\"acctNumber\":\"5204240692223900190\",\"acctID\":\"EMVCo 3DS Test Account 000000001\",\"billAddrCity\":\"City Name\",\"billAddrCountry\":\"840\",\"billAddrLine1\":\"Address Line 1\",\"billAddrLine2\":\"Address Line 2\",\"billAddrLine3\":\"Address Line 3\",\"billAddrPostCode\":\"Postal Code\",\"billAddrState\":\"AZ\",\"email\":\"example@example.com\",\"homePhone\":{\"cc\":\"123\",\"subscriber\":\"123456789\"},\"mobilePhone\":{\"cc\":\"123\",\"subscriber\":\"123456789\"},\"cardholderName\":\"Challenge One\",\"shipAddrCity\":\"City Name\",\"shipAddrCountry\":\"840\",\"shipAddrLine1\":\"Address Line 1\",\"shipAddrLine2\":\"Address Line 2\",\"shipAddrLine3\":\"Address Line 3\",\"shipAddrPostCode\":\"Postal Code\",\"shipAddrState\":\"AZ\",\"workPhone\":{\"cc\":\"123\",\"subscriber\":\"123456789\"},\"deviceChannel\":\"03\",\"dsReferenceNumber\":\"3DS_LOA_DIS_PPFU_020100_00010\",\"dsTransID\":\"d657c4ad-920d-4000-8a7f-16b9ad5bd960\",\"merchantRiskIndicator\":{\"deliveryEmailAddress\":\"example@example.com\",\"deliveryTimeframe\":\"02\",\"giftCardAmount\":\"1\",\"giftCardCount\":\"01\",\"giftCardCurr\":\"840\",\"preOrderDate\":\"20300101\",\"preOrderPurchaseInd\":\"01\",\"reorderItemsInd\":\"01\",\"shipIndicator\":\"01\"},\"messageCategory\":\"02\"}";
-//        System.out.println(parq);
-//        PArq x = objectMapper.readValue(parq, PArq.class);
-//        System.out.println(x);
-//        Assert.assertNotNull(x.getThreeRIInd().getValue());
-//        System.out.println(new FrictionlessFlow().asd("TC_SERVER_00011_001"));
-        System.out.println(new FrictionlessFlow().readAReq("TC_SERVER_00011_001"));
-        System.out.println(new FrictionlessFlow().readPArq("TC_SERVER_00011_001"));
-        System.out.println(new FrictionlessFlow().readPArs("TC_SERVER_00011_001"));
-        System.out.println(new FrictionlessFlow().readARes("TC_SERVER_00011_001"));
+    @Test
+    public void TC_SERVER_00001_002() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("6a70c589-b08e-4f94-92ea-87d1be8d8840");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00001_002");
     }
 
-    //    @Test
+    @Test
+    public void TC_SERVER_00002_001() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("852ded38-7fc6-4d85-a399-582fef801952");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00002_001");
+    }
+
+    @Test
+    public void TC_SERVER_00002_002() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("ac24eaa1-9705-4156-92f8-3e6e9b6be98c");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00002_002");
+    }
+
+    @Test
+    public void TC_SERVER_00003_001() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("d9fe605f-b13d-443d-9659-b721a95d4b53");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00003_001");
+    }
+
+    @Test
+    public void TC_SERVER_00004_001() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("a5086dea-c2e1-44d6-9d85-290d6b9a0e2a");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00004_001");
+    }
+
+    @Test
+    public void TC_SERVER_00004_002() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("6be8fd3c-f607-4e72-817d-968035d557ee");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00004_002");
+    }
+
+    @Test
+    public void TC_SERVER_00005_001() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("465ed775-f1ed-43c3-9be5-25d975ea5b6e");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00005_001");
+    }
+
+    @Test
+    public void TC_SERVER_00005_002() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("1dc4e7b5-f1f1-4d19-938a-8b1fb6df1692");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00005_002");
+    }
+
+    @Test
+    public void TC_SERVER_00006_001() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("028faf24-dfc9-4deb-a247-c4245771144d");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00006_001");
+    }
+
+    @Test
+    public void TC_SERVER_00007_001() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("db9f1294-8d77-48cc-8be8-c74ef5ab66d9");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00007_001");
+    }
+
+    @Test
+    public void TC_SERVER_00007_002() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("badf1131-3ad0-43e3-afbc-7ca7ef346598");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00007_002");
+    }
+
+    @Test
+    public void TC_SERVER_00008_001() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("7e73cbf7-bb26-4713-be1b-f00c4c69401b");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00008_001");
+    }
+
+    @Test
+    public void TC_SERVER_00008_002() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("fa2603a7-5049-4374-b8f7-b824b7904c99");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00008_002");
+    }
+
+    @Test
+    public void TC_SERVER_00009_001() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("5efc3552-aa16-40b8-910a-1a67df598a4b");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00009_001");
+    }
+
+    @Test
+    public void TC_SERVER_00009_002() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("c55195b6-b4a1-4a0b-a0f5-0c7ac8c07084");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00009_002");
+    }
+
+    @Test
+    public void TC_SERVER_00010_001() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("658d5630-56ca-43d8-81e1-a43e9b14ab08");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00010_001");
+    }
+
+    @Test
+    public void TC_SERVER_00010_002() throws Exception {
+        when(idGenerator.generateUUID()).thenReturn("d3565012-9aba-4607-86c2-6248272ab887");
+
+        mastercardFrictionlessFlowTest("TC_SERVER_00010_002");
+    }
+
+    @Test
     public void TC_SERVER_00011_001() throws Exception {
-//        MockHttpServletRequestBuilder prepRequest = MockMvcRequestBuilders
-//                .post(TEST_URL + "/sdk")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .content(new GetChallengeFlow().incomingRequest());
-//
-//        // When - Then
-//        mockMvc.perform(prepRequest)
-//                .andDo(print())
-//                .andExpect(content()
-//                        .json(new GetChallengeFlow().responseToClient()));
-        String testCase = "TC_SERVER_00011_001";
+        when(idGenerator.generateUUID()).thenReturn("6f8ebd84-4dc0-4a2c-a783-3c7e180736a9");
 
+        mastercardFrictionlessFlowTest("TC_SERVER_00011_001");
+    }
+
+    private void mastercardFrictionlessFlowTest(String testCase) throws Exception {
         FrictionlessFlow frictionlessFlow = new FrictionlessFlow();
 
         stubFor(post(urlEqualTo("/"))
-//                .withRequestBody(equalToJson(frictionlessFlow.readAReq(testCase)))
+                .withRequestBody(equalToJson(frictionlessFlow.requestToDsServer(testCase), true, true))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
-                        .withBodyFile(frictionlessFlow.readARes(testCase))));
+                        .withHeader("x-ul-testcaserun-id", testCase)
+                        .withBody(frictionlessFlow.responseFromDsServer(testCase))));
 
         MockHttpServletRequestBuilder prepRequest = MockMvcRequestBuilders
-                .post(TEST_URL + "/sdk")
+                .post("/sdk")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(frictionlessFlow.requestToServer(testCase));
+                .header("x-ul-testcaserun-id", testCase)
+                .content(frictionlessFlow.requestToThreeDsServer(testCase));
 
         mockMvc.perform(prepRequest)
                 .andDo(print())
                 .andExpect(content()
-                        .json(frictionlessFlow.responseFromServer(testCase)));
+                        .json(frictionlessFlow.responseFromThreeDsServer(testCase)));
     }
 
-    public class FrictionlessFlow {
+    private class FrictionlessFlow {
 
-        String requestToServer(String testCase) throws IOException {
+        private final Gson gson = new GsonBuilder().create();
+
+        private String requestToThreeDsServer(String testCase) throws IOException {
             return readPArq(testCase);
         }
 
-        String responseFromServer(String testCase) throws IOException {
+        private String responseFromThreeDsServer(String testCase) throws IOException {
             return readPArs(testCase);
         }
 
-        private String readAReq(String testCase) throws IOException {
-            return readMessage("mastercard/" + testCase + "/areq.json", AReq.class);
+        private String requestToDsServer(String testCase) throws IOException {
+            return readAReq(testCase, "dsReferenceNumber", "dsTransID", "dsURL", "deviceInfo");
         }
 
-        private String readARes(String testCase) throws IOException {
-            return readMessage("mastercard/" + testCase + "/ares.json", ARes.class);
+        private String responseFromDsServer(String testCase) throws IOException {
+            return readARes(testCase);
         }
 
         private String readPArq(String testCase) throws IOException {
@@ -136,11 +226,34 @@ public class MastercardPlatformTest extends TestBase {
             return readMessage("mastercard/" + testCase + "/pars.json", PArs.class);
         }
 
+        private String readAReq(String testCase, String... removeProperties) throws IOException {
+            return removeFieldsFromOtherThreeDSComponents(
+                    readMessage("mastercard/" + testCase + "/areq.json", AReq.class),
+                    removeProperties);
+        }
+
+        private String readARes(String testCase) throws IOException {
+            JsonObject parsJsonObject = gson.fromJson(readMessage("mastercard/" + testCase + "/pars.json", PArs.class), JsonObject.class);
+
+            JsonObject aresJsonObject = gson.fromJson(readMessage("mastercard/" + testCase + "/ares.json", ARes.class), JsonObject.class);
+            aresJsonObject.remove("authenticationValue");
+            aresJsonObject.add("authenticationValue", parsJsonObject.get("authenticationValue"));
+            return aresJsonObject.toString();
+        }
+
+        private String removeFieldsFromOtherThreeDSComponents(String json, String... removeProperties) {
+            JsonObject jsonObj = gson.fromJson(json, JsonObject.class);
+            for (String removeProperty : removeProperties) {
+                jsonObj.remove(removeProperty);
+            }
+            return jsonObj.toString();
+        }
+
         private <T> String readMessage(String fullPath, Class<T> valueType) throws IOException {
-            Base64Message base64Message = readFromFile(fullPath, Base64Message.class);
+            Base64Message base64Message = jsonMapper.readFromFile(fullPath, Base64Message.class);
             byte[] src = decodeBody(base64Message);
-            T value = readValue(src, valueType);
-            return writeValueAsString(value);
+            T value = jsonMapper.readValue(src, valueType);
+            return jsonMapper.writeValueAsString(value);
         }
 
         private byte[] decodeBody(Base64Message base64Message) {
