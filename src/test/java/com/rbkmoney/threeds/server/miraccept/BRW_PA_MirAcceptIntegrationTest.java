@@ -1,22 +1,33 @@
 package com.rbkmoney.threeds.server.miraccept;
 
-import com.rbkmoney.threeds.server.domain.BrowserColorDepth;
+import com.rbkmoney.threeds.server.domain.*;
+import com.rbkmoney.threeds.server.domain.account.*;
 import com.rbkmoney.threeds.server.domain.acs.AcsChallengeMandated;
 import com.rbkmoney.threeds.server.domain.authentication.AuthenticationType;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.domain.message.MessageCategory;
+import com.rbkmoney.threeds.server.domain.message.MessageExtension;
+import com.rbkmoney.threeds.server.domain.order.PreOrderPurchaseInd;
+import com.rbkmoney.threeds.server.domain.order.ReorderItemsInd;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.CRes;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrs;
-import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInd;
-import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDsMethodCompletionIndicator;
+import com.rbkmoney.threeds.server.domain.ship.ShipAddressUsageInd;
+import com.rbkmoney.threeds.server.domain.ship.ShipIndicator;
+import com.rbkmoney.threeds.server.domain.ship.ShipNameIndicator;
+import com.rbkmoney.threeds.server.domain.threedsrequestor.*;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatusReason;
+import com.rbkmoney.threeds.server.domain.transaction.TransactionType;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
 import org.junit.Test;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -253,5 +264,79 @@ public class BRW_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
         pArq.setBillingAddress(new Address());
         pArq.setShippingAddress(new Address());
         return pArq;
+    }
+
+    protected void fullFilling(PArq pArq) {
+        pArq.setAcctType(getEnumWrapper(AccountType.DEBIT));
+        pArq.setAddrMatch(getEnumWrapper(AddressMatch.SAME_ADDRESS));
+        pArq.getBillingAddress().setAddrCity(randomString());
+        pArq.getBillingAddress().setAddrCountry("643");
+        pArq.getBillingAddress().setAddrLine1(randomString());
+        pArq.getBillingAddress().setAddrLine2(randomString());
+        pArq.getBillingAddress().setAddrLine3(randomString());
+        pArq.getBillingAddress().setAddrPostCode(randomNumeric(5));
+        pArq.getBillingAddress().setAddrState(randomNumeric(3));
+        pArq.setCardholderName(randomString());
+        pArq.setEmail(randomMail());
+        pArq.setHomePhone(new Phone());
+        pArq.getHomePhone().setCc(randomNumeric(2));
+        pArq.getHomePhone().setSubscriber(randomNumeric(2));
+        pArq.setMessageExtension(getListWrapper(List.of(new MessageExtension(randomString(), randomString(), false, Map.of(randomString(), randomString())))));
+        pArq.setMobilePhone(new Phone());
+        pArq.getMobilePhone().setCc(randomNumeric(2));
+        pArq.getMobilePhone().setSubscriber(randomNumeric(2));
+        pArq.setPurchaseInstalData(randomNumericTwoNumbers());
+        pArq.setRecurringExpiry(randomLocalDate());
+        pArq.setRecurringFrequency(randomNumeric(3));
+        pArq.getShippingAddress().setAddrCity(randomString());
+        pArq.getShippingAddress().setAddrCountry("643");
+        pArq.getShippingAddress().setAddrLine1(randomString());
+        pArq.getShippingAddress().setAddrLine2(randomString());
+        pArq.getShippingAddress().setAddrLine3(randomString());
+        pArq.getShippingAddress().setAddrPostCode(randomNumeric(5));
+        pArq.getShippingAddress().setAddrState(randomNumeric(3));
+        pArq.setTransType(getEnumWrapper(TransactionType.CHECK_ACCEPTANCE));
+        pArq.setWorkPhone(new Phone());
+        pArq.getWorkPhone().setCc(randomNumeric(2));
+        pArq.getWorkPhone().setSubscriber(randomNumeric(2));
+        pArq.setAcctID(randomString());
+        pArq.setAcctInfo(new AccountInfoWrapper());
+        pArq.getAcctInfo().setChAccAgeInd(getEnumWrapper(ChAccAgeInd.FROM_30_TO_60_DAYS));
+        pArq.getAcctInfo().setChAccChange(randomLocalDate());
+        pArq.getAcctInfo().setChAccChangeInd(getEnumWrapper(ChAccChangeInd.FROM_30_TO_60_DAYS));
+        pArq.getAcctInfo().setChAccDate(randomLocalDate());
+        pArq.getAcctInfo().setChAccPwChange(randomLocalDate());
+        pArq.getAcctInfo().setChAccPwChangeInd(getEnumWrapper(ChAccPwChangeInd.FROM_30_TO_60_DAYS));
+        pArq.getAcctInfo().setNbPurchaseAccount(randomNumeric(3));
+        pArq.getAcctInfo().setProvisionAttemptsDay(randomNumeric(3));
+        pArq.getAcctInfo().setTxnActivityDay(randomNumeric(3));
+        pArq.getAcctInfo().setTxnActivityYear(randomNumeric(3));
+        pArq.getAcctInfo().setPaymentAccAge(randomLocalDate());
+        pArq.getAcctInfo().setPaymentAccInd(getEnumWrapper(PaymentAccInd.FROM_30_TO_60_DAYS));
+        pArq.getAcctInfo().setShipAddressUsage(randomLocalDate());
+        pArq.getAcctInfo().setShipAddressUsageInd(getEnumWrapper(ShipAddressUsageInd.FROM_30_TO_60_DAYS));
+        pArq.getAcctInfo().setShipNameIndicator(getEnumWrapper(ShipNameIndicator.ACCOUNT_NAME_DIFFERENT));
+        pArq.getAcctInfo().setSuspiciousAccActivity(getEnumWrapper(SuspiciousAccActivity.SUSPICIOUS_ACTIVITY_OBSERVED));
+        pArq.setMerchantRiskIndicator(new MerchantRiskIndicatorWrapper());
+        pArq.getMerchantRiskIndicator().setDeliveryEmailAddress(randomMail());
+        pArq.getMerchantRiskIndicator().setDeliveryTimeframe(getEnumWrapper(DeliveryTimeframe.ELECTRONIC_DELIVERY));
+        pArq.getMerchantRiskIndicator().setGiftCardAmount(randomNumeric(10));
+        pArq.getMerchantRiskIndicator().setGiftCardCount(randomNumeric(2));
+        pArq.getMerchantRiskIndicator().setGiftCardCurr(randomNumeric(3));
+        pArq.getMerchantRiskIndicator().setPreOrderDate(randomLocalDate());
+        pArq.getMerchantRiskIndicator().setPreOrderPurchaseInd(getEnumWrapper(PreOrderPurchaseInd.FUTURE_AVAILABILITY));
+        pArq.getMerchantRiskIndicator().setReorderItemsInd(getEnumWrapper(ReorderItemsInd.FIRST_TIME_ORDERED));
+        pArq.getMerchantRiskIndicator().setShipIndicator(getEnumWrapper(ShipIndicator.ANOTHER_VERIFIED_ADDRESS));
+        pArq.setThreeDSRequestorAuthenticationInfo(new ThreeDSRequestorAuthenticationInfoWrapper());
+        pArq.getThreeDSRequestorAuthenticationInfo().setThreeDSReqAuthMethod(getEnumWrapper(ThreeDSReqAuthMethod.FEDERATED_ID));
+        pArq.getThreeDSRequestorAuthenticationInfo().setThreeDSReqAuthTimestamp(randomLocalDateTime());
+        pArq.getThreeDSRequestorAuthenticationInfo().setThreeDSReqAuthData(randomString());
+        pArq.setThreeDSRequestorChallengeInd(getEnumWrapper(ThreeDSRequestorChallengeInd.CHALLENGE_REQUESTED_MANDATE));
+        pArq.setThreeDSRequestorPriorAuthenticationInfo(new ThreeDSRequestorPriorAuthenticationInfoWrapper());
+        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthData(randomString());
+        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthMethod(getEnumWrapper(ThreeDSReqPriorAuthMethod.OTHER_METHODS));
+        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthTimestamp(getTemporalAccessorWrapper(LocalDateTime.now()));
+        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorRef(randomId());
+        pArq.setPurchaseInstalData("10");
     }
 }

@@ -3,18 +3,10 @@ package com.rbkmoney.threeds.server.miraccept;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
-import com.rbkmoney.threeds.server.domain.*;
-import com.rbkmoney.threeds.server.domain.account.*;
-import com.rbkmoney.threeds.server.domain.order.PreOrderPurchaseInd;
-import com.rbkmoney.threeds.server.domain.order.ReorderItemsInd;
+import com.rbkmoney.threeds.server.domain.Valuable;
 import com.rbkmoney.threeds.server.domain.root.emvco.CReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.CRes;
-import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
-import com.rbkmoney.threeds.server.domain.ship.ShipAddressUsageInd;
-import com.rbkmoney.threeds.server.domain.ship.ShipIndicator;
-import com.rbkmoney.threeds.server.domain.ship.ShipNameIndicator;
-import com.rbkmoney.threeds.server.domain.threedsrequestor.*;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.serialization.TemporalAccessorWrapper;
@@ -57,14 +49,14 @@ import java.util.function.Function;
                 "environment.ds-url=https://ds.vendorcert.mirconnect.ru:8443/ds/DServer",
                 "environment.three-ds-server-ref-number=2200040105",
                 "environment.three-ds-server-url=https://nspk.3ds.rbk.money/ds",
-                "logging.level.org.apache.http=debug",
+//                "logging.level.org.apache.http=debug",
         },
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
 @Ignore
 public abstract class MirAcceptIntegrationConfig {
 
-    private static boolean WRITE_DATA_IN_FILE = true;
+    private static boolean WRITE_DATA_IN_FILE = false;
 
     @Autowired
     protected SenderService senderService;
@@ -192,75 +184,6 @@ public abstract class MirAcceptIntegrationConfig {
 
     protected Function<String, ResponseEntity<String>> justCancel() {
         return urlSubmit -> restTemplate.getForEntity(urlSubmit + "?cancel=true", String.class);
-    }
-
-    protected void fullFilling(PArq pArq) {
-        pArq.setAcctType(getEnumWrapper(AccountType.DEBIT));
-        pArq.setAddrMatch(getEnumWrapper(AddressMatch.SAME_ADDRESS));
-        pArq.getBillingAddress().setAddrCity(randomString());
-        pArq.getBillingAddress().setAddrCountry("643");
-        pArq.getBillingAddress().setAddrLine1(randomString());
-        pArq.getBillingAddress().setAddrLine2(randomString());
-        pArq.getBillingAddress().setAddrLine3(randomString());
-        pArq.getBillingAddress().setAddrPostCode(randomNumeric(5));
-        pArq.getBillingAddress().setAddrState(randomNumeric(3));
-        pArq.setCardholderName(randomString());
-        pArq.setEmail(randomMail());
-        pArq.setHomePhone(new Phone());
-        pArq.getHomePhone().setCc(randomNumeric(2));
-        pArq.getHomePhone().setSubscriber(randomNumeric(2));
-        pArq.setMobilePhone(new Phone());
-        pArq.getMobilePhone().setCc(randomNumeric(2));
-        pArq.getMobilePhone().setSubscriber(randomNumeric(2));
-        pArq.setPurchaseInstalData(randomNumericTwoNumbers());
-        pArq.getShippingAddress().setAddrCity(randomString());
-        pArq.getShippingAddress().setAddrCountry("643");
-        pArq.getShippingAddress().setAddrLine1(randomString());
-        pArq.getShippingAddress().setAddrLine2(randomString());
-        pArq.getShippingAddress().setAddrLine3(randomString());
-        pArq.getShippingAddress().setAddrPostCode(randomNumeric(5));
-        pArq.getShippingAddress().setAddrState(randomNumeric(3));
-        pArq.setWorkPhone(new Phone());
-        pArq.getWorkPhone().setCc(randomNumeric(2));
-        pArq.getWorkPhone().setSubscriber(randomNumeric(2));
-        pArq.setAcctID(randomString());
-        pArq.setAcctInfo(new AccountInfoWrapper());
-        pArq.getAcctInfo().setChAccAgeInd(getEnumWrapper(ChAccAgeInd.FROM_30_TO_60_DAYS));
-        pArq.getAcctInfo().setChAccChange(randomLocalDate());
-        pArq.getAcctInfo().setChAccChangeInd(getEnumWrapper(ChAccChangeInd.FROM_30_TO_60_DAYS));
-        pArq.getAcctInfo().setChAccDate(randomLocalDate());
-        pArq.getAcctInfo().setChAccPwChange(randomLocalDate());
-        pArq.getAcctInfo().setChAccPwChangeInd(getEnumWrapper(ChAccPwChangeInd.FROM_30_TO_60_DAYS));
-        pArq.getAcctInfo().setNbPurchaseAccount(randomNumeric(3));
-        pArq.getAcctInfo().setProvisionAttemptsDay(randomNumeric(3));
-        pArq.getAcctInfo().setTxnActivityDay(randomNumeric(3));
-        pArq.getAcctInfo().setTxnActivityYear(randomNumeric(3));
-        pArq.getAcctInfo().setPaymentAccAge(randomLocalDate());
-        pArq.getAcctInfo().setPaymentAccInd(getEnumWrapper(PaymentAccInd.FROM_30_TO_60_DAYS));
-        pArq.getAcctInfo().setShipAddressUsage(randomLocalDate());
-        pArq.getAcctInfo().setShipAddressUsageInd(getEnumWrapper(ShipAddressUsageInd.FROM_30_TO_60_DAYS));
-        pArq.getAcctInfo().setShipNameIndicator(getEnumWrapper(ShipNameIndicator.ACCOUNT_NAME_DIFFERENT));
-        pArq.getAcctInfo().setSuspiciousAccActivity(getEnumWrapper(SuspiciousAccActivity.SUSPICIOUS_ACTIVITY_OBSERVED));
-        pArq.setMerchantRiskIndicator(new MerchantRiskIndicatorWrapper());
-        pArq.getMerchantRiskIndicator().setDeliveryEmailAddress(randomMail());
-        pArq.getMerchantRiskIndicator().setDeliveryTimeframe(getEnumWrapper(DeliveryTimeframe.ELECTRONIC_DELIVERY));
-        pArq.getMerchantRiskIndicator().setGiftCardAmount(randomNumeric(10));
-        pArq.getMerchantRiskIndicator().setGiftCardCount(randomNumeric(2));
-        pArq.getMerchantRiskIndicator().setGiftCardCurr(randomNumeric(3));
-        pArq.getMerchantRiskIndicator().setPreOrderDate(randomLocalDate());
-        pArq.getMerchantRiskIndicator().setPreOrderPurchaseInd(getEnumWrapper(PreOrderPurchaseInd.FUTURE_AVAILABILITY));
-        pArq.getMerchantRiskIndicator().setReorderItemsInd(getEnumWrapper(ReorderItemsInd.FIRST_TIME_ORDERED));
-        pArq.getMerchantRiskIndicator().setShipIndicator(getEnumWrapper(ShipIndicator.ANOTHER_VERIFIED_ADDRESS));
-        pArq.setThreeDSRequestorAuthenticationInfo(new ThreeDSRequestorAuthenticationInfoWrapper());
-        pArq.getThreeDSRequestorAuthenticationInfo().setThreeDSReqAuthMethod(getEnumWrapper(ThreeDSReqAuthMethod.FEDERATED_ID));
-        pArq.getThreeDSRequestorAuthenticationInfo().setThreeDSReqAuthTimestamp(randomLocalDateTime());
-        pArq.getThreeDSRequestorAuthenticationInfo().setThreeDSReqAuthData(randomString());
-        pArq.setThreeDSRequestorChallengeInd(getEnumWrapper(ThreeDSRequestorChallengeInd.CHALLENGE_REQUESTED_MANDATE));
-        pArq.setThreeDSRequestorPriorAuthenticationInfo(new ThreeDSRequestorPriorAuthenticationInfoWrapper());
-        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthData(randomString());
-        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthMethod(getEnumWrapper(ThreeDSReqPriorAuthMethod.OTHER_METHODS));
-        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorAuthTimestamp(getTemporalAccessorWrapper(LocalDateTime.now()));
-        pArq.getThreeDSRequestorPriorAuthenticationInfo().setThreeDSReqPriorRef(randomId());
     }
 
     protected void writeInFileAppend(PArs pArs, TestNumber testNumber) {

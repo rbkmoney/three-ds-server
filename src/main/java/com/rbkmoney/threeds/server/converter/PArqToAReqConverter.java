@@ -5,6 +5,7 @@ import com.rbkmoney.threeds.server.domain.MerchantRiskIndicator;
 import com.rbkmoney.threeds.server.domain.MerchantRiskIndicatorWrapper;
 import com.rbkmoney.threeds.server.domain.account.AccountInfo;
 import com.rbkmoney.threeds.server.domain.account.AccountInfoWrapper;
+import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptions;
 import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptionsWrapper;
 import com.rbkmoney.threeds.server.domain.root.Message;
@@ -62,7 +63,7 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .threeDSServerRefNumber(environmentProperties.getThreeDsServerRefNumber())
                 .threeDSServerOperatorID(pArq.getThreeDSServerOperatorID())
                 .threeDSServerTransID(idGenerator.generateUUID())
-                .threeDSServerURL(environmentProperties.getThreeDsServerUrl())
+                .threeDSServerURL(getThreeDsServerUrl(pArq))
                 .threeRIInd(getEnumWrapperValue(pArq.getThreeRIInd()))
                 .acctType(getEnumWrapperValue(pArq.getAcctType()))
                 .acquirerBIN(pArq.getAcquirerBIN())
@@ -160,6 +161,14 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
             return threeDSRequestorAuthenticationInfo;
         } else {
             return null;
+        }
+    }
+
+    private String getThreeDsServerUrl(PArq pArq) {
+        if (pArq.getDeviceChannel().getValue() == DeviceChannel.THREE_REQUESTOR_INITIATED && environmentProperties.getThreeDsServerUrl().contains("nspk")) {
+            return null;
+        } else {
+            return environmentProperties.getThreeDsServerUrl();
         }
     }
 
