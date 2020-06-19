@@ -7,10 +7,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.rbkmoney.threeds.server.config.AbstractMastercardConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
-import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
-import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
-import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
-import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import lombok.Data;
 import org.junit.Test;
@@ -220,23 +216,23 @@ public class MastercardPlatformTest extends AbstractMastercardConfig {
         }
 
         private String readPArq(String testCase) throws IOException {
-            return readMessage("mastercard/" + testCase + "/parq.json", PArq.class);
+            return readMessage("mastercard/" + testCase + "/parq.json");
         }
 
         private String readPArs(String testCase) throws IOException {
-            return readMessage("mastercard/" + testCase + "/pars.json", PArs.class);
+            return readMessage("mastercard/" + testCase + "/pars.json");
         }
 
         private String readAReq(String testCase, String... removeProperties) throws IOException {
             return removeFieldsFromOtherThreeDSComponents(
-                    readMessage("mastercard/" + testCase + "/areq.json", AReq.class),
+                    readMessage("mastercard/" + testCase + "/areq.json"),
                     removeProperties);
         }
 
         private String readARes(String testCase) throws IOException {
-            JsonObject parsJsonObject = gson.fromJson(readMessage("mastercard/" + testCase + "/pars.json", PArs.class), JsonObject.class);
+            JsonObject parsJsonObject = gson.fromJson(readMessage("mastercard/" + testCase + "/pars.json"), JsonObject.class);
 
-            JsonObject aresJsonObject = gson.fromJson(readMessage("mastercard/" + testCase + "/ares.json", ARes.class), JsonObject.class);
+            JsonObject aresJsonObject = gson.fromJson(readMessage("mastercard/" + testCase + "/ares.json"), JsonObject.class);
             aresJsonObject.remove("authenticationValue");
             aresJsonObject.add("authenticationValue", parsJsonObject.get("authenticationValue"));
             return aresJsonObject.toString();
@@ -250,7 +246,7 @@ public class MastercardPlatformTest extends AbstractMastercardConfig {
             return jsonObj.toString();
         }
 
-        private <T> String readMessage(String fullPath, Class<T> valueType) throws IOException {
+        private String readMessage(String fullPath) throws IOException {
             Base64Message base64Message = jsonMapper.readFromFile(fullPath, Base64Message.class);
             byte[] src = decodeBody(base64Message);
             return new String(src, Charset.defaultCharset());

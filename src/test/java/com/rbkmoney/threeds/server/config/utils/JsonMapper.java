@@ -15,16 +15,8 @@ public class JsonMapper {
 
     private final ResourceLoader resourceLoader;
 
-    public <T> T readValue(byte[] src, Class<T> valueType) throws IOException {
-        return objectMapper.readValue(src, valueType);
-    }
-
     public <T> T readFromFile(String fullPath, Class<T> valueType) throws IOException {
         return objectMapper.readValue(readStringFromFile(fullPath), valueType);
-    }
-
-    public String writeValueAsString(Object value) throws IOException {
-        return objectMapper.writeValueAsString(value);
     }
 
     public String readStringFromFile(String fullPath) throws IOException {
