@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Base64;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -252,8 +253,7 @@ public class MastercardPlatformTest extends AbstractMastercardConfig {
         private <T> String readMessage(String fullPath, Class<T> valueType) throws IOException {
             Base64Message base64Message = jsonMapper.readFromFile(fullPath, Base64Message.class);
             byte[] src = decodeBody(base64Message);
-            T value = jsonMapper.readValue(src, valueType);
-            return jsonMapper.writeValueAsString(value);
+            return new String(src, Charset.defaultCharset());
         }
 
         private byte[] decodeBody(Base64Message base64Message) {

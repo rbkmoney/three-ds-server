@@ -22,7 +22,7 @@ public class ClientController {
         log.info("Begin handling /sdk message: message={}", requestMessage.toString());
 
         // todo remove or replace
-        requestMessage.setUlTestCaseId(ulTestCaseId);
+        requestMessage.setXULTestCaseRunId(ulTestCaseId);
         Message responseMessage = senderService.sendToDs(requestMessage);
 
         log.info("End handling /sdk message: message={}", responseMessage.toString());

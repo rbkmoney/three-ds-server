@@ -43,8 +43,8 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
         }
 
         if (pRes.getSerialNum() != null) {
-            cacheService.saveSerialNum(pRes.getUlTestCaseId(), pRes.getSerialNum());
-            cacheService.updateCardRanges(pRes.getUlTestCaseId(), cardRangeData);
+            cacheService.saveSerialNum(pRes.getXULTestCaseRunId(), pRes.getSerialNum());
+            cacheService.updateCardRanges(pRes.getXULTestCaseRunId(), cardRangeData);
         }
 
         PPrs pPrs = PPrs.builder()
