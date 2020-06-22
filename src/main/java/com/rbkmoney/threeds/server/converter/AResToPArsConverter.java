@@ -109,7 +109,6 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
 
     private void cacheChallengeFlowTransactionInfo(ARes aRes) {
         AReq aReq = (AReq) aRes.getRequestMessage();
-        ;
 
         String threeDSServerTransID = aRes.getThreeDSServerTransID();
 

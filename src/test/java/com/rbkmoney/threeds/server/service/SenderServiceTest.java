@@ -14,9 +14,12 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 import java.io.IOException;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -43,7 +46,7 @@ public class SenderServiceTest extends TestBase {
 
     @Test
     public void happyPathAReqScenario() throws IOException {
-        givenAReqSuccessResponse();
+        new FrictionlessFlow().givenAReqSuccessResponse();
 
         Message pArq = readMessageFromFile("happy-path-pArq.json");
         pArq.setXULTestCaseRunId("test-id");
@@ -56,7 +59,7 @@ public class SenderServiceTest extends TestBase {
 
     @Test
     public void errorPathAReqScenario() throws IOException {
-        givenAReqErrorResponse();
+        new FrictionlessFlow().givenAReqErrorResponse();
 
         Message pArq = readMessageFromFile("happy-path-pArq.json");
         pArq.setXULTestCaseRunId("test-id");
@@ -65,5 +68,26 @@ public class SenderServiceTest extends TestBase {
         Message expected = erroWrapperToErroConverter.convert(ValidationResult.success(readMessageFromFile("error-path-Erro.json")));
         assertEquals(expected, error);
         assertTrue(error instanceof Erro);
+    }
+
+    private class FrictionlessFlow {
+
+        public void givenAReqSuccessResponse() {
+            stubFor(post(urlEqualTo("/"))
+                    .willReturn(
+                            aResponse()
+                                    .withStatus(HttpStatus.OK.value())
+                                    .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                                    .withBodyFile("happy-path-ARes.json")));
+        }
+
+        public void givenAReqErrorResponse() {
+            stubFor(post(urlEqualTo("/"))
+                    .willReturn(
+                            aResponse()
+                                    .withStatus(HttpStatus.OK.value())
+                                    .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                                    .withBodyFile("error-path-Erro.json")));
+        }
     }
 }

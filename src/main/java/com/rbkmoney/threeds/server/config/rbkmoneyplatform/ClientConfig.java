@@ -11,6 +11,7 @@ import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.holder.impl.DirectoryServerProviderRBKMoneyHolder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -128,5 +129,41 @@ public class ClientConfig {
                 mirKeystoreProperties,
                 resourceLoader,
                 mirEnvironmentProperties);
+    }
+
+    @Bean
+    @ConfigurationProperties("environment.visa")
+    public EnvironmentProperties visaEnvironmentProperties() {
+        return new EnvironmentProperties();
+    }
+
+    @Bean
+    @ConfigurationProperties("environment.mastercard")
+    public EnvironmentProperties mastercardEnvironmentProperties() {
+        return new EnvironmentProperties();
+    }
+
+    @Bean
+    @ConfigurationProperties("environment.mir")
+    public EnvironmentProperties mirEnvironmentProperties() {
+        return new EnvironmentProperties();
+    }
+
+    @Bean
+    @ConfigurationProperties("client.ds.ssl.visa")
+    public KeystoreProperties visaKeystoreProperties() {
+        return new KeystoreProperties();
+    }
+
+    @Bean
+    @ConfigurationProperties("client.ds.ssl.mastercard")
+    public KeystoreProperties mastercardKeystoreProperties() {
+        return new KeystoreProperties();
+    }
+
+    @Bean
+    @ConfigurationProperties("client.ds.ssl.mir")
+    public KeystoreProperties mirKeystoreProperties() {
+        return new KeystoreProperties();
     }
 }

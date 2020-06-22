@@ -12,6 +12,7 @@ import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.holder.impl.DirectoryServerProviderTestPlatformHolder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -65,5 +66,17 @@ public class ClientConfig {
                 testKeystoreProperties,
                 resourceLoader,
                 testEnvironmentProperties);
+    }
+
+    @Bean
+    @ConfigurationProperties("environment.test")
+    public EnvironmentProperties testEnvironmentProperties() {
+        return new EnvironmentProperties();
+    }
+
+    @Bean
+    @ConfigurationProperties("client.ds.ssl.test")
+    public KeystoreProperties testKeystoreProperties() {
+        return new KeystoreProperties();
     }
 }
