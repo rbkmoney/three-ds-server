@@ -1,0 +1,56 @@
+{
+  "serialNum": "10",
+  "messageType": "PRes",
+  "dsTransID": "e27f614e-e526-4afd-9513-2b2227b24c3c",
+  "cardRangeData": [
+    {
+      "startRange": "4012000000001000",
+      "actionInd": "A",
+      "endRange": "4012000000001999",
+      "acsStartProtocolVersion": "2.1.0",
+      "dsEndProtocolVersion": "2.2.0",
+      "acsEndProtocolVersion": "2.2.0",
+      "dsStartProtocolVersion": "2.1.0"
+    },
+    {
+      "startRange": "4012000000002000",
+      "actionInd": "A",
+      "endRange": "4012000000002999",
+      "acsStartProtocolVersion": "2.1.0",
+      "dsEndProtocolVersion": "2.2.0",
+      "acsEndProtocolVersion": "2.2.0",
+      "dsStartProtocolVersion": "2.1.0"
+    },
+    {
+      "startRange": "4012000000003000",
+      "actionInd": "A",
+      "endRange": "4012000000003999",
+      "acsStartProtocolVersion": "2.1.0",
+      "dsEndProtocolVersion": "2.2.0",
+      "acsEndProtocolVersion": "2.1.0",
+      "dsStartProtocolVersion": "2.1.0"
+    },
+    {
+      "startRange": "4012000000004000",
+      "actionInd": "A",
+      "endRange": "4012000000004999",
+      "acsStartProtocolVersion": "2.1.0",
+      "dsEndProtocolVersion": "2.2.0",
+      "acsEndProtocolVersion": "2.1.0",
+      "dsStartProtocolVersion": "2.1.0"
+    },
+    {
+      "startRange": "4012000000005000",
+      "actionInd": "A",
+      "endRange": "4012000000005999",
+      "acsStartProtocolVersion": "2.1.0",
+      "dsEndProtocolVersion": "2.2.0",
+      "acsEndProtocolVersion": "2.1.0",
+      "dsStartProtocolVersion": "2.1.0"
+    }
+  ],
+  "messageVersion": "2.1.0",
+  "dsEndProtocolVersion": "2.2.0",
+  "dsStartProtocolVersion": "2.1.0",
+  "threeDSServerTransID": "f7d9f026-b18b-4889-8593-3e665b2e4ca3"
+}
