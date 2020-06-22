@@ -1,0 +1,118 @@
+{
+  "notificationURL": "https://www.visa.ru/notify",
+  "messageCategory": "01",
+  "mcc": "3849",
+  "browserAcceptHeader": "afgvbpyhuk",
+  "merchantName": "wemxdcmbux",
+  "merchantRiskIndicator": {
+    "deliveryTimeframe": "01",
+    "deliveryEmailAddress": "support@rbk.money",
+    "giftCardCurr": "889",
+    "preOrderDate": "20200515",
+    "shipIndicator": "02",
+    "giftCardAmount": "5575873922",
+    "preOrderPurchaseInd": "02",
+    "giftCardCount": "92",
+    "reorderItemsInd": "01"
+  },
+  "threeDSRequestorAuthenticationInd": "01",
+  "addrMatch": "Y",
+  "messageType": "AReq",
+  "threeDSRequestorName": "nvtjnlypwy",
+  "acquirerMerchantID": "8765251466",
+  "shipAddrPostCode": "81148",
+  "messageExtension": [
+    {
+      "data": {
+        "pvbyowuniu": "gsttcstklw"
+      },
+      "name": "jkgxxjyujn",
+      "criticalityIndicator": false,
+      "id": "lukhyxeaas"
+    }
+  ],
+  "billAddrCountry": "265",
+  "browserLanguage": "bvvtqi",
+  "homePhone": {
+    "cc": "94",
+    "subscriber": "65"
+  },
+  "billAddrLine2": "abnheriynn",
+  "billAddrLine3": "yhtfqzbhje",
+  "deviceChannel": "02",
+  "browserIP": "192.168.0.1",
+  "billAddrLine1": "iopcuuicrg",
+  "acctInfo": {
+    "chAccDate": "20200515",
+    "shipAddressUsageInd": "03",
+    "txnActivityYear": "1",
+    "paymentAccAge": "20200515",
+    "paymentAccInd": "04",
+    "shipNameIndicator": "02",
+    "chAccPwChangeInd": "04",
+    "provisionAttemptsDay": "234",
+    "chAccChange": "20200515",
+    "chAccChangeInd": "03",
+    "nbPurchaseAccount": "768",
+    "chAccAgeInd": "04",
+    "chAccPwChange": "20200515",
+    "shipAddressUsage": "20200515",
+    "txnActivityDay": "1",
+    "suspiciousAccActivity": "02"
+  },
+  "purchaseExponent": "2",
+  "threeDSRequestorAuthenticationInfo": {
+    "threeDSReqAuthMethod": "03",
+    "threeDSReqAuthData": "zptqntsrqd",
+    "threeDSReqAuthTimestamp": "202005151422"
+  },
+  "mobilePhone": {
+    "cc": "15",
+    "subscriber": "24"
+  },
+  "shipAddrCity": "oywjkyforf",
+  "transType": "03",
+  "acctType": "03",
+  "shipAddrCountry": "815",
+  "threeDSRequestorPriorAuthenticationInfo": {},
+  "threeDSServerTransID": "8d550c35-5f17-4cf7-914c-0bb44bf7fd0d",
+  "purchaseDate": "20200515142212",
+  "recurringFrequency": "992",
+  "threeDSServerRefNumber": "3DS_LOA_SER_DIPL_020200_00236",
+  "merchantCountryCode": "643",
+  "browserColorDepth": "4",
+  "billAddrState": "368",
+  "browserJavaEnabled": false,
+  "acctID": "vrzyspzitu",
+  "purchaseCurrency": "643",
+  "cardExpiryDate": "2012",
+  "browserTZ": "6676",
+  "shipAddrState": "682",
+  "recurringExpiry": "20200515",
+  "shipAddrLine3": "exlmodkoqh",
+  "shipAddrLine2": "mlucjqtbxt",
+  "threeDSRequestorURL": "https://www.visa.ru/notify",
+  "acctNumber": "0000000000003101",
+  "shipAddrLine1": "ergcookryh",
+  "browserScreenHeight": "7628",
+  "messageVersion": "2.1.0",
+  "billAddrPostCode": "67968",
+  "email": "support@rbk.money",
+  "threeDSRequestorID": "5122914722",
+  "acquirerBIN": "400551",
+  "billAddrCity": "esorhawqkl",
+  "browserUserAgent": "nkkjbmwkal",
+  "purchaseAmount": "92622",
+  "threeDSRequestorChallengeInd": "04",
+  "cardholderName": "lemffdwisj",
+  "threeDSServerOperatorID": "10075020",
+  "xultestCaseRunId": "oeilxrnwqs",
+  "workPhone": {
+    "cc": "96",
+    "subscriber": "73"
+  },
+  "threeDSCompInd": "Y",
+  "threeDSServerURL": "https://visa.3ds.rbk.money/ds",
+  "browserScreenWidth": "5665"
+}
+                            

@@ -1,0 +1,12 @@
+{
+  "threeDSServerTransID": "c89f9f1b-2e02-494a-a8dd-af1e522cf534",
+  "acsOperatorID": "00000014",
+  "acsTransID": "cb2249ab-abc1-497d-ab0a-65477441cecd",
+  "acsReferenceNumber": "ACSRefNum1234",
+  "dsReferenceNumber": "DSServerRef123456",
+  "dsTransID": "32d010c0-17eb-4779-9cc4-f04ed1871c1e",
+  "messageType": "ARes",
+  "messageVersion": "2.1.0",
+  "transStatus": "R",
+  "transStatusReason": "01"
+}
