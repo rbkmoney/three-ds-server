@@ -41,22 +41,4 @@ public abstract class TestBase {
                 resourceLoader.getResource("classpath:__files/" + path + fileName).getInputStream(),
                 Charsets.UTF_8);
     }
-
-    public <T> T readValue(byte[] src, Class<T> valueType) throws IOException {
-        return objectMapper.readValue(src, valueType);
-    }
-
-    public <T> T readFromFile(String fullPath, Class<T> valueType) throws IOException {
-        return objectMapper.readValue(readStringFromFile(fullPath), valueType);
-    }
-
-    public String writeValueAsString(Object value) throws IOException {
-        return objectMapper.writeValueAsString(value);
-    }
-
-    public String readStringFromFile(String fullPath) throws IOException {
-        return IOUtils.toString(
-                resourceLoader.getResource("classpath:__files/" + fullPath).getInputStream(),
-                Charsets.UTF_8);
-    }
 }

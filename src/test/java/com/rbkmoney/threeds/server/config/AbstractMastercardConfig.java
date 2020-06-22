@@ -1,12 +1,13 @@
 package com.rbkmoney.threeds.server.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.mastercard.MastercardPlatformTest;
-import org.junit.ClassRule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,12 +19,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = MastercardPlatformTest.TestConfig.class,
@@ -33,8 +33,20 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 @AutoConfigureMockMvc
 public abstract class AbstractMastercardConfig {
 
-    @ClassRule
+    //    @ClassRule
     public static WireMockRule wireMock = new WireMockRule(wireMockConfig().dynamicPort());
+
+    @BeforeAll
+    public static void setup() {
+        wireMock = new WireMockRule(wireMockConfig().dynamicPort());
+        wireMock.start();
+        WireMock.configureFor("localhost", wireMock.port());
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        wireMock.stop();
+    }
 
     @TestConfiguration
     @Import(ThreeDsServerApplication.class)
