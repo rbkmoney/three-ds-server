@@ -12,6 +12,7 @@ import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.serialization.TemporalAccessorWrapper;
 import com.rbkmoney.threeds.server.service.SenderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -49,11 +50,16 @@ import java.util.function.Function;
                 "environment.ds-url=https://ds.vendorcert.mirconnect.ru:8443/ds/DServer",
                 "environment.three-ds-server-ref-number=2200040105",
                 "environment.three-ds-server-url=https://nspk.3ds.rbk.money/ds",
-//                "logging.level.org.apache.http=debug",
+                "logging.level.com=error",
+                "logging.level.org=error",
+                "logging.level.com.rbkmoney.threeds.server.service.impl=debug",
+                "logging.level.com.rbkmoney.threeds.server.controller=debug",
+                "logging.level.com.rbkmoney.threeds.server.miraccept=debug",
         },
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
 @Ignore
+@Slf4j
 public abstract class MirAcceptIntegrationConfig {
 
     private static boolean WRITE_DATA_IN_FILE = false;
@@ -97,6 +103,8 @@ public abstract class MirAcceptIntegrationConfig {
                 .build();
 
         try {
+            log.info("\n" + objectMapper.writeValueAsString(cReq));
+
             byte[] bytesCReq = objectMapper.writeValueAsBytes(cReq);
 
             String encodeCReq = Base64.getEncoder().encodeToString(bytesCReq);
@@ -112,6 +120,7 @@ public abstract class MirAcceptIntegrationConfig {
             ResponseEntity<String> response = restTemplate.postForEntity(pArs.getAcsURL(), request, String.class);
 
             String html = response.getBody();
+            log.info("\n" + objectMapper.writeValueAsString(html));
             Document document = Jsoup.parse(html);
             Element element = document.select("form[name=form]").first();
             String urlSubmit = element.attr("action");
@@ -119,13 +128,16 @@ public abstract class MirAcceptIntegrationConfig {
             response = function.apply(urlSubmit);
 
             html = response.getBody();
+            log.info("\n" + objectMapper.writeValueAsString(html));
             document = Jsoup.parse(html);
             element = document.select("input[name=cres]").first();
             String decodeCRes = element.attr("value");
 
             byte[] byteCRes = Base64.getDecoder().decode(decodeCRes);
 
-            return objectMapper.readValue(byteCRes, CRes.class);
+            CRes cRes = objectMapper.readValue(byteCRes, CRes.class);
+            log.info("\n" + objectMapper.writeValueAsString(cRes));
+            return cRes;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -148,37 +160,44 @@ public abstract class MirAcceptIntegrationConfig {
 
     protected Function<String, ResponseEntity<String>> submitWithIncorrectPassword() {
         return urlSubmit -> {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            try {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-            map.add("password", "1zxcqwe");
-            map.add("submit", "Submit");
+                MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+                map.add("password", "1zxcqwe");
+                map.add("submit", "Submit");
 
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+                HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
-            ResponseEntity<String> response = restTemplate.postForEntity(urlSubmit, request, String.class);
+                ResponseEntity<String> response = restTemplate.postForEntity(urlSubmit, request, String.class);
 
-            String html = response.getBody();
-            Document document = Jsoup.parse(html);
-            Element element = document.select("form[name=form]").first();
-            urlSubmit = element.attr("action");
+                String html = response.getBody();
+                log.info("\n" + objectMapper.writeValueAsString(html));
+                Document document = Jsoup.parse(html);
+                Element element = document.select("form[name=form]").first();
+                urlSubmit = element.attr("action");
 
-            response = restTemplate.postForEntity(urlSubmit, request, String.class);
+                response = restTemplate.postForEntity(urlSubmit, request, String.class);
 
-            html = response.getBody();
-            document = Jsoup.parse(html);
-            element = document.select("form[name=form]").first();
-            urlSubmit = element.attr("action");
+                html = response.getBody();
+                log.info("\n" + objectMapper.writeValueAsString(html));
+                document = Jsoup.parse(html);
+                element = document.select("form[name=form]").first();
+                urlSubmit = element.attr("action");
 
-            response = restTemplate.postForEntity(urlSubmit, request, String.class);
+                response = restTemplate.postForEntity(urlSubmit, request, String.class);
 
-            html = response.getBody();
-            document = Jsoup.parse(html);
-            element = document.select("a.cancel").first();
-            urlSubmit = element.attr("href");
+                html = response.getBody();
+                log.info("\n" + objectMapper.writeValueAsString(html));
+                document = Jsoup.parse(html);
+                element = document.select("a.cancel").first();
+                urlSubmit = element.attr("href");
 
-            return restTemplate.getForEntity(urlSubmit, String.class);
+                return restTemplate.getForEntity(urlSubmit, String.class);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         };
     }
 
