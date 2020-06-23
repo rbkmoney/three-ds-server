@@ -1,0 +1,30 @@
+{
+  "messageType": "pArs",
+  "messageVersion": "2.1.0",
+  "threeDSServerTransID": "765d2c96-4102-4c5a-99b2-598f530c3bb1",
+  "p_messageVersion": "1.0.5",
+  "transStatus": "Y",
+  "dsReferenceNumber": "3DS_LOA_DIS_MOMD_020100_00066",
+  "acsReferenceNumber": "3DS_LOA_ACS_MOMD_020100_00061",
+  "acsTransID": "3214cd09-d563-499b-8cff-b3337bdde5b8",
+  "dsTransID": "108c0bcf-cfb5-542a-8000-000000233693",
+  "authenticationValue": "AAABBmNnYQAAAAABQ2dhAYRO23g=",
+  "eci": "02",
+  "messageExtension": [
+    {
+      "name": "rbaScoring",
+      "id": "A00000065801",
+      "criticalityIndicator": false,
+      "data": {
+        "totalScore": 0,
+        "ruleSets": [
+          {
+            "ruleSetId": 2001,
+            "score": 0,
+            "description": "Test Score"
+          }
+        ]
+      }
+    }
+  ]
+}

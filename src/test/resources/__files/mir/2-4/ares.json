@@ -1,0 +1,28 @@
+{
+  "messageType": "ARes",
+  "messageVersion": "2.1.0",
+  "threeDSServerTransID": "d89a144f-7d0e-4bb5-8dc7-315668aa0d13",
+  "acsReferenceNumber": "3DS_LOA_ACS_MOMD_020100_00061",
+  "acsTransID": "7e8635a2-c1af-40bd-ac21-f4b4c300d783",
+  "dsReferenceNumber": "3DS_LOA_DIS_MOMD_020100_00066",
+  "dsTransID": "108c0bcf-cfb5-542a-8000-000000233a8f",
+  "messageExtension": [
+    {
+      "name": "rbaScoring",
+      "id": "A00000065801",
+      "criticalityIndicator": false,
+      "data": {
+        "totalScore": 0,
+        "ruleSets": [
+          {
+            "ruleSetId": 2001,
+            "score": 0,
+            "description": "Test Score"
+          }
+        ]
+      }
+    }
+  ],
+  "transStatus": "N",
+  "transStatusReason": "01"
+}
