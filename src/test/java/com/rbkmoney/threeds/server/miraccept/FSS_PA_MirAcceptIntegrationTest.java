@@ -23,11 +23,9 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
     private static final DeviceChannel DEVICE_CHANNEL = DeviceChannel.BROWSER;
     private static final MessageCategory MESSAGE_CATEGORY = MessageCategory.PAYMENT_AUTH;
 
-    private static final String ACCT_NUMBER = "2201382000000047";
-
     @Test
     public void testCardEnrolledChallengeFlowLowRisk_6_1() {
-        PArq pArq = buildPArq("1000");
+        PArq pArq = buildPArq("2201382000000087", "1000");
 
         Message message = senderService.sendToDs(pArq);
 
@@ -45,7 +43,7 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
 
     @Test
     public void testCardEnrolledChallengeFlowMediumRiskAuthenticated_6_2() {
-        PArq pArq = buildPArq("10000");
+        PArq pArq = buildPArq("2201382000000047", "10000");
 
         Message message = senderService.sendToDs(pArq);
 
@@ -67,7 +65,7 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
 
     @Test
     public void testCardEnrolledChallengeFlowVeryHighRiskNotAuthenticated_6_3() {
-        PArq pArq = buildPArq("50000");
+        PArq pArq = buildPArq("2201382000000047", "50000");
 
         Message message = senderService.sendToDs(pArq);
 
@@ -89,7 +87,7 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
 
     @Test
     public void testCardEnrolledChallengeFlowNoScoreReceivedFromDSAuthenticated_6_4() {
-        PArq pArq = buildPArq("100000");
+        PArq pArq = buildPArq("2201382000000047", "100000");
 
         Message message = senderService.sendToDs(pArq);
 
@@ -109,9 +107,9 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
         writeInFileAppend(pArs, TestNumber.FSS_PA_6_4);
     }
 
-    private PArq buildPArq(String purchaseAmount) {
+    private PArq buildPArq(String acctNumber, String purchaseAmount) {
         PArq pArq = PArq.builder()
-                .acctNumber(ACCT_NUMBER)
+                .acctNumber(acctNumber)
                 .acquirerBIN(ACQUIRER_BIN)
                 .acquirerMerchantID(ACQUIRER_MERCHANT_ID)
                 .browserAcceptHeader(randomString())
