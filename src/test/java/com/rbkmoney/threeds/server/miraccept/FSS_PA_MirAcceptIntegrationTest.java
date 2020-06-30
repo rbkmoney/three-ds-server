@@ -38,6 +38,10 @@ public class FSS_PA_MirAcceptIntegrationTest extends MirAcceptIntegrationConfig 
         assertEquals(AcsChallengeMandated.CHALLENGE_IS_NOT_MANDATED, pArs.getAcsChallengeMandated());
         assertEquals("-200", getTotalScore(pArs));
 
+        CRes cRes = sendAs3dsClientTypeBRW(pArs, submitWithCorrectPassword());
+
+        assertEquals(TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL.getValue(), cRes.getTransStatus());
+
         writeInFileAppend(pArs, TestNumber.FSS_PA_6_1);
     }
 
