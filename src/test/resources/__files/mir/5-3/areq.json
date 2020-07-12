@@ -1,0 +1,20 @@
+{
+  "messageType": "AReq",
+  "messageVersion": "2.1.0",
+  "threeDSRequestorID": "2200040105",
+  "threeDSRequestorName": "kmrnushxlg",
+  "threeDSRequestorURL": "https://www.nspk.ru/notify",
+  "threeDSServerRefNumber": "2200040105",
+  "threeDSServerOperatorID": "2200040105",
+  "threeDSServerTransID": "9910b79f-9cd9-44f9-9ea6-d1e3717a3d63",
+  "threeRIInd": "05",
+  "acquirerBIN": "2200040105",
+  "acquirerMerchantID": "RBK_mrc_1",
+  "cardExpiryDate": "2012",
+  "acctNumber": "2201382000000013",
+  "deviceChannel": "03",
+  "mcc": "7522",
+  "merchantCountryCode": "643",
+  "merchantName": "yasoughnup",
+  "messageCategory": "02"
+}

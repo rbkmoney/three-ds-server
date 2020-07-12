@@ -1,0 +1,12 @@
+{
+  "messageType": "pArs",
+  "messageVersion": "2.1.0",
+  "threeDSServerTransID": "cf9f551a-a0be-41d9-b49f-4e406ac65b45",
+  "p_messageVersion": "1.0.5",
+  "transStatus": "N",
+  "dsReferenceNumber": "3DS_LOA_DIS_MOMD_020100_00066",
+  "acsReferenceNumber": "3DS_LOA_DIS_MOMD_020100_00066",
+  "acsTransID": "108c0bcf-cfb5-542a-8000-0000002336a7",
+  "dsTransID": "108c0bcf-cfb5-542a-8000-0000002336a7",
+  "transStatusReason": "06"
+}

@@ -1,0 +1,30 @@
+{
+  "messageType": "ARes",
+  "messageVersion": "2.1.0",
+  "threeDSServerTransID": "d6d53ca5-459e-4ddc-a006-e56e17456399",
+  "acsChallengeMandated": "N",
+  "acsReferenceNumber": "3DS_LOA_ACS_MOMD_020100_00061",
+  "acsTransID": "436a6863-33f7-48ea-91b7-5bf08c819aaa",
+  "acsURL": "https://acs.vendorcert.mirconnect.ru/mdpayacs/creq",
+  "authenticationType": "01",
+  "dsReferenceNumber": "3DS_LOA_DIS_MOMD_020100_00066",
+  "dsTransID": "108c0bcf-cfb5-542a-8000-000000233689",
+  "messageExtension": [
+    {
+      "name": "rbaScoring",
+      "id": "A00000065801",
+      "criticalityIndicator": false,
+      "data": {
+        "totalScore": 0,
+        "ruleSets": [
+          {
+            "ruleSetId": 2001,
+            "score": 0,
+            "description": "Test Score"
+          }
+        ]
+      }
+    }
+  ],
+  "transStatus": "C"
+}
