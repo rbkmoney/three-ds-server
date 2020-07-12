@@ -23,4 +23,10 @@
   "browserUserAgent": "xpjtawwjkt",
   "cardExpiryDate": "2012",
   "acctNumber": "2201382000000062",
-  "deviceChannel":
+  "deviceChannel": "02",
+  "mcc": "2327",
+  "merchantCountryCode": "643",
+  "merchantName": "tkhmdxztxz",
+  "messageCategory": "02",
+  "notificationURL": "https://www.nspk.ru/notify"
+}

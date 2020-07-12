@@ -1,13 +1,13 @@
 {
   "messageType": "pArs",
   "messageVersion": "2.1.0",
-  "threeDSServerTransID": "4ee48842-9a7b-46b9-a5f1-992a0309e4b4",
+  "threeDSServerTransID": "1dbf4543-1ad2-4f64-bbab-fa2ca5f28270",
   "p_messageVersion": "1.0.5",
   "transStatus": "C",
   "dsReferenceNumber": "3DS_LOA_DIS_MOMD_020100_00066",
   "acsReferenceNumber": "3DS_LOA_ACS_MOMD_020100_00061",
-  "acsTransID": "4d695757-cd7d-481e-b743-40dcf396ea17",
-  "dsTransID": "108c0bcf-cfb5-542a-8000-000000236b1d",
+  "acsTransID": "25d7465b-d00b-426f-b64c-24ca631daedf",
+  "dsTransID": "108c0bcf-cfb5-542a-8000-000000238521",
   "acsURL": "https://acs.vendorcert.mirconnect.ru/mdpayacs/creq",
   "authenticationType": "01",
   "acsChallengeMandated": "N",
@@ -20,9 +20,34 @@
         "totalScore": -200,
         "ruleSets": [
           {
-            "ruleSetId": 2001,
+            "ruleSetId": 4,
+            "score": 0,
+            "description": "Client Scoring"
+          },
+          {
+            "ruleSetId": 6,
+            "score": 0,
+            "description": "Merchant transactions Details"
+          },
+          {
+            "ruleSetId": 5,
             "score": -200,
-            "description": "Test Score"
+            "description": "Transaction Scoring"
+          },
+          {
+            "ruleSetId": 2,
+            "score": 0,
+            "description": "Merchant Account Rules"
+          },
+          {
+            "ruleSetId": 3,
+            "score": 0,
+            "description": "Merchant Scoring"
+          },
+          {
+            "ruleSetId": 1,
+            "score": 0,
+            "description": "User Device rules"
           }
         ]
       }
