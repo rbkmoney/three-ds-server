@@ -17,14 +17,6 @@ public class ChallengeFlow {
 
     private final JsonMapper jsonMapper;
 
-    public String requestFromDs(String testCase) {
-        return readRReq(testCase);
-    }
-
-    public String responseToDs(String testCase) {
-        return readRRes(testCase);
-    }
-
     public void givenAcsStubForFirstAuthenticationRequest(String testCase) {
         stubFor(post(urlEqualTo("/form/authentication"))
                 .willReturn(aResponse()
@@ -79,6 +71,14 @@ public class ChallengeFlow {
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
                         .withBody(responseFromAcs(testCase, AcsHtmlResponse.html_form_cres_after_cancel))));
+    }
+
+    public String requestFromDs(String testCase) {
+        return readRReq(testCase);
+    }
+
+    public String responseToDs(String testCase) {
+        return readRRes(testCase);
     }
 
     public String readEncodeCReq(String testCase) {
