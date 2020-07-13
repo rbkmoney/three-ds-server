@@ -162,36 +162,32 @@ public class MirPlatformChallengeFlowTest extends AbstractMirConfig {
 
     private AcsAction acsActionWithCResErrorResult() {
         return (testCase) -> {
-            try {
-                challengeFlow.givenAcsStubForSecondAuthenticationRequest(testCase);
-                challengeFlow.givenAcsStubForThirdAuthenticationRequest(testCase);
-                challengeFlow.givenAcsStubAfterAuthenticationWithCardBlockedResult(testCase);
-                challengeFlow.givenAcsStubAfterAuthenticationWithCResErrorResult(testCase);
+            challengeFlow.givenAcsStubForSecondAuthenticationRequest(testCase);
+            challengeFlow.givenAcsStubForThirdAuthenticationRequest(testCase);
+            challengeFlow.givenAcsStubAfterAuthenticationWithCardBlockedResult(testCase);
+            challengeFlow.givenAcsStubAfterAuthenticationWithCResErrorResult(testCase);
 
-                HttpEntity<MultiValueMap<String, String>> request = buildHttpRequestWithIncorrectPassword();
+            HttpEntity<MultiValueMap<String, String>> request = buildHttpRequestWithIncorrectPassword();
 
-                ResponseEntity<String> response = testRestTemplate.postForEntity(wireMockServerUrl + "form/authentication/second", request, String.class);
+            ResponseEntity<String> response = testRestTemplate.postForEntity(wireMockServerUrl + "form/authentication/second", request, String.class);
 
-                String urlSubmit = extractUrlFromHtmlResponseForNextRequestWithHtmlResult(response);
+            String urlSubmit = extractUrlFromHtmlResponseForNextRequestWithHtmlResult(response);
 
-                assertTrue(urlSubmit.contains("acs.vendorcert.mirconnect.ru"));
+            assertTrue(urlSubmit.contains("acs.vendorcert.mirconnect.ru"));
 
-                response = testRestTemplate.postForEntity(wireMockServerUrl + "form/authentication/third", request, String.class);
+            response = testRestTemplate.postForEntity(wireMockServerUrl + "form/authentication/third", request, String.class);
 
-                urlSubmit = extractUrlFromHtmlResponseForNextRequestWithHtmlResult(response);
+            urlSubmit = extractUrlFromHtmlResponseForNextRequestWithHtmlResult(response);
 
-                assertTrue(urlSubmit.contains("acs.vendorcert.mirconnect.ru"));
+            assertTrue(urlSubmit.contains("acs.vendorcert.mirconnect.ru"));
 
-                response = testRestTemplate.postForEntity(wireMockServerUrl + "form/card/blocked", request, String.class);
+            response = testRestTemplate.postForEntity(wireMockServerUrl + "form/card/blocked", request, String.class);
 
-                urlSubmit = extractUrlFromHtmlResponseForCResErrorResult(response);
+            urlSubmit = extractUrlFromHtmlResponseForCResErrorResult(response);
 
-                assertTrue(urlSubmit.contains("acs.vendorcert.mirconnect.ru"));
+            assertTrue(urlSubmit.contains("acs.vendorcert.mirconnect.ru"));
 
-                return testRestTemplate.getForEntity(wireMockServerUrl + "form/cres/error", String.class);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            return testRestTemplate.getForEntity(wireMockServerUrl + "form/cres/error", String.class);
         };
     }
 
@@ -203,7 +199,7 @@ public class MirPlatformChallengeFlowTest extends AbstractMirConfig {
         };
     }
 
-    private CRes decodeCRes(String encodeCRes) throws java.io.IOException {
+    private CRes decodeCRes(String encodeCRes) {
         byte[] byteCRes = Base64.getDecoder().decode(encodeCRes);
 
         return jsonMapper.readValue(byteCRes, CRes.class);

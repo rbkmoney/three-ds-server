@@ -5,8 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import java.io.IOException;
-
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 @RequiredArgsConstructor
@@ -57,10 +55,6 @@ public class PreparationFlow {
     }
 
     private String readMessage(String fullPath) {
-        try {
-            return jsonMapper.readStringFromFile(fullPath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return jsonMapper.readStringFromFile(fullPath);
     }
 }

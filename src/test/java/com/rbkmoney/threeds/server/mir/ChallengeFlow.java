@@ -1,13 +1,11 @@
 package com.rbkmoney.threeds.server.mir;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import java.io.IOException;
 import java.util.Base64;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -82,22 +80,14 @@ public class ChallengeFlow {
     }
 
     public String readEncodeCReq(String testCase) {
-        try {
-            String cReq = readMessage("mir/" + testCase + "/creq.json");
-            byte[] bytes = jsonMapper.writeValueAsBytes(cReq);
-            return Base64.getEncoder().encodeToString(bytes);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        String cReq = readMessage("mir/" + testCase + "/creq.json");
+        byte[] bytes = jsonMapper.writeValueAsBytes(cReq);
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     public String readEncodeCRes(String testCase) {
-        try {
-            JsonNode jsonNode = jsonMapper.readValue(readMessage("mir/" + testCase + "/cres.json"), JsonNode.class);
-            return jsonNode.toString();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        JsonNode jsonNode = jsonMapper.readValue(readMessage("mir/" + testCase + "/cres.json"), JsonNode.class);
+        return jsonNode.toString();
     }
 
     private String readRReq(String testCase) {
@@ -158,19 +148,11 @@ public class ChallengeFlow {
     }
 
     private String readHtml(String fullPath) {
-        try {
-            return jsonMapper.readFromFile(fullPath, String.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return jsonMapper.readFromFile(fullPath, String.class);
     }
 
     private String readMessage(String fullPath) {
-        try {
-            return jsonMapper.readStringFromFile(fullPath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return jsonMapper.readStringFromFile(fullPath);
     }
 
     public enum AcsHtmlResponse {
