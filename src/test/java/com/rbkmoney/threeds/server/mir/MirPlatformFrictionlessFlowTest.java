@@ -1,6 +1,7 @@
 package com.rbkmoney.threeds.server.mir;
 
 import com.rbkmoney.threeds.server.config.AbstractMirConfig;
+import com.rbkmoney.threeds.server.mir.utils.FrictionlessFlow;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.extension.ExtensionContext;

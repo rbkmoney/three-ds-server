@@ -2,6 +2,8 @@ package com.rbkmoney.threeds.server.mir;
 
 import com.rbkmoney.threeds.server.config.AbstractMirConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
+import com.rbkmoney.threeds.server.mir.utils.ChallengeFlow;
+import com.rbkmoney.threeds.server.mir.utils.FrictionlessFlow;
 import com.rbkmoney.threeds.server.mir.utils.challenge.AcsAction;
 import com.rbkmoney.threeds.server.mir.utils.challenge.AcsResult;
 import com.rbkmoney.threeds.server.mir.utils.challenge.CRes;

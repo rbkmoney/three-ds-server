@@ -1,4 +1,4 @@
-package com.rbkmoney.threeds.server.mir;
+package com.rbkmoney.threeds.server.mir.utils;
 
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 @RequiredArgsConstructor
-public class PreparationFlow {
+public class FrictionlessFlow {
 
     private final JsonMapper jsonMapper;
 
@@ -23,38 +23,39 @@ public class PreparationFlow {
     }
 
     public String requestToThreeDsServer(String testCase) {
-        return readPPrq(testCase);
+        return readPArq(testCase);
     }
 
     public String responseFromThreeDsServer(String testCase) {
-        return readPPrs(testCase);
+        return readPArs(testCase);
     }
 
     private String requestToDsServer(String testCase) {
-        return readPReq(testCase);
+        return readAReq(testCase);
     }
 
     private String responseFromDsServer(String testCase) {
-        return readPRes(testCase);
+        return readARes(testCase);
     }
 
-    private String readPPrq(String testCase) {
-        return readMessage("mir/" + testCase + "/pprq.json");
+    private String readPArq(String testCase) {
+        return readMessage("mir/" + testCase + "/parq.json");
     }
 
-    private String readPPrs(String testCase) {
-        return readMessage("mir/" + testCase + "/pprs.json");
+    private String readPArs(String testCase) {
+        return readMessage("mir/" + testCase + "/pars.json");
     }
 
-    private String readPReq(String testCase) {
-        return readMessage("mir/" + testCase + "/preq.json");
+    private String readAReq(String testCase) {
+        return readMessage("mir/" + testCase + "/areq.json");
     }
 
-    private String readPRes(String testCase) {
-        return readMessage("mir/" + testCase + "/pres.json");
+    private String readARes(String testCase) {
+        return readMessage("mir/" + testCase + "/ares.json");
     }
 
     private String readMessage(String fullPath) {
-        return jsonMapper.readStringFromFile(fullPath);
+            return jsonMapper.readStringFromFile(fullPath);
     }
 }
+

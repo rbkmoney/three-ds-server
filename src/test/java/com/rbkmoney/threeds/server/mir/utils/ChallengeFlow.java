@@ -1,4 +1,4 @@
-package com.rbkmoney.threeds.server.mir;
+package com.rbkmoney.threeds.server.mir.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
