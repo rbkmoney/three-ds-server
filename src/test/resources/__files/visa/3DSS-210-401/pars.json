@@ -1,0 +1,15 @@
+{
+  "messageType": "pArs",
+  "messageVersion": "2.1.0",
+  "threeDSServerTransID": "c8762558-63ed-4186-9a6e-a23ad871a3bf",
+  "p_messageVersion": "1.0.5",
+  "transStatus": "N",
+  "dsReferenceNumber": "DSServerRef123456",
+  "acsReferenceNumber": "ACSRefNum1234",
+  "acsTransID": "96ddd5cd-1023-47c2-a2bd-77a503b300d2",
+  "dsTransID": "6ca77b4a-5416-40e7-9fde-f91547123c29",
+  "authenticationValue": "AAABBZEEBgAAAAAAAAQGAAAAAAA=",
+  "acsOperatorID": "00000014",
+  "eci": "07",
+  "transStatusReason": "89"
+}

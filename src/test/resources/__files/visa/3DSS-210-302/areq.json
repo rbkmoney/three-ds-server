@@ -108,7 +108,6 @@
   "threeDSRequestorChallengeInd": "04",
   "cardholderName": "cmmmatbmtl",
   "threeDSServerOperatorID": "10075020",
-  "xultestCaseRunId": "bkjxsylang",
   "workPhone": {
     "cc": "64",
     "subscriber": "38"
