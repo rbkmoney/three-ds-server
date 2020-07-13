@@ -1,0 +1,13 @@
+{
+  "messageType": "RReq",
+  "messageVersion": "2.1.0",
+  "authenticationType": "01",
+  "challengeCancel": "01",
+  "interactionCounter": "00",
+  "messageCategory": "02",
+  "transStatus": "N",
+  "transStatusReason": "01",
+  "threeDSServerTransID": "ccaccb30-72e0-4700-b11b-f2f6673f2145",
+  "dsTransID": "108c0bcf-cfb5-542a-8000-000000233ad5",
+  "acsTransID": "ea599253-3c0b-478c-a9e9-a47958ece6d1"
+}

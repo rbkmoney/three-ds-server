@@ -1,0 +1,18 @@
+{
+  "messageType": "pArq",
+  "messageVersion": "2.1.0",
+  "acctNumber": "2201382000000021",
+  "cardExpiryDate": "2012",
+  "deviceChannel": "03",
+  "messageCategory": "02",
+  "threeDSRequestorID": "2200040105",
+  "threeDSRequestorName": "adntmblikh",
+  "threeDSRequestorURL": "https://www.nspk.ru/notify",
+  "acquirerBIN": "2200040105",
+  "acquirerMerchantID": "RBK_mrc_1",
+  "mcc": "7279",
+  "merchantCountryCode": "643",
+  "merchantName": "rziddvhaya",
+  "threeRIInd": "05",
+  "threeDSServerOperatorID": "2200040105"
+}

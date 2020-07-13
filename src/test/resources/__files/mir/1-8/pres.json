@@ -1,0 +1,762 @@
+{
+  "messageType": "PRes",
+  "messageVersion": "2.1.0",
+  "cardRangeData": [
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4003",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201010000009999",
+      "startRange": "2201010000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/1305",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2000000217199999",
+      "startRange": "2000000217100000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/1400",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2204100100000999",
+      "startRange": "2204100100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6300",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201382000000059",
+      "startRange": "2201382000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6300",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201382000000097",
+      "startRange": "2201382000000087"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/1600",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2203740185999999",
+      "startRange": "2203740185000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/1601",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200680425999999",
+      "startRange": "2200680425999000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/1304",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200410100000999",
+      "startRange": "2200410000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/1304",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200410100000999999",
+      "startRange": "2200410000000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4001",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201289999999999",
+      "startRange": "2201280000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4004",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200170200399999",
+      "startRange": "2200170200300000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4006",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200029999999999",
+      "startRange": "2200020000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4006",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200020103029569",
+      "startRange": "2200020103029569"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4006",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200020108662810",
+      "startRange": "2200020108662810"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4006",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200020400007672",
+      "startRange": "2200020400007672"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4006",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200020400371623",
+      "startRange": "2200020400371623"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4006",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200020902649054",
+      "startRange": "2200020902649054"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4007",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201399999999999",
+      "startRange": "2201390000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4000",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2301389999999999",
+      "startRange": "2301380000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6831",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200089999999999",
+      "startRange": "2200080000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/4002",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2204880399999999",
+      "startRange": "2204880100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/1200",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200209999999999",
+      "startRange": "2200200000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6400",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200100499999999",
+      "startRange": "2200100100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6402",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200000022999999",
+      "startRange": "2200000022000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6403",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200240609999999",
+      "startRange": "2200240603000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6500",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201330199999999",
+      "startRange": "2201330100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6600",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200039999999999",
+      "startRange": "2200030000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6600",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200030143254408",
+      "startRange": "2200030143254408"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6600",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2203650199999999",
+      "startRange": "2203650100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6601",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2204120299999999",
+      "startRange": "2204120200000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6602",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200670400000042",
+      "startRange": "2200670100000003"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6603",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201383000999999",
+      "startRange": "2201383000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6700",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200440100009999",
+      "startRange": "2200440100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6800",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200330255100000999",
+      "startRange": "2200330255100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6801",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200259999999999",
+      "startRange": "2200250000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6802",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201319999999999",
+      "startRange": "2201310000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6803",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200310399999999",
+      "startRange": "2200310300000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6804",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200049999999999",
+      "startRange": "2200040000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6805",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200320299999999",
+      "startRange": "2200320200000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6806",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200050799999999",
+      "startRange": "2200050500000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6807",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200700130999999",
+      "startRange": "2200700130000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6808",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200450159999999",
+      "startRange": "2200450110000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6809",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200770404499999",
+      "startRange": "2200770404400000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6810",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200239999999999",
+      "startRange": "2200230000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6811",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200160199999999",
+      "startRange": "2200160100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6812",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200299999999999",
+      "startRange": "2200290000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6813",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201850299999999",
+      "startRange": "2201850100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6814",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201999999999999",
+      "startRange": "2201900000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6815",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200550499999999",
+      "startRange": "2200550100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6816",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200480199999999",
+      "startRange": "2200480100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6817",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200509999999999",
+      "startRange": "2200500000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6818",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200260100009999",
+      "startRange": "2200260100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6819",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200130199999999",
+      "startRange": "2200130100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6819",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200130299999999",
+      "startRange": "2200130200000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6820",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200180399999999",
+      "startRange": "2200180100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6821",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200739999999999",
+      "startRange": "2200730000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6822",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200580100999999",
+      "startRange": "2200580100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6823",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200600199999999",
+      "startRange": "2200600100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6824",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2202201399999999",
+      "startRange": "2202201300000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6824",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2202201599999999",
+      "startRange": "2202201500000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6824",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2202203099999999",
+      "startRange": "2202202000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6824",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2202203199999999",
+      "startRange": "2202203100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6825",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200429999999999",
+      "startRange": "2200420000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6826",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "9201382999999999",
+      "startRange": "9201382000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6828",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200240599999999",
+      "startRange": "2200240100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6829",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200540399999999",
+      "startRange": "2200540300000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6830",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200840199999999",
+      "startRange": "2200840100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6832",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200610499999999",
+      "startRange": "2200610300000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6833",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2202530100100999",
+      "startRange": "2202530100100000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6834",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201430199999999",
+      "startRange": "2201430100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6835",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200150299999999",
+      "startRange": "2200150200000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6836",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200011199999999",
+      "startRange": "2200011100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6900",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200530199999999",
+      "startRange": "2200530100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6901",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2202490281442784",
+      "startRange": "2202490200000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6901",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2202490299999999",
+      "startRange": "2202490281442786"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6901",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "6291290199999999",
+      "startRange": "6291290100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6902",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200120100000000056",
+      "startRange": "2200120100000000015"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6903",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200199999999999",
+      "startRange": "2200190000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6904",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200280101999999",
+      "startRange": "2200280101000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6905",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200710199999999",
+      "startRange": "2200710100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6905",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200710299999999",
+      "startRange": "2200710200000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6905",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200710399999999",
+      "startRange": "2200710300000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6906",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200300109445393",
+      "startRange": "2200300109445393"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6907",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2202140200000020",
+      "startRange": "2202140200000020"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6908",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "6292449999999999",
+      "startRange": "6292440000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6909",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200390399999999",
+      "startRange": "2200390399000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6910",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200370101199990",
+      "startRange": "2200370101000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6910",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200620200049999",
+      "startRange": "2200620100300000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6911",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2201880299999999",
+      "startRange": "2201880299990000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6912",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2203410199999999",
+      "startRange": "2203410100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6913",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200460299999999",
+      "startRange": "2200460100000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/6914",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200090299999999",
+      "startRange": "2200090200000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/7000",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "6161229999999999",
+      "startRange": "6161220000000000"
+    },
+    {
+      "threeDSMethodURL": "https://ds.vendorcert.mirconnect.ru/ds/7001",
+      "acsEndProtocolVersion": "2.1.0",
+      "acsStartProtocolVersion": "2.1.0",
+      "actionInd": "A",
+      "endRange": "2200490300009999",
+      "startRange": "2200490300000000"
+    }
+  ],
+  "dsEndProtocolVersion": "2.1.0",
+  "dsStartProtocolVersion": "2.1.0",
+  "threeDSServerTransID": "9bdfe2dd-d57b-453f-93a7-995701330872",
+  "dsTransID": "108c0bcf-cfb5-542a-8000-00000023367f"
+}

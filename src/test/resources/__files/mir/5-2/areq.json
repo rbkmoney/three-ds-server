@@ -1,0 +1,20 @@
+{
+  "messageType": "AReq",
+  "messageVersion": "2.1.0",
+  "threeDSRequestorID": "2200040105",
+  "threeDSRequestorName": "lajnnmcqrt",
+  "threeDSRequestorURL": "https://www.nspk.ru/notify",
+  "threeDSServerRefNumber": "2200040105",
+  "threeDSServerOperatorID": "2200040105",
+  "threeDSServerTransID": "647f9aec-5b80-4ff4-97bd-1614ecc3e71f",
+  "threeRIInd": "05",
+  "acquirerBIN": "2200040105",
+  "acquirerMerchantID": "RBK_mrc_1",
+  "cardExpiryDate": "2012",
+  "acctNumber": "2201382000000039",
+  "deviceChannel": "03",
+  "mcc": "9663",
+  "merchantCountryCode": "643",
+  "merchantName": "oktnhilueo",
+  "messageCategory": "02"
+}

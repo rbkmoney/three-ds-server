@@ -1,0 +1,121 @@
+{
+  "messageType": "AReq",
+  "messageVersion": "2.1.0",
+  "threeDSCompInd": "Y",
+  "threeDSRequestorAuthenticationInd": "01",
+  "threeDSRequestorAuthenticationInfo": {
+    "threeDSReqAuthMethod": "03",
+    "threeDSReqAuthTimestamp": "202006222010",
+    "threeDSReqAuthData": "hwophsgexd"
+  },
+  "threeDSRequestorChallengeInd": "04",
+  "threeDSRequestorID": "2200040105",
+  "threeDSRequestorName": "viakvozqdt",
+  "threeDSRequestorPriorAuthenticationInfo": {
+    "threeDSReqPriorAuthData": "pzyuoxaezw",
+    "threeDSReqPriorAuthMethod": "04",
+    "threeDSReqPriorAuthTimestamp": "202006222010",
+    "threeDSReqPriorRef": "c2e2bf6b-fb88-47a3-9154-a2799b554107"
+  },
+  "threeDSRequestorURL": "https://www.nspk.ru/notify",
+  "threeDSServerRefNumber": "2200040105",
+  "threeDSServerOperatorID": "2200040105",
+  "threeDSServerTransID": "765d2c96-4102-4c5a-99b2-598f530c3bb1",
+  "threeDSServerURL": "https://nspk.3ds.rbk.money/ds",
+  "acctType": "03",
+  "acquirerBIN": "2200040105",
+  "acquirerMerchantID": "RBK_mrc_1",
+  "addrMatch": "Y",
+  "browserAcceptHeader": "gnrfdtqujz",
+  "browserIP": "192.168.0.1",
+  "browserJavaEnabled": true,
+  "browserLanguage": "eqofme",
+  "browserColorDepth": "4",
+  "browserScreenHeight": "6272",
+  "browserScreenWidth": "7979",
+  "browserTZ": "7935",
+  "browserUserAgent": "piajzadnrn",
+  "cardExpiryDate": "2012",
+  "acctInfo": {
+    "chAccAgeInd": "04",
+    "chAccChange": "20200622",
+    "chAccChangeInd": "03",
+    "chAccDate": "20200622",
+    "chAccPwChange": "20200622",
+    "chAccPwChangeInd": "04",
+    "nbPurchaseAccount": "396",
+    "provisionAttemptsDay": "899",
+    "txnActivityDay": "962",
+    "txnActivityYear": "162",
+    "paymentAccAge": "20200622",
+    "paymentAccInd": "04",
+    "shipAddressUsage": "20200622",
+    "shipAddressUsageInd": "03",
+    "shipNameIndicator": "02",
+    "suspiciousAccActivity": "02"
+  },
+  "acctNumber": "2201382000000013",
+  "acctID": "edjmhqssoj",
+  "billAddrCity": "svtwgqxksh",
+  "billAddrCountry": "643",
+  "billAddrLine1": "ciopeeuuok",
+  "billAddrLine2": "ikfetkmyfo",
+  "billAddrLine3": "qcbkvcngne",
+  "billAddrPostCode": "61336",
+  "billAddrState": "971",
+  "email": "support@rbk.money",
+  "homePhone": {
+    "cc": "48",
+    "subscriber": "83"
+  },
+  "mobilePhone": {
+    "cc": "58",
+    "subscriber": "54"
+  },
+  "cardholderName": "hyvxipuirz",
+  "shipAddrCity": "eoaocnoptf",
+  "shipAddrCountry": "643",
+  "shipAddrLine1": "msyjrttvff",
+  "shipAddrLine2": "swpnqgygni",
+  "shipAddrLine3": "dqxsphbwqu",
+  "shipAddrPostCode": "18668",
+  "shipAddrState": "712",
+  "workPhone": {
+    "cc": "29",
+    "subscriber": "83"
+  },
+  "deviceChannel": "02",
+  "mcc": "8281",
+  "merchantCountryCode": "643",
+  "merchantName": "ommaurjguv",
+  "merchantRiskIndicator": {
+    "deliveryEmailAddress": "support@rbk.money",
+    "deliveryTimeframe": "01",
+    "giftCardAmount": "9314473511",
+    "giftCardCount": "28",
+    "giftCardCurr": "319",
+    "preOrderDate": "20200622",
+    "preOrderPurchaseInd": "02",
+    "reorderItemsInd": "01",
+    "shipIndicator": "02"
+  },
+  "messageCategory": "01",
+  "messageExtension": [
+    {
+      "name": "ivqsvxfxrf",
+      "id": "tjgoqdvnqs",
+      "criticalityIndicator": false,
+      "data": {
+        "uhasikqfse": "eclfehesvm"
+      }
+    }
+  ],
+  "notificationURL": "https://www.nspk.ru/notify",
+  "purchaseAmount": "190000",
+  "purchaseCurrency": "643",
+  "purchaseExponent": "2",
+  "purchaseDate": "20200622201052",
+  "recurringExpiry": "20200622",
+  "recurringFrequency": "772",
+  "transType": "03"
+}

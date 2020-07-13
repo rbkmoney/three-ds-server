@@ -4,9 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import io.micrometer.core.instrument.util.IOUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.core.io.ResourceLoader;
-
-import java.io.IOException;
 
 @RequiredArgsConstructor
 public class JsonMapper {
@@ -15,11 +14,33 @@ public class JsonMapper {
 
     private final ResourceLoader resourceLoader;
 
-    public <T> T readFromFile(String fullPath, Class<T> valueType) throws IOException {
+    @SneakyThrows
+    public <T> T readFromFile(String fullPath, Class<T> valueType) {
         return objectMapper.readValue(readStringFromFile(fullPath), valueType);
     }
 
-    public String readStringFromFile(String fullPath) throws IOException {
+    @SneakyThrows
+    public <T> T readValue(String src, Class<T> valueType) {
+        return objectMapper.readValue(src, valueType);
+    }
+
+    @SneakyThrows
+    public <T> T readValue(byte[] src, Class<T> valueType) {
+        return objectMapper.readValue(src, valueType);
+    }
+
+    @SneakyThrows
+    public byte[] writeValueAsBytes(String json) {
+        return objectMapper.writeValueAsBytes(json);
+    }
+
+    @SneakyThrows
+    public String writeValueAsString(Object o) {
+        return objectMapper.writeValueAsString(o);
+    }
+
+    @SneakyThrows
+    public String readStringFromFile(String fullPath) {
         return IOUtils.toString(
                 resourceLoader.getResource("classpath:__files/" + fullPath).getInputStream(),
                 Charsets.UTF_8);
