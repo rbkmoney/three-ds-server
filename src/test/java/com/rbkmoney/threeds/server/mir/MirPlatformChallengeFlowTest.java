@@ -1,15 +1,12 @@
 package com.rbkmoney.threeds.server.mir;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.rbkmoney.threeds.server.config.AbstractMirConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
+import com.rbkmoney.threeds.server.mir.utils.challenge.AcsAction;
+import com.rbkmoney.threeds.server.mir.utils.challenge.AcsResult;
+import com.rbkmoney.threeds.server.mir.utils.challenge.CRes;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
-import lombok.Data;
 import lombok.SneakyThrows;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,19 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Base64;
 import java.util.stream.Stream;
 
+import static com.rbkmoney.threeds.server.mir.utils.challenge.HtmlExtractor.*;
+import static com.rbkmoney.threeds.server.mir.utils.challenge.HttpBuilder.*;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -132,7 +129,7 @@ public class MirPlatformChallengeFlowTest extends AbstractMirConfig {
     private ResponseEntity<String> firstAuthenticationRequestInAcs(String testCase) {
         challengeFlow.givenAcsStubForFirstAuthenticationRequest(testCase);
 
-        HttpEntity<MultiValueMap<String, String>> request = buildHttpRequestWithInitEncodedCReq(testCase);
+        HttpEntity<MultiValueMap<String, String>> request = buildHttpRequestWithInitEncodedCReq(challengeFlow.readEncodeCReq(testCase));
 
         return testRestTemplate.postForEntity(wireMockServerUrl + "form/authentication", request, String.class);
     }
@@ -205,73 +202,6 @@ public class MirPlatformChallengeFlowTest extends AbstractMirConfig {
         return jsonMapper.readValue(byteCRes, CRes.class);
     }
 
-    private HttpEntity<MultiValueMap<String, String>> buildHttpRequestWithInitEncodedCReq(String testCase) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("creq", challengeFlow.readEncodeCReq(testCase));
-
-        return new HttpEntity<>(map, headers);
-    }
-
-    private HttpEntity<MultiValueMap<String, String>> buildHttpRequestWithCorrectPassword() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("password", "1qwezxc");
-        map.add("submit", "Submit");
-
-        return new HttpEntity<>(map, headers);
-    }
-
-    private HttpEntity<MultiValueMap<String, String>> buildHttpRequestWithIncorrectPassword() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("password", "1zxcqwe");
-        map.add("submit", "Submit");
-
-        return new HttpEntity<>(map, headers);
-    }
-
-    private String extractUrlFromHtmlResponseForNextRequestWithHtmlResult(ResponseEntity<String> response) {
-        String html = response.getBody();
-        Document document = Jsoup.parse(html);
-        Element element = document.select("form[name=form]").first();
-        return element.attr("action");
-    }
-
-    private String extractUrlFromHtmlResponseForCResErrorResult(ResponseEntity<String> response) {
-        String html = response.getBody();
-        Document document = Jsoup.parse(html);
-        Element element = document.select("a.cancel").first();
-        return element.attr("href");
-    }
-
-    private String extractEncodedCResFromHtmlResponse(ResponseEntity<String> response) {
-        String html = response.getBody();
-        Document document = Jsoup.parse(html);
-        Element element = document.select("input[name=cres]").first();
-        return element.attr("value");
-    }
-
-    private interface AcsAction {
-
-        ResponseEntity<String> apply(String testCase) throws Exception;
-
-    }
-
-    private enum AcsResult {
-
-        cres_success,
-        cres_error,
-        cres_after_cancel
-
-    }
-
     private static class MirChallengeFlowArgumentsProvider implements ArgumentsProvider {
 
         @Override
@@ -289,23 +219,5 @@ public class MirPlatformChallengeFlowTest extends AbstractMirConfig {
                     Arguments.of("6-4", "e58bf997-f11b-4ba3-be5c-134462ed824b", AcsResult.cres_success)
             );
         }
-    }
-
-    @Data
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
-    public static class CRes {
-
-        private String acsTransID;
-        private String acsUiType;
-        private String acsHTML;
-        private String acsCounterAtoS;
-        private String challengeCompletionInd;
-        private String messageType;
-        private String messageVersion;
-        private String sdkTransID;
-        private String threeDSServerTransID;
-        private String transStatus;
-
     }
 }

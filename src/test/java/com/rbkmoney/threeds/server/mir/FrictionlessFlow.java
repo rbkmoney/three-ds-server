@@ -58,3 +58,4 @@ public class FrictionlessFlow {
             return jsonMapper.readStringFromFile(fullPath);
     }
 }
+
