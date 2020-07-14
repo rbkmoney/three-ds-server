@@ -5,7 +5,8 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
-import com.rbkmoney.threeds.server.mastercard.MastercardPlatformTest;
+import com.rbkmoney.threeds.server.mastercard.MastercardPlatformFrictionlessFlowTest;
+import com.rbkmoney.threeds.server.mastercard.utils.FrictionlessFlow;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -27,7 +28,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = MastercardPlatformTest.TestConfig.class,
+        classes = MastercardPlatformFrictionlessFlowTest.TestConfig.class,
         properties = "spring.main.allow-bean-definition-overriding=true")
 @ContextConfiguration(initializers = AbstractMastercardConfig.Initializer.class)
 @TestPropertySource("classpath:application.yml")
@@ -49,6 +50,11 @@ public abstract class AbstractMastercardConfig {
         @Bean
         public JsonMapper jsonMapper(ObjectMapper objectMapper, ResourceLoader resourceLoader) {
             return new JsonMapper(objectMapper, resourceLoader);
+        }
+
+        @Bean
+        public FrictionlessFlow frictionlessFlow(JsonMapper jsonMapper) {
+            return new FrictionlessFlow(jsonMapper);
         }
     }
 

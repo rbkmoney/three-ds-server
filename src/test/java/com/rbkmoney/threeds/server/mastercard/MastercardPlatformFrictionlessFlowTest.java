@@ -1,14 +1,8 @@
 package com.rbkmoney.threeds.server.mastercard;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.rbkmoney.threeds.server.config.AbstractMastercardConfig;
-import com.rbkmoney.threeds.server.config.utils.JsonMapper;
+import com.rbkmoney.threeds.server.mastercard.utils.FrictionlessFlow;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
-import lombok.Data;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,23 +11,18 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Base64;
 import java.util.stream.Stream;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-public class MastercardPlatformTest extends AbstractMastercardConfig {
+public class MastercardPlatformFrictionlessFlowTest extends AbstractMastercardConfig {
 
     @MockBean
     private IdGenerator idGenerator;
@@ -42,7 +31,7 @@ public class MastercardPlatformTest extends AbstractMastercardConfig {
     private MockMvc mockMvc;
 
     @Autowired
-    private JsonMapper jsonMapper;
+    private FrictionlessFlow frictionlessFlow;
 
     @ParameterizedTest(name = "#{index} - Run Mastercard platform Frictionless Flow test case number {0}")
     @ArgumentsSource(MastercardFrictionlessFlowArgumentsProvider.class)
@@ -54,15 +43,7 @@ public class MastercardPlatformTest extends AbstractMastercardConfig {
     }
 
     private void mastercardFrictionlessFlowTest(String testCase) throws Exception {
-        FrictionlessFlow frictionlessFlow = new FrictionlessFlow();
-
-        stubFor(post(urlEqualTo("/"))
-                .withRequestBody(equalToJson(frictionlessFlow.requestToDsServer(testCase), true, true))
-                .willReturn(aResponse()
-                        .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
-                        .withHeader("x-ul-testcaserun-id", testCase)
-                        .withBody(frictionlessFlow.responseFromDsServer(testCase))));
+        frictionlessFlow.givenDsStub(testCase);
 
         MockHttpServletRequestBuilder prepRequest = MockMvcRequestBuilders
                 .post("/sdk")
@@ -77,67 +58,6 @@ public class MastercardPlatformTest extends AbstractMastercardConfig {
                         .json(frictionlessFlow.responseFromThreeDsServer(testCase)));
     }
 
-    private class FrictionlessFlow {
-
-        private final Gson gson = new GsonBuilder().create();
-
-        private String requestToThreeDsServer(String testCase) throws IOException {
-            return readPArq(testCase);
-        }
-
-        private String responseFromThreeDsServer(String testCase) throws IOException {
-            return readPArs(testCase);
-        }
-
-        private String requestToDsServer(String testCase) throws IOException {
-            return readAReq(testCase, "dsReferenceNumber", "dsTransID", "dsURL", "deviceInfo");
-        }
-
-        private String responseFromDsServer(String testCase) throws IOException {
-            return readARes(testCase);
-        }
-
-        private String readPArq(String testCase) throws IOException {
-            return readMessage("mastercard/" + testCase + "/parq.json");
-        }
-
-        private String readPArs(String testCase) throws IOException {
-            return readMessage("mastercard/" + testCase + "/pars.json");
-        }
-
-        private String readAReq(String testCase, String... removeProperties) throws IOException {
-            return removeFieldsFromOtherThreeDSComponents(
-                    readMessage("mastercard/" + testCase + "/areq.json"),
-                    removeProperties);
-        }
-
-        private String readARes(String testCase) throws IOException {
-            JsonObject parsJsonObject = gson.fromJson(readMessage("mastercard/" + testCase + "/pars.json"), JsonObject.class);
-
-            JsonObject aresJsonObject = gson.fromJson(readMessage("mastercard/" + testCase + "/ares.json"), JsonObject.class);
-            aresJsonObject.remove("authenticationValue");
-            aresJsonObject.add("authenticationValue", parsJsonObject.get("authenticationValue"));
-            return aresJsonObject.toString();
-        }
-
-        private String removeFieldsFromOtherThreeDSComponents(String json, String... removeProperties) {
-            JsonObject jsonObj = gson.fromJson(json, JsonObject.class);
-            for (String removeProperty : removeProperties) {
-                jsonObj.remove(removeProperty);
-            }
-            return jsonObj.toString();
-        }
-
-        private String readMessage(String fullPath) throws IOException {
-            Base64Message base64Message = jsonMapper.readFromFile(fullPath, Base64Message.class);
-            byte[] src = decodeBody(base64Message);
-            return new String(src, Charset.defaultCharset());
-        }
-
-        private byte[] decodeBody(Base64Message base64Message) {
-            return Base64.getDecoder().decode(base64Message.getBody());
-        }
-    }
 
     private static class MastercardFrictionlessFlowArgumentsProvider implements ArgumentsProvider {
 
@@ -165,14 +85,5 @@ public class MastercardPlatformTest extends AbstractMastercardConfig {
                     Arguments.of("TC_SERVER_00011_001", "6f8ebd84-4dc0-4a2c-a783-3c7e180736a9")
             );
         }
-    }
-
-    @Data
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
-    public static class Base64Message {
-
-        private String body;
-
     }
 }
