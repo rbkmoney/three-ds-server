@@ -1,0 +1,16 @@
+{
+  "threeDSServerTransID": "a0f65c32-7863-4b87-a106-f4b0ec63b6b0",
+  "acsOperatorID": "00000014",
+  "acsTransID": "552fa7bf-2534-4f1d-928e-bfb0e48e9617",
+  "acsReferenceNumber": "ACSRefNum1234",
+  "authenticationValue": "AAABBZEEBgAAAAAAAAQGAAAAAAA=",
+  "dsReferenceNumber": "DSServerRef123456",
+  "dsTransID": "10587571-9444-4319-be31-6a017df40518",
+  "eci": "06",
+  "messageType": "ARes",
+  "messageVersion": "2.2.0",
+  "transStatus": "A",
+  "whiteListStatus": "N",
+  "whiteListStatusSource": "02"
+}
+                            

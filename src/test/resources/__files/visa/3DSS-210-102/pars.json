@@ -1,0 +1,13 @@
+{
+  "messageType": "pArs",
+  "messageVersion": "2.1.0",
+  "threeDSServerTransID": "7ea39bdc-165a-4eee-9b82-212a303e98ff",
+  "p_messageVersion": "1.0.5",
+  "transStatus": "N",
+  "dsReferenceNumber": "DSServerRef123456",
+  "acsReferenceNumber": "ACSRefNum1234",
+  "acsTransID": "eed06d2b-50ca-4970-9ed7-8d5233f422bc",
+  "dsTransID": "f291a34f-6e68-4654-8259-6ef62e4be32a",
+  "acsOperatorID": "00000014",
+  "transStatusReason": "01"
+}

@@ -1,0 +1,8 @@
+{
+  "messageType": "PReq",
+  "messageVersion": "2.2.0",
+  "threeDSServerRefNumber": "3DS_LOA_SER_DIPL_020200_00236",
+  "threeDSServerOperatorID": "10075020",
+  "threeDSServerTransID": "fe115f4d-d010-4d09-8c7c-032545dc381c",
+  "threeDSRequestorURL": "https://www.visa.ru/notify"
+}
