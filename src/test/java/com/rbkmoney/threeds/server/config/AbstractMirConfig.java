@@ -5,7 +5,9 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
-import com.rbkmoney.threeds.server.mastercard.MastercardPlatformTest;
+import com.rbkmoney.threeds.server.mir.utils.ChallengeFlow;
+import com.rbkmoney.threeds.server.mir.utils.FrictionlessFlow;
+import com.rbkmoney.threeds.server.mir.utils.PreparationFlow;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -19,6 +21,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.client.RestTemplate;
@@ -27,9 +30,10 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = MastercardPlatformTest.TestConfig.class,
+        classes = AbstractMirConfig.TestConfig.class,
         properties = "spring.main.allow-bean-definition-overriding=true")
 @ContextConfiguration(initializers = AbstractMirConfig.Initializer.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @TestPropertySource("classpath:application.yml")
 @AutoConfigureMockMvc
 public abstract class AbstractMirConfig {
@@ -49,6 +53,21 @@ public abstract class AbstractMirConfig {
         @Bean
         public JsonMapper jsonMapper(ObjectMapper objectMapper, ResourceLoader resourceLoader) {
             return new JsonMapper(objectMapper, resourceLoader);
+        }
+
+        @Bean
+        public FrictionlessFlow frictionlessFlow(JsonMapper jsonMapper) {
+            return new FrictionlessFlow(jsonMapper);
+        }
+
+        @Bean
+        public ChallengeFlow challengeFlow(JsonMapper jsonMapper) {
+            return new ChallengeFlow(jsonMapper);
+        }
+
+        @Bean
+        public PreparationFlow preparationFlow(JsonMapper jsonMapper) {
+            return new PreparationFlow(jsonMapper);
         }
     }
 
