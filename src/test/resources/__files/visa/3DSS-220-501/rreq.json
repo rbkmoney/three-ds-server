@@ -1,0 +1,16 @@
+{
+  "threeDSServerTransID": "721276cb-a700-4cb5-be72-c991f1986f8c",
+  "acsTransID": "20653631-8f8f-4dc9-b47f-f7baa2d00b2d",
+  "authenticationType": "02",
+  "authenticationValue": "AAABBZEEBgAAAAAAAAQGAAAAAAA=",
+  "dsTransID": "89afbbea-1c95-4758-afb7-b7f7cad266e9",
+  "eci": "05",
+  "interactionCounter": "01",
+  "messageCategory": "01",
+  "messageType": "RReq",
+  "messageVersion": "2.2.0",
+  "transStatus": "Y",
+  "whiteListStatus": "Y",
+  "whiteListStatusSource": "03"
+}
+                            

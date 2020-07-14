@@ -5,7 +5,9 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
-import com.rbkmoney.threeds.server.mastercard.utils.FrictionlessFlow;
+import com.rbkmoney.threeds.server.visa.utils.ChallengeFlow;
+import com.rbkmoney.threeds.server.visa.utils.FrictionlessFlow;
+import com.rbkmoney.threeds.server.visa.utils.PreparationFlow;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -19,6 +21,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.client.RestTemplate;
@@ -27,12 +30,13 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = AbstractMastercardConfig.TestConfig.class,
+        classes = AbstractVisaConfig.TestConfig.class,
         properties = "spring.main.allow-bean-definition-overriding=true")
-@ContextConfiguration(initializers = AbstractMastercardConfig.Initializer.class)
+@ContextConfiguration(initializers = AbstractVisaConfig.Initializer.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @TestPropertySource("classpath:application.yml")
 @AutoConfigureMockMvc
-public abstract class AbstractMastercardConfig {
+public abstract class AbstractVisaConfig {
 
     @RegisterExtension
     public static ServerExtension serverExtension = new ServerExtension();
@@ -55,6 +59,16 @@ public abstract class AbstractMastercardConfig {
         public FrictionlessFlow frictionlessFlow(JsonMapper jsonMapper) {
             return new FrictionlessFlow(jsonMapper);
         }
+
+        @Bean
+        public ChallengeFlow challengeFlow(JsonMapper jsonMapper) {
+            return new ChallengeFlow(jsonMapper);
+        }
+
+        @Bean
+        public PreparationFlow preparationFlow(JsonMapper jsonMapper) {
+            return new PreparationFlow(jsonMapper);
+        }
     }
 
     public static class Initializer extends ConfigFileApplicationContextInitializer {
@@ -69,8 +83,8 @@ public abstract class AbstractMastercardConfig {
                     "preparation-flow.on-schedule.enabled=false",
                     "environment.test.ds-url=http://localhost:" + serverExtension.getServer().port() + "/",
                     "environment.test.three-ds-requestor-url=https://rbk.money/",
-                    "environment.test.three-ds-server-url=https://3ds.rbk.money/ds",
-                    "environment.test.three-ds-server-ref-number=3DS_LOA_SER_PPFU_020100_00008",
+                    "environment.test.three-ds-server-url=https://visa.3ds.rbk.money/ds",
+                    "environment.test.three-ds-server-ref-number=3DS_LOA_SER_DIPL_020200_00236",
                     "environment.test.three-ds-server-operator-id=10075020",
                     "environment.test.three-ds-server-network-timeout=10000",
                     "environment.message.message-version=2.1.0",

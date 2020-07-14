@@ -1,0 +1,14 @@
+{
+  "threeDSServerTransID": "6c57c18f-e55b-4333-a991-460b04ee0730",
+  "acsTransID": "b91b3717-9fab-456c-9379-a0986c9cd4de",
+  "authenticationType": "02",
+  "authenticationValue": "AAABBZEEBgAAAAAAAAQGAAAAAAA=",
+  "dsTransID": "d3e8aae9-b188-4305-9f4b-4db0baae1a00",
+  "eci": "05",
+  "interactionCounter": "01",
+  "messageCategory": "01",
+  "messageType": "RReq",
+  "messageVersion": "2.2.0",
+  "transStatus": "Y"
+}
+                            

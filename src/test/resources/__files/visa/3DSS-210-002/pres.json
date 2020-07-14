@@ -1,0 +1,30 @@
+{
+  "serialNum": "11",
+  "messageType": "PRes",
+  "dsTransID": "cea89558-f2e5-46f7-a767-e923972b67e0",
+  "cardRangeData": [
+    {
+      "startRange": "4012000000006000",
+      "actionInd": "A",
+      "endRange": "4012000000006999",
+      "acsStartProtocolVersion": "2.1.0",
+      "dsEndProtocolVersion": "2.2.0",
+      "acsEndProtocolVersion": "2.2.0",
+      "dsStartProtocolVersion": "2.1.0"
+    },
+    {
+      "startRange": "4012000000005000",
+      "actionInd": "D",
+      "endRange": "4012000000005999",
+      "acsStartProtocolVersion": "2.1.0",
+      "dsEndProtocolVersion": "2.2.0",
+      "acsEndProtocolVersion": "2.1.0",
+      "dsStartProtocolVersion": "2.1.0"
+    }
+  ],
+  "messageVersion": "2.1.0",
+  "dsEndProtocolVersion": "2.2.0",
+  "dsStartProtocolVersion": "2.1.0",
+  "threeDSServerTransID": "f7d9f026-b18b-4889-8593-3e665b2e4ca3"
+}
+                            

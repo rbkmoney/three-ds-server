@@ -1,0 +1,15 @@
+{
+  "messageType": "pArs",
+  "messageVersion": "2.1.0",
+  "threeDSServerTransID": "8d550c35-5f17-4cf7-914c-0bb44bf7fd0d",
+  "p_messageVersion": "1.0.5",
+  "transStatus": "C",
+  "dsReferenceNumber": "DSServerRef123456",
+  "acsReferenceNumber": "ACSRefNum1234",
+  "acsTransID": "c58089cb-bf44-413b-9e38-39073b26bd4d",
+  "dsTransID": "d42f4d5f-fe63-4057-b270-59471bf788a2",
+  "acsOperatorID": "00000014",
+  "acsURL": "https://visasecuretestsuite.3dsecure.net/VSTSACS/acs2service/browserCReq",
+  "authenticationType": "01",
+  "acsChallengeMandated": "Y"
+}
