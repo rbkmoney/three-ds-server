@@ -29,14 +29,18 @@ public class AResInfoOnlyConstraintValidationHandlerImpl implements AResConstrai
         AReq aReq = (AReq) o.getRequestMessage();
         ThreeDSRequestorChallengeInd threeDSRequestorChallengeInd = aReq.getThreeDSRequestorChallengeInd();
 
-        if (!(threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_RISK_ANALYSIS_PERFORMED
-                || threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_DATA_SHARE_ONLY
-                || threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_AUTH_ALREADY_PERFORMED
+        if (!(isSatisfactoryChallengeIndForTransStatus(threeDSRequestorChallengeInd)
                 || isVisaCrutch(threeDSRequestorChallengeInd))) {
             return ConstraintValidationResult.failure(PATTERN, "transStatus");
         }
 
         return ConstraintValidationResult.success();
+    }
+
+    private boolean isSatisfactoryChallengeIndForTransStatus(ThreeDSRequestorChallengeInd threeDSRequestorChallengeInd) {
+        return threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_RISK_ANALYSIS_PERFORMED
+                || threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_DATA_SHARE_ONLY
+                || threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_AUTH_ALREADY_PERFORMED;
     }
 
     private boolean isVisaCrutch(ThreeDSRequestorChallengeInd threeDSRequestorChallengeInd) {
