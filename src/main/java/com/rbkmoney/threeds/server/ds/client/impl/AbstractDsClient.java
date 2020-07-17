@@ -12,7 +12,6 @@ import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,17 +24,6 @@ public abstract class AbstractDsClient implements DsClient {
     private final MessageToErrorResConverter messageToErrorConverter;
     protected final ErrorCodeResolver errorCodeResolver;
     private final ErrorMessageResolver errorMessageResolver;
-
-    @Override
-    public Message request(Message requestMessage) {
-        try {
-            return processHttpPost(requestMessage).getBody();
-        } catch (ResourceAccessException ex) {
-            return getMessage(ex, requestMessage, errorCodeResolver.resolve(ex));
-        } catch (RestClientException ex) {
-            return getMessage(ex, requestMessage, errorCodeResolver.resolve(ex));
-        }
-    }
 
     @Override
     public void notifyDsAboutError(Erro message) {
