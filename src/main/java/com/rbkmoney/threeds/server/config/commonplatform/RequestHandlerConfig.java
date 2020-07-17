@@ -19,8 +19,8 @@ public class RequestHandlerConfig {
     @Bean
     public RequestHandler pReqToFixedPReqHandler(
             Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain,
-            MessageValidatorService validator) {
-        return createRequestHandler(pReqToFixedPReqProcessorChain, validator, message -> message instanceof PReq);
+            MessageValidatorService messageValidatorService) {
+        return createRequestHandler(pReqToFixedPReqProcessorChain, messageValidatorService, message -> message instanceof PReq);
     }
 
     @Bean

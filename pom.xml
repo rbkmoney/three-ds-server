@@ -28,7 +28,7 @@
         <shared.resources.version>0.3.6</shared.resources.version>
         <dockerfile.registry>${env.REGISTRY}</dockerfile.registry>
         <three-ds-server-storage-proto.version>1.10-8ee9d23</three-ds-server-storage-proto.version>
-        <three-ds-server-domain-lib.version>1.0.5</three-ds-server-domain-lib.version>
+        <three-ds-server-domain-lib.version>1.0.6</three-ds-server-domain-lib.version>
     </properties>
 
     <dependencies>

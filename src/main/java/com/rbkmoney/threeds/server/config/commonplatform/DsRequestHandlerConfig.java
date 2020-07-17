@@ -19,8 +19,8 @@ public class DsRequestHandlerConfig {
     @Bean
     public DsRequestHandler rReqToRResHandler(
             Processor<ValidationResult, Message> rReqToRResProcessorChain,
-            MessageValidatorService validator) {
-        return createDsRequestHandler(rReqToRResProcessorChain, validator, message -> message instanceof RReq);
+            MessageValidatorService messageValidatorService) {
+        return createDsRequestHandler(rReqToRResProcessorChain, messageValidatorService, message -> message instanceof RReq);
     }
 
     @Bean

@@ -5,8 +5,8 @@ import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationRequest;
+import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
@@ -18,7 +18,7 @@ import static java.util.Collections.emptyList;
 @RequiredArgsConstructor
 public class RBKMoneyPreparationRequestToPReqConverter implements Converter<ValidationResult, Message> {
 
-    private final DirectoryServerProviderHolder providerHolder;
+    private final DsProviderHolder dsProviderHolder;
     private final IdGenerator idGenerator;
     private final EnvironmentMessageProperties messageProperties;
 
@@ -26,7 +26,7 @@ public class RBKMoneyPreparationRequestToPReqConverter implements Converter<Vali
     public Message convert(ValidationResult validationResult) {
         RBKMoneyPreparationRequest request = (RBKMoneyPreparationRequest) validationResult.getMessage();
 
-        EnvironmentProperties environmentProperties = providerHolder.getEnvironmentProperties();
+        EnvironmentProperties environmentProperties = dsProviderHolder.getEnvironmentProperties();
 
         PReq pReq = PReq.builder()
                 .threeDSServerRefNumber(environmentProperties.getThreeDsServerRefNumber())
@@ -37,7 +37,6 @@ public class RBKMoneyPreparationRequestToPReqConverter implements Converter<Vali
                 .threeDSRequestorURL(environmentProperties.getThreeDsRequestorUrl())
                 .build();
         pReq.setMessageVersion(messageProperties.getMessageVersion());
-        pReq.setRequestMessage(request);
 
         return pReq;
     }

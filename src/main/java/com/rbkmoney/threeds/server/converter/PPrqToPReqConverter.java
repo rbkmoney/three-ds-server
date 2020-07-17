@@ -3,8 +3,8 @@ package com.rbkmoney.threeds.server.converter;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
+import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
@@ -16,7 +16,7 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 @RequiredArgsConstructor
 public class PPrqToPReqConverter implements Converter<ValidationResult, Message> {
 
-    private final DirectoryServerProviderHolder providerHolder;
+    private final DsProviderHolder dsProviderHolder;
     private final CacheService cacheService;
 
     @Override
@@ -24,17 +24,17 @@ public class PPrqToPReqConverter implements Converter<ValidationResult, Message>
         PPrq pPrq = (PPrq) validationResult.getMessage();
 
         PReq pReq = PReq.builder()
-                .threeDSServerRefNumber(providerHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
+                .threeDSServerRefNumber(dsProviderHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
                 .threeDSServerOperatorID(pPrq.getThreeDSServerOperatorID())
                 .threeDSServerTransID(pPrq.getThreeDSServerTransID())
                 .messageExtension(getValue(pPrq.getMessageExtension()))
-                .serialNum(cacheService.getSerialNum(pPrq.getXULTestCaseRunId()))
+                .serialNum(cacheService.getSerialNum(pPrq.getUlTestCaseId()))
                 .threeDSRequestorURL(pPrq.getThreeDSRequestorURL())
                 .build();
         pReq.setMessageVersion(pPrq.getMessageVersion());
-        pReq.setRequestMessage(pPrq);
+        pReq.setUlTestCaseId(pPrq.getUlTestCaseId());
 
-        cacheService.clearSerialNum(pPrq.getXULTestCaseRunId());
+        cacheService.clearSerialNum(pPrq.getUlTestCaseId());
 
         return pReq;
     }

@@ -59,6 +59,7 @@ public class PgcqFlowTest extends TestBase {
                 .post(TEST_URL + "/sdk")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
+                .header("x-ul-testcaserun-id", "8c3595c6-8f26-4dfb-aff9-cd6a1f847567")
                 .content(new GetChallengeFlow().incomingRequest());
 
         // When - Then

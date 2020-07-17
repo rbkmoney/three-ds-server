@@ -45,7 +45,6 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
                     .htmlCreq(htmlCreq)
                     .build();
             pGcs.setMessageVersion(pGcq.getMessageVersion());
-            pGcs.setRequestMessage(pGcq);
             return pGcs;
         } catch (JsonProcessingException ex) {
             throw new RuntimeException("Parse error", ex);

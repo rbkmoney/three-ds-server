@@ -11,8 +11,8 @@ import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.*;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
+import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.serialization.TemporalAccessorWrapper;
@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.rbkmoney.threeds.server.utils.CrutchChecker.isMirCrutchCondition;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
@@ -40,14 +41,12 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
      */
     private static final int MAX_GRACE_PERIOD = 30;
 
-    private final DirectoryServerProviderHolder providerHolder;
+    private final DsProviderHolder dsProviderHolder;
     private final IdGenerator idGenerator;
 
     @Override
     public Message convert(ValidationResult validationResult) {
         PArq pArq = (PArq) validationResult.getMessage();
-
-        String threeDSServerTransID = idGenerator.generateUUID();
 
         AReq aReq = AReq.builder()
                 .threeDSCompInd(getValue(pArq.getThreeDSCompInd()))
@@ -61,10 +60,10 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .threeDSRequestorName(pArq.getThreeDSRequestorName())
                 .threeDSRequestorPriorAuthenticationInfo(getThreeDSRequestorPriorAuthenticationInfo(pArq))
                 .threeDSRequestorURL(pArq.getThreeDSRequestorURL())
-                .threeDSServerRefNumber(providerHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
+                .threeDSServerRefNumber(dsProviderHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
                 .threeDSServerOperatorID(pArq.getThreeDSServerOperatorID())
-                .threeDSServerTransID(threeDSServerTransID)
-                .threeDSServerURL(providerHolder.getEnvironmentProperties().getThreeDsServerUrl())
+                .threeDSServerTransID(idGenerator.generateUUID())
+                .threeDSServerURL(getThreeDsServerUrl(pArq))
                 .threeRIInd(getValue(pArq.getThreeRIInd()))
                 .acctType(getValue(pArq.getAcctType()))
                 .acquirerBIN(pArq.getAcquirerBIN())
@@ -146,7 +145,6 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .decoupledAuthMaxTime(getDecAuthMaxTime(pArq))
                 .build();
         aReq.setMessageVersion(pArq.getMessageVersion());
-        aReq.setRequestMessage(pArq);
         return aReq;
     }
 
@@ -161,6 +159,14 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
             return threeDSRequestorAuthenticationInfo;
         } else {
             return null;
+        }
+    }
+
+    private String getThreeDsServerUrl(PArq pArq) {
+        if (isMirCrutchCondition(pArq.getDeviceChannel().getValue(), dsProviderHolder.getEnvironmentProperties())) {
+            return null;
+        } else {
+            return dsProviderHolder.getEnvironmentProperties().getThreeDsServerUrl();
         }
     }
 

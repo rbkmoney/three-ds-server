@@ -174,7 +174,7 @@ public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqC
         }
 
         if (deviceChannel == DeviceChannel.APP_BASED
-                && o.getSdkEphemPubKey() == null) {
+                && (o.getSdkEphemPubKey() == null || o.getSdkEphemPubKey().isEmpty())) {
             return ConstraintValidationResult.failure(NOT_NULL, "sdkEphemPubKey");
         }
 

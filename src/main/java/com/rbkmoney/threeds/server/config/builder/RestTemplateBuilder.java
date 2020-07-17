@@ -30,9 +30,9 @@ public class RestTemplateBuilder {
     private static final String PKCS_12 = "pkcs12";
 
     public static RestTemplate restTemplate(
+            EnvironmentProperties environmentProperties,
             KeystoreProperties keystoreProperties,
-            ResourceLoader resourceLoader,
-            EnvironmentProperties environmentProperties) {
+            ResourceLoader resourceLoader) {
         return new org.springframework.boot.web.client.RestTemplateBuilder()
                 .requestFactory(() -> new HttpComponentsClientHttpRequestFactory(httpClient(keystoreProperties, resourceLoader)))
                 .setConnectTimeout(Duration.ofMillis(environmentProperties.getThreeDsServerNetworkTimeout()))
@@ -40,9 +40,7 @@ public class RestTemplateBuilder {
                 .build();
     }
 
-    private static CloseableHttpClient httpClient(
-            KeystoreProperties keystoreProperties,
-            ResourceLoader resourceLoader) {
+    private static CloseableHttpClient httpClient(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader) {
         SSLContext sslContext = sslContext(keystoreProperties, resourceLoader);
 
         return HttpClients.custom()
@@ -50,9 +48,7 @@ public class RestTemplateBuilder {
                 .build();
     }
 
-    private static SSLContext sslContext(
-            KeystoreProperties keystoreProperties,
-            ResourceLoader resourceLoader) {
+    private static SSLContext sslContext(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader) {
         try {
             return SSLContextBuilder.create()
                     .loadTrustMaterial(
@@ -68,9 +64,7 @@ public class RestTemplateBuilder {
         }
     }
 
-    private static File trustStore(
-            KeystoreProperties keystoreProperties,
-            ResourceLoader resourceLoader) throws IOException {
+    private static File trustStore(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader) throws IOException {
         return resourceLoader
                 .getResource(keystoreProperties.getTrustStore())
                 .getFile();

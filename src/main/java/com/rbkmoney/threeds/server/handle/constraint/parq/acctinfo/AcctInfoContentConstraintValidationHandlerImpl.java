@@ -6,6 +6,7 @@ import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
@@ -32,6 +33,10 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
             if (!validationResult.isValid()) {
                 return validationResult;
             }
+
+            if (!NumberUtils.isCreatable(acctInfo.getNbPurchaseAccount())) {
+                return ConstraintValidationResult.failure(PATTERN, "acctInfo.nbPurchaseAccount");
+            }
         } else {
             return ConstraintValidationResult.failure(NOT_NULL, "acctInfo.nbPurchaseAccount");
         }
@@ -40,6 +45,10 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
             ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("acctInfo.provisionAttemptsDay", 3, acctInfo.getProvisionAttemptsDay());
             if (!validationResult.isValid()) {
                 return validationResult;
+            }
+
+            if (!NumberUtils.isCreatable(acctInfo.getProvisionAttemptsDay())) {
+                return ConstraintValidationResult.failure(PATTERN, "acctInfo.provisionAttemptsDay");
             }
         } else {
             return ConstraintValidationResult.failure(NOT_NULL, "acctInfo.provisionAttemptsDay");
@@ -50,6 +59,10 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
             if (!validationResult.isValid()) {
                 return validationResult;
             }
+
+            if (!NumberUtils.isCreatable(acctInfo.getTxnActivityDay())) {
+                return ConstraintValidationResult.failure(PATTERN, "acctInfo.txnActivityDay");
+            }
         } else {
             return ConstraintValidationResult.failure(NOT_NULL, "acctInfo.txnActivityDay");
         }
@@ -58,6 +71,10 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
             ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("acctInfo.txnActivityYear", 3, acctInfo.getTxnActivityYear());
             if (!validationResult.isValid()) {
                 return validationResult;
+            }
+
+            if (!NumberUtils.isCreatable(acctInfo.getTxnActivityYear())) {
+                return ConstraintValidationResult.failure(PATTERN, "acctInfo.txnActivityYear");
             }
         } else {
             return ConstraintValidationResult.failure(NOT_NULL, "acctInfo.txnActivityYear");

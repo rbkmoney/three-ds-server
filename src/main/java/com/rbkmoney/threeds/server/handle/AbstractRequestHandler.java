@@ -12,11 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class AbstractRequestHandler implements RequestHandler, DsRequestHandler {
 
     private final Processor<ValidationResult, Message> processor;
-    private final MessageValidatorService validator;
+    private final MessageValidatorService messageValidatorService;
 
     @Override
     public Message handle(Message message) {
-        ValidationResult validationResult = validator.validate(message);
+        ValidationResult validationResult = messageValidatorService.validate(message);
         return processor.process(validationResult);
     }
 }

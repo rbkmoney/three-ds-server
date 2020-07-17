@@ -1,10 +1,11 @@
 package com.rbkmoney.threeds.server.config;
 
-import com.rbkmoney.threeds.server.client.DsClient;
-import com.rbkmoney.threeds.server.client.impl.DsClientImpl;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
+import com.rbkmoney.threeds.server.ds.client.DsClient;
+import com.rbkmoney.threeds.server.ds.client.impl.RBKMoneyPlatformDsClient;
+import com.rbkmoney.threeds.server.ds.client.impl.TestPlatformDsClient;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -32,7 +33,7 @@ public class MockConfig {
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver) {
-        return new DsClientImpl(
+        return new TestPlatformDsClient(
                 testRestTemplate,
                 testEnvironmentProperties,
                 messageToErrorConverter,
@@ -47,7 +48,7 @@ public class MockConfig {
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver) {
-        return new DsClientImpl(
+        return new RBKMoneyPlatformDsClient(
                 testRestTemplate,
                 testEnvironmentProperties,
                 messageToErrorConverter,

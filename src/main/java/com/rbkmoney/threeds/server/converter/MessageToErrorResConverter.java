@@ -18,6 +18,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
 @RequiredArgsConstructor
+//todo разобраться. тут проблема с getrequestmessage, почему не сам message
 public class MessageToErrorResConverter implements Converter<ValidationResult, Message> {
 
     private final EnvironmentMessageProperties messageProperties;

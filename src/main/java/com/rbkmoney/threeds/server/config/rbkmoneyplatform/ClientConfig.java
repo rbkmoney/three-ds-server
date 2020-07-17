@@ -1,15 +1,15 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rbkmoney.threeds.server.client.DsClient;
-import com.rbkmoney.threeds.server.client.impl.DsClientImpl;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.config.properties.KeystoreProperties;
 import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
+import com.rbkmoney.threeds.server.ds.client.DsClient;
+import com.rbkmoney.threeds.server.ds.client.impl.RBKMoneyPlatformDsClient;
+import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.holder.impl.RBKMoneyPlatformDsProviderHolder;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
-import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
-import com.rbkmoney.threeds.server.holder.impl.DirectoryServerProviderRBKMoneyHolder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -34,14 +34,14 @@ public class ClientConfig {
 
     @Bean
     @RequestScope
-    public DirectoryServerProviderHolder directoryServerProviderHolder(
+    public DsProviderHolder dsProviderHolder(
             DsClient visaDsClient,
             DsClient mastercardDsClient,
             DsClient mirDsClient,
             EnvironmentProperties visaEnvironmentProperties,
             EnvironmentProperties mastercardEnvironmentProperties,
             EnvironmentProperties mirEnvironmentProperties) {
-        return new DirectoryServerProviderRBKMoneyHolder(
+        return new RBKMoneyPlatformDsProviderHolder(
                 visaDsClient,
                 mastercardDsClient,
                 mirDsClient,
@@ -57,7 +57,7 @@ public class ClientConfig {
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver) {
-        return new DsClientImpl(
+        return new RBKMoneyPlatformDsClient(
                 visaRestTemplate,
                 visaEnvironmentProperties,
                 messageToErrorConverter,
@@ -72,7 +72,7 @@ public class ClientConfig {
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver) {
-        return new DsClientImpl(
+        return new RBKMoneyPlatformDsClient(
                 mastercardRestTemplate,
                 mastercardEnvironmentProperties,
                 messageToErrorConverter,
@@ -87,7 +87,7 @@ public class ClientConfig {
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver) {
-        return new DsClientImpl(
+        return new RBKMoneyPlatformDsClient(
                 mirRestTemplate,
                 mirEnvironmentProperties,
                 messageToErrorConverter,
@@ -98,37 +98,28 @@ public class ClientConfig {
     @Bean
     @RequestScope
     public RestTemplate visaRestTemplate(
+            EnvironmentProperties visaEnvironmentProperties,
             KeystoreProperties visaKeystoreProperties,
-            ResourceLoader resourceLoader,
-            EnvironmentProperties visaEnvironmentProperties) {
-        return restTemplate(
-                visaKeystoreProperties,
-                resourceLoader,
-                visaEnvironmentProperties);
+            ResourceLoader resourceLoader) {
+        return restTemplate(visaEnvironmentProperties, visaKeystoreProperties, resourceLoader);
     }
 
     @Bean
     @RequestScope
     public RestTemplate mastercardRestTemplate(
+            EnvironmentProperties mastercardEnvironmentProperties,
             KeystoreProperties mastercardKeystoreProperties,
-            ResourceLoader resourceLoader,
-            EnvironmentProperties mastercardEnvironmentProperties) {
-        return restTemplate(
-                mastercardKeystoreProperties,
-                resourceLoader,
-                mastercardEnvironmentProperties);
+            ResourceLoader resourceLoader) {
+        return restTemplate(mastercardEnvironmentProperties, mastercardKeystoreProperties, resourceLoader);
     }
 
     @Bean
     @RequestScope
     public RestTemplate mirRestTemplate(
+            EnvironmentProperties mirEnvironmentProperties,
             KeystoreProperties mirKeystoreProperties,
-            ResourceLoader resourceLoader,
-            EnvironmentProperties mirEnvironmentProperties) {
-        return restTemplate(
-                mirKeystoreProperties,
-                resourceLoader,
-                mirEnvironmentProperties);
+            ResourceLoader resourceLoader) {
+        return restTemplate(mirEnvironmentProperties, mirKeystoreProperties, resourceLoader);
     }
 
     @Bean
