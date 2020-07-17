@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
 @Slf4j
-public class TestPlatformDsClient extends RBKMoneyPlatformDsClient {
+public class TestPlatformDsClient extends AbstractDsClient {
 
     public TestPlatformDsClient(
             RestTemplate restTemplate,
