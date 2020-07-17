@@ -1,11 +1,11 @@
 package com.rbkmoney.threeds.server.config.builder;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
+import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.router.DsProviderRouter;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.handle.*;
-import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.processor.Processor;
-import com.rbkmoney.threeds.server.router.DirectoryServerRouter;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
 
 import java.util.function.Predicate;
@@ -13,10 +13,10 @@ import java.util.function.Predicate;
 public class HandlerBuilder {
 
     public static RequestHandler createRequestHandler(
-            Processor<ValidationResult, Message> processorChain,
-            MessageValidatorService validator,
+            Processor<ValidationResult, Message> processor,
+            MessageValidatorService messageValidatorService,
             Predicate<Message> messagePredicate) {
-        return new AbstractRequestHandler(processorChain, validator) {
+        return new AbstractRequestHandler(processor, messageValidatorService) {
 
             @Override
             public boolean canHandle(Message message) {
@@ -26,12 +26,12 @@ public class HandlerBuilder {
     }
 
     public static RequestHandler createRequestHandlerWithRouting(
-            DirectoryServerProviderHolder providerHolder,
-            DirectoryServerRouter directoryServerRouter,
+            DsProviderHolder dsProviderHolder,
+            DsProviderRouter dsProviderRouter,
             Processor<ValidationResult, Message> processor,
-            MessageValidatorService validator,
+            MessageValidatorService messageValidatorService,
             Predicate<Message> messagePredicate) {
-        return new AbstractRequestHandlerWithRouting(providerHolder, directoryServerRouter, processor, validator) {
+        return new AbstractRequestHandlerWithRouting(dsProviderHolder, dsProviderRouter, processor, messageValidatorService) {
 
             @Override
             public boolean canHandle(Message message) {
@@ -41,10 +41,10 @@ public class HandlerBuilder {
     }
 
     public static DsRequestHandler createDsRequestHandler(
-            Processor<ValidationResult, Message> processorChain,
-            MessageValidatorService validator,
+            Processor<ValidationResult, Message> processor,
+            MessageValidatorService messageValidatorService,
             Predicate<Message> messagePredicate) {
-        return new AbstractRequestHandler(processorChain, validator) {
+        return new AbstractRequestHandler(processor, messageValidatorService) {
 
             @Override
             public boolean canHandle(Message message) {
@@ -55,10 +55,10 @@ public class HandlerBuilder {
 
     public static ResponseHandler createResponseHandler(
             Processor<ValidationResult, Message> processor,
-            MessageValidatorService validator,
-            DirectoryServerProviderHolder providerHolder,
+            MessageValidatorService messageValidatorService,
+            DsProviderHolder dsProviderHolder,
             Predicate<Message> messagePredicate) {
-        return new AbstractResponseHandler(processor, validator, providerHolder) {
+        return new AbstractResponseHandler(processor, messageValidatorService, dsProviderHolder) {
 
             @Override
             public boolean canHandle(Message message) {

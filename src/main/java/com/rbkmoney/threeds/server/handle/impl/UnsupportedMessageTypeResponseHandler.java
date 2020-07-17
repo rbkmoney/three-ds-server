@@ -4,9 +4,9 @@ import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.domain.error.ErrorCode;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.Erro;
+import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.handle.ResponseHandler;
-import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +18,7 @@ import static com.rbkmoney.threeds.server.constants.MessageConstants.UNSUPPORTED
 public class UnsupportedMessageTypeResponseHandler implements ResponseHandler {
 
     private final MessageToErrorResConverter errorConverter;
-    private final DirectoryServerProviderHolder providerHolder;
+    private final DsProviderHolder dsProviderHolder;
 
     @Override
     public boolean canHandle(Message o) {
@@ -29,7 +29,7 @@ public class UnsupportedMessageTypeResponseHandler implements ResponseHandler {
     public Message handle(Message message) {
         ValidationResult validationResult = failure(message);
         Message result = errorConverter.convert(validationResult);
-        providerHolder.getDsClient().notifyDsAboutError((Erro) result);
+        dsProviderHolder.getDsClient().notifyDsAboutError((Erro) result);
         return result;
     }
 

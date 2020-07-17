@@ -1,7 +1,7 @@
 package com.rbkmoney.threeds.server.handle.constraint.rbkprq.providerid;
 
-import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationRequest;
+import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.rbkprq.RBKMoneyPreparationRequestConstraintValidationHandler;
@@ -23,8 +23,8 @@ public class RBKMoneyPreparationRequestThreeDSReqIdContentConstraintValidationHa
 
     @Override
     public ConstraintValidationResult handle(RBKMoneyPreparationRequest o) {
-        for (DirectoryServerProvider value : DirectoryServerProvider.values()) {
-            if (value.getId().equals(o.getProviderId())) {
+        for (DsProvider dsProvider : DsProvider.values()) {
+            if (dsProvider.getId().equals(o.getProviderId())) {
                 return ConstraintValidationResult.success();
             }
         }

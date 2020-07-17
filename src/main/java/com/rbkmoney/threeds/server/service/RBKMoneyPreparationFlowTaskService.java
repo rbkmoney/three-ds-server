@@ -2,7 +2,7 @@ package com.rbkmoney.threeds.server.service;
 
 import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
 import com.rbkmoney.damsel.three_ds_server_storage.InitRBKMoneyPreparationFlowRequest;
-import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
+import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.exeption.ThreeDsServerStorageException;
 import lombok.RequiredArgsConstructor;
 import org.apache.thrift.TException;
@@ -39,10 +39,10 @@ public class RBKMoneyPreparationFlowTaskService {
     }
 
     private void initRBKMoneyPreparationFlow() {
-        for (DirectoryServerProvider provider : DirectoryServerProvider.values()) {
+        for (DsProvider dsProvider : DsProvider.values()) {
             try {
                 InitRBKMoneyPreparationFlowRequest request = new InitRBKMoneyPreparationFlowRequest()
-                        .setProviderId(provider.getId());
+                        .setProviderId(dsProvider.getId());
                 cardRangesStorage.initRBKMoneyPreparationFlow(request);
             } catch (TException e) {
                 throw new ThreeDsServerStorageException(e);

@@ -5,7 +5,10 @@ import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.parq.PArqConstraintValidationHandler;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Component;
+
+import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +23,16 @@ public class MccContentConstraintValidationHandlerImpl implements PArqConstraint
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        return stringValidator.validateStringWithConstLength("mcc", 4, o.getMcc());
+        String mcc = o.getMcc();
+        ConstraintValidationResult validationResult = stringValidator.validateStringWithConstLength("mcc", 4, mcc);
+        if (!validationResult.isValid()) {
+            return validationResult;
+        }
+
+        if (!NumberUtils.isCreatable(mcc)) {
+            return ConstraintValidationResult.failure(PATTERN, "mcc");
+        }
+
+        return ConstraintValidationResult.success();
     }
 }

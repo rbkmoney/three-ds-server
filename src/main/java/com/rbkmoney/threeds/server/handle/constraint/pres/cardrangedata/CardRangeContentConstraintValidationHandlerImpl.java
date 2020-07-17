@@ -2,10 +2,10 @@ package com.rbkmoney.threeds.server.handle.constraint.pres.cardrangedata;
 
 import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
+import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ConstraintType;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.pres.PResConstraintValidationHandler;
-import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ import static java.lang.Long.parseLong;
 @RequiredArgsConstructor
 public class CardRangeContentConstraintValidationHandlerImpl implements PResConstraintValidationHandler {
 
-    private final DirectoryServerProviderHolder providerHolder;
+    private final DsProviderHolder dsProviderHolder;
     private final CacheService cacheService;
     private final Validator validator;
 
@@ -69,7 +69,7 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
         }
 
         for (CardRange cardRange : safeList(cardRangeData)) {
-            if (!cacheService.isValidCardRange(providerHolder.getTag(o), cardRange)) {
+            if (!cacheService.isValidCardRange(dsProviderHolder.getTag(o), cardRange)) {
                 o.setHandleRepetitionNeeded(true);
 
                 return ConstraintValidationResult.failure(PATTERN, "cardRangeData");

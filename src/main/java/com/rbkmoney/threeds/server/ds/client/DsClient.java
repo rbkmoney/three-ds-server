@@ -1,4 +1,4 @@
-package com.rbkmoney.threeds.server.client;
+package com.rbkmoney.threeds.server.ds.client;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.Erro;

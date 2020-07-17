@@ -5,9 +5,9 @@ import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationResponse;
+import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.CardRangeDTO;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class PResToRBKMoneyPreparationResponseConverter implements Converter<ValidationResult, Message> {
 
-    private final DirectoryServerProviderHolder providerHolder;
+    private final DsProviderHolder dsProviderHolder;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -60,7 +60,7 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
         }
 
         return RBKMoneyPreparationResponse.builder()
-                .providerId(providerHolder.getTag(pRes))
+                .providerId(dsProviderHolder.getTag(pRes))
                 .serialNum(pRes.getSerialNum())
                 .addedCardRanges(addedCardRanges)
                 .modifiedCardRanges(modifiedCardRanges)

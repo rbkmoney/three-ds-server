@@ -1,16 +1,16 @@
-package com.rbkmoney.threeds.server.holder.impl;
+package com.rbkmoney.threeds.server.ds.holder.impl;
 
-import com.rbkmoney.threeds.server.client.DsClient;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
-import com.rbkmoney.threeds.server.constants.DirectoryServerProvider;
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.holder.DirectoryServerProviderHolder;
+import com.rbkmoney.threeds.server.ds.DsProvider;
+import com.rbkmoney.threeds.server.ds.client.DsClient;
+import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class DirectoryServerProviderTestPlatformHolder implements DirectoryServerProviderHolder {
+public class TestPlatformDsProviderHolder implements DsProviderHolder {
 
     private final DsClient testDsClient;
 
@@ -27,11 +27,11 @@ public class DirectoryServerProviderTestPlatformHolder implements DirectoryServe
     }
 
     @Override
-    public void setProvider(DirectoryServerProvider provider) {
+    public void setDsProvider(DsProvider dsProvider) {
     }
 
     @Override
     public String getTag(Message message) {
-        return message.getXULTestCaseRunId();
+        return message.getUlTestCaseId();
     }
 }
