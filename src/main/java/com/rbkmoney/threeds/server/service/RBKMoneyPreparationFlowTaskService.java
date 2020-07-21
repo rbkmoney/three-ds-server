@@ -25,13 +25,13 @@ public class RBKMoneyPreparationFlowTaskService {
     private boolean isEnabledOnSchedule;
 
     @Value("${preparation-flow.ds-provider-enabled.mastercard}")
-    private boolean mastercard;
+    private boolean isMastercardEnabled;
 
     @Value("${preparation-flow.ds-provider-enabled.visa}")
-    private boolean visa;
+    private boolean isVisaEnabled;
 
     @Value("${preparation-flow.ds-provider-enabled.mir}")
-    private boolean mir;
+    private boolean isMirEnabled;
 
     @PostConstruct
     public void onStartup() {
@@ -48,13 +48,13 @@ public class RBKMoneyPreparationFlowTaskService {
     }
 
     private void initRBKMoneyPreparationFlow() {
-        if (mastercard) {
+        if (isMastercardEnabled) {
             initRBKMoneyPreparationFlow(DsProvider.MASTERCARD.getId());
         }
-        if (visa) {
+        if (isVisaEnabled) {
             initRBKMoneyPreparationFlow(DsProvider.VISA.getId());
         }
-        if (mir) {
+        if (isMirEnabled) {
             initRBKMoneyPreparationFlow(DsProvider.MIR.getId());
         }
     }
