@@ -1,8 +1,8 @@
 package com.rbkmoney.threeds.server.converter;
 
 import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
-import com.rbkmoney.threeds.server.domain.ActionInd;
-import com.rbkmoney.threeds.server.domain.CardRange;
+import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
+import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;

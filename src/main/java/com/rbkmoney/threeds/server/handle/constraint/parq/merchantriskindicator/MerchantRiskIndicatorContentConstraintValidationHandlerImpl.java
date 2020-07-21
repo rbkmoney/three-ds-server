@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.parq.merchantriskindicator;
 
-import com.rbkmoney.threeds.server.domain.MerchantRiskIndicatorWrapper;
+import com.rbkmoney.threeds.server.domain.merchant.MerchantRiskIndicatorWrapper;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;

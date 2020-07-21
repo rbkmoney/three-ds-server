@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.cardrange;
 
-import com.rbkmoney.threeds.server.domain.CardRange;
+import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

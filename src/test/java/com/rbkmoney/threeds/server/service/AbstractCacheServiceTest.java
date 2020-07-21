@@ -1,7 +1,7 @@
 package com.rbkmoney.threeds.server.service;
 
-import com.rbkmoney.threeds.server.domain.ActionInd;
-import com.rbkmoney.threeds.server.domain.CardRange;
+import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
+import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.service.cache.InMemoryCacheService;
 import org.junit.Before;
 import org.junit.Test;

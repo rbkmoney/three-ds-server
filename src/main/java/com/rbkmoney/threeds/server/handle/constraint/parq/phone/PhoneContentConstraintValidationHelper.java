@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.parq.phone;
 
-import com.rbkmoney.threeds.server.domain.Phone;
+import com.rbkmoney.threeds.server.domain.phone.Phone;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.common.StringValidator;
 import lombok.RequiredArgsConstructor;
