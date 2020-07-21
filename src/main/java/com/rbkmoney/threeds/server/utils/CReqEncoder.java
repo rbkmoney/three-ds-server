@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rbkmoney.threeds.server.domain.ChallengeWindowSize;
+import com.rbkmoney.threeds.server.domain.challenge.ChallengeWindowSize;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PGcq;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyGetChallengeRequest;
 import lombok.Builder;

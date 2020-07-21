@@ -1,7 +1,7 @@
 package com.rbkmoney.threeds.server.service.cache;
 
-import com.rbkmoney.threeds.server.domain.ActionInd;
-import com.rbkmoney.threeds.server.domain.CardRange;
+import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
+import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.service.CacheService;
 
 import java.util.Set;

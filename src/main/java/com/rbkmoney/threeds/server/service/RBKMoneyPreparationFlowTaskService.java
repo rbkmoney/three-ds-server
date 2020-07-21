@@ -24,6 +24,15 @@ public class RBKMoneyPreparationFlowTaskService {
     @Value("${preparation-flow.on-schedule.enabled}")
     private boolean isEnabledOnSchedule;
 
+    @Value("${preparation-flow.ds-provider-enabled.mastercard}")
+    private boolean isMastercardEnabled;
+
+    @Value("${preparation-flow.ds-provider-enabled.visa}")
+    private boolean isVisaEnabled;
+
+    @Value("${preparation-flow.ds-provider-enabled.mir}")
+    private boolean isMirEnabled;
+
     @PostConstruct
     public void onStartup() {
         if (isEnabledOnStartup) {
@@ -39,14 +48,24 @@ public class RBKMoneyPreparationFlowTaskService {
     }
 
     private void initRBKMoneyPreparationFlow() {
-        for (DsProvider dsProvider : DsProvider.values()) {
-            try {
-                InitRBKMoneyPreparationFlowRequest request = new InitRBKMoneyPreparationFlowRequest()
-                        .setProviderId(dsProvider.getId());
-                cardRangesStorage.initRBKMoneyPreparationFlow(request);
-            } catch (TException e) {
-                throw new ThreeDsServerStorageException(e);
-            }
+        if (isMastercardEnabled) {
+            initRBKMoneyPreparationFlow(DsProvider.MASTERCARD.getId());
+        }
+        if (isVisaEnabled) {
+            initRBKMoneyPreparationFlow(DsProvider.VISA.getId());
+        }
+        if (isMirEnabled) {
+            initRBKMoneyPreparationFlow(DsProvider.MIR.getId());
+        }
+    }
+
+    private void initRBKMoneyPreparationFlow(String dsProvider) {
+        try {
+            InitRBKMoneyPreparationFlowRequest request = new InitRBKMoneyPreparationFlowRequest()
+                    .setProviderId(dsProvider);
+            cardRangesStorage.initRBKMoneyPreparationFlow(request);
+        } catch (TException e) {
+            throw new ThreeDsServerStorageException(e);
         }
     }
 }

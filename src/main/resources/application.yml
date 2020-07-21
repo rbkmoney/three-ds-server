@@ -62,6 +62,10 @@ preparation-flow:
   on-schedule:
     enabled: false
     cron: "-"
+  ds-provider-enabled:
+    mastercard: true
+    visa: true
+    mir: true
 
 environment:
   message:

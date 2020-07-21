@@ -1,11 +1,11 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.domain.MerchantRiskIndicator;
-import com.rbkmoney.threeds.server.domain.MerchantRiskIndicatorWrapper;
 import com.rbkmoney.threeds.server.domain.account.AccountInfo;
 import com.rbkmoney.threeds.server.domain.account.AccountInfoWrapper;
 import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptions;
 import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptionsWrapper;
+import com.rbkmoney.threeds.server.domain.merchant.MerchantRiskIndicator;
+import com.rbkmoney.threeds.server.domain.merchant.MerchantRiskIndicatorWrapper;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;

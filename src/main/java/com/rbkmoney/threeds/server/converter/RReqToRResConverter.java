@@ -1,7 +1,7 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.domain.ChallengeCancel;
-import com.rbkmoney.threeds.server.domain.ResultsStatus;
+import com.rbkmoney.threeds.server.domain.challenge.ChallengeCancel;
+import com.rbkmoney.threeds.server.domain.result.ResultsStatus;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.RReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.RRes;

@@ -2,7 +2,7 @@ package com.rbkmoney.threeds.server.service.cache;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.rbkmoney.threeds.server.domain.CardRange;
+import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 
 import java.util.HashSet;

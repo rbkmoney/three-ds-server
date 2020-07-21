@@ -8,7 +8,7 @@ import com.rbkmoney.damsel.three_ds_server_storage.GetCardRangesRequest;
 import com.rbkmoney.damsel.three_ds_server_storage.GetCardRangesResponse;
 import com.rbkmoney.threeds.server.converter.thrift.CardRangesConverter;
 import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfoConverter;
-import com.rbkmoney.threeds.server.domain.CardRange;
+import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.exeption.ThreeDsServerStorageException;
 import org.apache.commons.lang3.NotImplementedException;
@@ -52,9 +52,7 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
 
     @Override
     Set<CardRange> getCardRanges(String tag) {
-        return cardRangesByTag.get(
-                tag,
-                this::getCardRangesFromStorage);
+        return cardRangesByTag.get(tag, this::getCardRangesFromStorage);
     }
 
     @Override
@@ -96,9 +94,7 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
 
     @Override
     public ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDSServerTransID) {
-        return challengeFlowTransactionInfoByTag.get(
-                threeDSServerTransID,
-                this::getChallengeFlowTransactionInfoFromStorage);
+        return challengeFlowTransactionInfoByTag.get(threeDSServerTransID, this::getChallengeFlowTransactionInfoFromStorage);
     }
 
     private ChallengeFlowTransactionInfo getChallengeFlowTransactionInfoFromStorage(String threeDSServerTransID) {

@@ -1,7 +1,7 @@
 package com.rbkmoney.threeds.server.handle.constraint.cardrange.acsinfoind;
 
-import com.rbkmoney.threeds.server.domain.CardRange;
 import com.rbkmoney.threeds.server.domain.acs.AcsInfoInd;
+import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.cardrange.CardRangeConstraintValidationHandler;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;

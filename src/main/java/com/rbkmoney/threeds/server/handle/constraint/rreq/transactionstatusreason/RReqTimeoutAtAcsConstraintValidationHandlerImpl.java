@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.rreq.transactionstatusreason;
 
-import com.rbkmoney.threeds.server.domain.ChallengeCancel;
+import com.rbkmoney.threeds.server.domain.challenge.ChallengeCancel;
 import com.rbkmoney.threeds.server.domain.root.emvco.RReq;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatusReason;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;

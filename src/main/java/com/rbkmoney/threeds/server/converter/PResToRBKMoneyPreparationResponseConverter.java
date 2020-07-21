@@ -1,12 +1,11 @@
 package com.rbkmoney.threeds.server.converter;
 
-import com.rbkmoney.threeds.server.domain.ActionInd;
-import com.rbkmoney.threeds.server.domain.CardRange;
+import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
+import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationResponse;
 import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
-import com.rbkmoney.threeds.server.dto.CardRangeDTO;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
@@ -39,9 +38,9 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
                 .peek(this::fillEmptyActionInd)
                 .collect(toList());
 
-        List<CardRangeDTO> addedCardRanges = new ArrayList<>();
-        List<CardRangeDTO> modifiedCardRanges = new ArrayList<>();
-        List<CardRangeDTO> deletedCardRanges = new ArrayList<>();
+        List<com.rbkmoney.threeds.server.domain.rbkmoney.cardrange.CardRange> addedCardRanges = new ArrayList<>();
+        List<com.rbkmoney.threeds.server.domain.rbkmoney.cardrange.CardRange> modifiedCardRanges = new ArrayList<>();
+        List<com.rbkmoney.threeds.server.domain.rbkmoney.cardrange.CardRange> deletedCardRanges = new ArrayList<>();
 
         for (CardRange cardRange : cardRangeData) {
             switch (getValue(cardRange.getActionInd())) {
@@ -77,8 +76,8 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
         }
     }
 
-    private CardRangeDTO toDTO(CardRange cardRange) {
-        return CardRangeDTO.builder()
+    private com.rbkmoney.threeds.server.domain.rbkmoney.cardrange.CardRange toDTO(CardRange cardRange) {
+        return com.rbkmoney.threeds.server.domain.rbkmoney.cardrange.CardRange.builder()
                 .startRange(cardRange.getStartRange())
                 .endRange(cardRange.getEndRange())
                 .build();
