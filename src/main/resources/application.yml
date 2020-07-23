@@ -39,10 +39,10 @@ client:
         trust-store-password: test
   three-ds-server-storage:
     card-ranges:
-      url: http://changeit:8080
+      url: http://localhost:8022/three-ds-server-storage/card-ranges
       timeout: 5000
     challenge-flow-transaction-info:
-      url: http://changeit:8080
+      url: http://localhost:8022/three-ds-server-storage/challenge-flow-transaction-info
       timeout: 5000
 
 storage:

@@ -7,16 +7,14 @@ import com.rbkmoney.threeds.server.exeption.ThreeDsServerStorageException;
 import lombok.RequiredArgsConstructor;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 
 @Service
 @RequiredArgsConstructor
 public class RBKMoneyPreparationFlowTaskService {
-
-    private final CardRangesStorageSrv.Iface cardRangesStorage;
 
     @Value("${preparation-flow.on-startup.enabled}")
     private boolean isEnabledOnStartup;
@@ -33,7 +31,9 @@ public class RBKMoneyPreparationFlowTaskService {
     @Value("${preparation-flow.ds-provider-enabled.mir}")
     private boolean isMirEnabled;
 
-    @PostConstruct
+    private final CardRangesStorageSrv.Iface cardRangesStorage;
+
+    @EventListener(value = ApplicationReadyEvent.class)
     public void onStartup() {
         if (isEnabledOnStartup) {
             initRBKMoneyPreparationFlow();
