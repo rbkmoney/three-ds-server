@@ -12,6 +12,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 @Service
 @RequiredArgsConstructor
 public class RBKMoneyPreparationFlowTaskService {
@@ -36,7 +39,8 @@ public class RBKMoneyPreparationFlowTaskService {
     @EventListener(value = ApplicationReadyEvent.class)
     public void onStartup() {
         if (isEnabledOnStartup) {
-            initRBKMoneyPreparationFlow();
+            Executor executor = Executors.newSingleThreadExecutor();
+            executor.execute(this::initRBKMoneyPreparationFlow);
         }
     }
 
