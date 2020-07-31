@@ -9,6 +9,7 @@ import com.rbkmoney.threeds.server.ds.client.DsClient;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
+import com.rbkmoney.threeds.server.service.LogWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,24 +25,29 @@ public abstract class AbstractDsClient implements DsClient {
     private final MessageToErrorResConverter messageToErrorConverter;
     protected final ErrorCodeResolver errorCodeResolver;
     private final ErrorMessageResolver errorMessageResolver;
+    private final LogWrapper logWrapper;
 
     @Override
     public void notifyDsAboutError(Erro message) {
-        log.info("Handling ended with Error result, DS will be notified: message={}", message.toString());
+        logWrapper.info("responseHandle return 'Erro', DS will be notified", message.toString());
 
-        ResponseEntity<Message> messageResponseEntity = restTemplate.postForEntity(environmentProperties.getDsUrl(), message, Message.class);
+        ResponseEntity<Message> response = restTemplate.postForEntity(environmentProperties.getDsUrl(), message, Message.class);
 
-        log.info("Handling ended with Error result, DS was notified: responseCode={}, message={}", messageResponseEntity.getStatusCode(), message.toString());
+        if (response.getStatusCode().is2xxSuccessful()) {
+            logWrapper.info("responseHandle return 'Erro', DS was notified", message.toString());
+        } else {
+            logWrapper.info("responseHandle return 'Erro', DS was NOT notified", response.getStatusCode().toString());
+        }
     }
 
     protected ResponseEntity<Message> processHttpPost(Message requestMessage) {
-        log.info("Send request message to DS: message={}", requestMessage.toString());
+        logWrapper.info("Request to DS", requestMessage.toString());
 
         ResponseEntity<Message> responseMessageEntity = restTemplate.postForEntity(environmentProperties.getDsUrl(), requestMessage, Message.class);
 
         Message responseMessage = responseMessageEntity.getBody();
 
-        log.info("Receive response message from DS: message={}", responseMessage.toString());
+        logWrapper.info("Response from DS", responseMessage.toString());
 
         responseMessage.setRequestMessage(requestMessage);
 
@@ -49,7 +55,7 @@ public abstract class AbstractDsClient implements DsClient {
     }
 
     protected Message getMessage(RestClientException ex, Message request, ErrorCode errorCode) {
-        log.warn("Cant receive response from DS", ex);
+        logWrapper.warn("Cant receive response from DS", ex);
         return messageToErrorConverter.convert(createFailureValidationResult(request, errorCode));
     }
 

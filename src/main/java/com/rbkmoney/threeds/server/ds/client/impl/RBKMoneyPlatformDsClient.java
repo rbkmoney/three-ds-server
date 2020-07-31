@@ -5,6 +5,7 @@ import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
+import com.rbkmoney.threeds.server.service.LogWrapper;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -16,8 +17,9 @@ public class RBKMoneyPlatformDsClient extends AbstractDsClient {
             EnvironmentProperties environmentProperties,
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
-            ErrorMessageResolver errorMessageResolver) {
-        super(restTemplate, environmentProperties, messageToErrorConverter, errorCodeResolver, errorMessageResolver);
+            ErrorMessageResolver errorMessageResolver,
+            LogWrapper logWrapper) {
+        super(restTemplate, environmentProperties, messageToErrorConverter, errorCodeResolver, errorMessageResolver, logWrapper);
     }
 
     @Override

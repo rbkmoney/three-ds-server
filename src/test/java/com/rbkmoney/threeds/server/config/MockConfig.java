@@ -8,6 +8,7 @@ import com.rbkmoney.threeds.server.ds.client.impl.RBKMoneyPlatformDsClient;
 import com.rbkmoney.threeds.server.ds.client.impl.TestPlatformDsClient;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
+import com.rbkmoney.threeds.server.service.LogWrapper;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
@@ -32,13 +33,15 @@ public class MockConfig {
             EnvironmentProperties testEnvironmentProperties,
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
-            ErrorMessageResolver errorMessageResolver) {
+            ErrorMessageResolver errorMessageResolver,
+            LogWrapper logWrapper) {
         return new TestPlatformDsClient(
                 testRestTemplate,
                 testEnvironmentProperties,
                 messageToErrorConverter,
                 errorCodeResolver,
-                errorMessageResolver);
+                errorMessageResolver,
+                logWrapper);
     }
 
     @Bean
@@ -47,13 +50,15 @@ public class MockConfig {
             EnvironmentProperties testEnvironmentProperties,
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
-            ErrorMessageResolver errorMessageResolver) {
+            ErrorMessageResolver errorMessageResolver,
+            LogWrapper logWrapper) {
         return new RBKMoneyPlatformDsClient(
                 testRestTemplate,
                 testEnvironmentProperties,
                 messageToErrorConverter,
                 errorCodeResolver,
-                errorMessageResolver);
+                errorMessageResolver,
+                logWrapper);
     }
 
     @Bean

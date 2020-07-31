@@ -1,6 +1,7 @@
 package com.rbkmoney.threeds.server.controller;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
+import com.rbkmoney.threeds.server.service.LogWrapper;
 import com.rbkmoney.threeds.server.service.SenderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,18 +17,19 @@ import org.springframework.web.bind.annotation.*;
 public class TestPlatformClientController {
 
     private final SenderService senderService;
+    private final LogWrapper logWrapper;
 
     @PostMapping
     public ResponseEntity<Message> processMessage(
             @RequestHeader(name = "x-ul-testcaserun-id") String ulTestCaseId,
             @RequestBody Message requestMessage) {
-        log.info("Begin handling /sdk message: message={}", requestMessage.toString());
+        logWrapper.info("Start /sdk handle", requestMessage.toString());
 
         requestMessage.setUlTestCaseId(ulTestCaseId);
 
         Message responseMessage = senderService.sendToDs(requestMessage);
 
-        log.info("End handling /sdk message: message={}", responseMessage.toString());
+        logWrapper.info("End /sdk handle", responseMessage.toString());
 
         return ResponseEntity.ok(responseMessage);
     }

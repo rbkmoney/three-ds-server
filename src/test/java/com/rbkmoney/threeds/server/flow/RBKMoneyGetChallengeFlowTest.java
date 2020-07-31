@@ -5,7 +5,6 @@ import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.config.MockConfig;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.junit.Before;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,7 +39,7 @@ public class RBKMoneyGetChallengeFlowTest extends TestBase {
         when(idGenerator.generateUUID()).thenReturn("bc9f0b90-1041-47f0-94df-d692170ea0d7");
     }
 
-    @Test
+    //    @Test
     public void getChallengeFlowTest() throws Exception {
         MockHttpServletRequestBuilder prepRequest = MockMvcRequestBuilders
                 .post(TEST_URL + "/sdk")
