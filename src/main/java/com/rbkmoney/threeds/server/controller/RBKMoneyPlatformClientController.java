@@ -1,6 +1,7 @@
 package com.rbkmoney.threeds.server.controller;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
+import com.rbkmoney.threeds.server.service.LogWrapper;
 import com.rbkmoney.threeds.server.service.SenderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,14 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class RBKMoneyPlatformClientController {
 
     private final SenderService senderService;
+    private final LogWrapper logWrapper;
 
     @PostMapping
     public ResponseEntity<Message> processMessage(@RequestBody Message requestMessage) {
-        log.info("Begin handling /sdk message: message={}", requestMessage.toString());
+        log.info("Start /sdk process handle: {}", requestMessage.toString());
 
         Message responseMessage = senderService.sendToDs(requestMessage);
 
-        log.info("End handling /sdk message: message={}", responseMessage.toString());
+        logWrapper.info("End /sdk process handle", responseMessage.toString());
 
         return ResponseEntity.ok(responseMessage);
     }

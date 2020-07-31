@@ -10,6 +10,7 @@ import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.ds.holder.impl.TestPlatformDsProviderHolder;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
+import com.rbkmoney.threeds.server.service.LogWrapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -46,13 +47,15 @@ public class ClientConfig {
             EnvironmentProperties testEnvironmentProperties,
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
-            ErrorMessageResolver errorMessageResolver) {
+            ErrorMessageResolver errorMessageResolver,
+            LogWrapper logWrapper) {
         return new TestPlatformDsClient(
                 testRestTemplate,
                 testEnvironmentProperties,
                 messageToErrorConverter,
                 errorCodeResolver,
-                errorMessageResolver);
+                errorMessageResolver,
+                logWrapper);
     }
 
     @Bean

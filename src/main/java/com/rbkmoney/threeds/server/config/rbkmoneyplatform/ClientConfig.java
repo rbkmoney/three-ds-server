@@ -10,6 +10,7 @@ import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.ds.holder.impl.RBKMoneyPlatformDsProviderHolder;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
+import com.rbkmoney.threeds.server.service.LogWrapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -56,13 +57,15 @@ public class ClientConfig {
             EnvironmentProperties visaEnvironmentProperties,
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
-            ErrorMessageResolver errorMessageResolver) {
+            ErrorMessageResolver errorMessageResolver,
+            LogWrapper logWrapper) {
         return new RBKMoneyPlatformDsClient(
                 visaRestTemplate,
                 visaEnvironmentProperties,
                 messageToErrorConverter,
                 errorCodeResolver,
-                errorMessageResolver);
+                errorMessageResolver,
+                logWrapper);
     }
 
     @Bean
@@ -71,13 +74,15 @@ public class ClientConfig {
             EnvironmentProperties mastercardEnvironmentProperties,
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
-            ErrorMessageResolver errorMessageResolver) {
+            ErrorMessageResolver errorMessageResolver,
+            LogWrapper logWrapper) {
         return new RBKMoneyPlatformDsClient(
                 mastercardRestTemplate,
                 mastercardEnvironmentProperties,
                 messageToErrorConverter,
                 errorCodeResolver,
-                errorMessageResolver);
+                errorMessageResolver,
+                logWrapper);
     }
 
     @Bean
@@ -86,13 +91,15 @@ public class ClientConfig {
             EnvironmentProperties mirEnvironmentProperties,
             MessageToErrorResConverter messageToErrorConverter,
             ErrorCodeResolver errorCodeResolver,
-            ErrorMessageResolver errorMessageResolver) {
+            ErrorMessageResolver errorMessageResolver,
+            LogWrapper logWrapper) {
         return new RBKMoneyPlatformDsClient(
                 mirRestTemplate,
                 mirEnvironmentProperties,
                 messageToErrorConverter,
                 errorCodeResolver,
-                errorMessageResolver);
+                errorMessageResolver,
+                logWrapper);
     }
 
     @Bean
