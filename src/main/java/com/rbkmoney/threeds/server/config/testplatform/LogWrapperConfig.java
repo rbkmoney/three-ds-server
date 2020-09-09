@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.config.testplatform;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.service.LogWrapper;
 import com.rbkmoney.threeds.server.service.log.TestPlatformLogWrapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class LogWrapperConfig {
 
     @Bean
-    public LogWrapper logWrapper() {
-        return new TestPlatformLogWrapper();
+    public LogWrapper logWrapper(ObjectMapper objectMapper) {
+        return new TestPlatformLogWrapper(objectMapper);
     }
 }

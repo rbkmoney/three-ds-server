@@ -23,13 +23,13 @@ public class TestPlatformClientController {
     public ResponseEntity<Message> processMessage(
             @RequestHeader(name = "x-ul-testcaserun-id") String ulTestCaseId,
             @RequestBody Message requestMessage) {
-        logWrapper.info("Start /sdk handle", requestMessage.toString());
+        logWrapper.info("Start /sdk handle", requestMessage);
 
         requestMessage.setUlTestCaseId(ulTestCaseId);
 
         Message responseMessage = senderService.sendToDs(requestMessage);
 
-        logWrapper.info("End /sdk handle", responseMessage.toString());
+        logWrapper.info("End /sdk handle", responseMessage);
 
         return ResponseEntity.ok(responseMessage);
     }

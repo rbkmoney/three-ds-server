@@ -20,11 +20,11 @@ public class SenderService {
     private final LogWrapper logWrapper;
 
     public Message sendToDs(Message message) {
-        log.info("Before requestHandle: {}", message.toString());
+        logWrapper.info("Before requestHandle: {}", message);
 
         Message dsRequestMessage = requestHandleService.handle(message);
 
-        logWrapper.info("After requestHandle", dsRequestMessage.toString());
+        logWrapper.info("After requestHandle", dsRequestMessage);
 
         if (shouldWeNeedFinishHandling(dsRequestMessage)) {
             return dsRequestMessage;
@@ -32,11 +32,11 @@ public class SenderService {
 
         Message dsResponseMessage = dsProviderHolder.getDsClient().request(dsRequestMessage);
 
-        logWrapper.info("Before responseHandle", dsResponseMessage.toString());
+        logWrapper.info("Before responseHandle", dsResponseMessage);
 
         Message sdkResponseMessage = repeatableDsResponseMessageHandle(dsRequestMessage, dsResponseMessage);
 
-        logWrapper.info("After responseHandle", sdkResponseMessage.toString());
+        logWrapper.info("After responseHandle", sdkResponseMessage);
 
         return sdkResponseMessage;
     }
@@ -44,15 +44,15 @@ public class SenderService {
     private Message repeatableDsResponseMessageHandle(Message dsRequestMessage, Message dsResponseMessage) {
         Message sdkResponseMessageCandidate = responseHandleService.handle(dsResponseMessage);
         if (sdkResponseMessageCandidate.isHandleRepetitionNeeded()) {
-            logWrapper.info("[repeat with fixed message] Before requestHandle", dsRequestMessage.toString());
+            logWrapper.info("[repeat with fixed message] Before requestHandle", dsRequestMessage);
 
             Message fixedDsRequestMessage = requestHandleService.handle(dsRequestMessage);
 
-            logWrapper.info("[repeat with fixed message] After requestHandle", fixedDsRequestMessage.toString());
+            logWrapper.info("[repeat with fixed message] After requestHandle", fixedDsRequestMessage);
 
             Message fixedDsResponseMessage = dsProviderHolder.getDsClient().request(fixedDsRequestMessage);
 
-            logWrapper.info("[repeat with fixed message] Before responseHandle", fixedDsResponseMessage.toString());
+            logWrapper.info("[repeat with fixed message] Before responseHandle", fixedDsResponseMessage);
 
             return repeatableDsResponseMessageHandle(fixedDsRequestMessage, fixedDsResponseMessage);
         }

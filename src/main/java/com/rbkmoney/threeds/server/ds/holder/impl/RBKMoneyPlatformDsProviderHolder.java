@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 public class RBKMoneyPlatformDsProviderHolder implements DsProviderHolder {
@@ -63,6 +64,6 @@ public class RBKMoneyPlatformDsProviderHolder implements DsProviderHolder {
 
     @Override
     public String getTag(Message message) {
-        return dsProvider.getId();
+        return Optional.ofNullable(dsProvider).map(DsProvider::getId).orElse(null);
     }
 }
