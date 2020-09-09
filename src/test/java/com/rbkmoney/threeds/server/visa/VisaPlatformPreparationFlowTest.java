@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.visa;
 
-import com.rbkmoney.threeds.server.config.AbstractVisaConfig;
+import com.rbkmoney.threeds.server.config.AbstractVisaPlatformConfig;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import com.rbkmoney.threeds.server.visa.utils.PreparationFlow;
 import lombok.SneakyThrows;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-public class VisaPlatformPreparationFlowTest extends AbstractVisaConfig {
+public class VisaPlatformPreparationFlowTest extends AbstractVisaPlatformConfig {
 
     @MockBean
     private IdGenerator idGenerator;
@@ -58,14 +58,14 @@ public class VisaPlatformPreparationFlowTest extends AbstractVisaConfig {
     private void visaPreparationFlowTest(String testCase) throws Exception {
         preparationFlow.givenDsStub(testCase);
 
-        MockHttpServletRequestBuilder prepRequest = MockMvcRequestBuilders
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/sdk")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("x-ul-testcaserun-id", testCase)
                 .content(preparationFlow.requestToThreeDsServer(testCase));
 
-        mockMvc.perform(prepRequest)
+        mockMvc.perform(request)
                 .andDo(print())
                 .andExpect(content()
                         .json(preparationFlow.responseFromThreeDsServer(testCase)));
@@ -74,14 +74,14 @@ public class VisaPlatformPreparationFlowTest extends AbstractVisaConfig {
     private void visaPreparationFlowWithChangedHeaderTest(String testCase, String testCaseHeader) throws Exception {
         preparationFlow.givenDsStubWithChangedHeader(testCase, testCaseHeader);
 
-        MockHttpServletRequestBuilder prepRequest = MockMvcRequestBuilders
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/sdk")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("x-ul-testcaserun-id", testCaseHeader)
                 .content(preparationFlow.requestToThreeDsServer(testCase));
 
-        mockMvc.perform(prepRequest)
+        mockMvc.perform(request)
                 .andDo(print())
                 .andExpect(content()
                         .json(preparationFlow.responseFromThreeDsServer(testCase)));

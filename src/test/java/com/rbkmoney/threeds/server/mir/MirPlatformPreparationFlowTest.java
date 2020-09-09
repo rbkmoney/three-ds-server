@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.mir;
 
-import com.rbkmoney.threeds.server.config.AbstractMirConfig;
+import com.rbkmoney.threeds.server.config.AbstractMirPlatformConfig;
 import com.rbkmoney.threeds.server.mir.utils.PreparationFlow;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import lombok.SneakyThrows;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-public class MirPlatformPreparationFlowTest extends AbstractMirConfig {
+public class MirPlatformPreparationFlowTest extends AbstractMirPlatformConfig {
 
     @MockBean
     private IdGenerator idGenerator;
@@ -49,13 +49,13 @@ public class MirPlatformPreparationFlowTest extends AbstractMirConfig {
     private void mirPreparationFlowTest(String testCase) throws Exception {
         preparationFlow.givenDsStub(testCase);
 
-        MockHttpServletRequestBuilder prepRequest = post("/sdk")
+        MockHttpServletRequestBuilder request = post("/sdk")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("x-ul-testcaserun-id", testCase)
                 .content(preparationFlow.requestToThreeDsServer(testCase));
 
-        mockMvc.perform(prepRequest)
+        mockMvc.perform(request)
                 .andDo(print())
                 .andExpect(content()
                         .json(preparationFlow.responseFromThreeDsServer(testCase)));

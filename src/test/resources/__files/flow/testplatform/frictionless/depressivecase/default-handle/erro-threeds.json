@@ -1,0 +1,8 @@
+{
+  "messageType": "Erro",
+  "messageVersion": "2.1.0",
+  "errorCode": "404",
+  "errorComponent": "A",
+  "errorDescription": "Permanent system failure",
+  "errorDetail": "Database not available"
+}

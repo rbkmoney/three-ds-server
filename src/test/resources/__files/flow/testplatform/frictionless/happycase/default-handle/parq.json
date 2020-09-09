@@ -1,0 +1,101 @@
+{
+  "messageType": "pArq",
+  "deviceChannel": "01",
+  "p_messageVersion": "1.0.5",
+  "sdkAppID": "38aeecf2-2114-4e8e-98d3-d0f7477b5f2e",
+  "sdkEphemPubKey": {
+    "kty": "EC",
+    "crv": "P-256",
+    "x": "V8W1HOpB8n3_wAjBdMPwQg9LH9sUPaAfTs7NmlZ4wio",
+    "y": "gOhrUVetTPnGJLfpPJSkiv6reSAIIUQf5MbDBH7c0hk"
+  },
+  "sdkTransID": "a8fc0876-e83b-4a9a-b52a-a3550491258d",
+  "sdkReferenceNumber": "3DS_LOA_SDK_PPFU_020100_00007",
+  "messageVersion": "2.1.0",
+  "messageCategory": "02",
+  "sdkEncData": "eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.eZU-Scli3j-XE6CNPeM7VuBJa2rBt6R8C8f21rlAsEj5tjD4YkW88OnS76jEDp-B5kjxsdt82VoUcz8GXmI7hCcNQB8AyiKd0Nk_uganIZd0P_ksk8GBcCy4KMdRMCdtwgx2nP5tn-DP6XTw1N7y37ICXW0mZJTO4QYQV-jMoofrqcDfLSHpb5lpwgCYp6UubKjCRbfDzuyKd-OfTTPOtYU0qAEFH5jxjSfkQN-TRtDCClOhAV4MFnqBSc6XELa8R57NYm_KgJFlEA5-6jbYGzGqEcR93E3okM-ticLqW3IQEYjojmE8yD4wCOAV4_YV-jNV_hMXKwhKsCJb-Yaf_g.3Q-fnVSurE1yX2VmfKSmFg.NrOi5bLEWoc2goemaFLLlUsqLXItu2bT7ziIfhALecJcWPScvsmtmjpkdyNJualD69UcNxxqKjdu74uPG4jVJJ7KOy-aF20WwxZ5ohrWgZnhG-QL1YNTYiqSHFJZIJUw_kl-rOYGRwgOaoLLo43dheRFgcoi6xYk6GCXvEWwu0KcgFu_OGcTTFbRXtLT77bQAkwaeRZN8ve86Cw-h98_4Y9-q5UnDUjlfQPXtYMwI5xNO7dZJvuti38uTDXSx_0Ohkpzzzv_r_r4KBUQi8xi64hMAJTp_g3bVEZSszreugib80Z1uIqHpCEb3jeCr1IdX9xcKkuV4NE1e6WzHkLCHg1vZSlExMqAx2Y_Z-uIoYVbWdoQ7Ko2RLUTEJLuwbt7X4mFdCRPf_UqwS5XT2I-LCVpyfg9x9MWRZo1xeo09Q8P2FI3YSmrxqDbLw7kcLYSuaoC1Y-8-bNU3lqDgJfaMw.8AroAb9wyuX7zTp5L85lzw",
+  "threeDSRequestorID": "813",
+  "threeDSRequestorName": "EMVCo 3DS Test Requestor",
+  "threeDSRequestorURL": "http://ul.com/be07adaf-1baa-457b-ba7b-57aa9dc18907",
+  "acctNumber": "7654310438700823",
+  "deviceRenderOptions": {
+    "sdkInterface": "03",
+    "sdkUiType": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05"
+    ]
+  },
+  "sdkMaxTimeout": "05",
+  "threeDSRequestorAuthenticationInd": "04",
+  "threeDSRequestorAuthenticationInfo": {
+    "threeDSReqAuthMethod": "04",
+    "threeDSReqAuthTimestamp": "201902121407",
+    "threeDSReqAuthData": "00"
+  },
+  "threeDSRequestorChallengeInd": "01",
+  "acctType": "02",
+  "addrMatch": "Y",
+  "acctInfo": {
+    "chAccAgeInd": "05",
+    "chAccDate": "20170101",
+    "chAccChangeInd": "04",
+    "chAccChange": "20170101",
+    "chAccPwChangeInd": "05",
+    "chAccPwChange": "20170101",
+    "shipAddressUsageInd": "04",
+    "shipAddressUsage": "20170101",
+    "txnActivityDay": "1",
+    "txnActivityYear": "1",
+    "provisionAttemptsDay": "0",
+    "nbPurchaseAccount": "1",
+    "suspiciousAccActivity": "01",
+    "shipNameIndicator": "01",
+    "paymentAccInd": "05",
+    "paymentAccAge": "20170101"
+  },
+  "acctID": "EMVCo 3DS Test Account 000000001",
+  "merchantRiskIndicator": {
+    "shipIndicator": "01",
+    "deliveryTimeframe": "02",
+    "deliveryEmailAddress": "example@example.com",
+    "reorderItemsInd": "01",
+    "preOrderPurchaseInd": "02",
+    "preOrderDate": "20300101",
+    "giftCardAmount": "1",
+    "giftCardCurr": "840",
+    "giftCardCount": "01"
+  },
+  "cardExpiryDate": "2212",
+  "shipAddrLine1": "Address Line 1",
+  "email": "example@example.com",
+  "shipAddrCountry": "840",
+  "shipAddrPostCode": "Postal Code",
+  "shipAddrLine3": "Address Line 3",
+  "billAddrLine2": "Address Line 2",
+  "workPhone": {
+    "cc": "123",
+    "subscriber": "123456789"
+  },
+  "cardholderName": "Frictionless One",
+  "billAddrLine1": "Address Line 1",
+  "shipAddrState": "AZ",
+  "shipAddrCity": "City Name",
+  "homePhone": {
+    "cc": "123",
+    "subscriber": "123456789"
+  },
+  "billAddrCity": "City Name",
+  "billAddrPostCode": "Postal Code",
+  "mobilePhone": {
+    "cc": "123",
+    "subscriber": "123456789"
+  },
+  "threeDSServerOperatorID": "threeDSServerOperatorUL",
+  "billAddrState": "AZ",
+  "billAddrLine3": "Address Line 3",
+  "shipAddrLine2": "Address Line 2",
+  "billAddrCountry": "840"
+}
