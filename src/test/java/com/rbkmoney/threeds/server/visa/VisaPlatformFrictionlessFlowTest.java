@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.visa;
 
-import com.rbkmoney.threeds.server.config.AbstractVisaConfig;
+import com.rbkmoney.threeds.server.config.AbstractVisaPlatformConfig;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import com.rbkmoney.threeds.server.visa.utils.FrictionlessFlow;
 import lombok.SneakyThrows;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-public class VisaPlatformFrictionlessFlowTest extends AbstractVisaConfig {
+public class VisaPlatformFrictionlessFlowTest extends AbstractVisaPlatformConfig {
 
     @MockBean
     private IdGenerator idGenerator;
@@ -49,14 +49,14 @@ public class VisaPlatformFrictionlessFlowTest extends AbstractVisaConfig {
     private void visaFrictionlessFlowTest(String testCase) throws Exception {
         frictionlessFlow.givenDsStub(testCase);
 
-        MockHttpServletRequestBuilder prepRequest = MockMvcRequestBuilders
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/sdk")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("x-ul-testcaserun-id", testCase)
                 .content(frictionlessFlow.requestToThreeDsServer(testCase));
 
-        mockMvc.perform(prepRequest)
+        mockMvc.perform(request)
                 .andDo(print())
                 .andExpect(content()
                         .json(frictionlessFlow.responseFromThreeDsServer(testCase)));
