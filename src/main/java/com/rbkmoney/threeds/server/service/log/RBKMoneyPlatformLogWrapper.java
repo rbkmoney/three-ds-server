@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import static com.rbkmoney.threeds.server.utils.MessageUtils.empty;
+
 @RequiredArgsConstructor
 @Slf4j
 public class RBKMoneyPlatformLogWrapper implements LogWrapper {
@@ -29,7 +31,7 @@ public class RBKMoneyPlatformLogWrapper implements LogWrapper {
 
     @Override
     public void warn(String message, Throwable ex) {
-        String dsProviderId = dsProviderHolder.getTag(null).orElse(null);
+        String dsProviderId = dsProviderHolder.getTag(empty()).orElse(null);
         if (dsProviderId != null) {
             log.warn(String.format("%s: dsProviderId=%s", message, dsProviderId), ex);
         } else {

@@ -59,7 +59,7 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
         }
 
         return RBKMoneyPreparationResponse.builder()
-                .providerId(dsProviderHolder.getTag(pRes).orElse(null))
+                .providerId(dsProviderHolder.getTag(pRes).orElseThrow())
                 .serialNum(pRes.getSerialNum())
                 .addedCardRanges(addedCardRanges)
                 .modifiedCardRanges(modifiedCardRanges)
