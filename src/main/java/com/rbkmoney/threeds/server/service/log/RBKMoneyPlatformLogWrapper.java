@@ -18,10 +18,10 @@ public class RBKMoneyPlatformLogWrapper implements LogWrapper {
     @Override
     @SneakyThrows
     public void info(String message, Message data) {
-        String dsId = dsProviderHolder.getTag(null);
+        String dsProviderId = dsProviderHolder.getTag(null);
         String jsonData = objectMapper.writeValueAsString(data);
-        if (dsId != null) {
-            log.info(String.format("%s: dsId=%s, %s", message, dsId, jsonData));
+        if (dsProviderId != null) {
+            log.info(String.format("%s: dsProviderId=%s, %s", message, dsProviderId, jsonData));
         } else {
             log.info(String.format("%s: %s", message, jsonData));
         }
@@ -29,9 +29,9 @@ public class RBKMoneyPlatformLogWrapper implements LogWrapper {
 
     @Override
     public void warn(String message, Throwable ex) {
-        String dsId = dsProviderHolder.getTag(null);
-        if (dsId != null) {
-            log.warn(String.format("%s: dsId=%s", message, dsId), ex);
+        String dsProviderId = dsProviderHolder.getTag(null);
+        if (dsProviderId != null) {
+            log.warn(String.format("%s: dsProviderId=%s", message, dsProviderId), ex);
         } else {
             log.warn(message, ex);
         }
