@@ -33,7 +33,7 @@ public class AcctNumberContentConstraintValidationHandlerImpl implements PArqCon
             return validationResult;
         }
 
-        if (!cacheService.isInCardRange(dsProviderHolder.getTag(o), acctNumber)) {
+        if (!cacheService.isInCardRange(dsProviderHolder.getTag(o).orElse(null), acctNumber)) {
             return ConstraintValidationResult.failure(OUT_OF_CARD_RANGE, "acctNumber");
         }
 

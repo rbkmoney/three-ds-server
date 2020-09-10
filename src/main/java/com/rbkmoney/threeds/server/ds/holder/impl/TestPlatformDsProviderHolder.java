@@ -33,7 +33,7 @@ public class TestPlatformDsProviderHolder implements DsProviderHolder {
     }
 
     @Override
-    public String getTag(Message message) {
-        return Optional.ofNullable(message).map(Message::getUlTestCaseId).orElse(null);
+    public Optional<String> getTag(Message message) {
+        return Optional.ofNullable(message).map(Message::getUlTestCaseId);
     }
 }

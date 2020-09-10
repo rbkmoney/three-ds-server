@@ -63,7 +63,7 @@ public class RBKMoneyPlatformDsProviderHolder implements DsProviderHolder {
     }
 
     @Override
-    public String getTag(Message message) {
-        return Optional.ofNullable(dsProvider).map(DsProvider::getId).orElse(null);
+    public Optional<String> getTag(Message message) {
+        return Optional.ofNullable(dsProvider).map(DsProvider::getId);
     }
 }

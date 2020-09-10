@@ -5,6 +5,8 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.ds.client.DsClient;
 
+import java.util.Optional;
+
 public interface DsProviderHolder {
 
     DsClient getDsClient();
@@ -13,6 +15,6 @@ public interface DsProviderHolder {
 
     void setDsProvider(DsProvider provider);
 
-    String getTag(Message message);
+    Optional<String> getTag(Message message);
 
 }
