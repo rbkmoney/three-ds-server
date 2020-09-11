@@ -8,6 +8,8 @@ import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Optional;
+
 @Slf4j
 @RequiredArgsConstructor
 public class TestPlatformDsProviderHolder implements DsProviderHolder {
@@ -31,7 +33,7 @@ public class TestPlatformDsProviderHolder implements DsProviderHolder {
     }
 
     @Override
-    public String getTag(Message message) {
-        return message.getUlTestCaseId();
+    public Optional<String> getTag(Message message) {
+        return Optional.ofNullable(message).map(Message::getUlTestCaseId);
     }
 }

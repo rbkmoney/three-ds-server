@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.service.LogWrapper;
 import com.rbkmoney.threeds.server.service.log.RBKMoneyPlatformLogWrapper;
@@ -12,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class LogWrapperConfig {
 
     @Bean
-    public LogWrapper logWrapper(DsProviderHolder dsProviderHolder) {
-        return new RBKMoneyPlatformLogWrapper(dsProviderHolder);
+    public LogWrapper logWrapper(DsProviderHolder dsProviderHolder, ObjectMapper objectMapper) {
+        return new RBKMoneyPlatformLogWrapper(dsProviderHolder, objectMapper);
     }
 }

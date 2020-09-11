@@ -24,11 +24,11 @@ public class RBKMoneyPlatformClientController {
 
     @PostMapping
     public ResponseEntity<Message> processMessage(@RequestBody Message requestMessage) {
-        log.info("Start /sdk process handle: {}", requestMessage.toString());
+        logWrapper.info("Start /sdk process handle", requestMessage);
 
         Message responseMessage = senderService.sendToDs(requestMessage);
 
-        logWrapper.info("End /sdk process handle", responseMessage.toString());
+        logWrapper.info("End /sdk process handle", responseMessage);
 
         return ResponseEntity.ok(responseMessage);
     }

@@ -1,14 +1,23 @@
 package com.rbkmoney.threeds.server.service.log;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.service.LogWrapper;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+@RequiredArgsConstructor
 @Slf4j
 public class TestPlatformLogWrapper implements LogWrapper {
 
+    private final ObjectMapper objectMapper;
+
     @Override
-    public void info(String message, String data) {
-        log.info(String.format("%s: %s", message, data));
+    @SneakyThrows
+    public void info(String message, Message data) {
+        String jsonData = objectMapper.writeValueAsString(data);
+        log.info(String.format("%s: %s", message, jsonData));
     }
 
     @Override

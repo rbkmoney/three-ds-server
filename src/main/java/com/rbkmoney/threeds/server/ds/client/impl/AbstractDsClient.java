@@ -29,25 +29,25 @@ public abstract class AbstractDsClient implements DsClient {
 
     @Override
     public void notifyDsAboutError(Erro message) {
-        logWrapper.info("responseHandle return 'Erro', DS will be notified", message.toString());
+        logWrapper.info("responseHandle return 'Erro', DS will be notified", message);
 
         ResponseEntity<Message> response = restTemplate.postForEntity(environmentProperties.getDsUrl(), message, Message.class);
 
         if (response.getStatusCode().is2xxSuccessful()) {
-            logWrapper.info("responseHandle return 'Erro', DS was notified", message.toString());
+            logWrapper.info("responseHandle return 'Erro', DS was notified", message);
         } else {
-            logWrapper.info("responseHandle return 'Erro', DS was NOT notified", response.getStatusCode().toString());
+            logWrapper.info("responseHandle return 'Erro', DS was NOT notified", message);
         }
     }
 
     protected ResponseEntity<Message> processHttpPost(Message requestMessage) {
-        logWrapper.info("Request to DS", requestMessage.toString());
+        logWrapper.info("Request to DS", requestMessage);
 
         ResponseEntity<Message> responseMessageEntity = restTemplate.postForEntity(environmentProperties.getDsUrl(), requestMessage, Message.class);
 
         Message responseMessage = responseMessageEntity.getBody();
 
-        logWrapper.info("Response from DS", responseMessage.toString());
+        logWrapper.info("Response from DS", responseMessage);
 
         responseMessage.setRequestMessage(requestMessage);
 

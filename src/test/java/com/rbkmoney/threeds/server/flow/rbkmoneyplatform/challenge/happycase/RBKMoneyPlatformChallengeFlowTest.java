@@ -4,6 +4,7 @@ import com.rbkmoney.threeds.server.config.AbstractRBKMoneyPlatformConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.flow.rbkmoneyplatform.challenge.ChallengeFlow;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -26,8 +27,7 @@ public class RBKMoneyPlatformChallengeFlowTest extends AbstractRBKMoneyPlatformC
     @MockBean
     private IdGenerator idGenerator;
 
-    // todo getTag null
-    //@Test
+    @Test
     public void challengeFlowDefaultHandleTest() throws Exception {
         String testCase = "bc9f0b90-1041-47f0-94df-d692170ea0d7";
         String path = "flow/rbkmoneyplatform/challenge/happycase/default-handle/";
