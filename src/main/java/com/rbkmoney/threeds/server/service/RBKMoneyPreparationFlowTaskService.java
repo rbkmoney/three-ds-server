@@ -2,35 +2,23 @@ package com.rbkmoney.threeds.server.service;
 
 import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
 import com.rbkmoney.damsel.three_ds_server_storage.InitRBKMoneyPreparationFlowRequest;
+import com.rbkmoney.threeds.server.config.properties.PreparationProperties;
 import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.exeption.ThreeDsServerStorageException;
 import lombok.RequiredArgsConstructor;
 import org.apache.thrift.TException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
 public class RBKMoneyPreparationFlowTaskService {
 
-    @Value("${preparation-flow.on-startup.enabled}")
-    private boolean isEnabledOnStartup;
-
-    @Value("${preparation-flow.on-schedule.enabled}")
-    private boolean isEnabledOnSchedule;
-
-    @Value("${preparation-flow.ds-provider-enabled.mastercard}")
-    private boolean isMastercardEnabled;
-
-    @Value("${preparation-flow.ds-provider-enabled.visa}")
-    private boolean isVisaEnabled;
-
-    @Value("${preparation-flow.ds-provider-enabled.mir}")
-    private boolean isMirEnabled;
-
+    private final boolean isEnabledOnStartup;
+    private final boolean isEnabledOnSchedule;
+    private final PreparationProperties visaPreparationProperties;
+    private final PreparationProperties mastercardPreparationProperties;
+    private final PreparationProperties mirPreparationProperties;
     private final CardRangesStorageSrv.Iface cardRangesStorage;
 
     @EventListener(value = ApplicationReadyEvent.class)
@@ -48,21 +36,22 @@ public class RBKMoneyPreparationFlowTaskService {
     }
 
     private void initRBKMoneyPreparationFlow() {
-        if (isMastercardEnabled) {
-            initRBKMoneyPreparationFlow(DsProvider.MASTERCARD.getId());
+        if (visaPreparationProperties.isEnabled()) {
+            initRBKMoneyPreparationFlow(DsProvider.VISA.getId(), visaPreparationProperties.getMessageVersion());
         }
-        if (isVisaEnabled) {
-            initRBKMoneyPreparationFlow(DsProvider.VISA.getId());
+        if (mastercardPreparationProperties.isEnabled()) {
+            initRBKMoneyPreparationFlow(DsProvider.MASTERCARD.getId(), mastercardPreparationProperties.getMessageVersion());
         }
-        if (isMirEnabled) {
-            initRBKMoneyPreparationFlow(DsProvider.MIR.getId());
+        if (mirPreparationProperties.isEnabled()) {
+            initRBKMoneyPreparationFlow(DsProvider.MIR.getId(), mirPreparationProperties.getMessageVersion());
         }
     }
 
-    private void initRBKMoneyPreparationFlow(String dsProvider) {
+    private void initRBKMoneyPreparationFlow(String dsProviderId, String messageVersion) {
         try {
             InitRBKMoneyPreparationFlowRequest request = new InitRBKMoneyPreparationFlowRequest()
-                    .setProviderId(dsProvider);
+                    .setProviderId(dsProviderId)
+                    .setMessageVersion(messageVersion);
             cardRangesStorage.initRBKMoneyPreparationFlow(request);
         } catch (TException e) {
             throw new ThreeDsServerStorageException(e);

@@ -21,11 +21,11 @@ public class RBKMoneyPlatformLogWrapper implements LogWrapper {
     @SneakyThrows
     public void info(String message, Message data) {
         String dsProviderId = dsProviderHolder.getTag(data).orElse(null);
-        String jsonData = objectMapper.writeValueAsString(data);
+        String jsonData = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
         if (dsProviderId != null) {
-            log.info(String.format("%s: dsProviderId=%s, %s", message, dsProviderId, jsonData));
+            log.info(String.format("%s: dsProviderId=%s, \n%s", message, dsProviderId, jsonData));
         } else {
-            log.info(String.format("%s: %s", message, jsonData));
+            log.info(String.format("%s: \n%s", message, jsonData));
         }
     }
 

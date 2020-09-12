@@ -7,6 +7,7 @@ import com.rbkmoney.threeds.server.converter.thrift.CardRangesConverter;
 import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfoConverter;
 import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
+import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.service.cache.ThreeDsServerStorageCacheService;
 import org.apache.thrift.TException;
@@ -47,9 +48,13 @@ public class ThreeDsServerStorageCacheServiceTest {
     public void shouldSaveAndGetTransactionInfo() throws TException {
         // Given
         ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
-                .acsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED)
-                .decoupledAuthMaxTime(LocalDateTime.MIN)
+                .threeDSServerTransID(TEST_TAG)
                 .deviceChannel(DeviceChannel.APP_BASED)
+                .decoupledAuthMaxTime(LocalDateTime.MIN)
+                .acsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED)
+                .dsProviderId(DsProvider.MASTERCARD.getId())
+                .messageVersion("2.1.0")
+                .acsUrl("asd")
                 .build();
 
         ArgumentCaptor<com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo> expected =
@@ -80,9 +85,12 @@ public class ThreeDsServerStorageCacheServiceTest {
         // Given
         var stored = new com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo()
                 .setTransactionId(TEST_TAG)
-                .setAcsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED.getValue())
+                .setDeviceChannel(DeviceChannel.APP_BASED.getValue())
                 .setDecoupledAuthMaxTime(LocalDateTime.MIN.toString())
-                .setDeviceChannel(DeviceChannel.APP_BASED.getValue());
+                .setAcsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED.getValue())
+                .setProviderId("visa")
+                .setMessageVersion("2.1.0")
+                .setAcsUrl("asd");
 
         when(challengeFlowTransactionInfoStorageClient.getChallengeFlowTransactionInfo(TEST_TAG))
                 .thenReturn(stored);

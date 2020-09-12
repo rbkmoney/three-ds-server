@@ -62,16 +62,22 @@ preparation-flow:
   on-schedule:
     enabled: false
     cron: "-"
-  ds-provider-enabled:
-    mastercard: true
-    visa: true
-    mir: true
+  ds-provider:
+    mastercard:
+      enabled: true
+      message-version: "2.1.0"
+    visa:
+      enabled: true
+      message-version: "2.1.0"
+    mir:
+      enabled: true
+      message-version: "2.1.0"
 
 environment:
   message:
     message-version: "2.2.0"
     valid-message-versions: ["2.1.0","2.2.0"]
-    p-message-version: "1.0.5"
+    p-message-version: "1.0.5" #todo remove
   visa:
     ds-url: "visa"
     three-ds-requestor-url: "visa"
