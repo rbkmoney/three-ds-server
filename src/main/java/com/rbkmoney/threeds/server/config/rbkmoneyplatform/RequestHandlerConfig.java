@@ -6,6 +6,7 @@ import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyGetChallengeRequ
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationRequest;
 import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.ds.router.rbkmoneyplatform.PArqDsProviderRouter;
+import com.rbkmoney.threeds.server.ds.router.rbkmoneyplatform.RBKMoneyGetChallengeRequestDsProviderRouter;
 import com.rbkmoney.threeds.server.ds.router.rbkmoneyplatform.RBKMoneyPreparationRequestDsProviderRouter;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.handle.RequestHandler;
@@ -15,7 +16,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRequestHandler;
 import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRequestHandlerWithRouting;
 
 @Configuration
@@ -38,9 +38,13 @@ public class RequestHandlerConfig {
 
     @Bean
     public RequestHandler rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseHandler(
+            DsProviderHolder dsProviderHolder,
+            RBKMoneyGetChallengeRequestDsProviderRouter rbkMoneyGetChallengeRequestDsProviderRouter,
             Processor<ValidationResult, Message> rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseProcessorChain,
             MessageValidatorService messageValidatorService) {
-        return createRequestHandler(
+        return createRequestHandlerWithRouting(
+                dsProviderHolder,
+                rbkMoneyGetChallengeRequestDsProviderRouter,
                 rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseProcessorChain,
                 messageValidatorService,
                 message -> message instanceof RBKMoneyGetChallengeRequest);

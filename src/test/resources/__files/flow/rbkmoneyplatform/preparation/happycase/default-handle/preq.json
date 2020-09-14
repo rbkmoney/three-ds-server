@@ -3,7 +3,5 @@
   "messageVersion": "2.1.0",
   "threeDSServerRefNumber": "3DS_LOA_SER_DIPL_020200_00236",
   "threeDSServerOperatorID": "10075020",
-  "threeDSServerTransID": "e8db9820-63b7-43ce-8831-36ce81a2e313",
-  "messageExtension": [],
-  "threeDSRequestorURL": "https://rbk.money/"
+  "threeDSServerTransID": "e8db9820-63b7-43ce-8831-36ce81a2e313"
 }

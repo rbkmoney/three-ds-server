@@ -13,19 +13,24 @@ public class ChallengeFlowTransactionInfoConverter {
     public ChallengeFlowTransactionInfo toDomain(
             com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo thriftTransactionInfo) {
         return ChallengeFlowTransactionInfo.builder()
+                .threeDSServerTransID(thriftTransactionInfo.getTransactionId())
                 .deviceChannel(DeviceChannel.of(thriftTransactionInfo.getDeviceChannel()))
                 .decoupledAuthMaxTime(LocalDateTime.parse(thriftTransactionInfo.getDecoupledAuthMaxTime()))
                 .acsDecConInd(AcsDecConInd.of(thriftTransactionInfo.getAcsDecConInd()))
+                .dsProviderId(thriftTransactionInfo.getProviderId())
+                .messageVersion(thriftTransactionInfo.getMessageVersion())
+                .acsUrl(thriftTransactionInfo.getAcsUrl())
                 .build();
     }
 
-    public com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo toThrift(
-            String threeDSServerTransID,
-            ChallengeFlowTransactionInfo domainTransactionInfo) {
+    public com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo toThrift(ChallengeFlowTransactionInfo domainTransactionInfo) {
         return new com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo()
-                .setTransactionId(threeDSServerTransID)
+                .setTransactionId(domainTransactionInfo.getThreeDSServerTransID())
                 .setDeviceChannel(domainTransactionInfo.getDeviceChannel().getValue())
                 .setDecoupledAuthMaxTime(domainTransactionInfo.getDecoupledAuthMaxTime().toString())
-                .setAcsDecConInd(domainTransactionInfo.getAcsDecConInd().getValue());
+                .setAcsDecConInd(domainTransactionInfo.getAcsDecConInd().getValue())
+                .setProviderId(domainTransactionInfo.getDsProviderId())
+                .setMessageVersion(domainTransactionInfo.getMessageVersion())
+                .setAcsUrl(domainTransactionInfo.getAcsUrl());
     }
 }

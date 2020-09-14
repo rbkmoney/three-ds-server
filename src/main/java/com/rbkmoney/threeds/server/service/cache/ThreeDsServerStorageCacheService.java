@@ -84,7 +84,7 @@ public class ThreeDsServerStorageCacheService extends AbstractCacheService {
     @Transactional
     public void saveChallengeFlowTransactionInfo(String threeDSServerTransID, ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
         try {
-            var transactionInfo = challengeFlowTransactionInfoConverter.toThrift(threeDSServerTransID, challengeFlowTransactionInfo);
+            var transactionInfo = challengeFlowTransactionInfoConverter.toThrift(challengeFlowTransactionInfo);
             challengeFlowTransactionInfoStorageClient.saveChallengeFlowTransactionInfo(transactionInfo);
             challengeFlowTransactionInfoByTag.put(threeDSServerTransID, challengeFlowTransactionInfo);
         } catch (TException e) {

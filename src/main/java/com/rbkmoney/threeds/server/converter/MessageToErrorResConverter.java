@@ -54,6 +54,7 @@ public class MessageToErrorResConverter implements Converter<ValidationResult, M
                     .errorDescription(errorDescription)
                     .errorDetail(errorDetail)
                     .build();
+            //todo rbkplatform message version
             error.setMessageVersion(messageProperties.getMessageVersion());
         }
         error.setNotifyDsAboutError(isNotifyDsAboutError(errorCode));

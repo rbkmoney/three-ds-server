@@ -1,7 +1,6 @@
 package com.rbkmoney.threeds.server.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyGetChallengeRequest;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyGetChallengeResponse;
@@ -16,13 +15,12 @@ import org.springframework.stereotype.Service;
 public class RBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter implements Converter<ValidationResult, Message> {
 
     private final CReqEncoder cReqEncoder;
-    private final EnvironmentMessageProperties messageProperties;
 
     @Override
     public Message convert(ValidationResult validationResult) {
         try {
             RBKMoneyGetChallengeRequest request = (RBKMoneyGetChallengeRequest) validationResult.getMessage();
-            request.setMessageVersion(messageProperties.getMessageVersion());
+            request.setMessageVersion(request.getMessageVersion());
 
             return RBKMoneyGetChallengeResponse.builder()
                     .encodeCReq(cReqEncoder.createAndEncodeCReq(request))

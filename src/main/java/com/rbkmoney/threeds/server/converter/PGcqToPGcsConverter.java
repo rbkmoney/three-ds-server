@@ -74,7 +74,6 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
         return writer.toString();
     }
 
-
     @Data
     @Builder
     public static class CReqData {

@@ -10,6 +10,7 @@ import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
+import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
@@ -28,6 +29,7 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
 
     private final CacheService cacheService;
     private final EnvironmentMessageProperties messageProperties;
+    private final DsProviderHolder dsProviderHolder;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -113,9 +115,12 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
         String threeDSServerTransID = aRes.getThreeDSServerTransID();
 
         ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
+                .threeDSServerTransID(threeDSServerTransID)
                 .deviceChannel(aReq.getDeviceChannel())
                 .decoupledAuthMaxTime(aReq.getDecoupledAuthMaxTime())
                 .acsDecConInd(getValue(aRes.getAcsDecConInd()))
+                .dsProviderId(dsProviderHolder.getTag(aRes).orElseThrow())
+                .messageVersion(aRes.getMessageVersion())
                 .acsUrl(aRes.getAcsURL())
                 .build();
 
