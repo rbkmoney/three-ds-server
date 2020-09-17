@@ -1,8 +1,10 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
 import com.rbkmoney.damsel.schedule.SchedulatorSrv;
+import com.rbkmoney.damsel.three_ds_server_storage.InitRBKMoneyPreparationFlowRequest;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowDsProviderProperties;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
+import com.rbkmoney.threeds.server.serializer.ThriftSerializer;
 import com.rbkmoney.threeds.server.service.RBKMoneyPreparationFlowScheduler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -21,6 +23,7 @@ public class PreparationFlowSchedulerConfig {
             PreparationFlowDsProviderProperties visaPreparationFlowProperties,
             PreparationFlowDsProviderProperties mastercardPreparationFlowProperties,
             PreparationFlowDsProviderProperties mirPreparationFlowProperties,
+            ThriftSerializer<InitRBKMoneyPreparationFlowRequest> preparationFlowRequestThriftSerializer,
             SchedulatorSrv.Iface schedulatorClient) {
         return new RBKMoneyPreparationFlowScheduler(
                 threeDsServerStorageUrl,
@@ -28,7 +31,13 @@ public class PreparationFlowSchedulerConfig {
                 visaPreparationFlowProperties,
                 mastercardPreparationFlowProperties,
                 mirPreparationFlowProperties,
+                preparationFlowRequestThriftSerializer,
                 schedulatorClient);
+    }
+
+    @Bean
+    public ThriftSerializer<InitRBKMoneyPreparationFlowRequest> preparationFlowRequestSerializer() {
+        return new ThriftSerializer<>();
     }
 
     @Bean

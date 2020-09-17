@@ -7,6 +7,7 @@ import com.rbkmoney.damsel.three_ds_server_storage.InitRBKMoneyPreparationFlowRe
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowDsProviderProperties;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
 import com.rbkmoney.threeds.server.ds.DsProvider;
+import com.rbkmoney.threeds.server.serializer.ThriftSerializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
@@ -22,6 +23,7 @@ public class RBKMoneyPreparationFlowScheduler {
     private final PreparationFlowDsProviderProperties visaProperties;
     private final PreparationFlowDsProviderProperties mastercardProperties;
     private final PreparationFlowDsProviderProperties mirProperties;
+    private final ThriftSerializer<InitRBKMoneyPreparationFlowRequest> preparationFlowRequestSerializer;
     private final SchedulatorSrv.Iface schedulatorClient;
 
     @EventListener(value = ApplicationReadyEvent.class)
@@ -51,10 +53,10 @@ public class RBKMoneyPreparationFlowScheduler {
             String dsProviderId,
             String messageVersion) {
         if (isEnabled) {
-            log.info("Register schedulator job with id={}", dsProviderId);
+            log.info("Register schedulator job for DS provider with id={}", dsProviderId);
             registerJob(dsProviderId, messageVersion);
         } else {
-            log.info("Deregister schedulator job with id={}", dsProviderId);
+            log.info("Deregister schedulator job for DS provider with id={}", dsProviderId);
             deregisterJob(dsProviderId);
         }
     }
@@ -72,7 +74,7 @@ public class RBKMoneyPreparationFlowScheduler {
                         .setCalendarRef(new CalendarRef()
                                 .setId(scheduleProperties.getCalendarId()))
                         .setRevision(scheduleProperties.getRevisionId())))
-                .setContext(new byte[0]); // TODO [a.romanov]: serialize preparationFlowRequest
+                .setContext(preparationFlowRequestSerializer.serialize(initRBKMoneyPreparationFlowRequest));
 
         String jobId = scheduleProperties.getJobIdPrefix() + dsProviderId;
 
