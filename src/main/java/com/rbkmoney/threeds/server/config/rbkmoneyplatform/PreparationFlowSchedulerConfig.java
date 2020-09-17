@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
+import com.rbkmoney.damsel.schedule.SchedulatorSrv;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowDsProviderProperties;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
 import com.rbkmoney.threeds.server.service.RBKMoneyPreparationFlowScheduler;
@@ -19,13 +20,15 @@ public class PreparationFlowSchedulerConfig {
             PreparationFlowScheduleProperties preparationFlowScheduleProperties,
             PreparationFlowDsProviderProperties visaPreparationFlowProperties,
             PreparationFlowDsProviderProperties mastercardPreparationFlowProperties,
-            PreparationFlowDsProviderProperties mirPreparationFlowProperties) {
+            PreparationFlowDsProviderProperties mirPreparationFlowProperties,
+            SchedulatorSrv.Iface schedulatorClient) {
         return new RBKMoneyPreparationFlowScheduler(
                 threeDsServerStorageUrl,
                 preparationFlowScheduleProperties,
                 visaPreparationFlowProperties,
                 mastercardPreparationFlowProperties,
-                mirPreparationFlowProperties);
+                mirPreparationFlowProperties,
+                schedulatorClient);
     }
 
     @Bean

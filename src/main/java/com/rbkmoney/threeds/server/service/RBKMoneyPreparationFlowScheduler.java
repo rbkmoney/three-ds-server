@@ -2,17 +2,18 @@ package com.rbkmoney.threeds.server.service;
 
 import com.rbkmoney.damsel.domain.BusinessScheduleRef;
 import com.rbkmoney.damsel.domain.CalendarRef;
-import com.rbkmoney.damsel.schedule.DominantBasedSchedule;
-import com.rbkmoney.damsel.schedule.RegisterJobRequest;
-import com.rbkmoney.damsel.schedule.Schedule;
+import com.rbkmoney.damsel.schedule.*;
 import com.rbkmoney.damsel.three_ds_server_storage.InitRBKMoneyPreparationFlowRequest;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowDsProviderProperties;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
 import com.rbkmoney.threeds.server.ds.DsProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.thrift.TException;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
+@Slf4j
 @RequiredArgsConstructor
 public class RBKMoneyPreparationFlowScheduler {
 
@@ -21,6 +22,7 @@ public class RBKMoneyPreparationFlowScheduler {
     private final PreparationFlowDsProviderProperties visaProperties;
     private final PreparationFlowDsProviderProperties mastercardProperties;
     private final PreparationFlowDsProviderProperties mirProperties;
+    private final SchedulatorSrv.Iface schedulatorClient;
 
     @EventListener(value = ApplicationReadyEvent.class)
     public void onStartup() {
@@ -49,9 +51,11 @@ public class RBKMoneyPreparationFlowScheduler {
             String dsProviderId,
             String messageVersion) {
         if (isEnabled) {
+            log.info("Register schedulator job with id={}", dsProviderId);
             registerJob(dsProviderId, messageVersion);
         } else {
-            deregisterJob();
+            log.info("Deregister schedulator job with id={}", dsProviderId);
+            deregisterJob(dsProviderId);
         }
     }
 
@@ -70,10 +74,26 @@ public class RBKMoneyPreparationFlowScheduler {
                         .setRevision(scheduleProperties.getRevisionId())))
                 .setContext(new byte[0]); // TODO [a.romanov]: serialize preparationFlowRequest
 
-        // TODO [a.romanov]: schedulator register
+        String jobId = scheduleProperties.getJobIdPrefix() + dsProviderId;
+
+        try {
+            schedulatorClient.registerJob(jobId, registerJobRequest);
+        } catch (ScheduleAlreadyExists e) {
+            log.info("Job with id={} already exists. No register needed", jobId, e);
+        } catch (TException e) {
+            log.error("Exception when trying to register job with id={}", jobId, e);
+        }
     }
 
-    private void deregisterJob() {
-        // TODO [a.romanov]: schedulator deregister
+    private void deregisterJob(String dsProviderId) {
+        String jobId = scheduleProperties.getJobIdPrefix() + dsProviderId;
+
+        try {
+            schedulatorClient.deregisterJob(jobId);
+        } catch (ScheduleNotFound e) {
+            log.info("Job with id={} does not exist. No deregister needed", jobId, e);
+        } catch (TException e) {
+            log.error("Exception when trying to deregister job with id={}", jobId, e);
+        }
     }
 }
