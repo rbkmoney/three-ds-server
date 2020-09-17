@@ -1,8 +1,7 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
-import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
 import com.rbkmoney.threeds.server.config.properties.PreparationProperties;
-import com.rbkmoney.threeds.server.service.RBKMoneyPreparationFlowTaskService;
+import com.rbkmoney.threeds.server.service.RBKMoneyPreparationFlowScheduler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,15 +13,16 @@ import org.springframework.context.annotation.Configuration;
 public class PreparationFlowTaskServiceConfig {
 
     @Bean
-    public RBKMoneyPreparationFlowTaskService rbkMoneyPreparationFlowTaskService(
-            @Value("${preparation-flow.on-startup.enabled}") boolean isEnabledOnStartup,
+    public RBKMoneyPreparationFlowScheduler rbkMoneyPreparationFlowScheduler(
             @Value("${preparation-flow.on-schedule.enabled}") boolean isEnabledOnSchedule,
             PreparationProperties visaPreparationProperties,
             PreparationProperties mastercardPreparationProperties,
-            PreparationProperties mirPreparationProperties,
-            CardRangesStorageSrv.Iface cardRangesStorage) {
-        return new RBKMoneyPreparationFlowTaskService(isEnabledOnStartup, isEnabledOnSchedule, visaPreparationProperties,
-                mastercardPreparationProperties, mirPreparationProperties, cardRangesStorage);
+            PreparationProperties mirPreparationProperties) {
+        return new RBKMoneyPreparationFlowScheduler(
+                isEnabledOnSchedule,
+                visaPreparationProperties,
+                mastercardPreparationProperties,
+                mirPreparationProperties);
     }
 
     @Bean

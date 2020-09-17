@@ -57,11 +57,8 @@ platform:
   mode: TEST_PLATFORM
 
 preparation-flow:
-  on-startup:
-    enabled: false
   on-schedule:
     enabled: false
-    cron: "-"
   ds-provider:
     mastercard:
       enabled: true
