@@ -23,10 +23,7 @@
         <server.port>8080</server.port>
         <exposed.ports>${server.port}</exposed.ports>
         <dockerfile.base.service.tag>bc95d0d6dc13c693acd2b274531a7d604b877bf3</dockerfile.base.service.tag>
-        <shared.resources.version>0.3.6</shared.resources.version>
         <dockerfile.registry>${env.REGISTRY}</dockerfile.registry>
-        <three-ds-server-storage-proto.version>1.13-245ccd2</three-ds-server-storage-proto.version>
-        <three-ds-server-domain-lib.version>1.0.7</three-ds-server-domain-lib.version>
     </properties>
 
     <dependencies>
@@ -44,7 +41,7 @@
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>shared-resources</artifactId>
-            <version>${shared.resources.version}</version>
+            <version>0.3.6</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
@@ -54,12 +51,17 @@
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>three-ds-server-domain-lib</artifactId>
-            <version>${three-ds-server-domain-lib.version}</version>
+            <version>1.0.7</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>three-ds-server-storage-proto</artifactId>
-            <version>${three-ds-server-storage-proto.version}</version>
+            <version>1.13-245ccd2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rbkmoney</groupId>
+            <artifactId>schedulator-proto</artifactId>
+            <version>1.11-efc08c2</version>
         </dependency>
 
         <!--spring-->
