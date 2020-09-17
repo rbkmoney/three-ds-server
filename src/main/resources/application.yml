@@ -44,6 +44,9 @@ client:
     challenge-flow-transaction-info:
       url: http://localhost:8022/three-ds-server-storage/challenge-flow-transaction-info
       timeout: 5000
+  schedulator:
+    url: http://changeit:8022/
+    timeout: 5000
 
 storage:
   mode: IN_MEMORY
