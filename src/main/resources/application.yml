@@ -57,17 +57,20 @@ platform:
   mode: TEST_PLATFORM
 
 preparation-flow:
-  on-schedule:
-    enabled: false
+  schedule:
+    job-id-prefix: "three-ds-server.preparation-flow."
+    revision-id: 16396
+    scheduler-id: 64
+    calendar-id: 1
   ds-provider:
     mastercard:
-      enabled: true
+      enabled: false
       message-version: "2.1.0"
     visa:
-      enabled: true
+      enabled: false
       message-version: "2.1.0"
     mir:
-      enabled: true
+      enabled: false
       message-version: "2.1.0"
 
 environment:
