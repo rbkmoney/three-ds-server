@@ -1,67 +1,28 @@
-package com.rbkmoney.threeds.server.service;
+package com.rbkmoney.threeds.server.service.schedule;
 
 import com.rbkmoney.damsel.domain.BusinessScheduleRef;
 import com.rbkmoney.damsel.domain.CalendarRef;
 import com.rbkmoney.damsel.schedule.*;
 import com.rbkmoney.damsel.three_ds_server_storage.InitRBKMoneyPreparationFlowRequest;
-import com.rbkmoney.threeds.server.config.properties.PreparationFlowDsProviderProperties;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
-import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.serializer.ThriftSerializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 
 @Slf4j
 @RequiredArgsConstructor
-public class RBKMoneyPreparationFlowScheduler {
+public class SchedulatorService {
 
     private final String threeDsServerStorageUrl;
     private final PreparationFlowScheduleProperties scheduleProperties;
-    private final PreparationFlowDsProviderProperties visaProperties;
-    private final PreparationFlowDsProviderProperties mastercardProperties;
-    private final PreparationFlowDsProviderProperties mirProperties;
     private final ThriftSerializer<InitRBKMoneyPreparationFlowRequest> preparationFlowRequestSerializer;
     private final SchedulatorSrv.Iface schedulatorClient;
 
-    @EventListener(value = ApplicationReadyEvent.class)
-    public void onStartup() {
-        updatePreparationFlowScheduledJobs();
-    }
+    public void registerJob(String dsProviderId, String messageVersion) {
+        String jobId = scheduleProperties.getJobIdPrefix() + dsProviderId;
+        log.info("Register schedulator job with id={}", jobId);
 
-    private void updatePreparationFlowScheduledJobs() {
-        updateJob(
-                visaProperties.isEnabled(),
-                DsProvider.VISA.getId(),
-                visaProperties.getMessageVersion());
-
-        updateJob(
-                mastercardProperties.isEnabled(),
-                DsProvider.MASTERCARD.getId(),
-                mastercardProperties.getMessageVersion());
-
-        updateJob(
-                mirProperties.isEnabled(),
-                DsProvider.MIR.getId(),
-                mirProperties.getMessageVersion());
-    }
-
-    private void updateJob(
-            boolean isEnabled,
-            String dsProviderId,
-            String messageVersion) {
-        if (isEnabled) {
-            log.info("Register schedulator job for DS provider with id={}", dsProviderId);
-            registerJob(dsProviderId, messageVersion);
-        } else {
-            log.info("Deregister schedulator job for DS provider with id={}", dsProviderId);
-            deregisterJob(dsProviderId);
-        }
-    }
-
-    private void registerJob(String dsProviderId, String messageVersion) {
         InitRBKMoneyPreparationFlowRequest initRBKMoneyPreparationFlowRequest = new InitRBKMoneyPreparationFlowRequest()
                 .setProviderId(dsProviderId)
                 .setMessageVersion(messageVersion);
@@ -76,8 +37,6 @@ public class RBKMoneyPreparationFlowScheduler {
                         .setRevision(scheduleProperties.getRevisionId())))
                 .setContext(preparationFlowRequestSerializer.serialize(initRBKMoneyPreparationFlowRequest));
 
-        String jobId = scheduleProperties.getJobIdPrefix() + dsProviderId;
-
         try {
             schedulatorClient.registerJob(jobId, registerJobRequest);
         } catch (ScheduleAlreadyExists e) {
@@ -87,8 +46,9 @@ public class RBKMoneyPreparationFlowScheduler {
         }
     }
 
-    private void deregisterJob(String dsProviderId) {
+    public void deregisterJob(String dsProviderId) {
         String jobId = scheduleProperties.getJobIdPrefix() + dsProviderId;
+        log.info("Deregister schedulator job with id={}", jobId);
 
         try {
             schedulatorClient.deregisterJob(jobId);
