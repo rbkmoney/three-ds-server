@@ -14,7 +14,6 @@ import org.apache.thrift.TException;
 @RequiredArgsConstructor
 public class SchedulatorService {
 
-    private final String threeDsServerStorageUrl;
     private final PreparationFlowScheduleProperties scheduleProperties;
     private final ThriftSerializer<InitRBKMoneyPreparationFlowRequest> preparationFlowRequestSerializer;
     private final SchedulatorSrv.Iface schedulatorClient;
@@ -28,7 +27,7 @@ public class SchedulatorService {
                 .setMessageVersion(messageVersion);
 
         RegisterJobRequest registerJobRequest = new RegisterJobRequest()
-                .setExecutorServicePath(threeDsServerStorageUrl)
+                .setExecutorServicePath(scheduleProperties.getExecutorUrl())
                 .setSchedule(Schedule.dominant_schedule(new DominantBasedSchedule()
                         .setBusinessScheduleRef(new BusinessScheduleRef()
                                 .setId(scheduleProperties.getSchedulerId()))

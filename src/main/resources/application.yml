@@ -61,6 +61,7 @@ platform:
 
 preparation-flow:
   schedule:
+    executor-url: http://localhost:8022/three-ds-server-storage/preparation-flow
     job-id-prefix: "three-ds-server.preparation-flow."
     revision-id: 16396
     scheduler-id: 64

@@ -7,7 +7,6 @@ import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProp
 import com.rbkmoney.threeds.server.serializer.ThriftSerializer;
 import com.rbkmoney.threeds.server.service.schedule.RBKMoneyPreparationFlowScheduler;
 import com.rbkmoney.threeds.server.service.schedule.SchedulatorService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -32,16 +31,13 @@ public class PreparationFlowScheduleConfig {
 
     @Bean
     public SchedulatorService schedulatorService(
-            @Value("${client.three-ds-server-storage.card-ranges.url}") String threeDsServerStorageUrl,
             PreparationFlowScheduleProperties preparationFlowScheduleProperties,
             ThriftSerializer<InitRBKMoneyPreparationFlowRequest> preparationFlowRequestThriftSerializer,
             SchedulatorSrv.Iface schedulatorClient) {
         return new SchedulatorService(
-                threeDsServerStorageUrl,
                 preparationFlowScheduleProperties,
                 preparationFlowRequestThriftSerializer,
                 schedulatorClient);
-
     }
 
     @Bean

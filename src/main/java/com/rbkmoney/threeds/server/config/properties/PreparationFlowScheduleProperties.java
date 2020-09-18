@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class PreparationFlowScheduleProperties {
 
+    private String executorUrl;
     private String jobIdPrefix;
     private Long revisionId;
     private Integer schedulerId;
