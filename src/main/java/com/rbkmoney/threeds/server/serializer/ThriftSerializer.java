@@ -11,11 +11,9 @@ import org.apache.thrift.TSerializer;
 @NoArgsConstructor
 public class ThriftSerializer<T extends TBase> {
 
-    private final ThreadLocal<TSerializer> thriftSerializer = ThreadLocal.withInitial(TSerializer::new);
-
     public byte[] serialize(T thrift) {
         try {
-            return this.thriftSerializer.get().serialize(thrift);
+            return new TSerializer().serialize(thrift);
         } catch (TException e) {
             log.error("Exception when trying to serialize thrift={} ", thrift, e);
             throw new SerializationException(e);
