@@ -57,7 +57,7 @@
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>three-ds-server-storage-proto</artifactId>
-            <version>1.13-245ccd2</version>
+            <version>1.14-4be6f19</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
