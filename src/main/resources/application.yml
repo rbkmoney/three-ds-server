@@ -44,6 +44,9 @@ client:
     challenge-flow-transaction-info:
       url: http://localhost:8022/three-ds-server-storage/challenge-flow-transaction-info
       timeout: 5000
+  schedulator:
+    url: http://changeit:8022/
+    timeout: 5000
 
 storage:
   mode: IN_MEMORY
@@ -57,20 +60,21 @@ platform:
   mode: TEST_PLATFORM
 
 preparation-flow:
-  on-startup:
-    enabled: false
-  on-schedule:
-    enabled: false
-    cron: "-"
+  schedule:
+    executor-url: http://localhost:8022/three-ds-server-storage/scheduled-preparation-flow
+    job-id-prefix: "three-ds-server.preparation-flow."
+    revision-id: 16396
+    scheduler-id: 64
+    calendar-id: 1
   ds-provider:
     mastercard:
-      enabled: true
+      enabled: false
       message-version: "2.1.0"
     visa:
-      enabled: true
+      enabled: false
       message-version: "2.1.0"
     mir:
-      enabled: true
+      enabled: false
       message-version: "2.1.0"
 
 environment:

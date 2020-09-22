@@ -61,8 +61,6 @@ public abstract class AbstractTestPlatformConfig {
             TestPropertyValues.of(
                     "storage.mode=IN_MEMORY",
                     "platform.mode=TEST_PLATFORM",
-                    "preparation-flow.on-startup.enabled=false",
-                    "preparation-flow.on-schedule.enabled=false",
                     "environment.test.ds-url=http://localhost:" + serverExtension.getServer().port() + "/",
                     "environment.test.three-ds-requestor-url=https://rbk.money/",
                     "environment.test.three-ds-server-url=https://3ds.rbk.money/ds",
