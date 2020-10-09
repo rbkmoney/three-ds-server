@@ -6,11 +6,11 @@
     <parent>
         <groupId>com.rbkmoney</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
+        <version>2.3.4.RELEASE</version>
     </parent>
 
     <artifactId>three-ds-server</artifactId>
-    <version>0.9.3-SNAPSHOT</version>
+    <version>0.9.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Three ds server</name>
@@ -24,7 +24,7 @@
         <exposed.ports>${server.port}</exposed.ports>
         <dockerfile.base.service.tag>57e26d8ee999d7b0b50248c22afc63e6f926d276</dockerfile.base.service.tag>
         <dockerfile.registry>${env.REGISTRY}</dockerfile.registry>
-        <shared.resources.version>0.3.6</shared.resources.version>
+        <shared.resources.version>0.3.8</shared.resources.version>
     </properties>
 
     <dependencies>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>com.rbkmoney.woody</groupId>
             <artifactId>woody-thrift</artifactId>
-            <version>1.1.15</version>
+            <version>1.1.22</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
@@ -63,6 +63,11 @@
             <groupId>com.rbkmoney</groupId>
             <artifactId>schedulator-proto</artifactId>
             <version>1.11-efc08c2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rbkmoney</groupId>
+            <artifactId>custom-actuator-endpoints</artifactId>
+            <version>0.0.3</version>
         </dependency>
 
         <!--spring-->
