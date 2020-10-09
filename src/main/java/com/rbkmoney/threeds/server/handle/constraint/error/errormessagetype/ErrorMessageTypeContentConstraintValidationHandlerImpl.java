@@ -18,7 +18,8 @@ public class ErrorMessageTypeContentConstraintValidationHandlerImpl implements E
 
     @Override
     public boolean canHandle(ErroWrapper o) {
-        return stringValidator.isNotNull(o.getErrorMessageType());
+        //todo
+        return stringValidator.isNotNull(o.getErrorMessageType().getValue().getValue());
     }
 
     @Override

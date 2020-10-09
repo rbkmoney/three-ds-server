@@ -1,7 +1,6 @@
 package com.rbkmoney.threeds.server.mastercard.utils;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 public class FrictionlessFlow {
 
     private final JsonMapper jsonMapper;
-    private final Gson gson = new GsonBuilder().create();
+    private final Gson gson;
 
     public void givenDsStub(String testCase) {
         stubFor(post(urlEqualTo("/"))

@@ -16,7 +16,7 @@ public class TestPlatformLogWrapper implements LogWrapper {
     @Override
     @SneakyThrows
     public void info(String message, Message data) {
-        String jsonData = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
+        String jsonData = objectMapper.writeValueAsString(data);
         log.info(String.format("%s: \n%s", message, jsonData));
     }
 
