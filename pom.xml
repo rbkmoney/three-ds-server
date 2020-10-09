@@ -24,7 +24,14 @@
         <exposed.ports>${server.port}</exposed.ports>
         <dockerfile.base.service.tag>57e26d8ee999d7b0b50248c22afc63e6f926d276</dockerfile.base.service.tag>
         <dockerfile.registry>${env.REGISTRY}</dockerfile.registry>
+        <spring-boot-starter-metrics-statsd.version>1.1.2</spring-boot-starter-metrics-statsd.version>
+        <woody-thrift.vers>1.1.22</woody-thrift.vers>
         <shared.resources.version>0.3.8</shared.resources.version>
+        <elon.version>1.0.8</elon.version>
+        <three-ds-server-domain-lib.version>1.0.9</three-ds-server-domain-lib.version>
+        <three-ds-server-storage-proto.version>1.14-4be6f19</three-ds-server-storage-proto.version>
+        <schedulator-proto.version>1.11-efc08c2</schedulator-proto.version>
+        <custom-actuator-endpoints.version>0.0.3</custom-actuator-endpoints.version>
     </properties>
 
     <dependencies>
@@ -32,12 +39,12 @@
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>spring-boot-starter-metrics-statsd</artifactId>
-            <version>1.1.2</version>
+            <version>${spring-boot-starter-metrics-statsd.version}</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney.woody</groupId>
             <artifactId>woody-thrift</artifactId>
-            <version>1.1.22</version>
+            <version>${woody-thrift.vers}</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
@@ -47,27 +54,27 @@
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>elon</artifactId>
-            <version>1.0.8</version>
+            <version>${elon.version}</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>three-ds-server-domain-lib</artifactId>
-            <version>1.0.9</version>
+            <version>${three-ds-server-domain-lib.version}</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>three-ds-server-storage-proto</artifactId>
-            <version>1.14-4be6f19</version>
+            <version>${three-ds-server-storage-proto.version}</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>schedulator-proto</artifactId>
-            <version>1.11-efc08c2</version>
+            <version>${schedulator-proto.version}</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>custom-actuator-endpoints</artifactId>
-            <version>0.0.3</version>
+            <version>${custom-actuator-endpoints.version}</version>
         </dependency>
 
         <!--spring-->
