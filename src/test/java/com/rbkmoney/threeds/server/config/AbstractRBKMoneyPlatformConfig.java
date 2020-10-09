@@ -5,6 +5,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
+import com.rbkmoney.threeds.server.service.schedule.SchedulatorService;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +36,9 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 @TestPropertySource("classpath:application.yml")
 @AutoConfigureMockMvc
 public abstract class AbstractRBKMoneyPlatformConfig {
+
+    @MockBean
+    private SchedulatorService schedulatorService;
 
     @RegisterExtension
     public static ServerExtension serverExtension = new ServerExtension();
