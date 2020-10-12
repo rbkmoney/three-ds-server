@@ -2,6 +2,7 @@ package com.rbkmoney.threeds.server.converter;
 
 import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.error.ErrorCode;
+import com.rbkmoney.threeds.server.domain.message.MessageType;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.TransactionalMessage;
 import com.rbkmoney.threeds.server.domain.root.emvco.Erro;
@@ -42,7 +43,7 @@ public class MessageToErrorResConverter implements Converter<ValidationResult, M
                     .errorComponent(THREE_DS_SERVER)
                     .errorDescription(errorDescription)
                     .errorDetail(errorDetail)
-                    .errorMessageType(message.getClass().getSimpleName())
+                    .errorMessageType(MessageType.valueOf(message.getClass().getSimpleName()))
                     .sdkTransID(getNullableString(message.getSdkTransID(), getRequestId(requestMessage, TransactionalMessage::getSdkTransID)))
                     .build();
             error.setMessageVersion(getMessageVersion(message, requestMessage));

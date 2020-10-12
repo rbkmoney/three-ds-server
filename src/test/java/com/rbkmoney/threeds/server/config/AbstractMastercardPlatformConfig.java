@@ -3,6 +3,7 @@ package com.rbkmoney.threeds.server.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.google.gson.Gson;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.mastercard.utils.FrictionlessFlow;
@@ -52,8 +53,8 @@ public abstract class AbstractMastercardPlatformConfig {
         }
 
         @Bean
-        public FrictionlessFlow frictionlessFlow(JsonMapper jsonMapper) {
-            return new FrictionlessFlow(jsonMapper);
+        public FrictionlessFlow frictionlessFlow(JsonMapper jsonMapper, Gson gson) {
+            return new FrictionlessFlow(jsonMapper, gson);
         }
     }
 
