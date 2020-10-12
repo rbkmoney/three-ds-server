@@ -33,7 +33,8 @@ public class RBKMoneyPlatformLogWrapper implements LogWrapper {
             String json = objectMapper.writeValueAsString(data);
 
             JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-            // удаляется потенциальные ПДн
+            // удаляется часть персональных данных, которые могут потенциально связаться в определение персональных данных,
+            // но которые, при этом не сильно будут нужны и нам и платежным системам (при их запросе)
             jsonObject.remove("shipAddrCity");
             jsonObject.remove("shipAddrCountry");
             jsonObject.remove("billAddrCountry");
@@ -41,6 +42,8 @@ public class RBKMoneyPlatformLogWrapper implements LogWrapper {
             jsonObject.remove("mobilePhone");
             jsonObject.remove("homePhone");
             jsonObject.remove("workPhone");
+            jsonObject.remove("email");
+            jsonObject.remove("browserIP");
 
             jsonObject.remove("authenticationValue");
 
