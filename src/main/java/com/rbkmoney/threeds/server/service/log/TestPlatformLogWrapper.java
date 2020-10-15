@@ -2,6 +2,7 @@ package com.rbkmoney.threeds.server.service.log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.domain.root.Message;
+import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.service.LogWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -17,7 +18,12 @@ public class TestPlatformLogWrapper implements LogWrapper {
     @SneakyThrows
     public void info(String message, Message data) {
         String jsonData = objectMapper.writeValueAsString(data);
-        log.info(String.format("%s: \n%s", message, jsonData));
+
+        if (data instanceof PRes) {
+            log.info(String.format("%s: \n%s", message, data.toString() + ", cardRangeData size=" + ((PRes) data).getCardRangeData().getValue().size()));
+        } else {
+            log.info(String.format("%s: \n%s", message, jsonData));
+        }
     }
 
     @Override

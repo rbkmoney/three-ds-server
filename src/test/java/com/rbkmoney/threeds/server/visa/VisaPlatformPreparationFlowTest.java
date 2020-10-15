@@ -93,7 +93,8 @@ public class VisaPlatformPreparationFlowTest extends AbstractVisaPlatformConfig 
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
             return Stream.of(
                     Arguments.of("3DSS-210-001", "f7d9f026-b18b-4889-8593-3e665b2e4ca3"),
-                    Arguments.of("3DSS-220-001", "fe115f4d-d010-4d09-8c7c-032545dc381c")
+                    Arguments.of("3DSS-220-001", "fe115f4d-d010-4d09-8c7c-032545dc381c"),
+                    Arguments.of("3DSS-220-001-bigsize-pres", "fe115f4d-d010-4d09-8c7c-032545dc381c")
             );
         }
     }

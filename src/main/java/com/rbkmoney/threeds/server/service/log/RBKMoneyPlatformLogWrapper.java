@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
+import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.domain.root.emvco.RReq;
 import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.service.LogWrapper;
@@ -50,6 +51,8 @@ public class RBKMoneyPlatformLogWrapper implements LogWrapper {
             json = jsonObject.toString();
 
             log(message, dsProviderId, json);
+        } else if (data instanceof PRes) {
+            log(message, dsProviderId, data.toString() + ", cardRangeData size=" + ((PRes) data).getCardRangeData().getValue().size());
         } else {
             log(message, dsProviderId, data.toString());
         }
