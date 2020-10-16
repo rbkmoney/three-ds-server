@@ -10,10 +10,10 @@
     </parent>
 
     <artifactId>three-ds-server</artifactId>
-    <version>0.9.5-SNAPSHOT</version>
+    <version>0.9.6-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Three ds server</name>
+    <name>three-ds-server</name>
     <description>RBK.Money 3DS Server implementation</description>
 
     <properties>
