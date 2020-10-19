@@ -43,7 +43,7 @@ public class MessageToErrorResConverter implements Converter<ValidationResult, M
                     .errorComponent(THREE_DS_SERVER)
                     .errorDescription(errorDescription)
                     .errorDetail(errorDetail)
-                    .errorMessageType(MessageType.valueOf(message.getClass().getSimpleName()))
+                    .errorMessageType(MessageType.valueOf(message.getClass().getSimpleName().toUpperCase()))
                     .sdkTransID(getNullableString(message.getSdkTransID(), getRequestId(requestMessage, TransactionalMessage::getSdkTransID)))
                     .build();
             error.setMessageVersion(getMessageVersion(message, requestMessage));
