@@ -10,7 +10,6 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrs;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
@@ -33,13 +32,11 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
     @Override
     public Message convert(ValidationResult validationResult) {
         PRes pRes = (PRes) validationResult.getMessage();
-        List<CardRange> cardRangeData = Optional.ofNullable(pRes.getCardRangeData())
-                .map(ListWrapper::getValue)
-                .orElse(emptyList());
+
+        List<CardRange> cardRangeData = Optional.ofNullable(pRes.getCardRangeData()).orElse(emptyList());
 
         if (((PReq) pRes.getRequestMessage()).getSerialNum() == null) {
-            cardRangeData.forEach(
-                    cardRange -> cardRange.setActionInd(getActionIndEnumWrapper()));
+            cardRangeData.forEach(cardRange -> cardRange.setActionInd(getActionIndEnumWrapper()));
         }
 
         if (pRes.getSerialNum() != null) {
