@@ -8,18 +8,18 @@ import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationRespo
 import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.ADD_CARD_RANGE_TO_CACHE;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -31,18 +31,17 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
     public Message convert(ValidationResult validationResult) {
         PRes pRes = (PRes) validationResult.getMessage();
 
-        List<CardRange> cardRangeData = Optional.ofNullable(pRes.getCardRangeData())
-                .map(ListWrapper::getValue)
-                .orElse(emptyList())
-                .stream()
-                .peek(this::fillEmptyActionInd)
-                .collect(toList());
+        List<CardRange> cardRangeData = Optional.ofNullable(pRes.getCardRangeData()).orElse(emptyList());
+
+        cardRangeData.forEach(this::fillEmptyActionInd);
 
         List<com.rbkmoney.threeds.server.domain.rbkmoney.cardrange.CardRange> addedCardRanges = new ArrayList<>();
         List<com.rbkmoney.threeds.server.domain.rbkmoney.cardrange.CardRange> modifiedCardRanges = new ArrayList<>();
         List<com.rbkmoney.threeds.server.domain.rbkmoney.cardrange.CardRange> deletedCardRanges = new ArrayList<>();
 
-        for (CardRange cardRange : cardRangeData) {
+        Iterator<CardRange> iterator = cardRangeData.iterator();
+        while (iterator.hasNext()) {
+            CardRange cardRange = iterator.next();
             switch (getValue(cardRange.getActionInd())) {
                 case ADD_CARD_RANGE_TO_CACHE:
                     addedCardRanges.add(toDTO(cardRange));
@@ -56,6 +55,7 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
                 default:
                     throw new IllegalArgumentException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
             }
+            iterator.remove();
         }
 
         return RBKMoneyPreparationResponse.builder()
@@ -70,7 +70,7 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
     private void fillEmptyActionInd(CardRange cardRange) {
         if (cardRange.getActionInd() == null) {
             EnumWrapper<ActionInd> addAction = new EnumWrapper<>();
-            addAction.setValue(ActionInd.ADD_CARD_RANGE_TO_CACHE);
+            addAction.setValue(ADD_CARD_RANGE_TO_CACHE);
 
             cardRange.setActionInd(addAction);
         }

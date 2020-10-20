@@ -35,12 +35,13 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
 
     @Override
     public ConstraintValidationResult handle(PRes o) {
-        if (o.getCardRangeData().isGarbage()) {
-            o.setHandleRepetitionNeeded(true);
-            return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
-        }
+        // todo
+//        if (o.getCardRangeData().isGarbage()) {
+//            o.setHandleRepetitionNeeded(true);
+//            return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
+//        }
 
-        List<CardRange> cardRangeData = o.getCardRangeData().getValue();
+        List<CardRange> cardRangeData = o.getCardRangeData();
         if (cardRangeData.isEmpty()) {
             o.setHandleRepetitionNeeded(true);
             return ConstraintValidationResult.failure(PATTERN, "cardRangeData");

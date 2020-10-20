@@ -52,7 +52,7 @@ public class RBKMoneyPlatformLogWrapper implements LogWrapper {
 
             log(message, dsProviderId, json);
         } else if (data instanceof PRes) {
-            log(message, dsProviderId, data.toString() + ", cardRangeData size=" + ((PRes) data).getCardRangeData().getValue().size());
+            log(message, dsProviderId, data.toString() + ", cardRangeData size=" + ((PRes) data).getCardRangeData().size());
         } else {
             log(message, dsProviderId, data.toString());
         }
