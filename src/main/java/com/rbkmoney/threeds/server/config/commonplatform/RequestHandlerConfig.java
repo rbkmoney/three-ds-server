@@ -1,6 +1,5 @@
 package com.rbkmoney.threeds.server.config.commonplatform;
 
-import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
@@ -10,6 +9,7 @@ import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 
 import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRequestHandler;
 
@@ -24,7 +24,7 @@ public class RequestHandlerConfig {
     }
 
     @Bean
-    public RequestHandler unsupportedMessageTypeRequestHandler(MessageToErrorResConverter errorConverter) {
-        return new UnsupportedMessageTypeRequestHandler(errorConverter);
+    public RequestHandler unsupportedMessageTypeRequestHandler(Converter<ValidationResult, Message> messageToErrorResConverter) {
+        return new UnsupportedMessageTypeRequestHandler(messageToErrorResConverter);
     }
 }

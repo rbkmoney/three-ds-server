@@ -1,8 +1,8 @@
 package com.rbkmoney.threeds.server.config.builder;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
-import com.rbkmoney.threeds.server.ds.router.DsProviderRouter;
+import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.DsProviderRouter;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.handle.*;
 import com.rbkmoney.threeds.server.processor.Processor;

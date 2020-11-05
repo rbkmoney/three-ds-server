@@ -2,7 +2,7 @@
   "messageType": "RBKMONEY_PREPARATION_RESPONSE",
   "providerId": "visa",
   "serialNum": "20190411083623719000",
-  "addedCardRanges": [
+  "cardRanges": [
     {
       "startRange": "6543200100000",
       "endRange": "6543200199999"
@@ -87,7 +87,5 @@
       "startRange": "765430270000000",
       "endRange": "765430279999999"
     }
-  ],
-  "modifiedCardRanges": [],
-  "deletedCardRanges": []
+  ]
 }

@@ -3,11 +3,12 @@ package com.rbkmoney.threeds.server.config.testplatform;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.config.properties.KeystoreProperties;
-import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
-import com.rbkmoney.threeds.server.ds.client.DsClient;
-import com.rbkmoney.threeds.server.ds.client.impl.TestPlatformDsClient;
-import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
-import com.rbkmoney.threeds.server.ds.holder.impl.TestPlatformDsProviderHolder;
+import com.rbkmoney.threeds.server.domain.root.Message;
+import com.rbkmoney.threeds.server.ds.DsClient;
+import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.testplatform.TestPlatformDsClient;
+import com.rbkmoney.threeds.server.ds.testplatform.TestPlatformDsProviderHolder;
+import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import com.rbkmoney.threeds.server.service.LogWrapper;
@@ -16,6 +17,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
@@ -45,14 +47,14 @@ public class ClientConfig {
     public DsClient testDsClient(
             RestTemplate testRestTemplate,
             EnvironmentProperties testEnvironmentProperties,
-            MessageToErrorResConverter messageToErrorConverter,
+            Converter<ValidationResult, Message> messageToErrorResConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver,
             LogWrapper logWrapper) {
         return new TestPlatformDsClient(
                 testRestTemplate,
                 testEnvironmentProperties,
-                messageToErrorConverter,
+                messageToErrorResConverter,
                 errorCodeResolver,
                 errorMessageResolver,
                 logWrapper);

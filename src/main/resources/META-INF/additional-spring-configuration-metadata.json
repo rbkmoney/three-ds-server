@@ -1,19 +1,6 @@
 {
   "hints": [
     {
-      "name": "storage.mode",
-      "values": [
-        {
-          "value": "IN_MEMORY",
-          "description": "Keep all data in memory."
-        },
-        {
-          "value": "EXTERNAL",
-          "description": "Use external Storage."
-        }
-      ]
-    },
-    {
       "name": "platform.mode",
       "values": [
         {

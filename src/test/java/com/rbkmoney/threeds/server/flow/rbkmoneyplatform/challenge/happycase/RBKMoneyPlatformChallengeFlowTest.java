@@ -4,7 +4,7 @@ import com.rbkmoney.threeds.server.config.AbstractRBKMoneyPlatformConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.flow.rbkmoneyplatform.challenge.ChallengeFlow;
-import com.rbkmoney.threeds.server.service.CacheService;
+import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class RBKMoneyPlatformChallengeFlowTest extends AbstractRBKMoneyPlatformC
     private IdGenerator idGenerator;
 
     @MockBean
-    private CacheService cacheService;
+    private ChallengeFlowTransactionInfoStorageService transactionInfoStorageService;
 
     @Test
     public void challengeFlowDefaultHandleTest() throws Exception {
@@ -42,7 +42,7 @@ public class RBKMoneyPlatformChallengeFlowTest extends AbstractRBKMoneyPlatformC
                 .build();
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
-        when(cacheService.getChallengeFlowTransactionInfo(testCase)).thenReturn(transactionInfo);
+        when(transactionInfoStorageService.getChallengeFlowTransactionInfo(testCase)).thenReturn(transactionInfo);
 
         ChallengeFlow challengeFlow = new ChallengeFlow(jsonMapper, path);
 

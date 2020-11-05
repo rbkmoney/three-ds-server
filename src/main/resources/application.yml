@@ -48,37 +48,35 @@ client:
       url: http://localhost:8022/three-ds-server-storage/challenge-flow-transaction-info
       timeout: 5000
   schedulator:
-    url: http://changeit:8022/
+    url: http://localhost:8022/v1/schedulator
     timeout: 5000
 
 storage:
-  mode: IN_MEMORY
-  cache:
-    challenge-flow-transaction-info:
-      size: 1000
-    card-ranges:
-      expiration-hours: 1
+  challenge-flow-transaction-info:
+    size: 1000
 
 platform:
   mode: TEST_PLATFORM
 
-preparation-flow:
-  schedule:
-    executor-url: http://localhost:8022/three-ds-server-storage/scheduled-preparation-flow
-    job-id-prefix: "three-ds-server.preparation-flow."
-    revision-id: 16396
-    scheduler-id: 64
-    calendar-id: 1
-  ds-provider:
-    mastercard:
-      enabled: false
-      message-version: "2.1.0"
-    visa:
-      enabled: false
-      message-version: "2.1.0"
-    mir:
-      enabled: false
-      message-version: "2.1.0"
+rbkmoney-preparation-flow:
+  scheduler:
+    enabled: false
+    schedule:
+      executor-url: http://localhost:8022/three-ds-server-storage/scheduled-preparation-flow
+      job-id-prefix: "three-ds-server.preparation-flow."
+      revision-id: 16396
+      scheduler-id: 64
+      calendar-id: 1
+    ds-provider:
+      mastercard:
+        enabled: false
+        message-version: "2.1.0"
+      visa:
+        enabled: false
+        message-version: "2.1.0"
+      mir:
+        enabled: false
+        message-version: "2.1.0"
 
 environment:
   message:

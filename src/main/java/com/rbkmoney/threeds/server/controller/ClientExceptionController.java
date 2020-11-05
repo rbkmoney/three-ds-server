@@ -1,6 +1,5 @@
 package com.rbkmoney.threeds.server.controller;
 
-import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.domain.error.ErrorCode;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
@@ -8,6 +7,7 @@ import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ import java.util.Set;
 @Slf4j
 public class ClientExceptionController extends ResponseEntityExceptionHandler {
 
-    private final MessageToErrorResConverter messageToErrorConverter;
+    private final Converter<ValidationResult, Message> messageToErrorResConverter;
     private final ErrorCodeResolver errorCodeResolver;
     private final ErrorMessageResolver errorMessageResolver;
 
@@ -64,6 +64,6 @@ public class ClientExceptionController extends ResponseEntityExceptionHandler {
     }
 
     private Message getMessage(ErrorCode errorCode, String errorDetail, String errorDescription) {
-        return messageToErrorConverter.convert(ValidationResult.failure(errorCode, errorDetail, errorDescription, null));
+        return messageToErrorResConverter.convert(ValidationResult.failure(errorCode, errorDetail, errorDescription, null));
     }
 }

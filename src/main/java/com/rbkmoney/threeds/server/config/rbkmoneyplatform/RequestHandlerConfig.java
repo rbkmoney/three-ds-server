@@ -1,13 +1,13 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
+import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyAuthenticationRequest;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyGetChallengeRequest;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationRequest;
-import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
-import com.rbkmoney.threeds.server.ds.router.rbkmoneyplatform.PArqDsProviderRouter;
-import com.rbkmoney.threeds.server.ds.router.rbkmoneyplatform.RBKMoneyGetChallengeRequestDsProviderRouter;
-import com.rbkmoney.threeds.server.ds.router.rbkmoneyplatform.RBKMoneyPreparationRequestDsProviderRouter;
+import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.router.RBKMoneyAuthenticationRequestDsProviderRouter;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.router.RBKMoneyGetChallengeRequestDsProviderRouter;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.router.RBKMoneyPreparationRequestDsProviderRouter;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.handle.RequestHandler;
 import com.rbkmoney.threeds.server.processor.Processor;
@@ -23,17 +23,17 @@ import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRe
 public class RequestHandlerConfig {
 
     @Bean
-    public RequestHandler pArqToAReqHandler(
+    public RequestHandler rBKMoneyAuthenticationRequestToAReqHandler(
             DsProviderHolder dsProviderHolder,
-            PArqDsProviderRouter pArqDsProviderRouter,
-            Processor<ValidationResult, Message> pArqToAReqProcessorChain,
+            RBKMoneyAuthenticationRequestDsProviderRouter rBKMoneyAuthenticationRequestDsProviderRouter,
+            Processor<ValidationResult, Message> rBKMoneyAuthenticationRequestToAReqProcessorChain,
             MessageValidatorService messageValidatorService) {
         return createRequestHandlerWithRouting(
                 dsProviderHolder,
-                pArqDsProviderRouter,
-                pArqToAReqProcessorChain,
+                rBKMoneyAuthenticationRequestDsProviderRouter,
+                rBKMoneyAuthenticationRequestToAReqProcessorChain,
                 messageValidatorService,
-                message -> message instanceof PArq);
+                message -> message instanceof RBKMoneyAuthenticationRequest);
     }
 
     @Bean

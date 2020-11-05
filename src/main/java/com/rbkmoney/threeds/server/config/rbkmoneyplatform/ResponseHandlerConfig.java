@@ -1,8 +1,9 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
+import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
-import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.handle.ResponseHandler;
 import com.rbkmoney.threeds.server.processor.Processor;
@@ -16,6 +17,18 @@ import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRe
 @Configuration
 @ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 public class ResponseHandlerConfig {
+
+    @Bean
+    public ResponseHandler aResToRBKMoneyAuthenticationResponseHandler(
+            Processor<ValidationResult, Message> aResToRBKMoneyAuthenticationResponseProcessorChain,
+            MessageValidatorService messageValidatorService,
+            DsProviderHolder dsProviderHolder) {
+        return createResponseHandler(
+                aResToRBKMoneyAuthenticationResponseProcessorChain,
+                messageValidatorService,
+                dsProviderHolder,
+                message -> message instanceof ARes);
+    }
 
     @Bean
     public ResponseHandler pResToRBKMoneyPreparationResponseHandler(

@@ -1,6 +1,5 @@
 package com.rbkmoney.threeds.server.handle.impl;
 
-import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.domain.error.ErrorCode;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
@@ -8,6 +7,7 @@ import com.rbkmoney.threeds.server.handle.DsRequestHandler;
 import com.rbkmoney.threeds.server.handle.RequestHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.converter.Converter;
 
 import static com.rbkmoney.threeds.server.constants.MessageConstants.INVALID_MESSAGE_FOR_THE_RECEIVING_COMPONENT;
 import static com.rbkmoney.threeds.server.constants.MessageConstants.UNSUPPORTED_MESSAGE_TYPE;
@@ -16,7 +16,7 @@ import static com.rbkmoney.threeds.server.constants.MessageConstants.UNSUPPORTED
 @Slf4j
 public class UnsupportedMessageTypeRequestHandler implements RequestHandler, DsRequestHandler {
 
-    private final MessageToErrorResConverter errorConverter;
+    private final Converter<ValidationResult, Message> messageToErrorResConverter;
 
     @Override
     public boolean canHandle(Message o) {
@@ -26,7 +26,7 @@ public class UnsupportedMessageTypeRequestHandler implements RequestHandler, DsR
     @Override
     public Message handle(Message message) {
         ValidationResult validationResult = failure(message);
-        return errorConverter.convert(validationResult);
+        return messageToErrorResConverter.convert(validationResult);
     }
 
     private ValidationResult failure(Message message) {

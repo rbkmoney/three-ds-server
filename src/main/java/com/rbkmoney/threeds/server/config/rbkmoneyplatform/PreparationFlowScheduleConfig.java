@@ -5,8 +5,8 @@ import com.rbkmoney.damsel.three_ds_server_storage.InitRBKMoneyPreparationFlowRe
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowDsProviderProperties;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
 import com.rbkmoney.threeds.server.serializer.ThriftSerializer;
-import com.rbkmoney.threeds.server.service.schedule.RBKMoneyPreparationFlowScheduler;
-import com.rbkmoney.threeds.server.service.schedule.SchedulatorService;
+import com.rbkmoney.threeds.server.service.SchedulatorService;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyPreparationFlowScheduler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 public class PreparationFlowScheduleConfig {
 
     @Bean
+    @ConditionalOnProperty(name = "rbkmoney-preparation-flow.scheduler.enabled", havingValue = "true")
     public RBKMoneyPreparationFlowScheduler rbkMoneyPreparationFlowScheduler(
             PreparationFlowDsProviderProperties visaPreparationFlowProperties,
             PreparationFlowDsProviderProperties mastercardPreparationFlowProperties,
@@ -46,25 +47,25 @@ public class PreparationFlowScheduleConfig {
     }
 
     @Bean
-    @ConfigurationProperties("preparation-flow.schedule")
+    @ConfigurationProperties("rbkmoney-preparation-flow.scheduler.schedule")
     public PreparationFlowScheduleProperties preparationFlowScheduleProperties() {
         return new PreparationFlowScheduleProperties();
     }
 
     @Bean
-    @ConfigurationProperties("preparation-flow.ds-provider.visa")
+    @ConfigurationProperties("rbkmoney-preparation-flow.scheduler.ds-provider.visa")
     public PreparationFlowDsProviderProperties visaPreparationFlowProperties() {
         return new PreparationFlowDsProviderProperties();
     }
 
     @Bean
-    @ConfigurationProperties("preparation-flow.ds-provider.mastercard")
+    @ConfigurationProperties("rbkmoney-preparation-flow.scheduler.ds-provider.mastercard")
     public PreparationFlowDsProviderProperties mastercardPreparationFlowProperties() {
         return new PreparationFlowDsProviderProperties();
     }
 
     @Bean
-    @ConfigurationProperties("preparation-flow.ds-provider.mir")
+    @ConfigurationProperties("rbkmoney-preparation-flow.scheduler.ds-provider.mir")
     public PreparationFlowDsProviderProperties mirPreparationFlowProperties() {
         return new PreparationFlowDsProviderProperties();
     }
