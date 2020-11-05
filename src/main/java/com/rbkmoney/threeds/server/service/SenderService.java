@@ -4,7 +4,7 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.Erro;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PGcs;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyGetChallengeResponse;
-import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

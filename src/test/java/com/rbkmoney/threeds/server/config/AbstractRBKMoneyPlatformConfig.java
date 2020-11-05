@@ -5,7 +5,6 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
-import com.rbkmoney.threeds.server.service.schedule.SchedulatorService;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -14,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -36,9 +34,6 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 @TestPropertySource("classpath:application.yml")
 @AutoConfigureMockMvc
 public abstract class AbstractRBKMoneyPlatformConfig {
-
-    @MockBean
-    private SchedulatorService schedulatorService;
 
     @RegisterExtension
     public static ServerExtension serverExtension = new ServerExtension();
@@ -78,8 +73,14 @@ public abstract class AbstractRBKMoneyPlatformConfig {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             super.initialize(configurableApplicationContext);
             TestPropertyValues.of(
-                    "storage.mode=IN_MEMORY",
                     "platform.mode=RBK_MONEY_PLATFORM",
+                    "rbkmoney-preparation-flow.scheduler.enabled=false",
+                    "rbkmoney-preparation-flow.scheduler.ds-provider.mastercard.enabled=false",
+                    "rbkmoney-preparation-flow.scheduler.ds-provider.mastercard.message-version=2.1.0",
+                    "rbkmoney-preparation-flow.scheduler.ds-provider.visa.enabled=false",
+                    "rbkmoney-preparation-flow.scheduler.ds-provider.visa.message-version=2.1.0",
+                    "rbkmoney-preparation-flow.scheduler.ds-provider.mir.enabled=false",
+                    "rbkmoney-preparation-flow.scheduler.ds-provider.mir.message-version=2.1.0",
                     "environment.test.ds-url=http://localhost:" + serverExtension.getServer().port() + "/",
                     "environment.test.three-ds-requestor-url=https://rbk.money/",
                     "environment.test.three-ds-server-url=https://3ds.rbk.money/ds",

@@ -1,4 +1,4 @@
-## @vtlvariable name="cReqData" type="com.rbkmoney.threeds.server.converter.PGcqToPGcsConverter.CReqData"
+## @vtlvariable name="cReqData" type="com.rbkmoney.threeds.server.converter.testplatform.PGcqToPGcsConverter.CReqData"
 <form name="ChallengeForm"
       action="$!cReqData.acsURL"
       method="POST">

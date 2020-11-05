@@ -59,7 +59,6 @@ public abstract class AbstractTestPlatformConfig {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             super.initialize(configurableApplicationContext);
             TestPropertyValues.of(
-                    "storage.mode=IN_MEMORY",
                     "platform.mode=TEST_PLATFORM",
                     "environment.test.ds-url=http://localhost:" + serverExtension.getServer().port() + "/",
                     "environment.test.three-ds-requestor-url=https://rbk.money/",

@@ -1,15 +1,12 @@
 package com.rbkmoney.threeds.server.config.testplatform;
 
-import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
-import com.rbkmoney.threeds.server.converter.PGcqToPGcsConverter;
-import com.rbkmoney.threeds.server.converter.PPrqToPReqConverter;
-import com.rbkmoney.threeds.server.converter.PResToPPrsConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.processor.Processor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 
 import static com.rbkmoney.threeds.server.config.builder.ProcessorBuilder.createProcessorChain;
 
@@ -18,23 +15,37 @@ import static com.rbkmoney.threeds.server.config.builder.ProcessorBuilder.create
 public class ProcessorConfig {
 
     @Bean
+    public Processor<ValidationResult, Message> aResToPArsProcessorChain(
+            Converter<ValidationResult, Message> aResToPArsConverter,
+            Converter<ValidationResult, Message> messageToErrorResConverter) {
+        return createProcessorChain(aResToPArsConverter, messageToErrorResConverter);
+    }
+
+    @Bean
+    public Processor<ValidationResult, Message> pArqToAReqProcessorChain(
+            Converter<ValidationResult, Message> pArqToAReqConverter,
+            Converter<ValidationResult, Message> messageToErrorResConverter) {
+        return createProcessorChain(pArqToAReqConverter, messageToErrorResConverter);
+    }
+
+    @Bean
     public Processor<ValidationResult, Message> pGcqToPGcsProcessorChain(
-            PGcqToPGcsConverter converter,
-            MessageToErrorResConverter errorConverter) {
-        return createProcessorChain(converter, errorConverter);
+            Converter<ValidationResult, Message> pGcqToPGcsConverter,
+            Converter<ValidationResult, Message> messageToErrorResConverter) {
+        return createProcessorChain(pGcqToPGcsConverter, messageToErrorResConverter);
     }
 
     @Bean
     public Processor<ValidationResult, Message> pPrqToPReqProcessorChain(
-            PPrqToPReqConverter converter,
-            MessageToErrorResConverter errorConverter) {
-        return createProcessorChain(converter, errorConverter);
+            Converter<ValidationResult, Message> pPrqToPReqConverter,
+            Converter<ValidationResult, Message> messageToErrorResConverter) {
+        return createProcessorChain(pPrqToPReqConverter, messageToErrorResConverter);
     }
 
     @Bean
     public Processor<ValidationResult, Message> pResToPPrsProcessorChain(
-            PResToPPrsConverter converter,
-            MessageToErrorResConverter errorConverter) {
-        return createProcessorChain(converter, errorConverter);
+            Converter<ValidationResult, Message> pResToPPrsConverter,
+            Converter<ValidationResult, Message> messageToErrorResConverter) {
+        return createProcessorChain(pResToPPrsConverter, messageToErrorResConverter);
     }
 }

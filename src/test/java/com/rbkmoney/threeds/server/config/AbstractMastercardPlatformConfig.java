@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rbkmoney.threeds.server.ThreeDsServerApplication;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.mastercard.utils.FrictionlessFlow;
@@ -43,6 +44,11 @@ public abstract class AbstractMastercardPlatformConfig {
     public static class TestConfig {
 
         @Bean
+        public Gson gson() {
+            return new GsonBuilder().create();
+        }
+
+        @Bean
         public RestTemplate testRestTemplate() {
             return new RestTemplate();
         }
@@ -64,7 +70,6 @@ public abstract class AbstractMastercardPlatformConfig {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             super.initialize(configurableApplicationContext);
             TestPropertyValues.of(
-                    "storage.mode=IN_MEMORY",
                     "platform.mode=TEST_PLATFORM",
                     "environment.test.ds-url=http://localhost:" + serverExtension.getServer().port() + "/",
                     "environment.test.three-ds-requestor-url=https://rbk.money/",

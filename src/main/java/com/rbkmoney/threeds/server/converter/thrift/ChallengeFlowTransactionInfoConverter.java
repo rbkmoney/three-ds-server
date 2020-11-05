@@ -3,11 +3,11 @@ package com.rbkmoney.threeds.server.converter.thrift;
 import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Service
+@Component
 public class ChallengeFlowTransactionInfoConverter {
 
     public ChallengeFlowTransactionInfo toDomain(

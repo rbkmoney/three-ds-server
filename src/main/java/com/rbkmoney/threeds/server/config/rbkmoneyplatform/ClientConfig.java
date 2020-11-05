@@ -3,11 +3,12 @@ package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.config.properties.KeystoreProperties;
-import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
-import com.rbkmoney.threeds.server.ds.client.DsClient;
-import com.rbkmoney.threeds.server.ds.client.impl.RBKMoneyPlatformDsClient;
-import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
-import com.rbkmoney.threeds.server.ds.holder.impl.RBKMoneyPlatformDsProviderHolder;
+import com.rbkmoney.threeds.server.domain.root.Message;
+import com.rbkmoney.threeds.server.ds.DsClient;
+import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsClient;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
+import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import com.rbkmoney.threeds.server.service.LogWrapper;
@@ -16,6 +17,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
@@ -42,7 +44,7 @@ public class ClientConfig {
             EnvironmentProperties visaEnvironmentProperties,
             EnvironmentProperties mastercardEnvironmentProperties,
             EnvironmentProperties mirEnvironmentProperties) {
-        return new RBKMoneyPlatformDsProviderHolder(
+        return new RBKMoneyDsProviderHolder(
                 visaDsClient,
                 mastercardDsClient,
                 mirDsClient,
@@ -55,14 +57,14 @@ public class ClientConfig {
     public DsClient visaDsClient(
             RestTemplate visaRestTemplate,
             EnvironmentProperties visaEnvironmentProperties,
-            MessageToErrorResConverter messageToErrorConverter,
+            Converter<ValidationResult, Message> messageToErrorResConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver,
             LogWrapper logWrapper) {
-        return new RBKMoneyPlatformDsClient(
+        return new RBKMoneyDsClient(
                 visaRestTemplate,
                 visaEnvironmentProperties,
-                messageToErrorConverter,
+                messageToErrorResConverter,
                 errorCodeResolver,
                 errorMessageResolver,
                 logWrapper);
@@ -72,14 +74,14 @@ public class ClientConfig {
     public DsClient mastercardDsClient(
             RestTemplate mastercardRestTemplate,
             EnvironmentProperties mastercardEnvironmentProperties,
-            MessageToErrorResConverter messageToErrorConverter,
+            Converter<ValidationResult, Message> messageToErrorResConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver,
             LogWrapper logWrapper) {
-        return new RBKMoneyPlatformDsClient(
+        return new RBKMoneyDsClient(
                 mastercardRestTemplate,
                 mastercardEnvironmentProperties,
-                messageToErrorConverter,
+                messageToErrorResConverter,
                 errorCodeResolver,
                 errorMessageResolver,
                 logWrapper);
@@ -89,14 +91,14 @@ public class ClientConfig {
     public DsClient mirDsClient(
             RestTemplate mirRestTemplate,
             EnvironmentProperties mirEnvironmentProperties,
-            MessageToErrorResConverter messageToErrorConverter,
+            Converter<ValidationResult, Message> messageToErrorResConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver,
             LogWrapper logWrapper) {
-        return new RBKMoneyPlatformDsClient(
+        return new RBKMoneyDsClient(
                 mirRestTemplate,
                 mirEnvironmentProperties,
-                messageToErrorConverter,
+                messageToErrorResConverter,
                 errorCodeResolver,
                 errorMessageResolver,
                 logWrapper);

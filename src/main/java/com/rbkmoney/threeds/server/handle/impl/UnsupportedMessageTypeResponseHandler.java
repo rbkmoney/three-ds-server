@@ -1,14 +1,14 @@
 package com.rbkmoney.threeds.server.handle.impl;
 
-import com.rbkmoney.threeds.server.converter.MessageToErrorResConverter;
 import com.rbkmoney.threeds.server.domain.error.ErrorCode;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.Erro;
-import com.rbkmoney.threeds.server.ds.holder.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.handle.ResponseHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.converter.Converter;
 
 import static com.rbkmoney.threeds.server.constants.MessageConstants.INVALID_MESSAGE_FOR_THE_RECEIVING_COMPONENT;
 import static com.rbkmoney.threeds.server.constants.MessageConstants.UNSUPPORTED_MESSAGE_TYPE;
@@ -17,7 +17,7 @@ import static com.rbkmoney.threeds.server.constants.MessageConstants.UNSUPPORTED
 @Slf4j
 public class UnsupportedMessageTypeResponseHandler implements ResponseHandler {
 
-    private final MessageToErrorResConverter errorConverter;
+    private final Converter<ValidationResult, Message> messageToErrorResConverter;
     private final DsProviderHolder dsProviderHolder;
 
     @Override
@@ -28,7 +28,7 @@ public class UnsupportedMessageTypeResponseHandler implements ResponseHandler {
     @Override
     public Message handle(Message message) {
         ValidationResult validationResult = failure(message);
-        Message result = errorConverter.convert(validationResult);
+        Message result = messageToErrorResConverter.convert(validationResult);
         dsProviderHolder.getDsClient().notifyDsAboutError((Erro) result);
         return result;
     }

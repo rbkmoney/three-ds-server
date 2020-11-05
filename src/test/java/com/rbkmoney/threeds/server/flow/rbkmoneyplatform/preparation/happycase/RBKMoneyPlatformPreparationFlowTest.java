@@ -1,9 +1,9 @@
 package com.rbkmoney.threeds.server.flow.rbkmoneyplatform.preparation.happycase;
 
+import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
 import com.rbkmoney.threeds.server.config.AbstractRBKMoneyPlatformConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.flow.rbkmoneyplatform.preparation.PreparationFlow;
-import com.rbkmoney.threeds.server.service.CacheService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -25,13 +24,13 @@ public class RBKMoneyPlatformPreparationFlowTest extends AbstractRBKMoneyPlatfor
     private MockMvc mockMvc;
 
     @Autowired
-    private CacheService cacheService;
-
-    @Autowired
     private JsonMapper jsonMapper;
 
     @MockBean
     private IdGenerator idGenerator;
+
+    @MockBean
+    private CardRangesStorageSrv.Iface cardRangesStorageClient;
 
     @Test
     public void preparationFlowDefaultHandleTest() throws Exception {
@@ -39,10 +38,7 @@ public class RBKMoneyPlatformPreparationFlowTest extends AbstractRBKMoneyPlatfor
         String path = "flow/rbkmoneyplatform/preparation/happycase/default-handle/";
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
-
-        // cache is clear
-        assertNull(cacheService.getSerialNum(testCase));
-        assertTrue(cacheService.isInCardRange(testCase, "7654320500000001"));
+        when(cardRangesStorageClient.isStorageEmpty(anyString())).thenReturn(true);
 
         PreparationFlow preparationFlow = new PreparationFlow(jsonMapper, path);
 

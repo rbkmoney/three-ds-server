@@ -4,7 +4,7 @@ import com.rbkmoney.threeds.server.config.AbstractTestPlatformConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.flow.testplatform.challenge.ChallengeFlow;
-import com.rbkmoney.threeds.server.service.CacheService;
+import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -33,7 +32,7 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
     private IdGenerator idGenerator;
 
     @MockBean
-    private CacheService cacheService;
+    private ChallengeFlowTransactionInfoStorageService transactionInfoStorageService;
 
     @Test
     public void challengeFlowWithCardholderSelectedCancelTest() throws Exception {
@@ -44,9 +43,8 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
                 .build();
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
-        when(cacheService.isInCardRange(anyString(), anyString())).thenReturn(true);
-        doNothing().when(cacheService).saveChallengeFlowTransactionInfo(testCase, transactionInfo);
-        when(cacheService.getChallengeFlowTransactionInfo(eq(testCase))).thenReturn(transactionInfo);
+        doNothing().when(transactionInfoStorageService).saveChallengeFlowTransactionInfo(testCase, transactionInfo);
+        when(transactionInfoStorageService.getChallengeFlowTransactionInfo(eq(testCase))).thenReturn(transactionInfo);
 
         ChallengeFlow challengeFlow = new ChallengeFlow(jsonMapper, path);
 
@@ -88,7 +86,7 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
                 .build();
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
-        when(cacheService.getChallengeFlowTransactionInfo(eq(testCase)))
+        when(transactionInfoStorageService.getChallengeFlowTransactionInfo(eq(testCase)))
                 .thenReturn(transactionInfo);
 
         ChallengeFlow challengeFlow = new ChallengeFlow(jsonMapper, path);
