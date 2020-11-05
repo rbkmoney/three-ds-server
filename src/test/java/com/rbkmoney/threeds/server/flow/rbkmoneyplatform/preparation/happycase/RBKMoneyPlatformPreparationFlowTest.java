@@ -38,7 +38,7 @@ public class RBKMoneyPlatformPreparationFlowTest extends AbstractRBKMoneyPlatfor
         String path = "flow/rbkmoneyplatform/preparation/happycase/default-handle/";
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
-        when(cardRangesStorageClient.storageIsEmpty(anyString())).thenReturn(true);
+        when(cardRangesStorageClient.isStorageEmpty(anyString())).thenReturn(true);
 
         PreparationFlow preparationFlow = new PreparationFlow(jsonMapper, path);
 

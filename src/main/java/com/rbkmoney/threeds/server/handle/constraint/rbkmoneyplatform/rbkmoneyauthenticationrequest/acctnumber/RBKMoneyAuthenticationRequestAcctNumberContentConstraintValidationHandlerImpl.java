@@ -34,7 +34,7 @@ public class RBKMoneyAuthenticationRequestAcctNumberContentConstraintValidationH
         }
 
         String tag = dsProviderHolder.getTag(o).orElseThrow();
-        if (!cardRangesStorageService.anyMatchAcctNumber(tag, acctNumber)) {
+        if (!cardRangesStorageService.isInCardRange(tag, acctNumber)) {
             return ConstraintValidationResult.failure(OUT_OF_CARD_RANGE, "acctNumber");
         }
 

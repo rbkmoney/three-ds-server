@@ -28,8 +28,8 @@
         <woody-thrift.vers>1.1.22</woody-thrift.vers>
         <shared.resources.version>0.3.8</shared.resources.version>
         <elon.version>1.0.8</elon.version>
-        <three-ds-server-domain-lib.version>1.1.0</three-ds-server-domain-lib.version>
-        <three-ds-server-storage-proto.version>1.14-4be6f19</three-ds-server-storage-proto.version>
+        <three-ds-server-domain-lib.version>1.1.2</three-ds-server-domain-lib.version>
+        <three-ds-server-storage-proto.version>1.15-ecb440a</three-ds-server-storage-proto.version>
         <schedulator-proto.version>1.11-efc08c2</schedulator-proto.version>
         <custom-actuator-endpoints.version>0.0.3</custom-actuator-endpoints.version>
     </properties>

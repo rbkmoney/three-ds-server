@@ -58,7 +58,7 @@ public class TestPlatformCardRangesStorageService implements CardRangesStorageSe
     }
 
     @Override
-    public boolean anyMatchAcctNumber(String ulTestCaseId, String acctNumber) {
+    public boolean isInCardRange(String ulTestCaseId, String acctNumber) {
         Set<CardRange> storageCardRanges = getStorageCardRanges(ulTestCaseId);
 
         if (storageCardRanges.isEmpty()) {

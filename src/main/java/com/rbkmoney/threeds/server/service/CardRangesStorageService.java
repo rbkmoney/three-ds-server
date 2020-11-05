@@ -8,6 +8,6 @@ public interface CardRangesStorageService {
 
     boolean isValidCardRanges(String tag, List<CardRange> cardRanges);
 
-    boolean anyMatchAcctNumber(String tag, String acctNumber);
+    boolean isInCardRange(String tag, String acctNumber);
 
 }

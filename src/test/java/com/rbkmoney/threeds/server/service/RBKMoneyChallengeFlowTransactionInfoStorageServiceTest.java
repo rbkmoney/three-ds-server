@@ -1,47 +1,38 @@
 package com.rbkmoney.threeds.server.service;
 
-import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
 import com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfoStorageSrv;
-import com.rbkmoney.damsel.three_ds_server_storage.GetCardRangesResponse;
-import com.rbkmoney.threeds.server.converter.thrift.CardRangesConverter;
 import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfoConverter;
 import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
-import com.rbkmoney.threeds.server.service.cache.ThreeDsServerStorageCacheService;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyChallengeFlowTransactionInfoStorageService;
 import org.apache.thrift.TException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
-public class ThreeDsServerStorageCacheServiceTest {
+public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
 
-    private static final String TEST_TAG = "TEST_TAG";
+    private static final String TEST_TAG = UUID.randomUUID().toString();
 
-    private CardRangesStorageSrv.Iface cardRangesStorageClient;
     private ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient;
+    private ChallengeFlowTransactionInfoStorageService transactionInfoStorageService;
 
-    private CacheService cacheService;
-
-    @Before
+    @BeforeEach
     public void setUp() {
         challengeFlowTransactionInfoStorageClient = mock(ChallengeFlowTransactionInfoStorageSrv.Iface.class);
-        cardRangesStorageClient = mock(CardRangesStorageSrv.Iface.class);
-        cacheService = new ThreeDsServerStorageCacheService(
+        transactionInfoStorageService = new RBKMoneyChallengeFlowTransactionInfoStorageService(
                 challengeFlowTransactionInfoStorageClient,
                 new ChallengeFlowTransactionInfoConverter(),
-                100L,
-                cardRangesStorageClient,
-                new CardRangesConverter(),
-                1L);
+                100
+        );
     }
 
     @Test
@@ -61,8 +52,8 @@ public class ThreeDsServerStorageCacheServiceTest {
                 ArgumentCaptor.forClass(com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo.class);
 
         // When
-        cacheService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
-        ChallengeFlowTransactionInfo result = cacheService.getChallengeFlowTransactionInfo(TEST_TAG);
+        transactionInfoStorageService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
+        ChallengeFlowTransactionInfo result = transactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
 
         // Then
         assertThat(result).isEqualTo(transactionInfo);
@@ -96,7 +87,7 @@ public class ThreeDsServerStorageCacheServiceTest {
                 .thenReturn(stored);
 
         // When
-        ChallengeFlowTransactionInfo result = cacheService.getChallengeFlowTransactionInfo(TEST_TAG);
+        ChallengeFlowTransactionInfo result = transactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
 
         // Then
         verify(challengeFlowTransactionInfoStorageClient, only())
@@ -109,18 +100,4 @@ public class ThreeDsServerStorageCacheServiceTest {
                 .isEqualTo(DeviceChannel.APP_BASED);
     }
 
-    @Test
-    public void shouldReturnFalseIfBothCachedAndStoredCardRangesAreEmpty() throws TException {
-        // Given
-        String acctNumber = "0000";
-
-        when(cardRangesStorageClient.getCardRanges(any()))
-                .thenReturn(new GetCardRangesResponse().setCardRanges(emptyList()));
-
-        // When
-        boolean isInCardRange = cacheService.isInCardRange(TEST_TAG, acctNumber);
-
-        // Then
-        assertFalse(isInCardRange);
-    }
 }

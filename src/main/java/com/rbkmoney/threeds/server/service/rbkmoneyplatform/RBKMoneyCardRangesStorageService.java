@@ -37,13 +37,12 @@ public class RBKMoneyCardRangesStorageService implements CardRangesStorageServic
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }
-
     }
 
     @Override
-    public boolean anyMatchAcctNumber(String dsProviderId, String acctNumber) {
+    public boolean isInCardRange(String dsProviderId, String acctNumber) {
         try {
-            return cardRangesStorageClient.anyMatchAcctNumber(dsProviderId, Long.parseLong(acctNumber));
+            return cardRangesStorageClient.isInCardRange(dsProviderId, Long.parseLong(acctNumber));
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }
@@ -51,7 +50,7 @@ public class RBKMoneyCardRangesStorageService implements CardRangesStorageServic
 
     private boolean storageIsEmpty(String dsProviderId) {
         try {
-            return cardRangesStorageClient.storageIsEmpty(dsProviderId);
+            return cardRangesStorageClient.isStorageEmpty(dsProviderId);
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }

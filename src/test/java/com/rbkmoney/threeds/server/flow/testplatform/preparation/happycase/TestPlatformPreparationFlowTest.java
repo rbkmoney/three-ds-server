@@ -45,7 +45,7 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
 
         // cache is clear
         assertNull(serialNumStorageService.getSerialNum(testCase));
-        assertTrue(cardRangesStorageService.anyMatchAcctNumber(testCase, "7654320500000001"));
+        assertTrue(cardRangesStorageService.isInCardRange(testCase, "7654320500000001"));
 
         PreparationFlow preparationFlow = new PreparationFlow(jsonMapper, path);
 
@@ -66,7 +66,7 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
 
         // now cache is filled, but pan is not in card ranges
         assertEquals("20190411083623719000", serialNumStorageService.getSerialNum(testCase));
-        assertFalse(cardRangesStorageService.anyMatchAcctNumber(testCase, "7654320500000001"));
+        assertFalse(cardRangesStorageService.isInCardRange(testCase, "7654320500000001"));
 
         // second stub
         preparationFlow.givenSecondDsStub(testCase);
@@ -80,6 +80,6 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
 
         // after update, pan is in card ranges
         assertEquals("20190411083625236000", serialNumStorageService.getSerialNum(testCase));
-        assertTrue(cardRangesStorageService.anyMatchAcctNumber(testCase, "7654320500000001"));
+        assertTrue(cardRangesStorageService.isInCardRange(testCase, "7654320500000001"));
     }
 }

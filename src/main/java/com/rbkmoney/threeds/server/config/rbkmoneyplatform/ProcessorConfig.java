@@ -29,23 +29,23 @@ public class ProcessorConfig {
     }
 
     @Bean
-    public Processor<ValidationResult, Message> rBKMoneyAuthenticationRequestToAReqProcessorChain(
-            Converter<ValidationResult, Message> rBKMoneyAuthenticationRequestToAReqConverter,
+    public Processor<ValidationResult, Message> rbkMoneyAuthenticationRequestToAReqProcessorChain(
+            Converter<ValidationResult, Message> rbkMoneyAuthenticationRequestToAReqConverter,
             Converter<ValidationResult, Message> messageToErrorResConverter) {
-        return createProcessorChain(rBKMoneyAuthenticationRequestToAReqConverter, messageToErrorResConverter);
+        return createProcessorChain(rbkMoneyAuthenticationRequestToAReqConverter, messageToErrorResConverter);
     }
 
     @Bean
     public Processor<ValidationResult, Message> rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseProcessorChain(
-            Converter<ValidationResult, Message> rBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter,
+            Converter<ValidationResult, Message> rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter,
             Converter<ValidationResult, Message> messageToErrorResConverter) {
-        return createProcessorChain(rBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter, messageToErrorResConverter);
+        return createProcessorChain(rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter, messageToErrorResConverter);
     }
 
     @Bean
     public Processor<ValidationResult, Message> rbkMoneyPreparationRequestToPReqProcessorChain(
-            Converter<ValidationResult, Message> rBKMoneyPreparationRequestToPReqConverter,
+            Converter<ValidationResult, Message> rbkMoneyPreparationRequestToPReqConverter,
             Converter<ValidationResult, Message> messageToErrorResConverter) {
-        return createProcessorChain(rBKMoneyPreparationRequestToPReqConverter, messageToErrorResConverter);
+        return createProcessorChain(rbkMoneyPreparationRequestToPReqConverter, messageToErrorResConverter);
     }
 }

@@ -23,15 +23,15 @@ import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRe
 public class RequestHandlerConfig {
 
     @Bean
-    public RequestHandler rBKMoneyAuthenticationRequestToAReqHandler(
+    public RequestHandler rbkMoneyAuthenticationRequestToAReqHandler(
             DsProviderHolder dsProviderHolder,
-            RBKMoneyAuthenticationRequestDsProviderRouter rBKMoneyAuthenticationRequestDsProviderRouter,
-            Processor<ValidationResult, Message> rBKMoneyAuthenticationRequestToAReqProcessorChain,
+            RBKMoneyAuthenticationRequestDsProviderRouter rbkMoneyAuthenticationRequestDsProviderRouter,
+            Processor<ValidationResult, Message> rbkMoneyAuthenticationRequestToAReqProcessorChain,
             MessageValidatorService messageValidatorService) {
         return createRequestHandlerWithRouting(
                 dsProviderHolder,
-                rBKMoneyAuthenticationRequestDsProviderRouter,
-                rBKMoneyAuthenticationRequestToAReqProcessorChain,
+                rbkMoneyAuthenticationRequestDsProviderRouter,
+                rbkMoneyAuthenticationRequestToAReqProcessorChain,
                 messageValidatorService,
                 message -> message instanceof RBKMoneyAuthenticationRequest);
     }

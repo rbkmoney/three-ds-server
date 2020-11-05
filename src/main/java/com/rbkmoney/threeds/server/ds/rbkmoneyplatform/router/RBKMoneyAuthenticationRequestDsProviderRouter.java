@@ -24,7 +24,7 @@ public class RBKMoneyAuthenticationRequestDsProviderRouter implements DsProvider
         String acctNumber = request.getAcctNumber();
 
         return stream(DsProvider.values())
-                .filter(provider -> cardRangesStorageService.anyMatchAcctNumber(provider.getId(), acctNumber))
+                .filter(provider -> cardRangesStorageService.isInCardRange(provider.getId(), acctNumber))
                 .findFirst()
                 .orElseThrow(() -> new DirectoryServerRoutingException("Unable to route request message with id=" + request.getThreeDSServerTransID()));
     }

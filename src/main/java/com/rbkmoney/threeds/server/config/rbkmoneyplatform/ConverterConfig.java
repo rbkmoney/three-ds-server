@@ -32,19 +32,19 @@ public class ConverterConfig {
     }
 
     @Bean
-    public Converter<ValidationResult, Message> rBKMoneyAuthenticationRequestToAReqConverter(
+    public Converter<ValidationResult, Message> rbkMoneyAuthenticationRequestToAReqConverter(
             DsProviderHolder dsProviderHolder,
             IdGenerator idGenerator) {
         return new RBKMoneyAuthenticationRequestToAReqConverter(dsProviderHolder, idGenerator);
     }
 
     @Bean
-    public Converter<ValidationResult, Message> rBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter(CReqEncoder cReqEncoder) {
+    public Converter<ValidationResult, Message> rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter(CReqEncoder cReqEncoder) {
         return new RBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter(cReqEncoder);
     }
 
     @Bean
-    public Converter<ValidationResult, Message> rBKMoneyPreparationRequestToPReqConverter(
+    public Converter<ValidationResult, Message> rbkMoneyPreparationRequestToPReqConverter(
             DsProviderHolder dsProviderHolder,
             IdGenerator idGenerator) {
         return new RBKMoneyPreparationRequestToPReqConverter(dsProviderHolder, idGenerator);
