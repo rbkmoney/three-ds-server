@@ -49,7 +49,7 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
         for (CardRange cardRange : cardRangeData) {
             long startRange = parseLong(cardRange.getStartRange());
             long endRange = parseLong(cardRange.getEndRange());
-            if (!(startRange <= endRange)) {
+            if (startRange > endRange) {
                 return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
             }
 
