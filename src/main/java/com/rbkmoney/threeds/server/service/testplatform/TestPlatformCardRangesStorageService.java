@@ -65,7 +65,7 @@ public class TestPlatformCardRangesStorageService implements CardRangesStorageSe
             return true;
         }
 
-        return anyMatchAcctNumber(storageCardRanges, parseLong(acctNumber));
+        return isInCardRange(storageCardRanges, parseLong(acctNumber));
     }
 
     private Set<CardRange> getStorageCardRanges(String ulTestCaseId) {
@@ -93,7 +93,7 @@ public class TestPlatformCardRangesStorageService implements CardRangesStorageSe
         }
     }
 
-    private boolean anyMatchAcctNumber(Set<CardRange> storageCardRanges, Long acctNumber) {
+    private boolean isInCardRange(Set<CardRange> storageCardRanges, Long acctNumber) {
         return storageCardRanges.stream()
                 .anyMatch(
                         cardRange -> parseLong(cardRange.getStartRange()) <= acctNumber
@@ -103,8 +103,8 @@ public class TestPlatformCardRangesStorageService implements CardRangesStorageSe
     private boolean isValidForAddCardRange(Set<CardRange> storageCardRanges, long startRange, long endRange) {
         return storageCardRanges.stream()
                 .allMatch(
-                        cardRange -> isFromTheLeftSide(startRange, endRange, cardRange)
-                                || isFromTheRightSide(startRange, endRange, cardRange));
+                        cardRange -> endRange < parseLong(cardRange.getStartRange())
+                                || parseLong(cardRange.getEndRange()) < startRange);
     }
 
     private boolean isValidForModifyOrDeleteCardRange(Set<CardRange> storageCardRanges, long startRange, long endRange) {
@@ -112,13 +112,5 @@ public class TestPlatformCardRangesStorageService implements CardRangesStorageSe
                 .anyMatch(
                         cardRange -> parseLong(cardRange.getStartRange()) == startRange
                                 && parseLong(cardRange.getEndRange()) == endRange);
-    }
-
-    private boolean isFromTheLeftSide(long startRange, long endRange, CardRange cardRange) {
-        return startRange < endRange && endRange < parseLong(cardRange.getStartRange());
-    }
-
-    private boolean isFromTheRightSide(long startRange, long endRange, CardRange cardRange) {
-        return parseLong(cardRange.getEndRange()) < startRange && startRange < endRange;
     }
 }
