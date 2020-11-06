@@ -17,6 +17,7 @@ import java.util.Set;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 import static com.rbkmoney.threeds.server.utils.Collections.safeList;
+import static java.lang.Long.parseLong;
 
 @Component
 @RequiredArgsConstructor
@@ -46,6 +47,12 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
         }
 
         for (CardRange cardRange : cardRangeData) {
+            long startRange = parseLong(cardRange.getStartRange());
+            long endRange = parseLong(cardRange.getEndRange());
+            if (!(startRange <= endRange)) {
+                return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
+            }
+
             Set<ConstraintViolation<CardRange>> cardRangeErrors = validator.validate(cardRange);
             if (!cardRangeErrors.isEmpty()) {
                 o.setHandleRepetitionNeeded(true);
