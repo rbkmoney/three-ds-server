@@ -29,11 +29,16 @@ public class TestPlatformDsProviderHolder implements DsProviderHolder {
     }
 
     @Override
+    public Optional<String> getTag(Message message) {
+        return Optional.ofNullable(message).map(Message::getUlTestCaseId);
+    }
+
+    @Override
     public void setDsProvider(DsProvider dsProvider) {
     }
 
     @Override
-    public Optional<String> getTag(Message message) {
-        return Optional.ofNullable(message).map(Message::getUlTestCaseId);
+    public Optional<String> getDsProvider() {
+        return Optional.empty();
     }
 }

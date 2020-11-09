@@ -4,7 +4,6 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyAuthenticationRequest;
 import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.ds.DsProviderRouter;
-import com.rbkmoney.threeds.server.exeption.DirectoryServerRoutingException;
 import com.rbkmoney.threeds.server.service.CardRangesStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,10 @@ public class RBKMoneyAuthenticationRequestDsProviderRouter implements DsProvider
 
         String acctNumber = request.getAcctNumber();
 
+        // todo isInCardRange(acctNumber)
         return stream(DsProvider.values())
                 .filter(provider -> cardRangesStorageService.isInCardRange(provider.getId(), acctNumber))
                 .findFirst()
-                .orElseThrow(() -> new DirectoryServerRoutingException("Unable to route request message with id=" + request.getThreeDSServerTransID()));
+                .orElse(null);
     }
 }

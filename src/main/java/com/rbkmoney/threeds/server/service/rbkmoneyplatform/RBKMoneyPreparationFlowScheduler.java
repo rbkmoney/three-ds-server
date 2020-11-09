@@ -2,7 +2,6 @@ package com.rbkmoney.threeds.server.service.rbkmoneyplatform;
 
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowDsProviderProperties;
 import com.rbkmoney.threeds.server.ds.DsProvider;
-import com.rbkmoney.threeds.server.service.SchedulatorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;

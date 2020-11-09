@@ -14,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.rbkmoney.threeds.server.utils.MessageUtils.empty;
-
 @RequiredArgsConstructor
 @Slf4j
 public class RBKMoneyLogWrapper implements LogWrapper {
@@ -27,14 +25,14 @@ public class RBKMoneyLogWrapper implements LogWrapper {
     @Override
     @SneakyThrows
     public void info(String message, Message data) {
-        String dsProviderId = dsProviderHolder.getTag(data).orElse(null);
+        String dsProviderId = dsProviderHolder.getDsProvider().orElse(null);
 
         // записываются чистым json только те сообщения в лог, которые связаны с запросами из/в DS
         if (data instanceof PReq || data instanceof AReq || data instanceof RReq) {
             String json = objectMapper.writeValueAsString(data);
 
             JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-            // удаляется часть персональных данных, которые могут потенциально связаться в определение персональных данных,
+            // удаляется часть логируемых параметров, которые могут потенциально связаться в определение персональных данных,
             // но которые, при этом не сильно будут нужны и нам и платежным системам (при их запросе)
             jsonObject.remove("shipAddrCity");
             jsonObject.remove("shipAddrCountry");
@@ -52,7 +50,7 @@ public class RBKMoneyLogWrapper implements LogWrapper {
 
             log(message, dsProviderId, json);
         } else if (data instanceof PRes) {
-            log(message, dsProviderId, data.toString() + ", cardRangeData size=" + ((PRes) data).getCardRangeData().size());
+            log(message, dsProviderId, data.toString() + ", cardRanges=" + ((PRes) data).getCardRangeData().size());
         } else {
             log(message, dsProviderId, data.toString());
         }
@@ -60,7 +58,7 @@ public class RBKMoneyLogWrapper implements LogWrapper {
 
     @Override
     public void warn(String message, Throwable ex) {
-        String dsProviderId = dsProviderHolder.getTag(empty()).orElse(null);
+        String dsProviderId = dsProviderHolder.getDsProvider().orElse(null);
         if (dsProviderId != null) {
             log.warn(String.format("%s: dsProviderId=%s", message, dsProviderId), ex);
         } else {
@@ -70,9 +68,9 @@ public class RBKMoneyLogWrapper implements LogWrapper {
 
     private void log(String message, String dsProviderId, String data) {
         if (dsProviderId != null) {
-            log.info(String.format("%s: dsProviderId=%s, \n%s", message, dsProviderId, data));
+            log.info("{}: dsProviderId={}, {}", message, dsProviderId, data);
         } else {
-            log.info(String.format("%s: \n%s", message, data));
+            log.info("{}: {}", message, data);
         }
     }
 }

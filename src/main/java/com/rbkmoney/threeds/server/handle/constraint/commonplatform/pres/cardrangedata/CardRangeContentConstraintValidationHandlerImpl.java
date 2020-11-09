@@ -41,6 +41,7 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
 //        }
 
         List<CardRange> cardRangeData = safeList(o.getCardRangeData());
+        // todo rm (storage)
         if (cardRangeData.isEmpty()) {
             o.setHandleRepetitionNeeded(true);
             return ConstraintValidationResult.failure(PATTERN, "cardRangeData");

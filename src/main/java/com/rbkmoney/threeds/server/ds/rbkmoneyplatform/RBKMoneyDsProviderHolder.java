@@ -56,14 +56,17 @@ public class RBKMoneyDsProviderHolder implements DsProviderHolder {
     }
 
     @Override
+    public Optional<String> getTag(Message message) {
+        return getDsProvider();
+    }
+
     public void setDsProvider(DsProvider dsProvider) {
         log.debug("Set dsProvider={}", dsProvider);
 
         this.dsProvider = dsProvider;
     }
 
-    @Override
-    public Optional<String> getTag(Message message) {
+    public Optional<String> getDsProvider() {
         return Optional.ofNullable(dsProvider).map(DsProvider::getId);
     }
 }

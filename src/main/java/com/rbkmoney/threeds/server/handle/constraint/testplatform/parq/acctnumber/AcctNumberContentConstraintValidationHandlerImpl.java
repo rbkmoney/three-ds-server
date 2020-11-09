@@ -1,7 +1,6 @@
 package com.rbkmoney.threeds.server.handle.constraint.testplatform.parq.acctnumber;
 
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.commonplatform.utils.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.testplatform.parq.PArqConstraintValidationHandler;
@@ -15,7 +14,6 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.OUT_OF_CARD_RANGE;
 @RequiredArgsConstructor
 public class AcctNumberContentConstraintValidationHandlerImpl implements PArqConstraintValidationHandler {
 
-    private final DsProviderHolder dsProviderHolder;
     private final StringValidator stringValidator;
     private final CardRangesStorageService cardRangesStorageService;
 
@@ -33,8 +31,8 @@ public class AcctNumberContentConstraintValidationHandlerImpl implements PArqCon
             return validationResult;
         }
 
-        String tag = dsProviderHolder.getTag(o).orElseThrow();
-        if (!cardRangesStorageService.isInCardRange(tag, acctNumber)) {
+        String ulTestCaseId = o.getUlTestCaseId();
+        if (!cardRangesStorageService.isInCardRange(ulTestCaseId, acctNumber)) {
             return ConstraintValidationResult.failure(OUT_OF_CARD_RANGE, "acctNumber");
         }
 

@@ -105,7 +105,7 @@ public class AResToRBKMoneyAuthenticationResponseConverter implements Converter<
                 .deviceChannel(aReq.getDeviceChannel())
                 .decoupledAuthMaxTime(aReq.getDecoupledAuthMaxTime())
                 .acsDecConInd(getValue(aRes.getAcsDecConInd()))
-                .dsProviderId(dsProviderHolder.getTag(aRes).orElseThrow())
+                .dsProviderId(dsProviderHolder.getDsProvider().orElseThrow())
                 .messageVersion(aRes.getMessageVersion())
                 .acsUrl(aRes.getAcsURL())
                 .build();

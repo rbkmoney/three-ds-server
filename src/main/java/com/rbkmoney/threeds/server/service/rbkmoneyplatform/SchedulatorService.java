@@ -1,4 +1,4 @@
-package com.rbkmoney.threeds.server.service;
+package com.rbkmoney.threeds.server.service.rbkmoneyplatform;
 
 import com.rbkmoney.damsel.domain.BusinessScheduleRef;
 import com.rbkmoney.damsel.domain.CalendarRef;

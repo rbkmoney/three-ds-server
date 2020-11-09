@@ -7,6 +7,7 @@ import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.service.CardRangesStorageService;
 import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
+import com.rbkmoney.threeds.server.service.testplatform.TestPlatformCardRangesStorageService;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformSerialNumStorageService;
 import com.rbkmoney.threeds.server.utils.CReqEncoder;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
@@ -55,6 +56,6 @@ public class ConverterConfig {
             EnvironmentMessageProperties messageProperties,
             TestPlatformSerialNumStorageService serialNumStorageService,
             CardRangesStorageService cardRangesStorageService) {
-        return new PResToPPrsConverter(messageProperties, serialNumStorageService, cardRangesStorageService);
+        return new PResToPPrsConverter(messageProperties, serialNumStorageService, (TestPlatformCardRangesStorageService) cardRangesStorageService);
     }
 }

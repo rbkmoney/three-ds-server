@@ -117,7 +117,6 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .deviceChannel(aReq.getDeviceChannel())
                 .decoupledAuthMaxTime(aReq.getDecoupledAuthMaxTime())
                 .acsDecConInd(getValue(aRes.getAcsDecConInd()))
-                .dsProviderId(dsProviderHolder.getTag(aRes).orElseThrow())
                 .messageVersion(aRes.getMessageVersion())
                 .acsUrl(aRes.getAcsURL())
                 .build();
