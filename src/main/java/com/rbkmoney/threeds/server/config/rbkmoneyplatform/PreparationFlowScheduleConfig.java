@@ -5,8 +5,8 @@ import com.rbkmoney.damsel.three_ds_server_storage.InitRBKMoneyPreparationFlowRe
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowDsProviderProperties;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
 import com.rbkmoney.threeds.server.serializer.ThriftSerializer;
-import com.rbkmoney.threeds.server.service.SchedulatorService;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyPreparationFlowScheduler;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.SchedulatorService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
