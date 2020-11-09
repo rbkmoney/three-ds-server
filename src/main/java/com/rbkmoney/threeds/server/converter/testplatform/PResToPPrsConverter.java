@@ -10,7 +10,6 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrs;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.service.CardRangesStorageService;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformCardRangesStorageService;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformSerialNumStorageService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
 
     private final EnvironmentMessageProperties messageProperties;
     private final TestPlatformSerialNumStorageService serialNumStorageService;
-    private final CardRangesStorageService cardRangesStorageService;
+    private final TestPlatformCardRangesStorageService cardRangesStorageService;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -42,9 +41,7 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
 
         if (pRes.getSerialNum() != null) {
             serialNumStorageService.saveSerialNum(pRes.getUlTestCaseId(), pRes.getSerialNum());
-            if (cardRangesStorageService instanceof TestPlatformCardRangesStorageService) {
-                ((TestPlatformCardRangesStorageService) cardRangesStorageService).updateCardRanges(pRes.getUlTestCaseId(), cardRangeData);
-            }
+            cardRangesStorageService.updateCardRanges(pRes.getUlTestCaseId(), cardRangeData);
         }
 
         PPrs pPrs = PPrs.builder()

@@ -11,8 +11,11 @@ public interface DsProviderHolder {
 
     EnvironmentProperties getEnvironmentProperties();
 
-    void setDsProvider(DsProvider provider);
-
     Optional<String> getTag(Message message);
+
+    void setDsProvider(DsProvider dsProvider);
+
+    // todo rm (requestScope)
+    Optional<String> getDsProvider();
 
 }

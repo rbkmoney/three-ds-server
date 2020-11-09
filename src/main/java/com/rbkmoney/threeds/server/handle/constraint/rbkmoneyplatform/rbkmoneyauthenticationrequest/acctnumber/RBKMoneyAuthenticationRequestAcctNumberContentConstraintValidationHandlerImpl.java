@@ -9,6 +9,8 @@ import com.rbkmoney.threeds.server.service.CardRangesStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 import static com.rbkmoney.threeds.server.dto.ConstraintType.OUT_OF_CARD_RANGE;
 
 @Component
@@ -33,8 +35,8 @@ public class RBKMoneyAuthenticationRequestAcctNumberContentConstraintValidationH
             return validationResult;
         }
 
-        String tag = dsProviderHolder.getTag(o).orElseThrow();
-        if (!cardRangesStorageService.isInCardRange(tag, acctNumber)) {
+        Optional<String> dsProvider = dsProviderHolder.getDsProvider();
+        if (dsProvider.isEmpty()) {
             return ConstraintValidationResult.failure(OUT_OF_CARD_RANGE, "acctNumber");
         }
 
