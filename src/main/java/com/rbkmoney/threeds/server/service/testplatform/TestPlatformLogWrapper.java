@@ -20,9 +20,9 @@ public class TestPlatformLogWrapper implements LogWrapper {
         String jsonData = objectMapper.writeValueAsString(data);
 
         if (data instanceof PRes) {
-            log.info(String.format("%s: \n%s", message, data.toString() + ", cardRangeData size=" + ((PRes) data).getCardRangeData().size()));
+            log.info("{}: {}", message, data.toString());
         } else {
-            log.info(String.format("%s: \n%s", message, jsonData));
+            log.info("{}: {}", message, jsonData);
         }
     }
 
@@ -31,3 +31,4 @@ public class TestPlatformLogWrapper implements LogWrapper {
         log.warn(message, ex);
     }
 }
+
