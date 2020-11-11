@@ -12,6 +12,10 @@ import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import com.rbkmoney.threeds.server.service.LogWrapper;
+import org.springframework.boot.actuate.trace.http.HttpExchangeTracer;
+import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
+import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
+import org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +25,9 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 import static com.rbkmoney.threeds.server.config.builder.RestTemplateBuilder.restTemplate;
 
@@ -33,6 +40,23 @@ public class ClientConfig {
     public ObjectMapper objectMapper() {
         return new ObjectMapper()
                 .findAndRegisterModules();
+    }
+
+    @Bean
+    public HttpTraceRepository httpTraceRepository() {
+        InMemoryHttpTraceRepository traceRepository = new InMemoryHttpTraceRepository();
+        traceRepository.setCapacity(1);
+        return traceRepository;
+    }
+
+    @Bean
+    public HttpTraceFilter httpTraceFilter(HttpTraceRepository repository, HttpExchangeTracer tracer) {
+        return new HttpTraceFilter(repository, tracer) {
+            @Override
+            protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+                return request.getServletPath().contains("actuator");
+            }
+        };
     }
 
     @Bean

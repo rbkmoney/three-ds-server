@@ -7,6 +7,10 @@ spring:
       enabled: always
 
 management:
+  endpoints:
+    web:
+      exposure:
+        include: httptrace,health,info,metrics
   endpoint:
     health:
       show-details: always
