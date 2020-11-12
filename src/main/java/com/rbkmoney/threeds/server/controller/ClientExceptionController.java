@@ -16,8 +16,10 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.util.WebUtils;
 
 import java.util.Set;
 
@@ -35,8 +37,6 @@ public class ClientExceptionController extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
-        log.warn("Request not readable", ex);
-
         Message message = getMessage(errorCodeResolver.resolve(ex));
 
         return handleExceptionInternal(ex, message, headers, status, request);
@@ -47,8 +47,6 @@ public class ClientExceptionController extends ResponseEntityExceptionHandler {
                                                                          HttpHeaders headers,
                                                                          HttpStatus status,
                                                                          WebRequest request) {
-        log.warn("Request method not supported", ex);
-
         Message message = getMessage(errorCodeResolver.resolve(ex));
 
         Set<HttpMethod> supportedMethods = ex.getSupportedHttpMethods();
@@ -57,6 +55,25 @@ public class ClientExceptionController extends ResponseEntityExceptionHandler {
         }
 
         return handleExceptionInternal(ex, message, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        log.warn(
+                String.format("Some ServletException level error with handle servlet request, " +
+                        "request=%s, response headers=%s, response status=%s", request.toString(), headers.toString(), status.toString()),
+                ex);
+        return super.handleExceptionInternal(ex, body, headers, status, request);
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<Object> handleInternalException(Throwable ex, WebRequest request) {
+        log.error(
+                String.format("Some internal error with handle servlet request, " +
+                        "request=%s, handler will return INTERNAL_SERVER_ERROR", request.toString()),
+                ex);
+        request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, WebRequest.SCOPE_REQUEST);
+        return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private Message getMessage(ErrorCode errorCode) {
