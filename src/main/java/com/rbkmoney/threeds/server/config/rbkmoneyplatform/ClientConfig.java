@@ -65,7 +65,8 @@ public class ClientConfig {
         return new HttpTraceFilter(repository, tracer) {
             @Override
             protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-                return request.getServletPath().contains("actuator");
+                return request.getServletPath().contains("actuator")
+                        || request.getServletPath().contains("favicon");
             }
         };
     }
