@@ -25,6 +25,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,9 +44,19 @@ public class ClientConfig {
     }
 
     @Bean
+    public CommonsRequestLoggingFilter requestLoggingFilter() {
+        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
+        loggingFilter.setIncludeClientInfo(true);
+        loggingFilter.setIncludeHeaders(true);
+        loggingFilter.setIncludeQueryString(true);
+        loggingFilter.setIncludePayload(false);
+        return loggingFilter;
+    }
+
+    @Bean
     public HttpTraceRepository httpTraceRepository() {
         InMemoryHttpTraceRepository traceRepository = new InMemoryHttpTraceRepository();
-        traceRepository.setCapacity(1);
+        traceRepository.setCapacity(5);
         return traceRepository;
     }
 
