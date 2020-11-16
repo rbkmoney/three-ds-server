@@ -18,8 +18,8 @@ import org.springframework.core.convert.converter.Converter;
 import java.util.List;
 import java.util.Optional;
 
+import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
-import static java.util.Collections.emptyList;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 @RequiredArgsConstructor
@@ -33,7 +33,7 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
     public Message convert(ValidationResult validationResult) {
         PRes pRes = (PRes) validationResult.getMessage();
 
-        List<CardRange> cardRangeData = Optional.ofNullable(pRes.getCardRangeData()).orElse(emptyList());
+        List<CardRange> cardRangeData = safeList(pRes.getCardRangeData());
 
         if (((PReq) pRes.getRequestMessage()).getSerialNum() == null) {
             cardRangeData.forEach(cardRange -> cardRange.setActionInd(getActionIndEnumWrapper()));

@@ -45,7 +45,6 @@ public class MessageToErrorResConverter implements Converter<ValidationResult, M
                     .sdkTransID(getNullableString(message.getSdkTransID(), getRequestId(requestMessage, TransactionalMessage::getSdkTransID)))
                     .build();
             error.setMessageVersion(getMessageVersion(message, requestMessage));
-            error.setHandleRepetitionNeeded(message.isHandleRepetitionNeeded());
         } else {
             error = Erro.builder()
                     .errorCode(errorCode)

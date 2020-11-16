@@ -27,7 +27,6 @@ public class ErroWrapperToErroConverter implements Converter<ValidationResult, M
                 .errorMessageType(getValue(erroWrapper.getErrorMessageType()))
                 .sdkTransID(erroWrapper.getSdkTransID())
                 .notifyDsAboutError(false)
-                .handleRepetitionNeeded(false)
                 .build();
         errorRes.setMessageVersion(erroWrapper.getMessageVersion());
         return errorRes;
