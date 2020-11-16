@@ -9,7 +9,6 @@ import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationRespo
 import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.utils.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
@@ -18,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.ADD_CARD_RANGE_TO_CACHE;
+import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 
 @RequiredArgsConstructor
 public class PResToRBKMoneyPreparationResponseConverter implements Converter<ValidationResult, Message> {
@@ -29,7 +29,7 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
     public Message convert(ValidationResult validationResult) {
         PRes pRes = (PRes) validationResult.getMessage();
 
-        List<CardRange> cardRangeData = Collections.safeList(pRes.getCardRangeData());
+        List<CardRange> cardRangeData = safeList(pRes.getCardRangeData());
 
         cardRangeData.forEach(this::fillEmptyActionInd);
 
@@ -60,5 +60,4 @@ public class PResToRBKMoneyPreparationResponseConverter implements Converter<Val
             cardRange.setActionInd(addAction);
         }
     }
-
 }

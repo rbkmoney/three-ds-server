@@ -1,4 +1,4 @@
-package com.rbkmoney.threeds.server.handle.constraint.commonplatform.pres.cardrangedata;
+package com.rbkmoney.threeds.server.handle.constraint.rbkmoneyplatform.pres.cardrangedata;
 
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
@@ -8,6 +8,7 @@ import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.commonplatform.pres.PResConstraintValidationHandler;
 import com.rbkmoney.threeds.server.service.CardRangesStorageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
@@ -20,8 +21,9 @@ import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 import static java.lang.Long.parseLong;
 
 @Component
+@ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 @RequiredArgsConstructor
-public class CardRangeContentConstraintValidationHandlerImpl implements PResConstraintValidationHandler {
+public class RBKMoneyCardRangeContentConstraintValidationHandlerImpl implements PResConstraintValidationHandler {
 
     private final DsProviderHolder dsProviderHolder;
     private final Validator validator;
@@ -36,16 +38,10 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
     public ConstraintValidationResult handle(PRes o) {
         // todo
 //        if (o.getCardRangeData().isGarbage()) {
-//            o.setHandleRepetitionNeeded(true);
 //            return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
 //        }
 
         List<CardRange> cardRangeData = safeList(o.getCardRangeData());
-        // todo rm (storage)
-        if (cardRangeData.isEmpty()) {
-            o.setHandleRepetitionNeeded(true);
-            return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
-        }
 
         for (CardRange cardRange : cardRangeData) {
             long startRange = parseLong(cardRange.getStartRange());
@@ -56,7 +52,6 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
 
             Set<ConstraintViolation<CardRange>> cardRangeErrors = validator.validate(cardRange);
             if (!cardRangeErrors.isEmpty()) {
-                o.setHandleRepetitionNeeded(true);
 
                 ConstraintViolation<CardRange> cardRangeError = cardRangeErrors.iterator().next();
                 ConstraintType constraintType = getConstraintType(cardRangeError);
@@ -67,8 +62,6 @@ public class CardRangeContentConstraintValidationHandlerImpl implements PResCons
 
         String tag = dsProviderHolder.getTag(o).orElseThrow();
         if (!cardRangesStorageService.isValidCardRanges(tag, cardRangeData)) {
-            o.setHandleRepetitionNeeded(true);
-
             return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
         }
 
