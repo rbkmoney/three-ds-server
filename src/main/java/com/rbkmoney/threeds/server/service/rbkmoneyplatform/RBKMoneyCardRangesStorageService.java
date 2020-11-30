@@ -72,12 +72,15 @@ public class RBKMoneyCardRangesStorageService {
     }
 
     public Optional<DsProvider> getDsProvider(String accountNumber) {
+        return Optional.ofNullable(getDirectoryServerProviderId(accountNumber))
+                .map(DsProvider::of);
+    }
+
+    private String getDirectoryServerProviderId(String accountNumber) {
         try {
-            return Optional.of(
-                    DsProvider.of(
-                            cardRangesStorageClient.getDirectoryServerProviderId(Long.parseLong(accountNumber))));
-        } catch (NullPointerException | IllegalArgumentException | DirectoryServerProviderIDNotFound ex) {
-            return Optional.empty();
+            return cardRangesStorageClient.getDirectoryServerProviderId(Long.parseLong(accountNumber));
+        } catch (DirectoryServerProviderIDNotFound ex) {
+            return null;
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }
