@@ -20,9 +20,11 @@ public class RBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter 
             RBKMoneyGetChallengeRequest request = (RBKMoneyGetChallengeRequest) validationResult.getMessage();
             request.setMessageVersion(request.getMessageVersion());
 
-            return RBKMoneyGetChallengeResponse.builder()
+            RBKMoneyGetChallengeResponse response = RBKMoneyGetChallengeResponse.builder()
                     .encodeCReq(cReqEncoder.createAndEncodeCReq(request))
                     .build();
+            response.setMessageVersion(request.getMessageVersion());
+            return response;
         } catch (JsonProcessingException ex) {
             throw new RuntimeException("Parse error", ex);
         }

@@ -23,7 +23,7 @@ public class FrictionlessFlow {
                 .withRequestBody(equalToJson(requestToDsServer(testCase), true, true))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                         .withHeader("x-ul-testcaserun-id", testCase)
                         .withBody(responseFromDsServer(testCase))));
     }

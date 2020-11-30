@@ -1,7 +1,6 @@
 package com.rbkmoney.threeds.server.ds.rbkmoneyplatform;
 
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
-import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.ds.DsClient;
 import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.ds.DsProviderHolder;
@@ -15,16 +14,16 @@ import java.util.Optional;
 @Slf4j
 public class RBKMoneyDsProviderHolder implements DsProviderHolder {
 
-    private final Map<DsProvider, DsClient> dsClientMap = new HashMap<>();
+    private final Map<DsProvider, RBKMoneyDsClient> dsClientMap = new HashMap<>();
 
     private final Map<DsProvider, EnvironmentProperties> dsEnvironmentPropertiesMap = new HashMap<>();
 
     private DsProvider dsProvider;
 
     public RBKMoneyDsProviderHolder(
-            DsClient visaDsClient,
-            DsClient mastercardDsClient,
-            DsClient mirDsClient,
+            RBKMoneyDsClient visaDsClient,
+            RBKMoneyDsClient mastercardDsClient,
+            RBKMoneyDsClient mirDsClient,
             EnvironmentProperties visaEnvironmentProperties,
             EnvironmentProperties mastercardEnvironmentProperties,
             EnvironmentProperties mirEnvironmentProperties) {
@@ -53,11 +52,6 @@ public class RBKMoneyDsProviderHolder implements DsProviderHolder {
         log.debug("Return EnvironmentProperties for provider={}", dsProvider);
 
         return dsEnvironmentPropertiesMap.get(dsProvider);
-    }
-
-    @Override
-    public Optional<String> getTag(Message message) {
-        return getDsProvider();
     }
 
     public void setDsProvider(DsProvider dsProvider) {

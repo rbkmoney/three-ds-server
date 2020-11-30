@@ -7,10 +7,6 @@ spring:
       enabled: always
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include: httptrace,health,info,metrics
   endpoint:
     health:
       show-details: always
@@ -115,3 +111,6 @@ environment:
     three-ds-server-ref-number: "test"
     three-ds-server-operator-id: "test"
     three-ds-server-network-timeout: 10000
+
+asyncConfig:
+  enabled: true

@@ -10,11 +10,10 @@ import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArs;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
+import com.rbkmoney.threeds.server.service.testplatform.TestPlatformChallengeFlowTransactionInfoStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
@@ -25,9 +24,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 @RequiredArgsConstructor
 public class AResToPArsConverter implements Converter<ValidationResult, Message> {
 
-    private final ChallengeFlowTransactionInfoStorageService transactionInfoStorageService;
-    private final EnvironmentMessageProperties messageProperties;
-    private final DsProviderHolder dsProviderHolder;
+    private final TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService;
+    private final EnvironmentMessageProperties environmentMessageProperties;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -65,6 +63,7 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .whiteListStatusSource(getValue(aRes.getWhiteListStatusSource()))
                 .build();
         pArs.setMessageVersion(aRes.getMessageVersion());
+        pArs.setUlTestCaseId(aRes.getRequestMessage().getUlTestCaseId());
         return pArs;
     }
 
@@ -73,7 +72,7 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .map(Message::getRequestMessage)
                 .map(message -> (PArq) message)
                 .map(PArq::getP_messageVersion)
-                .orElse(messageProperties.getPMessageVersion());
+                .orElse(environmentMessageProperties.getPMessageVersion());
     }
 
     private String getAcsURL(ARes aRes) {
@@ -121,6 +120,6 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .acsUrl(aRes.getAcsURL())
                 .build();
 
-        transactionInfoStorageService.saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
+        testPlatformChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
     }
 }

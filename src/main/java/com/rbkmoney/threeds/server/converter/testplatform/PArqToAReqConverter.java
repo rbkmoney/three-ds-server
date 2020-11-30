@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.converter.testplatform;
 
+import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.domain.account.AccountInfo;
 import com.rbkmoney.threeds.server.domain.account.AccountInfoWrapper;
 import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptions;
@@ -11,7 +12,6 @@ import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.*;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
@@ -39,7 +39,7 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
      */
     private static final int MAX_GRACE_PERIOD = 30;
 
-    private final DsProviderHolder dsProviderHolder;
+    private final EnvironmentProperties environmentProperties;
     private final IdGenerator idGenerator;
 
     @Override
@@ -58,7 +58,7 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .threeDSRequestorName(pArq.getThreeDSRequestorName())
                 .threeDSRequestorPriorAuthenticationInfo(getThreeDSRequestorPriorAuthenticationInfo(pArq))
                 .threeDSRequestorURL(pArq.getThreeDSRequestorURL())
-                .threeDSServerRefNumber(dsProviderHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
+                .threeDSServerRefNumber(environmentProperties.getThreeDsServerRefNumber())
                 .threeDSServerOperatorID(pArq.getThreeDSServerOperatorID())
                 .threeDSServerTransID(idGenerator.generateUUID())
                 .threeDSServerURL(getThreeDsServerUrl(pArq))
@@ -143,6 +143,7 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .decoupledAuthMaxTime(getDecAuthMaxTime(pArq))
                 .build();
         aReq.setMessageVersion(pArq.getMessageVersion());
+        aReq.setUlTestCaseId(pArq.getUlTestCaseId());
         return aReq;
     }
 
@@ -161,10 +162,10 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
     }
 
     private String getThreeDsServerUrl(PArq pArq) {
-        if (isMirCrutchCondition(pArq.getDeviceChannel().getValue(), dsProviderHolder.getEnvironmentProperties())) {
+        if (isMirCrutchCondition(pArq.getDeviceChannel().getValue(), environmentProperties)) {
             return null;
         } else {
-            return dsProviderHolder.getEnvironmentProperties().getThreeDsServerUrl();
+            return environmentProperties.getThreeDsServerUrl();
         }
     }
 

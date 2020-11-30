@@ -4,18 +4,20 @@ import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.commonplatform.utils.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.testplatform.parq.PArqConstraintValidationHandler;
-import com.rbkmoney.threeds.server.service.CardRangesStorageService;
+import com.rbkmoney.threeds.server.service.testplatform.TestPlatformCardRangesStorageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.OUT_OF_CARD_RANGE;
 
 @Component
+@ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
 @RequiredArgsConstructor
 public class AcctNumberContentConstraintValidationHandlerImpl implements PArqConstraintValidationHandler {
 
     private final StringValidator stringValidator;
-    private final CardRangesStorageService cardRangesStorageService;
+    private final TestPlatformCardRangesStorageService testPlatformCardRangesStorageService;
 
     @Override
     public boolean canHandle(PArq o) {
@@ -32,7 +34,7 @@ public class AcctNumberContentConstraintValidationHandlerImpl implements PArqCon
         }
 
         String ulTestCaseId = o.getUlTestCaseId();
-        if (!cardRangesStorageService.isInCardRange(ulTestCaseId, acctNumber)) {
+        if (!testPlatformCardRangesStorageService.isInCardRange(ulTestCaseId, acctNumber)) {
             return ConstraintValidationResult.failure(OUT_OF_CARD_RANGE, "acctNumber");
         }
 

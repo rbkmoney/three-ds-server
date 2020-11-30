@@ -1,10 +1,9 @@
 package com.rbkmoney.threeds.server.controller;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.service.LogWrapper;
-import com.rbkmoney.threeds.server.service.SenderService;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyLogWrapper;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneySenderService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,19 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 @ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 @RequestMapping("/sdk")
 @RequiredArgsConstructor
-@Slf4j
-public class RBKMoneyPlatformClientController {
+public class RBKMoneyClientController {
 
-    private final SenderService senderService;
-    private final LogWrapper logWrapper;
+    private final RBKMoneySenderService rbkMoneySenderService;
+    private final RBKMoneyLogWrapper rbkMoneyLogWrapper;
 
     @PostMapping
     public ResponseEntity<Message> processMessage(@RequestBody Message requestMessage) {
-        logWrapper.info("Start /sdk process handle", requestMessage);
+        rbkMoneyLogWrapper.info("Start /sdk process handle", requestMessage);
 
-        Message responseMessage = senderService.sendToDs(requestMessage);
+        Message responseMessage = rbkMoneySenderService.sendToDs(requestMessage);
 
-        logWrapper.info("End /sdk process handle", responseMessage);
+        rbkMoneyLogWrapper.info("End /sdk process handle", responseMessage);
 
         return ResponseEntity.ok(responseMessage);
     }

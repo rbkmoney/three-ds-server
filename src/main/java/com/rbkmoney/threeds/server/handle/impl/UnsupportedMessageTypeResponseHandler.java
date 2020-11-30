@@ -7,14 +7,12 @@ import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.handle.ResponseHandler;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 
 import static com.rbkmoney.threeds.server.constants.MessageConstants.INVALID_MESSAGE_FOR_THE_RECEIVING_COMPONENT;
 import static com.rbkmoney.threeds.server.constants.MessageConstants.UNSUPPORTED_MESSAGE_TYPE;
 
 @RequiredArgsConstructor
-@Slf4j
 public class UnsupportedMessageTypeResponseHandler implements ResponseHandler {
 
     private final Converter<ValidationResult, Message> messageToErrorResConverter;

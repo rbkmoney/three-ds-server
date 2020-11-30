@@ -4,7 +4,7 @@ import com.rbkmoney.threeds.server.config.AbstractRBKMoneyPlatformConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.flow.rbkmoneyplatform.challenge.ChallengeFlow;
-import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-public class RBKMoneyPlatformChallengeFlowTest extends AbstractRBKMoneyPlatformConfig {
+public class RBKMoneyChallengeFlowTest extends AbstractRBKMoneyPlatformConfig {
 
     @Autowired
     private MockMvc mockMvc;
@@ -30,7 +30,7 @@ public class RBKMoneyPlatformChallengeFlowTest extends AbstractRBKMoneyPlatformC
     private IdGenerator idGenerator;
 
     @MockBean
-    private ChallengeFlowTransactionInfoStorageService transactionInfoStorageService;
+    private RBKMoneyChallengeFlowTransactionInfoStorageService rbkMoneyChallengeFlowTransactionInfoStorageService;
 
     @Test
     public void challengeFlowDefaultHandleTest() throws Exception {
@@ -42,7 +42,7 @@ public class RBKMoneyPlatformChallengeFlowTest extends AbstractRBKMoneyPlatformC
                 .build();
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
-        when(transactionInfoStorageService.getChallengeFlowTransactionInfo(testCase)).thenReturn(transactionInfo);
+        when(rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(testCase)).thenReturn(transactionInfo);
 
         ChallengeFlow challengeFlow = new ChallengeFlow(jsonMapper, path);
 

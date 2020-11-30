@@ -23,12 +23,12 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
     private static final String TEST_TAG = UUID.randomUUID().toString();
 
     private ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient;
-    private ChallengeFlowTransactionInfoStorageService transactionInfoStorageService;
+    private RBKMoneyChallengeFlowTransactionInfoStorageService rbkMoneyChallengeFlowTransactionInfoStorageService;
 
     @BeforeEach
     public void setUp() {
         challengeFlowTransactionInfoStorageClient = mock(ChallengeFlowTransactionInfoStorageSrv.Iface.class);
-        transactionInfoStorageService = new RBKMoneyChallengeFlowTransactionInfoStorageService(
+        rbkMoneyChallengeFlowTransactionInfoStorageService = new RBKMoneyChallengeFlowTransactionInfoStorageService(
                 challengeFlowTransactionInfoStorageClient,
                 new ChallengeFlowTransactionInfoConverter(),
                 100
@@ -37,7 +37,6 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
 
     @Test
     public void shouldSaveAndGetTransactionInfo() throws TException {
-        // Given
         ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
                 .threeDSServerTransID(TEST_TAG)
                 .deviceChannel(DeviceChannel.APP_BASED)
@@ -51,11 +50,9 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
         ArgumentCaptor<com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo> expected =
                 ArgumentCaptor.forClass(com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo.class);
 
-        // When
-        transactionInfoStorageService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
-        ChallengeFlowTransactionInfo result = transactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
+        rbkMoneyChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
+        ChallengeFlowTransactionInfo result = rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
 
-        // Then
         assertThat(result).isEqualTo(transactionInfo);
 
         verify(challengeFlowTransactionInfoStorageClient, only()).saveChallengeFlowTransactionInfo(expected.capture());
@@ -73,7 +70,6 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
 
     @Test
     public void shouldGetTransactionInfoWhenCacheIsEmpty() throws TException {
-        // Given
         var stored = new com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo()
                 .setTransactionId(TEST_TAG)
                 .setDeviceChannel(DeviceChannel.APP_BASED.getValue())
@@ -86,10 +82,8 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
         when(challengeFlowTransactionInfoStorageClient.getChallengeFlowTransactionInfo(TEST_TAG))
                 .thenReturn(stored);
 
-        // When
-        ChallengeFlowTransactionInfo result = transactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
+        ChallengeFlowTransactionInfo result = rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
 
-        // Then
         verify(challengeFlowTransactionInfoStorageClient, only())
                 .getChallengeFlowTransactionInfo(TEST_TAG);
         assertThat(result.getAcsDecConInd())

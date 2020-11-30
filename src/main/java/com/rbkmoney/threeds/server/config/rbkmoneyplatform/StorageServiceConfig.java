@@ -4,7 +4,6 @@ import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
 import com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfoStorageSrv;
 import com.rbkmoney.threeds.server.converter.thrift.CardRangeConverter;
 import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfoConverter;
-import com.rbkmoney.threeds.server.service.CardRangesStorageService;
 import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyChallengeFlowTransactionInfoStorageService;
@@ -18,15 +17,24 @@ import org.springframework.context.annotation.Configuration;
 public class StorageServiceConfig {
 
     @Bean
-    public ChallengeFlowTransactionInfoStorageService transactionInfoStorageService(
-            ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient,
-            ChallengeFlowTransactionInfoConverter challengeFlowTransactionInfoConverter,
-            @Value("${storage.challenge-flow-transaction-info.size}") long challengeFlowTransactionInfoCacheSize) {
-        return new RBKMoneyChallengeFlowTransactionInfoStorageService(challengeFlowTransactionInfoStorageClient, challengeFlowTransactionInfoConverter, challengeFlowTransactionInfoCacheSize);
+    public ChallengeFlowTransactionInfoStorageService challengeFlowTransactionInfoStorageService(
+            RBKMoneyChallengeFlowTransactionInfoStorageService rbkMoneyChallengeFlowTransactionInfoStorageService) {
+        return rbkMoneyChallengeFlowTransactionInfoStorageService;
     }
 
     @Bean
-    public CardRangesStorageService cardRangesStorageService(
+    public RBKMoneyChallengeFlowTransactionInfoStorageService rbkMoneyChallengeFlowTransactionInfoStorageService(
+            ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient,
+            ChallengeFlowTransactionInfoConverter challengeFlowTransactionInfoConverter,
+            @Value("${storage.challenge-flow-transaction-info.size}") long challengeFlowTransactionInfoCacheSize) {
+        return new RBKMoneyChallengeFlowTransactionInfoStorageService(
+                challengeFlowTransactionInfoStorageClient,
+                challengeFlowTransactionInfoConverter,
+                challengeFlowTransactionInfoCacheSize);
+    }
+
+    @Bean
+    public RBKMoneyCardRangesStorageService rbkMoneyCardRangesStorageService(
             CardRangesStorageSrv.Iface cardRangesStorageClient,
             CardRangeConverter cardRangeConverter) {
         return new RBKMoneyCardRangesStorageService(cardRangesStorageClient, cardRangeConverter);

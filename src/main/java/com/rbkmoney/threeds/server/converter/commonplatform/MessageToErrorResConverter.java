@@ -19,7 +19,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RequiredArgsConstructor
 public class MessageToErrorResConverter implements Converter<ValidationResult, Message> {
 
-    private final EnvironmentMessageProperties messageProperties;
+    private final EnvironmentMessageProperties environmentMessageProperties;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -53,7 +53,7 @@ public class MessageToErrorResConverter implements Converter<ValidationResult, M
                     .errorDetail(errorDetail)
                     .build();
             //todo rbkplatform message version
-            error.setMessageVersion(messageProperties.getMessageVersion());
+            error.setMessageVersion(environmentMessageProperties.getMessageVersion());
         }
         error.setNotifyDsAboutError(isNotifyDsAboutError(errorCode));
         return error;
@@ -70,11 +70,11 @@ public class MessageToErrorResConverter implements Converter<ValidationResult, M
     private String getMessageVersion(Message message, Message requestMessage) {
         String messageVersion = getNullableString(
                 message.getMessageVersion(),
-                getMessageVersion(requestMessage, Message::getMessageVersion, messageProperties.getMessageVersion()));
+                getMessageVersion(requestMessage, Message::getMessageVersion, environmentMessageProperties.getMessageVersion()));
 
-        return messageProperties.getValidMessageVersions().contains(messageVersion)
+        return environmentMessageProperties.getValidMessageVersions().contains(messageVersion)
                 ? messageVersion
-                : messageProperties.getMessageVersion();
+                : environmentMessageProperties.getMessageVersion();
     }
 
     private String getMessageVersion(Message requestMessage, Function<Message, String> messageVersionFunction, String other) {

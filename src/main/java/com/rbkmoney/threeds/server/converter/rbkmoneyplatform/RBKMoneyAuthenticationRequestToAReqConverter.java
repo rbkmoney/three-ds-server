@@ -11,7 +11,7 @@ import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyAuthenticationRequest;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.*;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
@@ -39,7 +39,7 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
      */
     private static final int MAX_GRACE_PERIOD = 30;
 
-    private final DsProviderHolder dsProviderHolder;
+    private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
     private final IdGenerator idGenerator;
 
     @Override
@@ -58,7 +58,7 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
                 .threeDSRequestorName(request.getThreeDSRequestorName())
                 .threeDSRequestorPriorAuthenticationInfo(getThreeDSRequestorPriorAuthenticationInfo(request))
                 .threeDSRequestorURL(request.getThreeDSRequestorURL())
-                .threeDSServerRefNumber(dsProviderHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
+                .threeDSServerRefNumber(rbkMoneyDsProviderHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
                 .threeDSServerOperatorID(request.getThreeDSServerOperatorID())
                 .threeDSServerTransID(idGenerator.generateUUID())
                 .threeDSServerURL(getThreeDsServerUrl(request))
@@ -161,10 +161,10 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
     }
 
     private String getThreeDsServerUrl(RBKMoneyAuthenticationRequest request) {
-        if (isMirCrutchCondition(request.getDeviceChannel().getValue(), dsProviderHolder.getEnvironmentProperties())) {
+        if (isMirCrutchCondition(request.getDeviceChannel().getValue(), rbkMoneyDsProviderHolder.getEnvironmentProperties())) {
             return null;
         } else {
-            return dsProviderHolder.getEnvironmentProperties().getThreeDsServerUrl();
+            return rbkMoneyDsProviderHolder.getEnvironmentProperties().getThreeDsServerUrl();
         }
     }
 

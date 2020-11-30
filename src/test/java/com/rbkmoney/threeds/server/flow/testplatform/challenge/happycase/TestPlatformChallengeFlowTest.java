@@ -4,7 +4,7 @@ import com.rbkmoney.threeds.server.config.AbstractTestPlatformConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.flow.testplatform.challenge.ChallengeFlow;
-import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
+import com.rbkmoney.threeds.server.service.testplatform.TestPlatformChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
     private IdGenerator idGenerator;
 
     @MockBean
-    private ChallengeFlowTransactionInfoStorageService transactionInfoStorageService;
+    private TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService;
 
     @Test
     public void challengeFlowWithCardholderSelectedCancelTest() throws Exception {
@@ -43,8 +43,8 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
                 .build();
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
-        doNothing().when(transactionInfoStorageService).saveChallengeFlowTransactionInfo(testCase, transactionInfo);
-        when(transactionInfoStorageService.getChallengeFlowTransactionInfo(eq(testCase))).thenReturn(transactionInfo);
+        doNothing().when(testPlatformChallengeFlowTransactionInfoStorageService).saveChallengeFlowTransactionInfo(testCase, transactionInfo);
+        when(testPlatformChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(eq(testCase))).thenReturn(transactionInfo);
 
         ChallengeFlow challengeFlow = new ChallengeFlow(jsonMapper, path);
 
@@ -86,7 +86,7 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
                 .build();
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
-        when(transactionInfoStorageService.getChallengeFlowTransactionInfo(eq(testCase)))
+        when(testPlatformChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(eq(testCase)))
                 .thenReturn(transactionInfo);
 
         ChallengeFlow challengeFlow = new ChallengeFlow(jsonMapper, path);

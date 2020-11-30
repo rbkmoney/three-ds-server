@@ -1,4 +1,4 @@
-package com.rbkmoney.threeds.server.exeption;
+package com.rbkmoney.threeds.server.exception;
 
 public class ExternalStorageException extends RuntimeException {
 

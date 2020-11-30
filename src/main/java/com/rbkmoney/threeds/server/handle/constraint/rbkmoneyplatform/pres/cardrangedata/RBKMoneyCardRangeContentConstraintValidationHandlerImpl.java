@@ -2,11 +2,11 @@ package com.rbkmoney.threeds.server.handle.constraint.rbkmoneyplatform.pres.card
 
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ConstraintType;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.commonplatform.pres.PResConstraintValidationHandler;
-import com.rbkmoney.threeds.server.service.CardRangesStorageService;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -25,9 +25,9 @@ import static java.lang.Long.parseLong;
 @RequiredArgsConstructor
 public class RBKMoneyCardRangeContentConstraintValidationHandlerImpl implements PResConstraintValidationHandler {
 
-    private final DsProviderHolder dsProviderHolder;
+    private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
+    private final RBKMoneyCardRangesStorageService rbkMoneyCardRangesStorageService;
     private final Validator validator;
-    private final CardRangesStorageService cardRangesStorageService;
 
     @Override
     public boolean canHandle(PRes o) {
@@ -41,9 +41,9 @@ public class RBKMoneyCardRangeContentConstraintValidationHandlerImpl implements 
 //            return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
 //        }
 
-        List<CardRange> cardRangeData = safeList(o.getCardRangeData());
+        List<CardRange> cardRanges = safeList(o.getCardRangeData());
 
-        for (CardRange cardRange : cardRangeData) {
+        for (CardRange cardRange : cardRanges) {
             long startRange = parseLong(cardRange.getStartRange());
             long endRange = parseLong(cardRange.getEndRange());
             if (startRange > endRange) {
@@ -60,8 +60,8 @@ public class RBKMoneyCardRangeContentConstraintValidationHandlerImpl implements 
             }
         }
 
-        String tag = dsProviderHolder.getTag(o).orElseThrow();
-        if (!cardRangesStorageService.isValidCardRanges(tag, cardRangeData)) {
+        String dsProvider = rbkMoneyDsProviderHolder.getDsProvider().orElseThrow();
+        if (!rbkMoneyCardRangesStorageService.isValidCardRanges(dsProvider, cardRanges)) {
             return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
         }
 

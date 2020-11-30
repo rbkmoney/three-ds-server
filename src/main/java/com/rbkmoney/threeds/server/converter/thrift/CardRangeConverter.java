@@ -8,6 +8,9 @@ import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.*;
@@ -23,20 +26,28 @@ public class CardRangeConverter {
             MODIFY_CARD_RANGE_DATA, Action.modify_card_range(new Modify())
     );
 
-    public com.rbkmoney.damsel.three_ds_server_storage.CardRange toThrift(CardRange domain) {
-        long startRange = parseLong(domain.getStartRange());
-        long endRange = parseLong(domain.getEndRange());
-        return new com.rbkmoney.damsel.three_ds_server_storage.CardRange(
-                startRange,
-                endRange,
-                ACTION_MAP.get(getValue(domain.getActionInd())));
+    public List<com.rbkmoney.damsel.three_ds_server_storage.CardRange> toThrift(List<CardRange> cardRangeData) {
+        var tCardRanges = new ArrayList<com.rbkmoney.damsel.three_ds_server_storage.CardRange>();
+
+        Iterator<CardRange> iterator = cardRangeData.iterator();
+
+        while (iterator.hasNext()) {
+            CardRange cardRange = iterator.next();
+
+            var tCardRange = toThrift(cardRange);
+            tCardRanges.add(tCardRange);
+
+            iterator.remove();
+        }
+
+        return tCardRanges;
     }
 
-    public com.rbkmoney.threeds.server.domain.rbkmoney.cardrange.RBKMoneyCardRange toRBKMoney(CardRange domain) {
-        return com.rbkmoney.threeds.server.domain.rbkmoney.cardrange.RBKMoneyCardRange.builder()
-                .startRange(domain.getStartRange())
-                .endRange(domain.getEndRange())
-                .actionInd(getValue(domain.getActionInd()))
-                .build();
+    public com.rbkmoney.damsel.three_ds_server_storage.CardRange toThrift(CardRange domain) {
+        return new com.rbkmoney.damsel.three_ds_server_storage.CardRange()
+                .setRangeStart(parseLong(domain.getStartRange()))
+                .setRangeEnd(parseLong(domain.getEndRange()))
+                .setAction(ACTION_MAP.get(getValue(domain.getActionInd())))
+                .setThreeDsMethodUrl(domain.getThreeDSMethodURL());
     }
 }

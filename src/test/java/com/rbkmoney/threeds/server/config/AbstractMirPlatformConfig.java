@@ -46,7 +46,7 @@ public abstract class AbstractMirPlatformConfig {
     public static class TestConfig {
 
         @Bean
-        public RestTemplate testRestTemplate() {
+        public RestTemplate restTemplate() {
             return new RestTemplate();
         }
 
@@ -78,6 +78,7 @@ public abstract class AbstractMirPlatformConfig {
             super.initialize(configurableApplicationContext);
             TestPropertyValues.of(
                     "platform.mode=TEST_PLATFORM",
+                    "asyncConfig.enabled=false",
                     "environment.test.ds-url=http://localhost:" + serverExtension.getServer().port() + "/",
                     "environment.test.three-ds-requestor-url=https://rbk.money/",
                     "environment.test.three-ds-server-url=https://nspk.3ds.rbk.money/ds",

@@ -11,17 +11,17 @@ public class TestPlatformSerialNumStorageServiceTest {
 
     private static final String TRAP = "TRAP";
 
-    private TestPlatformSerialNumStorageService serialNumStorageService = new TestPlatformSerialNumStorageService();
+    private TestPlatformSerialNumStorageService testPlatformSerialNumStorageService = new TestPlatformSerialNumStorageService();
 
     @Test
     public void shouldSaveAndGetTransactionInfo() {
         String id = UUID.randomUUID().toString();
         String expected = "serialNum";
 
-        serialNumStorageService.saveSerialNum(TRAP, TRAP);
-        serialNumStorageService.saveSerialNum(id, expected);
+        testPlatformSerialNumStorageService.saveSerialNum(TRAP, TRAP);
+        testPlatformSerialNumStorageService.saveSerialNum(id, expected);
 
-        String actual = serialNumStorageService.getSerialNum(id);
+        String actual = testPlatformSerialNumStorageService.getSerialNum(id);
         assertThat(actual).isEqualTo(expected);
     }
 }

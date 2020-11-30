@@ -2,11 +2,10 @@ package com.rbkmoney.threeds.server.handle.constraint.testplatform.pres.cardrang
 
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ConstraintType;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.commonplatform.pres.PResConstraintValidationHandler;
-import com.rbkmoney.threeds.server.service.CardRangesStorageService;
+import com.rbkmoney.threeds.server.service.testplatform.TestPlatformCardRangesStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -25,9 +24,8 @@ import static java.lang.Long.parseLong;
 @RequiredArgsConstructor
 public class TestPlatformCardRangeContentConstraintValidationHandlerImpl implements PResConstraintValidationHandler {
 
-    private final DsProviderHolder dsProviderHolder;
     private final Validator validator;
-    private final CardRangesStorageService cardRangesStorageService;
+    private final TestPlatformCardRangesStorageService testPlatformCardRangesStorageService;
 
     @Override
     public boolean canHandle(PRes o) {
@@ -42,13 +40,14 @@ public class TestPlatformCardRangeContentConstraintValidationHandlerImpl impleme
 //            return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
 //        }
 
-        List<CardRange> cardRangeData = safeList(o.getCardRangeData());
-        if (cardRangeData.isEmpty()) {
+        List<CardRange> cardRanges = safeList(o.getCardRangeData());
+
+        if (cardRanges.isEmpty()) {
             o.setHandleRepetitionNeeded(true);
             return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
         }
 
-        for (CardRange cardRange : cardRangeData) {
+        for (CardRange cardRange : cardRanges) {
             long startRange = parseLong(cardRange.getStartRange());
             long endRange = parseLong(cardRange.getEndRange());
             if (startRange > endRange) {
@@ -66,8 +65,7 @@ public class TestPlatformCardRangeContentConstraintValidationHandlerImpl impleme
             }
         }
 
-        String tag = dsProviderHolder.getTag(o).orElseThrow();
-        if (!cardRangesStorageService.isValidCardRanges(tag, cardRangeData)) {
+        if (!testPlatformCardRangesStorageService.isValidCardRanges(o)) {
             o.setHandleRepetitionNeeded(true);
 
             return ConstraintValidationResult.failure(PATTERN, "cardRangeData");

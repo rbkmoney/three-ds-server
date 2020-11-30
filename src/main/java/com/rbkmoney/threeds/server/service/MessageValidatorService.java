@@ -5,7 +5,6 @@ import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
@@ -16,7 +15,6 @@ import static com.rbkmoney.threeds.server.dto.ValidationResult.success;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class MessageValidatorService {
 
     private final Validator validator;

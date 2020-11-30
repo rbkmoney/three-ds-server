@@ -1,17 +1,17 @@
 package com.rbkmoney.threeds.server.config.testplatform;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rbkmoney.threeds.server.config.builder.RestTemplateBuilder;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.config.properties.KeystoreProperties;
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.ds.DsClient;
 import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.ds.testplatform.TestPlatformDsClient;
 import com.rbkmoney.threeds.server.ds.testplatform.TestPlatformDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
-import com.rbkmoney.threeds.server.service.LogWrapper;
+import com.rbkmoney.threeds.server.service.testplatform.TestPlatformLogWrapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +21,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
-
-import static com.rbkmoney.threeds.server.config.builder.RestTemplateBuilder.restTemplate;
 
 @Configuration
 @ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
@@ -38,46 +36,46 @@ public class ClientConfig {
     @Bean
     @RequestScope
     public DsProviderHolder dsProviderHolder(
-            DsClient testDsClient,
-            EnvironmentProperties testEnvironmentProperties) {
-        return new TestPlatformDsProviderHolder(testDsClient, testEnvironmentProperties);
+            TestPlatformDsClient testPlatformDsClient,
+            EnvironmentProperties environmentProperties) {
+        return new TestPlatformDsProviderHolder(testPlatformDsClient, environmentProperties);
     }
 
     @Bean
-    public DsClient testDsClient(
-            RestTemplate testRestTemplate,
-            EnvironmentProperties testEnvironmentProperties,
+    public TestPlatformDsClient testPlatformDsClient(
+            RestTemplate restTemplate,
+            EnvironmentProperties environmentProperties,
             Converter<ValidationResult, Message> messageToErrorResConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver,
-            LogWrapper logWrapper) {
+            TestPlatformLogWrapper testPlatformLogWrapper) {
         return new TestPlatformDsClient(
-                testRestTemplate,
-                testEnvironmentProperties,
+                restTemplate,
+                environmentProperties,
                 messageToErrorResConverter,
                 errorCodeResolver,
                 errorMessageResolver,
-                logWrapper);
+                testPlatformLogWrapper);
     }
 
     @Bean
     @RequestScope
-    public RestTemplate testRestTemplate(
-            EnvironmentProperties testEnvironmentProperties,
-            KeystoreProperties testKeystoreProperties,
+    public RestTemplate restTemplate(
+            EnvironmentProperties environmentProperties,
+            KeystoreProperties keystoreProperties,
             ResourceLoader resourceLoader) {
-        return restTemplate(testEnvironmentProperties, testKeystoreProperties, resourceLoader);
+        return RestTemplateBuilder.restTemplate(environmentProperties, keystoreProperties, resourceLoader);
     }
 
     @Bean
     @ConfigurationProperties("environment.test")
-    public EnvironmentProperties testEnvironmentProperties() {
+    public EnvironmentProperties environmentProperties() {
         return new EnvironmentProperties();
     }
 
     @Bean
     @ConfigurationProperties("client.ds.ssl.test")
-    public KeystoreProperties testKeystoreProperties() {
+    public KeystoreProperties keystoreProperties() {
         return new KeystoreProperties();
     }
 }

@@ -2,30 +2,32 @@ package com.rbkmoney.threeds.server.service.rbkmoneyplatform;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.RReq;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.service.LogWrapper;
+import com.rbkmoney.threeds.server.utils.AccountNumberUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
 public class RBKMoneyLogWrapper implements LogWrapper {
 
-    private final DsProviderHolder dsProviderHolder;
+    private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
     private final ObjectMapper objectMapper;
     private final Gson gson;
 
     @Override
     @SneakyThrows
     public void info(String message, Message data) {
-        String dsProviderId = dsProviderHolder.getDsProvider().orElse(null);
-
         // записываются чистым json только те сообщения в лог, которые связаны с запросами из/в DS
         if (data instanceof PReq || data instanceof AReq || data instanceof RReq) {
             String json = objectMapper.writeValueAsString(data);
@@ -42,32 +44,24 @@ public class RBKMoneyLogWrapper implements LogWrapper {
             jsonObject.remove("workPhone");
             jsonObject.remove("email");
             jsonObject.remove("browserIP");
+            jsonObject.remove("cardholderName");
+
+            Optional<String> acctNumber = Optional.ofNullable(jsonObject.get("acctNumber")).map(JsonElement::getAsString);
+            if (acctNumber.isPresent()) {
+                jsonObject.remove("acctNumber");
+                jsonObject.addProperty("acctNumber", AccountNumberUtils.hideAccountNumber(acctNumber.get()));
+            }
 
             jsonObject.remove("authenticationValue");
 
-            json = jsonObject.toString();
-
-            log(message, dsProviderId, json);
+            log.info("{}: dsProviderId={}, {}", message, rbkMoneyDsProviderHolder.getDsProvider().toString(), jsonObject.toString());
         } else {
-            log(message, dsProviderId, data.toString());
+            log.info("{}: dsProviderId={}, {}", message, rbkMoneyDsProviderHolder.getDsProvider().toString(), data);
         }
     }
 
     @Override
     public void warn(String message, Throwable ex) {
-        String dsProviderId = dsProviderHolder.getDsProvider().orElse(null);
-        if (dsProviderId != null) {
-            log.warn(String.format("%s: dsProviderId=%s", message, dsProviderId), ex);
-        } else {
-            log.warn(message, ex);
-        }
-    }
-
-    private void log(String message, String dsProviderId, String data) {
-        if (dsProviderId != null) {
-            log.info("{}: dsProviderId={}, {}", message, dsProviderId, data);
-        } else {
-            log.info("{}: {}", message, data);
-        }
+        log.warn(String.format("%s: dsProviderId=%s", message, rbkMoneyDsProviderHolder.getDsProvider().toString()), ex);
     }
 }

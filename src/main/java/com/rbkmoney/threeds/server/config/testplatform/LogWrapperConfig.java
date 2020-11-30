@@ -12,7 +12,12 @@ import org.springframework.context.annotation.Configuration;
 public class LogWrapperConfig {
 
     @Bean
-    public LogWrapper logWrapper(ObjectMapper objectMapper) {
+    public LogWrapper logWrapper(TestPlatformLogWrapper testPlatformLogWrapper) {
+        return testPlatformLogWrapper;
+    }
+
+    @Bean
+    public TestPlatformLogWrapper testPlatformLogWrapper(ObjectMapper objectMapper) {
         return new TestPlatformLogWrapper(objectMapper);
     }
 }

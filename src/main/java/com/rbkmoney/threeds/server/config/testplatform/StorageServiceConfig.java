@@ -1,6 +1,5 @@
 package com.rbkmoney.threeds.server.config.testplatform;
 
-import com.rbkmoney.threeds.server.service.CardRangesStorageService;
 import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformCardRangesStorageService;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformChallengeFlowTransactionInfoStorageService;
@@ -14,17 +13,23 @@ import org.springframework.context.annotation.Configuration;
 public class StorageServiceConfig {
 
     @Bean
-    public ChallengeFlowTransactionInfoStorageService transactionInfoStorageService() {
+    public ChallengeFlowTransactionInfoStorageService challengeFlowTransactionInfoStorageService(
+            TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService) {
+        return testPlatformChallengeFlowTransactionInfoStorageService;
+    }
+
+    @Bean
+    public TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService() {
         return new TestPlatformChallengeFlowTransactionInfoStorageService();
     }
 
     @Bean
-    public CardRangesStorageService cardRangesStorageService() {
+    public TestPlatformCardRangesStorageService testPlatformCardRangesStorageService() {
         return new TestPlatformCardRangesStorageService();
     }
 
     @Bean
-    public TestPlatformSerialNumStorageService serialNumStorageService() {
+    public TestPlatformSerialNumStorageService testPlatformSerialNumStorageService() {
         return new TestPlatformSerialNumStorageService();
     }
 }

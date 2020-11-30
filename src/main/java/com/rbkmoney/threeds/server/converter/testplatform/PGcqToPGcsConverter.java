@@ -5,7 +5,7 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PGcq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PGcs;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
+import com.rbkmoney.threeds.server.service.testplatform.TestPlatformChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.utils.CReqEncoder;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
     private static final String TITLE = "cReqData";
     private static final String TEMPLATE_PATH = "vm/ChallengeForm.vm";
 
-    private final ChallengeFlowTransactionInfoStorageService transactionInfoStorageService;
+    private final TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService;
     private final VelocityEngine templateEngine;
     private final CReqEncoder cReqEncoder;
 
@@ -41,6 +41,7 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
                     .htmlCreq(htmlCreq)
                     .build();
             pGcs.setMessageVersion(pGcq.getMessageVersion());
+            pGcq.setUlTestCaseId(pGcq.getUlTestCaseId());
             return pGcs;
         } catch (JsonProcessingException ex) {
             throw new RuntimeException("Parse error", ex);
@@ -50,7 +51,7 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
     private CReqData createCReqData(PGcq pGcq) throws JsonProcessingException {
         String encodeCReq = cReqEncoder.createAndEncodeCReq(pGcq);
 
-        var transactionInfo = transactionInfoStorageService.getChallengeFlowTransactionInfo(pGcq.getThreeDSServerTransID());
+        var transactionInfo = testPlatformChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(pGcq.getThreeDSServerTransID());
 
         return CReqData.builder()
                 .acsURL(transactionInfo.getAcsUrl())
