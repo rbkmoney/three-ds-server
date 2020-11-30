@@ -2,6 +2,8 @@ package com.rbkmoney.threeds.server.service;
 
 import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
+import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
+import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformCardRangesStorageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +12,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.rbkmoney.threeds.server.helper.CardRangeHelper.cardRange;
-import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,242 +19,218 @@ public class TestPlatformCardRangesStorageServiceTest {
 
     private static final String TEST_TAG = UUID.randomUUID().toString();
 
-    private TestPlatformCardRangesStorageService cardRangesStorageService;
+    private TestPlatformCardRangesStorageService testPlatformCardRangesStorageService;
 
     @BeforeEach
     public void setUp() {
-        cardRangesStorageService = new TestPlatformCardRangesStorageService();
+        testPlatformCardRangesStorageService = new TestPlatformCardRangesStorageService();
     }
 
     @Test
     public void shouldReturnTrueIfCachedCardRangesAreEmpty() {
-        // Given
         String acctNumber = "0000";
 
-        // When
-        boolean isInCardRange = cardRangesStorageService.isInCardRange(TEST_TAG, acctNumber);
+        boolean isInCardRange = testPlatformCardRangesStorageService.isInCardRange(TEST_TAG, acctNumber);
 
-        // Then
         assertTrue(isInCardRange);
     }
 
     @Test
     public void shouldReturnTrueForAcctNumberInRange() {
-        // Given
-        List<CardRange> cachedCardRanges = of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"),
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1112", "1120"));
-        cardRangesStorageService.updateCardRanges(TEST_TAG, cachedCardRanges);
 
-        String acctNumber = "1099";
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
-        // When
-        boolean isInCardRange = cardRangesStorageService.isInCardRange(TEST_TAG, acctNumber);
+        boolean isInCardRange = testPlatformCardRangesStorageService.isInCardRange(TEST_TAG, "1099");
 
-        // Then
         assertTrue(isInCardRange);
     }
 
     @Test
     public void shouldReturnFalseForAcctNumberNotInRange() {
-        // Given
-        List<CardRange> cachedCardRanges = of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"),
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1112", "1120"));
-        cardRangesStorageService.updateCardRanges(TEST_TAG, cachedCardRanges);
 
-        String acctNumber = "1111";
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
-        // When
-        boolean isInCardRange = cardRangesStorageService.isInCardRange(TEST_TAG, acctNumber);
+        boolean isInCardRange = testPlatformCardRangesStorageService.isInCardRange(TEST_TAG, "1111");
 
-        // Then
         assertFalse(isInCardRange);
     }
 
     @Test
     public void shouldAddNewCardRanges() {
-        // Given
-        List<CardRange> newCardRanges = of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"));
 
-        // When
-        cardRangesStorageService.updateCardRanges(TEST_TAG, newCardRanges);
-        boolean isAdded = cardRangesStorageService.isInCardRange(TEST_TAG, "1050");
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
-        // Then
+        boolean isAdded = testPlatformCardRangesStorageService.isInCardRange(TEST_TAG, "1050");
+
         assertTrue(isAdded);
     }
 
     @Test
     public void shouldModifyExistingCardRanges() {
-        // Given
-        List<CardRange> existingCardRanges = of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"));
-        cardRangesStorageService.updateCardRanges(TEST_TAG, existingCardRanges);
 
-        List<CardRange> modification = of(
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
+
+        pRes = pRes(
                 cardRange(ActionInd.MODIFY_CARD_RANGE_DATA, "1000", "1099"));
+        pRes.setRequestMessage(PReq.builder().serialNum("1").build());
 
-        // When
-        cardRangesStorageService.updateCardRanges(TEST_TAG, modification);
-        boolean isModified = cardRangesStorageService.isInCardRange(TEST_TAG, "1050");
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
-        // Then
+        boolean isModified = testPlatformCardRangesStorageService.isInCardRange(TEST_TAG, "1050");
+
         assertTrue(isModified);
     }
 
     @Test
     public void shouldDeleteExistingCardRanges() {
-        // Given
-        List<CardRange> existingCardRanges = of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "0000", "999"),
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"));
 
-        // When
-        cardRangesStorageService.updateCardRanges(TEST_TAG, existingCardRanges);
-        boolean isAdded = cardRangesStorageService.isInCardRange(TEST_TAG, "1050");
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
-        // Then
+        boolean isAdded = testPlatformCardRangesStorageService.isInCardRange(TEST_TAG, "1050");
+
         assertTrue(isAdded);
 
-        List<CardRange> deletion = of(
+        pRes = pRes(
                 cardRange(ActionInd.DELETE_CARD_RANGE_FROM_CACHE, "1000", "1099"));
+        pRes.setRequestMessage(PReq.builder().serialNum("1").build());
 
-        // When
-        cardRangesStorageService.updateCardRanges(TEST_TAG, deletion);
-        boolean isDeleted = !cardRangesStorageService.isInCardRange(TEST_TAG, "1050");
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
-        // Then
+        boolean isDeleted = !testPlatformCardRangesStorageService.isInCardRange(TEST_TAG, "1050");
+
         assertTrue(isDeleted);
     }
 
     @Test
     public void shouldReturnValidForCardRangeWithNullActionInd() {
-        // Given
         CardRange cardRange = new CardRange();
         cardRange.setActionInd(null);
 
-        // When
-        boolean isValid = cardRangesStorageService.isValidCardRanges(TEST_TAG, of(cardRange));
+        boolean isValid = testPlatformCardRangesStorageService.isValidCardRanges(pRes(cardRange));
 
-        // Then
         assertTrue(isValid);
     }
 
     @Test
     public void shouldReturnValidIfStorageCardRangesAreEmpty() {
-        // Given
-        List<CardRange> cardRanges = of(cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "0000", "1111"),
+        PRes pRes = pRes(
+                cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "0000", "1111"),
                 cardRange(ActionInd.MODIFY_CARD_RANGE_DATA, "0000", "1111"),
                 cardRange(ActionInd.DELETE_CARD_RANGE_FROM_CACHE, "0000", "1111"));
 
-        // When
-        boolean isValid = cardRangesStorageService.isValidCardRanges(TEST_TAG, cardRanges);
+        boolean isValid = testPlatformCardRangesStorageService.isValidCardRanges(pRes);
 
-        // Then
         assertTrue(isValid);
     }
 
     @Test
     public void shouldReturnValidForAddCardRange() {
-        // Given
-        List<CardRange> cardRanges = of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"),
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1112", "1120"));
-        cardRangesStorageService.updateCardRanges(TEST_TAG, cardRanges);
+
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
         CardRange addRange = cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1100", "1111");
 
-        // When
-        boolean isValid = cardRangesStorageService.isValidCardRanges(TEST_TAG, of(addRange));
+        boolean isValid = testPlatformCardRangesStorageService.isValidCardRanges(pRes(addRange));
 
-        // Then
         assertTrue(isValid);
     }
 
     @Test
     public void shouldReturnInvalidForClashingAddCardRange() {
-        // Given
-        List<CardRange> cardRanges = List.of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"),
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1112", "1120"));
-        cardRangesStorageService.updateCardRanges(TEST_TAG, cardRanges);
+
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
         CardRange addRange = cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1099", "1114");
 
-        // When
-        boolean isValid = cardRangesStorageService.isValidCardRanges(TEST_TAG, of(addRange));
+        boolean isValid = testPlatformCardRangesStorageService.isValidCardRanges(pRes(addRange));
 
-        // Then
         assertFalse(isValid);
     }
 
     @Test
     public void shouldReturnValidForModifyCardRange() {
-        // Given
-        List<CardRange> cachedCardRanges = List.of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"),
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1112", "1120"));
-        cardRangesStorageService.updateCardRanges(TEST_TAG, cachedCardRanges);
+
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
         CardRange modifyRange = cardRange(ActionInd.MODIFY_CARD_RANGE_DATA, "1000", "1099");
 
-        // When
-        boolean isValid = cardRangesStorageService.isValidCardRanges(TEST_TAG, of(modifyRange));
+        boolean isValid = testPlatformCardRangesStorageService.isValidCardRanges(pRes(modifyRange));
 
-        // Then
         assertTrue(isValid);
     }
 
     @Test
     public void shouldReturnInvalidForMissingModifyCardRange() {
-        // Given
-        List<CardRange> cachedCardRanges = List.of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"),
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1112", "1120"));
-        cardRangesStorageService.updateCardRanges(TEST_TAG, cachedCardRanges);
+
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
         CardRange addRange = cardRange(ActionInd.MODIFY_CARD_RANGE_DATA, "1000", "1112");
 
-        // When
-        boolean isValid = cardRangesStorageService.isValidCardRanges(TEST_TAG, of(addRange));
+        boolean isValid = testPlatformCardRangesStorageService.isValidCardRanges(pRes(addRange));
 
-        // Then
         assertFalse(isValid);
     }
 
     @Test
     public void shouldReturnValidForDeleteCardRange() {
-        // Given
-        List<CardRange> cachedCardRanges = List.of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"),
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1112", "1120"));
-        cardRangesStorageService.updateCardRanges(TEST_TAG, cachedCardRanges);
+
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
         CardRange addRange = cardRange(ActionInd.DELETE_CARD_RANGE_FROM_CACHE, "1000", "1099");
 
-        // When
-        boolean isValid = cardRangesStorageService.isValidCardRanges(TEST_TAG, of(addRange));
+        boolean isValid = testPlatformCardRangesStorageService.isValidCardRanges(pRes(addRange));
 
-        // Then
         assertTrue(isValid);
     }
 
     @Test
     public void shouldReturnInvalidForMissingDeleteCardRange() {
-        // Given
-        List<CardRange> cachedCardRanges = List.of(
+        PRes pRes = pRes(
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1000", "1099"),
                 cardRange(ActionInd.ADD_CARD_RANGE_TO_CACHE, "1112", "1120"));
-        cardRangesStorageService.updateCardRanges(TEST_TAG, cachedCardRanges);
+
+        testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
         CardRange addRange = cardRange(ActionInd.DELETE_CARD_RANGE_FROM_CACHE, "1000", "1112");
 
-        // When
-        boolean isValid = cardRangesStorageService.isValidCardRanges(TEST_TAG, of(addRange));
+        boolean isValid = testPlatformCardRangesStorageService.isValidCardRanges(pRes(addRange));
 
-        // Then
         assertFalse(isValid);
+    }
+
+    private PRes pRes(CardRange... elements) {
+        PRes pRes = PRes.builder()
+                .cardRangeData(List.of(elements))
+                .build();
+        pRes.setUlTestCaseId(TEST_TAG);
+        return pRes;
     }
 }

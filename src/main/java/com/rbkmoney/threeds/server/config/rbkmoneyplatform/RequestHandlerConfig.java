@@ -4,7 +4,7 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyAuthenticationRequest;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyGetChallengeRequest;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationRequest;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.router.RBKMoneyAuthenticationRequestDsProviderRouter;
 import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.router.RBKMoneyGetChallengeRequestDsProviderRouter;
 import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.router.RBKMoneyPreparationRequestDsProviderRouter;
@@ -24,12 +24,12 @@ public class RequestHandlerConfig {
 
     @Bean
     public RequestHandler rbkMoneyAuthenticationRequestToAReqHandler(
-            DsProviderHolder dsProviderHolder,
+            RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder,
             RBKMoneyAuthenticationRequestDsProviderRouter rbkMoneyAuthenticationRequestDsProviderRouter,
             Processor<ValidationResult, Message> rbkMoneyAuthenticationRequestToAReqProcessorChain,
             MessageValidatorService messageValidatorService) {
         return createRequestHandlerWithRouting(
-                dsProviderHolder,
+                rbkMoneyDsProviderHolder,
                 rbkMoneyAuthenticationRequestDsProviderRouter,
                 rbkMoneyAuthenticationRequestToAReqProcessorChain,
                 messageValidatorService,
@@ -38,12 +38,12 @@ public class RequestHandlerConfig {
 
     @Bean
     public RequestHandler rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseHandler(
-            DsProviderHolder dsProviderHolder,
+            RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder,
             RBKMoneyGetChallengeRequestDsProviderRouter rbkMoneyGetChallengeRequestDsProviderRouter,
             Processor<ValidationResult, Message> rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseProcessorChain,
             MessageValidatorService messageValidatorService) {
         return createRequestHandlerWithRouting(
-                dsProviderHolder,
+                rbkMoneyDsProviderHolder,
                 rbkMoneyGetChallengeRequestDsProviderRouter,
                 rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseProcessorChain,
                 messageValidatorService,
@@ -52,12 +52,12 @@ public class RequestHandlerConfig {
 
     @Bean
     public RequestHandler rbkMoneyPreparationRequestToPReqHandler(
-            DsProviderHolder dsProviderHolder,
+            RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder,
             RBKMoneyPreparationRequestDsProviderRouter rbkMoneyPreparationRequestDsProviderRouter,
             Processor<ValidationResult, Message> rbkMoneyPreparationRequestToPReqProcessorChain,
             MessageValidatorService messageValidatorService) {
         return createRequestHandlerWithRouting(
-                dsProviderHolder,
+                rbkMoneyDsProviderHolder,
                 rbkMoneyPreparationRequestDsProviderRouter,
                 rbkMoneyPreparationRequestToPReqProcessorChain,
                 messageValidatorService,

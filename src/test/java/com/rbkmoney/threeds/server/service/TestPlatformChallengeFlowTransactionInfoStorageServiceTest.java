@@ -4,6 +4,7 @@ import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformChallengeFlowTransactionInfoStorageService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -16,7 +17,12 @@ public class TestPlatformChallengeFlowTransactionInfoStorageServiceTest {
     private static final String TEST_TAG = UUID.randomUUID().toString();
     private static final String TRAP = "TRAP";
 
-    private TestPlatformChallengeFlowTransactionInfoStorageService transactionInfoStorageService = new TestPlatformChallengeFlowTransactionInfoStorageService();
+    private TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService;
+
+    @BeforeEach
+    public void setUp() {
+        testPlatformChallengeFlowTransactionInfoStorageService = new TestPlatformChallengeFlowTransactionInfoStorageService();
+    }
 
     @Test
     public void shouldSaveAndGetTransactionInfo() {
@@ -31,13 +37,13 @@ public class TestPlatformChallengeFlowTransactionInfoStorageServiceTest {
                 .build();
 
         ChallengeFlowTransactionInfo trap = ChallengeFlowTransactionInfo.builder().build();
-        transactionInfoStorageService.saveChallengeFlowTransactionInfo(TRAP, trap);
+        testPlatformChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(TRAP, trap);
 
         // When
-        transactionInfoStorageService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
+        testPlatformChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
 
         // Then
-        ChallengeFlowTransactionInfo actual = transactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
+        ChallengeFlowTransactionInfo actual = testPlatformChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
         assertThat(actual).isEqualTo(transactionInfo);
     }
 }

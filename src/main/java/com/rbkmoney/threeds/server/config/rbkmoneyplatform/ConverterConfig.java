@@ -1,11 +1,10 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
 import com.rbkmoney.threeds.server.converter.rbkmoneyplatform.*;
-import com.rbkmoney.threeds.server.converter.thrift.CardRangeConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.utils.CReqEncoder;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,23 +18,21 @@ public class ConverterConfig {
 
     @Bean
     public Converter<ValidationResult, Message> aResToRBKMoneyAuthenticationResponseConverter(
-            ChallengeFlowTransactionInfoStorageService transactionInfoStorageService,
-            DsProviderHolder dsProviderHolder) {
-        return new AResToRBKMoneyAuthenticationResponseConverter(transactionInfoStorageService, dsProviderHolder);
+            RBKMoneyChallengeFlowTransactionInfoStorageService rbkMoneyChallengeFlowTransactionInfoStorageService,
+            RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder) {
+        return new AResToRBKMoneyAuthenticationResponseConverter(rbkMoneyChallengeFlowTransactionInfoStorageService, rbkMoneyDsProviderHolder);
     }
 
     @Bean
-    public Converter<ValidationResult, Message> pResToRBKMoneyPreparationResponseConverter(
-            DsProviderHolder dsProviderHolder,
-            CardRangeConverter cardRangeConverter) {
-        return new PResToRBKMoneyPreparationResponseConverter(dsProviderHolder, cardRangeConverter);
+    public Converter<ValidationResult, Message> pResToRBKMoneyPreparationResponseConverter(RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder) {
+        return new PResToRBKMoneyPreparationResponseConverter(rbkMoneyDsProviderHolder);
     }
 
     @Bean
     public Converter<ValidationResult, Message> rbkMoneyAuthenticationRequestToAReqConverter(
-            DsProviderHolder dsProviderHolder,
+            RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder,
             IdGenerator idGenerator) {
-        return new RBKMoneyAuthenticationRequestToAReqConverter(dsProviderHolder, idGenerator);
+        return new RBKMoneyAuthenticationRequestToAReqConverter(rbkMoneyDsProviderHolder, idGenerator);
     }
 
     @Bean
@@ -45,8 +42,8 @@ public class ConverterConfig {
 
     @Bean
     public Converter<ValidationResult, Message> rbkMoneyPreparationRequestToPReqConverter(
-            DsProviderHolder dsProviderHolder,
+            RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder,
             IdGenerator idGenerator) {
-        return new RBKMoneyPreparationRequestToPReqConverter(dsProviderHolder, idGenerator);
+        return new RBKMoneyPreparationRequestToPReqConverter(rbkMoneyDsProviderHolder, idGenerator);
     }
 }

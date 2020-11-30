@@ -5,7 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfoStorageSrv;
 import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfoConverter;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
-import com.rbkmoney.threeds.server.exeption.ExternalStorageException;
+import com.rbkmoney.threeds.server.exception.ExternalStorageException;
 import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
 import org.apache.thrift.TException;
 

@@ -3,7 +3,7 @@ package com.rbkmoney.threeds.server.flow.testplatform.preparation.happycase;
 import com.rbkmoney.threeds.server.config.AbstractTestPlatformConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.flow.testplatform.preparation.PreparationFlow;
-import com.rbkmoney.threeds.server.service.CardRangesStorageService;
+import com.rbkmoney.threeds.server.service.testplatform.TestPlatformCardRangesStorageService;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformSerialNumStorageService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.junit.jupiter.api.Test;
@@ -25,10 +25,10 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
     private MockMvc mockMvc;
 
     @Autowired
-    private TestPlatformSerialNumStorageService serialNumStorageService;
+    private TestPlatformSerialNumStorageService testPlatformSerialNumStorageService;
 
     @Autowired
-    private CardRangesStorageService cardRangesStorageService;
+    private TestPlatformCardRangesStorageService testPlatformCardRangesStorageService;
 
     @Autowired
     private JsonMapper jsonMapper;
@@ -44,8 +44,8 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
         when(idGenerator.generateUUID()).thenReturn(testCase);
 
         // cache is clear
-        assertNull(serialNumStorageService.getSerialNum(testCase));
-        assertTrue(cardRangesStorageService.isInCardRange(testCase, "7654320500000001"));
+        assertNull(testPlatformSerialNumStorageService.getSerialNum(testCase));
+        assertTrue(testPlatformCardRangesStorageService.isInCardRange(testCase, "7654320500000001"));
 
         PreparationFlow preparationFlow = new PreparationFlow(jsonMapper, path);
 
@@ -65,8 +65,8 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
                         .json(preparationFlow.responseFromThreeDsServer()));
 
         // now cache is filled, but pan is not in card ranges
-        assertEquals("20190411083623719000", serialNumStorageService.getSerialNum(testCase));
-        assertFalse(cardRangesStorageService.isInCardRange(testCase, "7654320500000001"));
+        assertEquals("20190411083623719000", testPlatformSerialNumStorageService.getSerialNum(testCase));
+        assertFalse(testPlatformCardRangesStorageService.isInCardRange(testCase, "7654320500000001"));
 
         // second stub
         preparationFlow.givenSecondDsStub(testCase);
@@ -79,7 +79,7 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
                 .andExpect(content().json(preparationFlow.responseFromThreeDsServer()));
 
         // after update, pan is in card ranges
-        assertEquals("20190411083625236000", serialNumStorageService.getSerialNum(testCase));
-        assertTrue(cardRangesStorageService.isInCardRange(testCase, "7654320500000001"));
+        assertEquals("20190411083625236000", testPlatformSerialNumStorageService.getSerialNum(testCase));
+        assertTrue(testPlatformCardRangesStorageService.isInCardRange(testCase, "7654320500000001"));
     }
 }

@@ -4,16 +4,22 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
-import com.rbkmoney.threeds.server.service.CardRangesStorageService;
+import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
+import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
+import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.*;
+import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.lang.Long.parseLong;
 
-public class TestPlatformCardRangesStorageService implements CardRangesStorageService {
+public class TestPlatformCardRangesStorageService {
 
     private final Cache<String, Set<CardRange>> cardRangesById;
 
@@ -23,29 +29,31 @@ public class TestPlatformCardRangesStorageService implements CardRangesStorageSe
                 .build();
     }
 
-    public void updateCardRanges(String ulTestCaseId, List<CardRange> newCardRanges) {
+    public void updateCardRanges(PRes pRes) {
+        String ulTestCaseId = pRes.getUlTestCaseId();
+        List<CardRange> cardRanges = cardRanges(pRes);
+        boolean isNeedStorageClear = isNeedStorageClear(pRes);
+
         Set<CardRange> storageCardRanges = getStorageCardRanges(ulTestCaseId);
 
-        for (CardRange newCardRange : newCardRanges) {
-            switch (getValue(newCardRange.getActionInd())) {
-                case ADD_CARD_RANGE_TO_CACHE:
-                    storageCardRanges.add(newCardRange);
-                    break;
-                case MODIFY_CARD_RANGE_DATA:
-                    storageCardRanges.remove(newCardRange);
-                    storageCardRanges.add(newCardRange);
-                    break;
-                case DELETE_CARD_RANGE_FROM_CACHE:
-                    storageCardRanges.remove(newCardRange);
-                    break;
-                default:
-                    throw new IllegalArgumentException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", newCardRange));
-            }
+        if (isNeedStorageClear) {
+            storageCardRanges.clear();
+        } else {
+            cardRanges.stream()
+                    .filter(cardRange -> getValue(cardRange.getActionInd()) == DELETE_CARD_RANGE_FROM_CACHE)
+                    .forEach(storageCardRanges::remove);
         }
+
+        cardRanges.stream()
+                .filter(cardRange -> getValue(cardRange.getActionInd()) == ADD_CARD_RANGE_TO_CACHE
+                        || getValue(cardRange.getActionInd()) == MODIFY_CARD_RANGE_DATA)
+                .forEach(storageCardRanges::add);
     }
 
-    @Override
-    public boolean isValidCardRanges(String ulTestCaseId, List<CardRange> cardRanges) {
+    public boolean isValidCardRanges(PRes pRes) {
+        String ulTestCaseId = pRes.getUlTestCaseId();
+        List<CardRange> cardRanges = cardRanges(pRes);
+
         Set<CardRange> storageCardRanges = getStorageCardRanges(ulTestCaseId);
 
         if (storageCardRanges.isEmpty()) {
@@ -53,11 +61,9 @@ public class TestPlatformCardRangesStorageService implements CardRangesStorageSe
         }
 
         return cardRanges.stream()
-                .filter(cardRange -> getValue(cardRange.getActionInd()) != null)
                 .allMatch(cardRange -> isValidCardRange(storageCardRanges, cardRange));
     }
 
-    @Override
     public boolean isInCardRange(String ulTestCaseId, String acctNumber) {
         Set<CardRange> storageCardRanges = getStorageCardRanges(ulTestCaseId);
 
@@ -84,10 +90,14 @@ public class TestPlatformCardRangesStorageService implements CardRangesStorageSe
 
         switch (actionInd) {
             case ADD_CARD_RANGE_TO_CACHE:
-                return isValidForAddCardRange(storageCardRanges, startRange, endRange);
+                if (existsCardRange(storageCardRanges, startRange, endRange)) {
+                    return true;
+                }
+
+                return existsFreeSpaceForNewCardRange(storageCardRanges, startRange, endRange);
             case MODIFY_CARD_RANGE_DATA:
             case DELETE_CARD_RANGE_FROM_CACHE:
-                return isValidForModifyOrDeleteCardRange(storageCardRanges, startRange, endRange);
+                return existsCardRange(storageCardRanges, startRange, endRange);
             default:
                 throw new IllegalArgumentException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
         }
@@ -100,17 +110,39 @@ public class TestPlatformCardRangesStorageService implements CardRangesStorageSe
                                 && acctNumber <= parseLong(cardRange.getEndRange()));
     }
 
-    private boolean isValidForAddCardRange(Set<CardRange> storageCardRanges, long startRange, long endRange) {
+    private boolean existsFreeSpaceForNewCardRange(Set<CardRange> storageCardRanges, long startRange, long endRange) {
         return storageCardRanges.stream()
                 .allMatch(
                         cardRange -> endRange < parseLong(cardRange.getStartRange())
                                 || parseLong(cardRange.getEndRange()) < startRange);
     }
 
-    private boolean isValidForModifyOrDeleteCardRange(Set<CardRange> storageCardRanges, long startRange, long endRange) {
+    private boolean existsCardRange(Set<CardRange> storageCardRanges, long startRange, long endRange) {
         return storageCardRanges.stream()
                 .anyMatch(
                         cardRange -> parseLong(cardRange.getStartRange()) == startRange
                                 && parseLong(cardRange.getEndRange()) == endRange);
+    }
+
+    private List<CardRange> cardRanges(PRes pRes) {
+        return safeList(pRes.getCardRangeData()).stream()
+                .peek(this::fillEmptyActionInd)
+                .collect(Collectors.toList());
+    }
+
+    private boolean isNeedStorageClear(PRes pRes) {
+        return Optional.ofNullable((pRes.getRequestMessage()))
+                .map(message -> (PReq) message)
+                .map(PReq::getSerialNum)
+                .isEmpty();
+    }
+
+    private void fillEmptyActionInd(CardRange cardRange) {
+        if (cardRange.getActionInd() == null) {
+            EnumWrapper<ActionInd> addAction = new EnumWrapper<>();
+            addAction.setValue(ADD_CARD_RANGE_TO_CACHE);
+
+            cardRange.setActionInd(addAction);
+        }
     }
 }

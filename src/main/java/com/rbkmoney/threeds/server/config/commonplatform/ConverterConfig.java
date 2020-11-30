@@ -22,8 +22,8 @@ public class ConverterConfig {
     }
 
     @Bean
-    public Converter<ValidationResult, Message> messageToErrorResConverter(EnvironmentMessageProperties messageProperties) {
-        return new MessageToErrorResConverter(messageProperties);
+    public Converter<ValidationResult, Message> messageToErrorResConverter(EnvironmentMessageProperties environmentMessageProperties) {
+        return new MessageToErrorResConverter(environmentMessageProperties);
     }
 
     @Bean

@@ -3,18 +3,14 @@ package com.rbkmoney.threeds.server.ds.rbkmoneyplatform.router;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyAuthenticationRequest;
 import com.rbkmoney.threeds.server.ds.DsProvider;
-import com.rbkmoney.threeds.server.ds.DsProviderRouter;
-import com.rbkmoney.threeds.server.service.CardRangesStorageService;
+import com.rbkmoney.threeds.server.ds.RBKMoneyDsProviderRouter;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import static java.util.Arrays.stream;
-
-@Service
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestDsProviderRouter implements DsProviderRouter {
+public class RBKMoneyAuthenticationRequestDsProviderRouter implements RBKMoneyDsProviderRouter {
 
-    private final CardRangesStorageService cardRangesStorageService;
+    private final RBKMoneyCardRangesStorageService rbkMoneyCardRangesStorageService;
 
     @Override
     public DsProvider route(Message message) {
@@ -22,10 +18,6 @@ public class RBKMoneyAuthenticationRequestDsProviderRouter implements DsProvider
 
         String acctNumber = request.getAcctNumber();
 
-        // todo isInCardRange(acctNumber)
-        return stream(DsProvider.values())
-                .filter(provider -> cardRangesStorageService.isInCardRange(provider.getId(), acctNumber))
-                .findFirst()
-                .orElse(null);
+        return rbkMoneyCardRangesStorageService.getDsProvider(acctNumber).orElse(null);
     }
 }

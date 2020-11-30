@@ -2,33 +2,31 @@ package com.rbkmoney.threeds.server.handle;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.ds.DsProvider;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
-import com.rbkmoney.threeds.server.ds.DsProviderRouter;
+import com.rbkmoney.threeds.server.ds.RBKMoneyDsProviderRouter;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public abstract class AbstractRequestHandlerWithRouting extends AbstractRequestHandler {
 
-    private final DsProviderHolder dsProviderHolder;
-    private final DsProviderRouter dsProviderRouter;
+    private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
+    private final RBKMoneyDsProviderRouter rbkMoneyDsProviderRouter;
 
     public AbstractRequestHandlerWithRouting(
-            DsProviderHolder dsProviderHolder,
-            DsProviderRouter dsProviderRouter,
+            RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder,
+            RBKMoneyDsProviderRouter rbkMoneyDsProviderRouter,
             Processor<ValidationResult, Message> processor,
             MessageValidatorService messageValidatorService) {
         super(processor, messageValidatorService);
-        this.dsProviderHolder = dsProviderHolder;
-        this.dsProviderRouter = dsProviderRouter;
+        this.rbkMoneyDsProviderHolder = rbkMoneyDsProviderHolder;
+        this.rbkMoneyDsProviderRouter = rbkMoneyDsProviderRouter;
     }
 
     @Override
     public Message handle(Message message) {
-        DsProvider dsProvider = dsProviderRouter.route(message);
-        dsProviderHolder.setDsProvider(dsProvider);
+        DsProvider dsProvider = rbkMoneyDsProviderRouter.route(message);
+        rbkMoneyDsProviderHolder.setDsProvider(dsProvider);
 
         return super.handle(message);
     }

@@ -2,7 +2,7 @@ package com.rbkmoney.threeds.server.config.builder;
 
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.config.properties.KeystoreProperties;
-import com.rbkmoney.threeds.server.exeption.SSLContextBuilderException;
+import com.rbkmoney.threeds.server.exception.SSLContextBuilderException;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;

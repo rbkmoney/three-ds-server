@@ -3,11 +3,9 @@ package com.rbkmoney.threeds.server.ds.rbkmoneyplatform.router;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyPreparationRequest;
 import com.rbkmoney.threeds.server.ds.DsProvider;
-import com.rbkmoney.threeds.server.ds.DsProviderRouter;
-import org.springframework.stereotype.Service;
+import com.rbkmoney.threeds.server.ds.RBKMoneyDsProviderRouter;
 
-@Service
-public class RBKMoneyPreparationRequestDsProviderRouter implements DsProviderRouter {
+public class RBKMoneyPreparationRequestDsProviderRouter implements RBKMoneyDsProviderRouter {
 
     @Override
     public DsProvider route(Message message) {

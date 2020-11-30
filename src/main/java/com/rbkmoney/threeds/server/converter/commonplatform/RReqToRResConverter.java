@@ -27,7 +27,6 @@ public class RReqToRResConverter implements Converter<ValidationResult, Message>
                 .sdkTransID(rReq.getSdkTransID())
                 .build();
         rRes.setMessageVersion(rReq.getMessageVersion());
-
         return rRes;
     }
 

@@ -15,12 +15,12 @@ public class RBKMoneyPreparationRequestSerialNumContentConstraintValidationHandl
 
     @Override
     public boolean canHandle(RBKMoneyPreparationRequest o) {
-        return o.getSerialNum() != null;
+        return o.getSerialNumber() != null;
     }
 
     @Override
     public ConstraintValidationResult handle(RBKMoneyPreparationRequest o) {
-        String candidate = o.getSerialNum();
+        String candidate = o.getSerialNumber();
         if (StringUtils.isBlank(candidate)) {
             return ConstraintValidationResult.failure(PATTERN, "serialNum");
         }

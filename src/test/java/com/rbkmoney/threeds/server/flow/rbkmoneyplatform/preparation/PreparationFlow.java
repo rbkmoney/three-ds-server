@@ -19,7 +19,7 @@ public class PreparationFlow {
                 .willReturn(
                         aResponse()
                                 .withStatus(HttpStatus.OK.value())
-                                .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                                .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                                 .withBody(jsonMapper.readStringFromFile(path + "pres.json"))));
     }
 

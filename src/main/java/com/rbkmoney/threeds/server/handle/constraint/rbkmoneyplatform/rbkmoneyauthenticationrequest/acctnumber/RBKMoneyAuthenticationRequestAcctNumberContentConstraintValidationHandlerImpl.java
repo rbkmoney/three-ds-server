@@ -1,12 +1,12 @@
 package com.rbkmoney.threeds.server.handle.constraint.rbkmoneyplatform.rbkmoneyauthenticationrequest.acctnumber;
 
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyAuthenticationRequest;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.commonplatform.utils.StringValidator;
 import com.rbkmoney.threeds.server.handle.constraint.rbkmoneyplatform.rbkmoneyauthenticationrequest.RBKMoneyAuthenticationRequestConstraintValidationHandler;
-import com.rbkmoney.threeds.server.service.CardRangesStorageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -14,12 +14,12 @@ import java.util.Optional;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.OUT_OF_CARD_RANGE;
 
 @Component
+@ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 @RequiredArgsConstructor
 public class RBKMoneyAuthenticationRequestAcctNumberContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
-    private final DsProviderHolder dsProviderHolder;
+    private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
     private final StringValidator stringValidator;
-    private final CardRangesStorageService cardRangesStorageService;
 
     @Override
     public boolean canHandle(RBKMoneyAuthenticationRequest o) {
@@ -35,7 +35,7 @@ public class RBKMoneyAuthenticationRequestAcctNumberContentConstraintValidationH
             return validationResult;
         }
 
-        Optional<String> dsProvider = dsProviderHolder.getDsProvider();
+        Optional<String> dsProvider = rbkMoneyDsProviderHolder.getDsProvider();
         if (dsProvider.isEmpty()) {
             return ConstraintValidationResult.failure(OUT_OF_CARD_RANGE, "acctNumber");
         }

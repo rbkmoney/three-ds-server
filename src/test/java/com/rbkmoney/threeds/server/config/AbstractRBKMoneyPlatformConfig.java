@@ -44,17 +44,17 @@ public abstract class AbstractRBKMoneyPlatformConfig {
 
         @Bean
         public RestTemplate visaRestTemplate() {
-            return testRestTemplate();
+            return restTemplate();
         }
 
         @Bean
         public RestTemplate mastercardRestTemplate() {
-            return testRestTemplate();
+            return restTemplate();
         }
 
         @Bean
         public RestTemplate mirRestTemplate() {
-            return testRestTemplate();
+            return restTemplate();
         }
 
         @Bean
@@ -62,7 +62,7 @@ public abstract class AbstractRBKMoneyPlatformConfig {
             return new JsonMapper(objectMapper, resourceLoader);
         }
 
-        private RestTemplate testRestTemplate() {
+        private RestTemplate restTemplate() {
             return new RestTemplate();
         }
     }
@@ -74,6 +74,7 @@ public abstract class AbstractRBKMoneyPlatformConfig {
             super.initialize(configurableApplicationContext);
             TestPropertyValues.of(
                     "platform.mode=RBK_MONEY_PLATFORM",
+                    "asyncConfig.enabled=false",
                     "rbkmoney-preparation-flow.scheduler.enabled=false",
                     "rbkmoney-preparation-flow.scheduler.ds-provider.mastercard.enabled=false",
                     "rbkmoney-preparation-flow.scheduler.ds-provider.mastercard.message-version=2.1.0",

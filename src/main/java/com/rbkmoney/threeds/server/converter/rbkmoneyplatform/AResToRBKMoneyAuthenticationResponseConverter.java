@@ -8,11 +8,11 @@ import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyAuthenticationResponse;
 import com.rbkmoney.threeds.server.domain.transaction.TransactionStatus;
-import com.rbkmoney.threeds.server.ds.DsProviderHolder;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyChallengeFlowTransactionInfoStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
@@ -23,8 +23,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 @RequiredArgsConstructor
 public class AResToRBKMoneyAuthenticationResponseConverter implements Converter<ValidationResult, Message> {
 
-    private final ChallengeFlowTransactionInfoStorageService transactionInfoStorageService;
-    private final DsProviderHolder dsProviderHolder;
+    private final RBKMoneyChallengeFlowTransactionInfoStorageService rbkMoneyChallengeFlowTransactionInfoStorageService;
+    private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -105,11 +105,11 @@ public class AResToRBKMoneyAuthenticationResponseConverter implements Converter<
                 .deviceChannel(aReq.getDeviceChannel())
                 .decoupledAuthMaxTime(aReq.getDecoupledAuthMaxTime())
                 .acsDecConInd(getValue(aRes.getAcsDecConInd()))
-                .dsProviderId(dsProviderHolder.getDsProvider().orElseThrow())
+                .dsProviderId(rbkMoneyDsProviderHolder.getDsProvider().orElseThrow())
                 .messageVersion(aRes.getMessageVersion())
                 .acsUrl(aRes.getAcsURL())
                 .build();
 
-        transactionInfoStorageService.saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
+        rbkMoneyChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
     }
 }

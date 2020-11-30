@@ -4,18 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.config.properties.KeystoreProperties;
 import com.rbkmoney.threeds.server.domain.root.Message;
-import com.rbkmoney.threeds.server.ds.DsClient;
 import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsClient;
 import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
-import com.rbkmoney.threeds.server.service.LogWrapper;
-import org.springframework.boot.actuate.trace.http.HttpExchangeTracer;
-import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
-import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
-import org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyLogWrapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +20,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 import static com.rbkmoney.threeds.server.config.builder.RestTemplateBuilder.restTemplate;
 
@@ -43,29 +35,17 @@ public class ClientConfig {
     }
 
     @Bean
-    public HttpTraceRepository httpTraceRepository() {
-        InMemoryHttpTraceRepository traceRepository = new InMemoryHttpTraceRepository();
-        traceRepository.setCapacity(5);
-        return traceRepository;
-    }
-
-    @Bean
-    public HttpTraceFilter httpTraceFilter(HttpTraceRepository repository, HttpExchangeTracer tracer) {
-        return new HttpTraceFilter(repository, tracer) {
-            @Override
-            protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-                return request.getServletPath().contains("actuator")
-                        || request.getServletPath().contains("favicon");
-            }
-        };
+    @RequestScope
+    public DsProviderHolder dsProviderHolder(RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder) {
+        return rbkMoneyDsProviderHolder;
     }
 
     @Bean
     @RequestScope
-    public DsProviderHolder dsProviderHolder(
-            DsClient visaDsClient,
-            DsClient mastercardDsClient,
-            DsClient mirDsClient,
+    public RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder(
+            RBKMoneyDsClient visaDsClient,
+            RBKMoneyDsClient mastercardDsClient,
+            RBKMoneyDsClient mirDsClient,
             EnvironmentProperties visaEnvironmentProperties,
             EnvironmentProperties mastercardEnvironmentProperties,
             EnvironmentProperties mirEnvironmentProperties) {
@@ -79,54 +59,54 @@ public class ClientConfig {
     }
 
     @Bean
-    public DsClient visaDsClient(
+    public RBKMoneyDsClient visaDsClient(
             RestTemplate visaRestTemplate,
             EnvironmentProperties visaEnvironmentProperties,
             Converter<ValidationResult, Message> messageToErrorResConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver,
-            LogWrapper logWrapper) {
+            RBKMoneyLogWrapper rbkMoneyLogWrapper) {
         return new RBKMoneyDsClient(
                 visaRestTemplate,
                 visaEnvironmentProperties,
                 messageToErrorResConverter,
                 errorCodeResolver,
                 errorMessageResolver,
-                logWrapper);
+                rbkMoneyLogWrapper);
     }
 
     @Bean
-    public DsClient mastercardDsClient(
+    public RBKMoneyDsClient mastercardDsClient(
             RestTemplate mastercardRestTemplate,
             EnvironmentProperties mastercardEnvironmentProperties,
             Converter<ValidationResult, Message> messageToErrorResConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver,
-            LogWrapper logWrapper) {
+            RBKMoneyLogWrapper rbkMoneyLogWrapper) {
         return new RBKMoneyDsClient(
                 mastercardRestTemplate,
                 mastercardEnvironmentProperties,
                 messageToErrorResConverter,
                 errorCodeResolver,
                 errorMessageResolver,
-                logWrapper);
+                rbkMoneyLogWrapper);
     }
 
     @Bean
-    public DsClient mirDsClient(
+    public RBKMoneyDsClient mirDsClient(
             RestTemplate mirRestTemplate,
             EnvironmentProperties mirEnvironmentProperties,
             Converter<ValidationResult, Message> messageToErrorResConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver,
-            LogWrapper logWrapper) {
+            RBKMoneyLogWrapper rbkMoneyLogWrapper) {
         return new RBKMoneyDsClient(
                 mirRestTemplate,
                 mirEnvironmentProperties,
                 messageToErrorResConverter,
                 errorCodeResolver,
                 errorMessageResolver,
-                logWrapper);
+                rbkMoneyLogWrapper);
     }
 
     @Bean

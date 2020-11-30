@@ -2,7 +2,7 @@ package com.rbkmoney.threeds.server.processor.impl;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.exeption.UnexpectedProcessorResultException;
+import com.rbkmoney.threeds.server.exception.UnexpectedProcessorResultException;
 import com.rbkmoney.threeds.server.processor.Processor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;

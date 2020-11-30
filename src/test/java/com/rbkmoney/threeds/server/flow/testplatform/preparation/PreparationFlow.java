@@ -19,7 +19,7 @@ public class PreparationFlow {
                 .willReturn(
                         aResponse()
                                 .withStatus(HttpStatus.OK.value())
-                                .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                                .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                                 .withHeader("x-ul-testcaserun-id", testCase)
                                 .withBody(jsonMapper.readStringFromFile(path + "pres.json"))));
     }
@@ -31,7 +31,7 @@ public class PreparationFlow {
                 .willReturn(
                         aResponse()
                                 .withStatus(HttpStatus.OK.value())
-                                .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                                .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                                 .withHeader("x-ul-testcaserun-id", testCase)
                                 .withBody(jsonMapper.readStringFromFile(path + "pres-second.json"))));
     }

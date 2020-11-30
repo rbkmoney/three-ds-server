@@ -19,7 +19,7 @@ public class ChallengeFlow {
         stubFor(post(urlEqualTo("/form/authentication"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                         .withBody(responseFromAcs(testCase, AcsHtmlResponse.html_form_authentication))));
     }
 
@@ -27,7 +27,7 @@ public class ChallengeFlow {
         stubFor(post(urlEqualTo("/form/authentication/second"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                         .withBody(responseFromAcs(testCase, AcsHtmlResponse.html_form_authentication_second))));
     }
 
@@ -35,7 +35,7 @@ public class ChallengeFlow {
         stubFor(post(urlEqualTo("/form/authentication/third"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                         .withBody(responseFromAcs(testCase, AcsHtmlResponse.html_form_authentication_third))));
     }
 
@@ -43,7 +43,7 @@ public class ChallengeFlow {
         stubFor(post(urlEqualTo("/form/card/blocked"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                         .withBody(responseFromAcs(testCase, AcsHtmlResponse.html_form_card_blocked))));
     }
 
@@ -51,7 +51,7 @@ public class ChallengeFlow {
         stubFor(post(urlEqualTo("/form/cres/success"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                         .withBody(responseFromAcs(testCase, AcsHtmlResponse.html_form_cres_success))));
     }
 
@@ -59,7 +59,7 @@ public class ChallengeFlow {
         stubFor(get(urlEqualTo("/form/cres/error"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                         .withBody(responseFromAcs(testCase, AcsHtmlResponse.html_form_cres_error))));
     }
 
@@ -67,7 +67,7 @@ public class ChallengeFlow {
         stubFor(get(urlEqualTo("/cres/cancel"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                         .withBody(responseFromAcs(testCase, AcsHtmlResponse.html_form_cres_after_cancel))));
     }
 
