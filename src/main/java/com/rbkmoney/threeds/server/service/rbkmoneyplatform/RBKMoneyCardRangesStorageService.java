@@ -44,7 +44,8 @@ public class RBKMoneyCardRangesStorageService {
                 boolean isNeedStorageClear = isNeedStorageClear(pRes);
 
                 log.info(
-                        "Update CardRanges in storage, dsProviderId={}, isNeedStorageClear={}, serialNumber={}, cardRanges={}",
+                        "Update CardRanges in storage (during the current 'Initialization PreparationFlow'), " +
+                                "dsProviderId={}, isNeedStorageClear={}, serialNumber={}, cardRanges={}",
                         dsProviderId,
                         isNeedStorageClear,
                         pRes.getSerialNum(),
@@ -60,14 +61,16 @@ public class RBKMoneyCardRangesStorageService {
                 cardRangesStorageClient.updateCardRanges(request);
 
                 log.info(
-                        "Finish update CardRanges in storage, providerId={}, isNeedStorageClear={}, serialNumber={}, cardRanges={}",
+                        "Finish update CardRanges in storage (during the current 'Initialization PreparationFlow'), " +
+                                "dsProviderId={}, isNeedStorageClear={}, serialNumber={}, cardRanges={}",
                         dsProviderId,
                         isNeedStorageClear,
                         pRes.getSerialNum(),
                         tCardRanges.size());
             } else {
                 log.info(
-                        "CardRanges does NOT need to update in storage BECAUSE CardRanges is empty, dsProviderId={}, serialNumber={}, cardRanges={}",
+                        "CardRanges does NOT need to update in storage BECAUSE CardRanges is empty (during the current 'Initialization PreparationFlow'), " +
+                                "dsProviderId={}, serialNumber={}, cardRanges={}",
                         dsProviderId,
                         pRes.getSerialNum(),
                         cardRanges.size());
@@ -93,15 +96,15 @@ public class RBKMoneyCardRangesStorageService {
 
                 boolean isValidCardRanges = cardRangesStorageClient.isValidCardRanges(dsProviderId, tCardRanges);
 
-                log.info("CardRanges is valid = {}, dsProviderId={}, cardRanges={}", isValidCardRanges, dsProviderId, cardRanges.size());
+                log.info("CardRanges is valid = '{}', dsProviderId={}, cardRanges={}", isValidCardRanges, dsProviderId, cardRanges.size());
 
                 return isValidCardRanges;
             } else {
                 log.info(
-                        "CardRanges for dsProviderId = {} does NOT need to validate in storage BECAUSE (one of them):\n " +
-                                "- CardRanges is empty = {};\n" +
-                                "- Storage needs to be cleaned the obsolete CardRanges (OR just add the new CardRanges in empty storage) = {};\n" +
-                                "- Storage is empty = {}.",
+                        "CardRanges for dsProviderId = '{}' does NOT need to validate in storage BECAUSE (one of them):\n" +
+                                "- CardRanges is empty = '{}';\n" +
+                                "- Storage needs to be cleaned the obsolete CardRanges (OR just add the new CardRanges in empty storage) = '{}';\n" +
+                                "- Storage is empty = '{}'.",
                         dsProviderId,
                         isEmptyCardRanges,
                         isNeedStorageClear,
@@ -123,7 +126,7 @@ public class RBKMoneyCardRangesStorageService {
         try {
             String dsProviderId = cardRangesStorageClient.getDirectoryServerProviderId(Long.parseLong(accountNumber));
 
-            log.info("ProviderId by accountNumber has been found, providerId={}, accountNumber={}", dsProviderId, hideAccountNumber(accountNumber));
+            log.info("ProviderId by AccountNumber has been found, dsProviderId={}, accountNumber={}", dsProviderId, hideAccountNumber(accountNumber));
 
             return dsProviderId;
         } catch (DirectoryServerProviderIDNotFound ex) {
@@ -137,7 +140,7 @@ public class RBKMoneyCardRangesStorageService {
         try {
             boolean isStorageEmpty = cardRangesStorageClient.isStorageEmpty(dsProviderId);
 
-            log.info("Storage is empty = {}, dsProviderId={}", isStorageEmpty, dsProviderId);
+            log.info("Storage is empty = '{}', dsProviderId={}", isStorageEmpty, dsProviderId);
 
             return isStorageEmpty;
         } catch (TException e) {
