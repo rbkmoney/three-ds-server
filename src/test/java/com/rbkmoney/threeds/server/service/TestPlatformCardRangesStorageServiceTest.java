@@ -82,7 +82,6 @@ public class TestPlatformCardRangesStorageServiceTest {
 
         pRes = pRes(
                 cardRange(ActionInd.MODIFY_CARD_RANGE_DATA, "1000", "1099"));
-        pRes.setRequestMessage(PReq.builder().serialNum("1").build());
 
         testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
@@ -105,7 +104,6 @@ public class TestPlatformCardRangesStorageServiceTest {
 
         pRes = pRes(
                 cardRange(ActionInd.DELETE_CARD_RANGE_FROM_CACHE, "1000", "1099"));
-        pRes.setRequestMessage(PReq.builder().serialNum("1").build());
 
         testPlatformCardRangesStorageService.updateCardRanges(pRes);
 
@@ -231,6 +229,7 @@ public class TestPlatformCardRangesStorageServiceTest {
                 .cardRangeData(List.of(elements))
                 .build();
         pRes.setUlTestCaseId(TEST_TAG);
+        pRes.setRequestMessage(PReq.builder().serialNum("1").build());
         return pRes;
     }
 }
