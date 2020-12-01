@@ -32,36 +32,39 @@ public class TestPlatformCardRangesStorageService {
     public void updateCardRanges(PRes pRes) {
         String ulTestCaseId = pRes.getUlTestCaseId();
         List<CardRange> cardRanges = cardRanges(pRes);
-        boolean isNeedStorageClear = isNeedStorageClear(pRes);
+        if (!cardRanges.isEmpty()) {
+            boolean isNeedStorageClear = isNeedStorageClear(pRes);
 
-        Set<CardRange> storageCardRanges = getStorageCardRanges(ulTestCaseId);
+            Set<CardRange> storageCardRanges = getStorageCardRanges(ulTestCaseId);
 
-        if (isNeedStorageClear) {
-            storageCardRanges.clear();
-        } else {
+            if (isNeedStorageClear) {
+                storageCardRanges.clear();
+            } else {
+                cardRanges.stream()
+                        .filter(cardRange -> getValue(cardRange.getActionInd()) == DELETE_CARD_RANGE_FROM_CACHE)
+                        .forEach(storageCardRanges::remove);
+            }
+
             cardRanges.stream()
-                    .filter(cardRange -> getValue(cardRange.getActionInd()) == DELETE_CARD_RANGE_FROM_CACHE)
-                    .forEach(storageCardRanges::remove);
+                    .filter(cardRange -> getValue(cardRange.getActionInd()) == ADD_CARD_RANGE_TO_CACHE
+                            || getValue(cardRange.getActionInd()) == MODIFY_CARD_RANGE_DATA)
+                    .forEach(storageCardRanges::add);
         }
-
-        cardRanges.stream()
-                .filter(cardRange -> getValue(cardRange.getActionInd()) == ADD_CARD_RANGE_TO_CACHE
-                        || getValue(cardRange.getActionInd()) == MODIFY_CARD_RANGE_DATA)
-                .forEach(storageCardRanges::add);
     }
 
     public boolean isValidCardRanges(PRes pRes) {
         String ulTestCaseId = pRes.getUlTestCaseId();
         List<CardRange> cardRanges = cardRanges(pRes);
+        boolean isNeedStorageClear = isNeedStorageClear(pRes);
 
         Set<CardRange> storageCardRanges = getStorageCardRanges(ulTestCaseId);
 
-        if (storageCardRanges.isEmpty()) {
+        if (!cardRanges.isEmpty() && !isNeedStorageClear && !storageCardRanges.isEmpty()) {
+            return cardRanges.stream()
+                    .allMatch(cardRange -> isValidCardRange(storageCardRanges, cardRange));
+        } else {
             return true;
         }
-
-        return cardRanges.stream()
-                .allMatch(cardRange -> isValidCardRange(storageCardRanges, cardRange));
     }
 
     public boolean isInCardRange(String ulTestCaseId, String acctNumber) {

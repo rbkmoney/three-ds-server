@@ -35,58 +35,80 @@ public class RBKMoneyCardRangesStorageService {
     public void updateCardRanges(String dsProviderId, PRes pRes) {
         try {
             List<CardRange> cardRanges = safeList(pRes.getCardRangeData());
+            if (!cardRanges.isEmpty()) {
+                // fill default value in null field
+                cardRanges.forEach(this::fillEmptyActionInd);
 
-            cardRanges.forEach(this::fillEmptyActionInd);
+                var tCardRanges = cardRangeConverter.toThrift(cardRanges);
 
-            var tCardRanges = cardRangeConverter.toThrift(cardRanges);
+                boolean isNeedStorageClear = isNeedStorageClear(pRes);
 
-            boolean isNeedStorageClear = Optional.ofNullable(((PReq) pRes.getRequestMessage()))
-                    .map(PReq::getSerialNum)
-                    .isEmpty();
+                log.info(
+                        "Update CardRanges in storage, dsProviderId={}, isNeedStorageClear={}, serialNumber={}, cardRanges={}",
+                        dsProviderId,
+                        isNeedStorageClear,
+                        pRes.getSerialNum(),
+                        tCardRanges.size());
 
-            log.info(
-                    "[async] Update CardRanges, dsProviderId={}, isNeedStorageClear={}, serialNumber={}, cardRanges={}",
-                    dsProviderId,
-                    isNeedStorageClear,
-                    pRes.getSerialNum(),
-                    tCardRanges.size());
+                UpdateCardRangesRequest request = new UpdateCardRangesRequest()
+                        .setProviderId(dsProviderId)
+                        .setMessageVersion(pRes.getMessageVersion())
+                        .setCardRanges(tCardRanges)
+                        .setSerialNumber(pRes.getSerialNum())
+                        .setIsNeedStorageClear(isNeedStorageClear);
 
-            UpdateCardRangesRequest request = new UpdateCardRangesRequest()
-                    .setProviderId(dsProviderId)
-                    .setMessageVersion(pRes.getMessageVersion())
-                    .setCardRanges(tCardRanges)
-                    .setSerialNumber(pRes.getSerialNum())
-                    .setIsNeedStorageClear(isNeedStorageClear);
+                cardRangesStorageClient.updateCardRanges(request);
 
-            cardRangesStorageClient.updateCardRanges(request);
-
-            log.info(
-                    "[async] Finish update CardRanges, providerId={}, isNeedStorageClear={}, serialNumber={}, cardRanges={}",
-                    dsProviderId,
-                    isNeedStorageClear,
-                    pRes.getSerialNum(),
-                    tCardRanges.size());
+                log.info(
+                        "Finish update CardRanges in storage, providerId={}, isNeedStorageClear={}, serialNumber={}, cardRanges={}",
+                        dsProviderId,
+                        isNeedStorageClear,
+                        pRes.getSerialNum(),
+                        tCardRanges.size());
+            } else {
+                log.info(
+                        "CardRanges does NOT need to update in storage BECAUSE CardRanges is empty, dsProviderId={}, serialNumber={}, cardRanges={}",
+                        dsProviderId,
+                        pRes.getSerialNum(),
+                        cardRanges.size());
+            }
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }
     }
 
-    public boolean isValidCardRanges(String dsProviderId, List<CardRange> cardRanges) {
-        if (storageIsEmpty(dsProviderId)) {
-            return true;
-        }
-
-        var tCardRanges = cardRanges.stream()
-                .peek(this::fillEmptyActionInd)
-                .map(cardRangeConverter::toThrift)
-                .collect(Collectors.toList());
-
+    public boolean isValidCardRanges(String dsProviderId, PRes pRes) {
         try {
-            boolean isValidCardRanges = cardRangesStorageClient.isValidCardRanges(dsProviderId, tCardRanges);
+            List<CardRange> cardRanges = safeList(pRes.getCardRangeData());
 
-            log.info("isValidCardRanges={}, dsProviderId={}, cardRanges={}", isValidCardRanges, dsProviderId, cardRanges.size());
+            boolean isEmptyCardRanges = cardRanges.isEmpty();
+            boolean isNeedStorageClear = isNeedStorageClear(pRes);
+            boolean isEmptyStorage = storageIsEmpty(dsProviderId);
 
-            return isValidCardRanges;
+            if (!isEmptyCardRanges && !isNeedStorageClear && !isEmptyStorage) {
+                var tCardRanges = cardRanges.stream()
+                        .peek(this::fillEmptyActionInd)
+                        .map(cardRangeConverter::toThrift)
+                        .collect(Collectors.toList());
+
+                boolean isValidCardRanges = cardRangesStorageClient.isValidCardRanges(dsProviderId, tCardRanges);
+
+                log.info("CardRanges is valid = {}, dsProviderId={}, cardRanges={}", isValidCardRanges, dsProviderId, cardRanges.size());
+
+                return isValidCardRanges;
+            } else {
+                log.info(
+                        "CardRanges for dsProviderId = {} does NOT need to validate in storage BECAUSE (one of them):\n " +
+                                "- CardRanges is empty = {};\n" +
+                                "- Storage needs to be cleaned the obsolete CardRanges (OR just add the new CardRanges in empty storage) = {};\n" +
+                                "- Storage is empty = {}.",
+                        dsProviderId,
+                        isEmptyCardRanges,
+                        isNeedStorageClear,
+                        isEmptyStorage);
+
+                return true;
+            }
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }
@@ -101,7 +123,7 @@ public class RBKMoneyCardRangesStorageService {
         try {
             String dsProviderId = cardRangesStorageClient.getDirectoryServerProviderId(Long.parseLong(accountNumber));
 
-            log.info("getDirectoryServerProviderId={}, accountNumber={}", dsProviderId, hideAccountNumber(accountNumber));
+            log.info("ProviderId by accountNumber has been found, providerId={}, accountNumber={}", dsProviderId, hideAccountNumber(accountNumber));
 
             return dsProviderId;
         } catch (DirectoryServerProviderIDNotFound ex) {
@@ -115,12 +137,19 @@ public class RBKMoneyCardRangesStorageService {
         try {
             boolean isStorageEmpty = cardRangesStorageClient.isStorageEmpty(dsProviderId);
 
-            log.info("isStorageEmpty={}, dsProviderId={}", isStorageEmpty, dsProviderId);
+            log.info("Storage is empty = {}, dsProviderId={}", isStorageEmpty, dsProviderId);
 
             return isStorageEmpty;
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }
+    }
+
+    private boolean isNeedStorageClear(PRes pRes) {
+        return Optional.ofNullable((pRes.getRequestMessage()))
+                .map(message -> (PReq) message)
+                .map(PReq::getSerialNum)
+                .isEmpty();
     }
 
     private void fillEmptyActionInd(CardRange cardRange) {

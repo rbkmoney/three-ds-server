@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.util.List;
 import java.util.Set;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
@@ -41,9 +40,7 @@ public class RBKMoneyCardRangeContentConstraintValidationHandlerImpl implements 
 //            return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
 //        }
 
-        List<CardRange> cardRanges = safeList(o.getCardRangeData());
-
-        for (CardRange cardRange : cardRanges) {
+        for (CardRange cardRange : safeList(o.getCardRangeData())) {
             long startRange = parseLong(cardRange.getStartRange());
             long endRange = parseLong(cardRange.getEndRange());
             if (startRange > endRange) {
@@ -61,7 +58,8 @@ public class RBKMoneyCardRangeContentConstraintValidationHandlerImpl implements 
         }
 
         String dsProvider = rbkMoneyDsProviderHolder.getDsProvider().orElseThrow();
-        if (!rbkMoneyCardRangesStorageService.isValidCardRanges(dsProvider, cardRanges)) {
+
+        if (!rbkMoneyCardRangesStorageService.isValidCardRanges(dsProvider, o)) {
             return ConstraintValidationResult.failure(PATTERN, "cardRangeData");
         }
 
