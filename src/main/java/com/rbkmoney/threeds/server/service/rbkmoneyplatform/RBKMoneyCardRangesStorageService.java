@@ -12,6 +12,7 @@ import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.exception.ExternalStorageException;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.scheduling.annotation.Async;
 
@@ -20,9 +21,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.ADD_CARD_RANGE_TO_CACHE;
+import static com.rbkmoney.threeds.server.utils.AccountNumberUtils.hideAccountNumber;
 import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 
 @RequiredArgsConstructor
+@Slf4j
 public class RBKMoneyCardRangesStorageService {
 
     private final CardRangesStorageSrv.Iface cardRangesStorageClient;
@@ -41,6 +44,13 @@ public class RBKMoneyCardRangesStorageService {
                     .map(PReq::getSerialNum)
                     .isEmpty();
 
+            log.info(
+                    "[async] Update CardRanges, dsProviderId={}, isNeedStorageClear={}, serialNumber={}, cardRanges={}",
+                    dsProviderId,
+                    isNeedStorageClear,
+                    pRes.getSerialNum(),
+                    tCardRanges.size());
+
             UpdateCardRangesRequest request = new UpdateCardRangesRequest()
                     .setProviderId(dsProviderId)
                     .setMessageVersion(pRes.getMessageVersion())
@@ -49,6 +59,13 @@ public class RBKMoneyCardRangesStorageService {
                     .setIsNeedStorageClear(isNeedStorageClear);
 
             cardRangesStorageClient.updateCardRanges(request);
+
+            log.info(
+                    "[async] Finish update CardRanges, providerId={}, isNeedStorageClear={}, serialNumber={}, cardRanges={}",
+                    dsProviderId,
+                    isNeedStorageClear,
+                    pRes.getSerialNum(),
+                    tCardRanges.size());
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }
@@ -65,7 +82,11 @@ public class RBKMoneyCardRangesStorageService {
                 .collect(Collectors.toList());
 
         try {
-            return cardRangesStorageClient.isValidCardRanges(dsProviderId, tCardRanges);
+            boolean isValidCardRanges = cardRangesStorageClient.isValidCardRanges(dsProviderId, tCardRanges);
+
+            log.info("isValidCardRanges={}, dsProviderId={}, cardRanges={}", isValidCardRanges, dsProviderId, cardRanges.size());
+
+            return isValidCardRanges;
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }
@@ -78,7 +99,11 @@ public class RBKMoneyCardRangesStorageService {
 
     private String getDirectoryServerProviderId(String accountNumber) {
         try {
-            return cardRangesStorageClient.getDirectoryServerProviderId(Long.parseLong(accountNumber));
+            String dsProviderId = cardRangesStorageClient.getDirectoryServerProviderId(Long.parseLong(accountNumber));
+
+            log.info("getDirectoryServerProviderId={}, accountNumber={}", dsProviderId, hideAccountNumber(accountNumber));
+
+            return dsProviderId;
         } catch (DirectoryServerProviderIDNotFound ex) {
             return null;
         } catch (TException e) {
@@ -88,7 +113,11 @@ public class RBKMoneyCardRangesStorageService {
 
     private boolean storageIsEmpty(String dsProviderId) {
         try {
-            return cardRangesStorageClient.isStorageEmpty(dsProviderId);
+            boolean isStorageEmpty = cardRangesStorageClient.isStorageEmpty(dsProviderId);
+
+            log.info("isStorageEmpty={}, dsProviderId={}", isStorageEmpty, dsProviderId);
+
+            return isStorageEmpty;
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }

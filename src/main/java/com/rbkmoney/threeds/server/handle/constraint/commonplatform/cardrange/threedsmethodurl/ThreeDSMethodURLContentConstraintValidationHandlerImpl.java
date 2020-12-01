@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.stereotype.Component;
 
-import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-
 @Component
 @RequiredArgsConstructor
 public class ThreeDSMethodURLContentConstraintValidationHandlerImpl implements CardRangeConstraintValidationHandler {
@@ -29,9 +27,9 @@ public class ThreeDSMethodURLContentConstraintValidationHandlerImpl implements C
             return validationResult;
         }
 
-        if (!urlValidator.isValid(o.getThreeDSMethodURL())) {
-            return ConstraintValidationResult.failure(PATTERN, "threeDSMethodURL");
-        }
+//        if (!urlValidator.isValid(o.getThreeDSMethodURL())) {
+//            return ConstraintValidationResult.failure(PATTERN, "threeDSMethodURL");
+//        }
 
         return validationResult;
     }

@@ -8,10 +8,13 @@ import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.flow.ErrorCodeResolver;
 import com.rbkmoney.threeds.server.flow.ErrorMessageResolver;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URL;
 
 @RequiredArgsConstructor
 public abstract class AbstractDsClient implements DsClient {
@@ -36,13 +39,13 @@ public abstract class AbstractDsClient implements DsClient {
     }
 
     protected ResponseEntity<Message> processRequest(Message requestMessage) {
-        info("Request to DS", requestMessage);
+        info(format("-> Req [%s]:"), requestMessage);
 
         ResponseEntity<Message> responseMessageEntity = restTemplate.postForEntity(environmentProperties.getDsUrl(), requestMessage, Message.class);
 
         Message responseMessage = responseMessageEntity.getBody();
 
-        info("Response from DS", responseMessage);
+        info(format("<- Res [%s]"), responseMessage);
 
         responseMessage.setRequestMessage(requestMessage);
 
@@ -54,6 +57,10 @@ public abstract class AbstractDsClient implements DsClient {
         return messageToErrorResConverter.convert(createFailureValidationResult(request, errorCode));
     }
 
+    protected abstract void info(String message, Message data);
+
+    protected abstract void warn(String message, Throwable ex);
+
     private ValidationResult createFailureValidationResult(Message request, ErrorCode errorCode) {
         return ValidationResult.failure(
                 errorCode,
@@ -63,8 +70,10 @@ public abstract class AbstractDsClient implements DsClient {
         );
     }
 
-    protected abstract void info(String message, Message data);
-
-    protected abstract void warn(String message, Throwable ex);
-
+    @SneakyThrows
+    private String format(String format) {
+        String path = new URL(environmentProperties.getDsUrl()).getPath();
+        String endpoint = "POST " + path;
+        return String.format(format, endpoint);
+    }
 }
