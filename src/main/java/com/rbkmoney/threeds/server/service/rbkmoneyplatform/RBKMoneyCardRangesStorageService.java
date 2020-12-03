@@ -37,7 +37,7 @@ public class RBKMoneyCardRangesStorageService {
             List<CardRange> cardRanges = safeList(pRes.getCardRangeData());
             if (!cardRanges.isEmpty()) {
                 // fill default value in null field
-                cardRanges.forEach(this::fillEmptyActionInd);
+                cardRanges.forEach(cardRange -> fillRequiredFields(pRes, cardRange));
 
                 var tCardRanges = cardRangeConverter.toThrift(cardRanges);
 
@@ -90,7 +90,7 @@ public class RBKMoneyCardRangesStorageService {
 
             if (!isEmptyCardRanges && !isNeedStorageClear && !isEmptyStorage) {
                 var tCardRanges = cardRanges.stream()
-                        .peek(this::fillEmptyActionInd)
+                        .peek(cardRange -> fillRequiredFields(pRes, cardRange))
                         .map(cardRangeConverter::toThrift)
                         .collect(Collectors.toList());
 
@@ -155,12 +155,22 @@ public class RBKMoneyCardRangesStorageService {
                 .isEmpty();
     }
 
-    private void fillEmptyActionInd(CardRange cardRange) {
-        if (cardRange.getActionInd() == null) {
-            EnumWrapper<ActionInd> addAction = new EnumWrapper<>();
-            addAction.setValue(ADD_CARD_RANGE_TO_CACHE);
-
-            cardRange.setActionInd(addAction);
+    private void fillRequiredFields(PRes pRes, CardRange cardRange) {
+        Optional<CardRange> rangeOptional = Optional.of(cardRange);
+        if (rangeOptional.map(CardRange::getActionInd).map(EnumWrapper::getValue).isEmpty()) {
+            cardRange.setActionInd(addAction());
         }
+        if (rangeOptional.map(CardRange::getDsStartProtocolVersion).isEmpty()) {
+            cardRange.setDsStartProtocolVersion(pRes.getDsStartProtocolVersion());
+        }
+        if (rangeOptional.map(CardRange::getDsEndProtocolVersion).isEmpty()) {
+            cardRange.setDsEndProtocolVersion(pRes.getDsEndProtocolVersion());
+        }
+    }
+
+    private EnumWrapper<ActionInd> addAction() {
+        EnumWrapper<ActionInd> addAction = new EnumWrapper<>();
+        addAction.setValue(ADD_CARD_RANGE_TO_CACHE);
+        return addAction;
     }
 }
