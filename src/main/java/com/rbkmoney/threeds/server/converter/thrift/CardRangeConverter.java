@@ -4,14 +4,15 @@ import com.rbkmoney.damsel.three_ds_server_storage.Action;
 import com.rbkmoney.damsel.three_ds_server_storage.Add;
 import com.rbkmoney.damsel.three_ds_server_storage.Delete;
 import com.rbkmoney.damsel.three_ds_server_storage.Modify;
+import com.rbkmoney.threeds.server.domain.acs.AcsInfoInd;
 import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
+import com.rbkmoney.threeds.server.serialization.EnumWrapper;
+import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.*;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
@@ -48,6 +49,26 @@ public class CardRangeConverter {
                 .setRangeStart(parseLong(domain.getStartRange()))
                 .setRangeEnd(parseLong(domain.getEndRange()))
                 .setAction(ACTION_MAP.get(getValue(domain.getActionInd())))
+                .setAcsStart(domain.getAcsStartProtocolVersion())
+                .setAcsEnd(domain.getAcsEndProtocolVersion())
+                .setDsStart(domain.getDsStartProtocolVersion())
+                .setDsEnd(domain.getDsEndProtocolVersion())
+                .setAcsInformationIndicator(acsInfoInd(domain))
                 .setThreeDsMethodUrl(domain.getThreeDSMethodURL());
+    }
+
+    private String acsInfoInd(CardRange domain) {
+        return Optional.ofNullable(domain.getAcsInfoInd())
+                .map(ListWrapper::getValue)
+                .map(
+                        enumWrappers -> enumWrappers.stream()
+                                .map(
+                                        enumWrapper -> Optional.ofNullable(enumWrapper)
+                                                .map(EnumWrapper::getValue))
+                                .filter(Optional::isPresent)
+                                .map(Optional::get)
+                                .map(AcsInfoInd::getValue)
+                                .collect(Collectors.joining(",")))
+                .orElse(null);
     }
 }
