@@ -37,11 +37,14 @@ public class SchedulatorService {
                 .setContext(preparationFlowRequestSerializer.serialize(initRBKMoneyPreparationFlowRequest));
 
         try {
+            schedulatorClient.deregisterJob(jobId);
             schedulatorClient.registerJob(jobId, registerJobRequest);
+        } catch (ScheduleNotFound e) {
+            log.info("Job with id={} does not exist. No deregister needed", jobId, e);
         } catch (ScheduleAlreadyExists e) {
             log.info("Job with id={} already exists. No register needed", jobId, e);
         } catch (TException e) {
-            log.error("Exception when trying to register job with id={}", jobId, e);
+            log.warn("Exception when trying to register job with id={}", jobId, e);
         }
     }
 
@@ -54,7 +57,7 @@ public class SchedulatorService {
         } catch (ScheduleNotFound e) {
             log.info("Job with id={} does not exist. No deregister needed", jobId, e);
         } catch (TException e) {
-            log.error("Exception when trying to deregister job with id={}", jobId, e);
+            log.warn("Exception when trying to deregister job with id={}", jobId, e);
         }
     }
 }
