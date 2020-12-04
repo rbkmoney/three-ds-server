@@ -53,7 +53,7 @@ public class SchedulatorService {
         } catch (ScheduleAlreadyExists e) {
             log.info("Job already exists. No register needed, jobId={}", jobId, e);
         } catch (TException e) {
-            log.warn("Exception when trying to register job, jobId={}", jobId, e);
+            log.error("Exception when trying to register job, jobId={}", jobId, e);
         }
     }
 
@@ -63,7 +63,7 @@ public class SchedulatorService {
         } catch (ScheduleNotFound e) {
             log.info("Job does not exist. No deregister needed, jobId={}", jobId, e);
         } catch (TException e) {
-            log.warn("Exception when trying to deregister job, jobId={}", jobId, e);
+            log.error("Exception when trying to deregister job, jobId={}", jobId, e);
         }
     }
 }

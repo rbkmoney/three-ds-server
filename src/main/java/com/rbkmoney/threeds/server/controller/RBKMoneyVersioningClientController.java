@@ -35,7 +35,7 @@ public class RBKMoneyVersioningClientController {
                     rbkMoneyCardRangesStorageService.getAccountNumberVersion(
                             Long.parseLong(accountNumber)));
         } catch (Throwable ex) {
-            log.warn("Error with /versioning", ex);
+            log.error("Error with /versioning", ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
