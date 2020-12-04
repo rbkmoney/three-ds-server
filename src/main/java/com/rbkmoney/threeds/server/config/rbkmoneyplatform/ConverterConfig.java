@@ -30,9 +30,8 @@ public class ConverterConfig {
 
     @Bean
     public Converter<ValidationResult, Message> rbkMoneyAuthenticationRequestToAReqConverter(
-            RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder,
-            IdGenerator idGenerator) {
-        return new RBKMoneyAuthenticationRequestToAReqConverter(rbkMoneyDsProviderHolder, idGenerator);
+            RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder) {
+        return new RBKMoneyAuthenticationRequestToAReqConverter(rbkMoneyDsProviderHolder);
     }
 
     @Bean

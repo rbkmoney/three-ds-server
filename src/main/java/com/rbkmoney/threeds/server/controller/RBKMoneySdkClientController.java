@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 @RequestMapping("/sdk")
 @RequiredArgsConstructor
-public class RBKMoneyClientController {
+public class RBKMoneySdkClientController {
 
     private final RBKMoneySenderService rbkMoneySenderService;
     private final RBKMoneyLogWrapper rbkMoneyLogWrapper;

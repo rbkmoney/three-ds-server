@@ -7,6 +7,7 @@ import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfo
 import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyChallengeFlowTransactionInfoStorageService;
+import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,8 @@ public class StorageServiceConfig {
     @Bean
     public RBKMoneyCardRangesStorageService rbkMoneyCardRangesStorageService(
             CardRangesStorageSrv.Iface cardRangesStorageClient,
-            CardRangeConverter cardRangeConverter) {
-        return new RBKMoneyCardRangesStorageService(cardRangesStorageClient, cardRangeConverter);
+            CardRangeConverter cardRangeConverter,
+            IdGenerator idGenerator) {
+        return new RBKMoneyCardRangesStorageService(cardRangesStorageClient, cardRangeConverter, idGenerator);
     }
 }

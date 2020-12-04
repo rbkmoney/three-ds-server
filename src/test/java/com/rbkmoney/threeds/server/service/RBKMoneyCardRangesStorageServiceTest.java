@@ -9,6 +9,7 @@ import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
+import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.apache.thrift.TException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,8 @@ public class RBKMoneyCardRangesStorageServiceTest {
         cardRangesStorageClient = mock(CardRangesStorageSrv.Iface.class);
         rbkMoneyCardRangesStorageService = new RBKMoneyCardRangesStorageService(
                 cardRangesStorageClient,
-                new CardRangeConverter());
+                new CardRangeConverter(),
+                new IdGenerator());
     }
 
     @Test
