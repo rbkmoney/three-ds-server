@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.rbkmoney.threeds.server.utils.CrutchChecker.isMirCrutchCondition;
+import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @RequiredArgsConstructor
 public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<ValidationResult, Message> {
