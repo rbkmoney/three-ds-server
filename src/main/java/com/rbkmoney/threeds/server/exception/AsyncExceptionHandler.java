@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
 
     @Override
-    public void handleUncaughtException(Throwable throwable, Method method, Object... obj) {
-        log.warn("Uncaught exception in Async handler with methodName=" + method.getName(), throwable);
+    public void handleUncaughtException(Throwable ex, Method method, Object... obj) {
+        log.warn("Uncaught exception in Async handler with methodName=" + method.getName(), ex);
     }
 }

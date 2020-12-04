@@ -67,7 +67,7 @@ public class ClientExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Throwable.class)
-    public ResponseEntity<Object> handleInternalException(Throwable ex, WebRequest request) {
+    public ResponseEntity<Object> handleThrowableExceptions(Throwable ex, WebRequest request) {
         log.error(
                 String.format("Some internal error with handle servlet request, " +
                         "request=%s, handler will return INTERNAL_SERVER_ERROR", request.toString()),
