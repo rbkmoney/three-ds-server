@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.service.rbkmoneyplatform;
 
+import com.rbkmoney.damsel.three_ds_server_storage.AccountNumberVersion;
 import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
 import com.rbkmoney.damsel.three_ds_server_storage.DirectoryServerProviderIDNotFound;
 import com.rbkmoney.damsel.three_ds_server_storage.UpdateCardRangesRequest;
@@ -8,9 +9,11 @@ import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
+import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersion;
 import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.exception.ExternalStorageException;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
+import com.rbkmoney.threeds.server.utils.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
@@ -30,13 +33,14 @@ public class RBKMoneyCardRangesStorageService {
 
     private final CardRangesStorageSrv.Iface cardRangesStorageClient;
     private final CardRangeConverter cardRangeConverter;
+    private final IdGenerator idGenerator;
 
     @Async
     public void updateCardRanges(String dsProviderId, PRes pRes) {
         try {
             List<CardRange> cardRanges = safeList(pRes.getCardRangeData());
             if (!cardRanges.isEmpty()) {
-                // fill default value in null field
+                // fill default value in required fields
                 cardRanges.forEach(cardRange -> fillRequiredFields(pRes, cardRange));
 
                 var tCardRanges = cardRangeConverter.toThrift(cardRanges);
@@ -122,11 +126,38 @@ public class RBKMoneyCardRangesStorageService {
                 .map(DsProvider::of);
     }
 
+    public Optional<ThreeDsVersion> getAccountNumberVersion(Long accountNumber) {
+        try {
+            AccountNumberVersion accountNumberVersion = cardRangesStorageClient.getAccountNumberVersion(accountNumber);
+            if (accountNumberVersion.isSetThreeDsSecondVersion()) {
+                var tThreeDsSecondVersion = accountNumberVersion.getThreeDsSecondVersion();
+
+                var threeDsVersion = ThreeDsVersion.builder()
+                        .threeDSServerTransID(idGenerator.generateUUID())
+                        .dsProviderId(tThreeDsSecondVersion.getProviderId())
+                        .acsStartProtocolVersion(tThreeDsSecondVersion.getAcsStart())
+                        .acsEndProtocolVersion(tThreeDsSecondVersion.getAcsEnd())
+                        .dsStartProtocolVersion(tThreeDsSecondVersion.getDsStart())
+                        .dsEndProtocolVersion(tThreeDsSecondVersion.getDsEnd())
+                        .threeDSMethodURL(tThreeDsSecondVersion.getThreeDsMethodUrl())
+                        .build();
+
+                log.info("ThreeDsVersion by AccountNumber has been found, threeDsVersion={}", threeDsVersion.toString());
+
+                return Optional.of(threeDsVersion);
+            } else {
+                return Optional.empty();
+            }
+        } catch (TException e) {
+            throw new ExternalStorageException(e);
+        }
+    }
+
     private String getDirectoryServerProviderId(String accountNumber) {
         try {
             String dsProviderId = cardRangesStorageClient.getDirectoryServerProviderId(Long.parseLong(accountNumber));
 
-            log.info("ProviderId by AccountNumber has been found, dsProviderId={}, accountNumber={}", dsProviderId, hideAccountNumber(accountNumber));
+            log.info("DsProviderId by AccountNumber has been found, dsProviderId={}, accountNumber={}", dsProviderId, hideAccountNumber(accountNumber));
 
             return dsProviderId;
         } catch (DirectoryServerProviderIDNotFound ex) {
@@ -156,7 +187,7 @@ public class RBKMoneyCardRangesStorageService {
     }
 
     private void fillRequiredFields(PRes pRes, CardRange cardRange) {
-        Optional<CardRange> rangeOptional = Optional.of(cardRange);
+        var rangeOptional = Optional.of(cardRange);
         if (rangeOptional.map(CardRange::getActionInd).map(EnumWrapper::getValue).isEmpty()) {
             cardRange.setActionInd(addAction());
         }

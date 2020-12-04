@@ -36,25 +36,34 @@ public class SchedulatorService {
                         .setRevision(scheduleProperties.getRevisionId())))
                 .setContext(preparationFlowRequestSerializer.serialize(initRBKMoneyPreparationFlowRequest));
 
-        try {
-            schedulatorClient.registerJob(jobId, registerJobRequest);
-        } catch (ScheduleAlreadyExists e) {
-            log.info("Job with id={} already exists. No register needed", jobId, e);
-        } catch (TException e) {
-            log.error("Exception when trying to register job with id={}", jobId, e);
-        }
+        deregisterJobById(jobId);
+        registerJobById(jobId, registerJobRequest);
     }
 
     public void deregisterJob(String dsProviderId) {
         String jobId = scheduleProperties.getJobIdPrefix() + dsProviderId;
-        log.info("Deregister schedulator job with id={}", jobId);
+        log.info("Deregister schedulator job, jobId={}", jobId);
 
+        deregisterJobById(jobId);
+    }
+
+    private void registerJobById(String jobId, RegisterJobRequest registerJobRequest) {
+        try {
+            schedulatorClient.registerJob(jobId, registerJobRequest);
+        } catch (ScheduleAlreadyExists e) {
+            log.info("Job already exists. No register needed, jobId={}", jobId, e);
+        } catch (TException e) {
+            log.warn("Exception when trying to register job, jobId={}", jobId, e);
+        }
+    }
+
+    private void deregisterJobById(String jobId) {
         try {
             schedulatorClient.deregisterJob(jobId);
         } catch (ScheduleNotFound e) {
-            log.info("Job with id={} does not exist. No deregister needed", jobId, e);
+            log.info("Job does not exist. No deregister needed, jobId={}", jobId, e);
         } catch (TException e) {
-            log.error("Exception when trying to deregister job with id={}", jobId, e);
+            log.warn("Exception when trying to deregister job, jobId={}", jobId, e);
         }
     }
 }

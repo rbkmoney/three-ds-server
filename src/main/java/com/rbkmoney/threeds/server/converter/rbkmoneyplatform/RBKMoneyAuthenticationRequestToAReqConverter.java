@@ -16,7 +16,6 @@ import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.serialization.TemporalAccessorWrapper;
-import com.rbkmoney.threeds.server.utils.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
@@ -40,7 +39,6 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
     private static final int MAX_GRACE_PERIOD = 30;
 
     private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
-    private final IdGenerator idGenerator;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -60,7 +58,7 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
                 .threeDSRequestorURL(request.getThreeDSRequestorURL())
                 .threeDSServerRefNumber(rbkMoneyDsProviderHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
                 .threeDSServerOperatorID(request.getThreeDSServerOperatorID())
-                .threeDSServerTransID(idGenerator.generateUUID())
+                .threeDSServerTransID(request.getThreeDSServerTransID())
                 .threeDSServerURL(getThreeDsServerUrl(request))
                 .threeRIInd(getValue(request.getThreeRIInd()))
                 .acctType(getValue(request.getAcctType()))
