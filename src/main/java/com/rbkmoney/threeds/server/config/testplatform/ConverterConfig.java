@@ -7,9 +7,9 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformSerialNumStorageService;
-import com.rbkmoney.threeds.server.utils.CReqEncoder;
+import com.rbkmoney.threeds.server.utils.Base64Encoder;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
-import org.apache.velocity.app.VelocityEngine;
+import com.rbkmoney.threeds.server.utils.TemplateBuilder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,9 +36,9 @@ public class ConverterConfig {
     @Bean
     public Converter<ValidationResult, Message> pGcqToPGcsConverter(
             TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService,
-            VelocityEngine templateEngine,
-            CReqEncoder cReqEncoder) {
-        return new PGcqToPGcsConverter(testPlatformChallengeFlowTransactionInfoStorageService, templateEngine, cReqEncoder);
+            TemplateBuilder templateBuilder,
+            Base64Encoder base64Encoder) {
+        return new PGcqToPGcsConverter(testPlatformChallengeFlowTransactionInfoStorageService, templateBuilder, base64Encoder);
     }
 
     @Bean

@@ -29,10 +29,10 @@ public class RBKMoneyVersioningClientController {
                 return ResponseEntity.badRequest().build();
             }
 
-            log.info("Trying to getAccountNumberVersion, accountNumber={}", hideAccountNumber(accountNumber));
+            log.info("Trying to getThreeDsVersion, accountNumber={}", hideAccountNumber(accountNumber));
 
             return ResponseEntity.of(
-                    rbkMoneyCardRangesStorageService.getAccountNumberVersion(
+                    rbkMoneyCardRangesStorageService.getThreeDsVersion(
                             Long.parseLong(accountNumber)));
         } catch (Throwable ex) {
             log.error("Error with /versioning", ex);

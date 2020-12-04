@@ -1,8 +1,8 @@
 package com.rbkmoney.threeds.server.service;
 
-import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
-import com.rbkmoney.damsel.three_ds_server_storage.DirectoryServerProviderIDNotFound;
-import com.rbkmoney.threeds.server.converter.thrift.CardRangeConverter;
+import com.rbkmoney.damsel.threeds.server.storage.CardRangesStorageSrv;
+import com.rbkmoney.damsel.threeds.server.storage.DirectoryServerProviderIDNotFound;
+import com.rbkmoney.threeds.server.converter.thrift.CardRangeMapper;
 import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
@@ -37,8 +37,7 @@ public class RBKMoneyCardRangesStorageServiceTest {
         cardRangesStorageClient = mock(CardRangesStorageSrv.Iface.class);
         rbkMoneyCardRangesStorageService = new RBKMoneyCardRangesStorageService(
                 cardRangesStorageClient,
-                new CardRangeConverter(),
-                new IdGenerator());
+                new CardRangeMapper(new IdGenerator()));
     }
 
     @Test

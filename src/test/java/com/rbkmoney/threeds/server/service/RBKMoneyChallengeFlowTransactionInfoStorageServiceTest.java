@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.service;
 
-import com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfoStorageSrv;
+import com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfoStorageSrv;
 import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfoConverter;
 import com.rbkmoney.threeds.server.domain.acs.AcsDecConInd;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
@@ -47,8 +47,8 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
                 .acsUrl("asd")
                 .build();
 
-        ArgumentCaptor<com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo> expected =
-                ArgumentCaptor.forClass(com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo.class);
+        ArgumentCaptor<com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfo> expected =
+                ArgumentCaptor.forClass(com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfo.class);
 
         rbkMoneyChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
         ChallengeFlowTransactionInfo result = rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
@@ -70,7 +70,7 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
 
     @Test
     public void shouldGetTransactionInfoWhenCacheIsEmpty() throws TException {
-        var stored = new com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo()
+        var stored = new com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfo()
                 .setTransactionId(TEST_TAG)
                 .setDeviceChannel(DeviceChannel.APP_BASED.getValue())
                 .setDecoupledAuthMaxTime(LocalDateTime.MIN.toString())
@@ -93,5 +93,4 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
         assertThat(result.getDeviceChannel())
                 .isEqualTo(DeviceChannel.APP_BASED);
     }
-
 }

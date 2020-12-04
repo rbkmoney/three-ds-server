@@ -1,13 +1,12 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
-import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
-import com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfoStorageSrv;
-import com.rbkmoney.threeds.server.converter.thrift.CardRangeConverter;
+import com.rbkmoney.damsel.threeds.server.storage.CardRangesStorageSrv;
+import com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfoStorageSrv;
+import com.rbkmoney.threeds.server.converter.thrift.CardRangeMapper;
 import com.rbkmoney.threeds.server.converter.thrift.ChallengeFlowTransactionInfoConverter;
 import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyChallengeFlowTransactionInfoStorageService;
-import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -37,8 +36,7 @@ public class StorageServiceConfig {
     @Bean
     public RBKMoneyCardRangesStorageService rbkMoneyCardRangesStorageService(
             CardRangesStorageSrv.Iface cardRangesStorageClient,
-            CardRangeConverter cardRangeConverter,
-            IdGenerator idGenerator) {
-        return new RBKMoneyCardRangesStorageService(cardRangesStorageClient, cardRangeConverter, idGenerator);
+            CardRangeMapper cardRangeMapper) {
+        return new RBKMoneyCardRangesStorageService(cardRangesStorageClient, cardRangeMapper);
     }
 }

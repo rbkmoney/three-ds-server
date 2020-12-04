@@ -1,6 +1,6 @@
 package com.rbkmoney.threeds.server.flow.rbkmoneyplatform.preparation.happycase;
 
-import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
+import com.rbkmoney.damsel.threeds.server.storage.CardRangesStorageSrv;
 import com.rbkmoney.threeds.server.config.AbstractRBKMoneyPlatformConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.flow.rbkmoneyplatform.preparation.PreparationFlow;

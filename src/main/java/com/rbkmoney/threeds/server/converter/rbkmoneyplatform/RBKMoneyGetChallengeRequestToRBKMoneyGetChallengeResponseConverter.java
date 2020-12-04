@@ -1,32 +1,36 @@
 package com.rbkmoney.threeds.server.converter.rbkmoneyplatform;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyGetChallengeRequest;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyGetChallengeResponse;
+import com.rbkmoney.threeds.server.dto.CReq;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.utils.CReqEncoder;
+import com.rbkmoney.threeds.server.utils.Base64Encoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
 @RequiredArgsConstructor
 public class RBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter implements Converter<ValidationResult, Message> {
 
-    private final CReqEncoder cReqEncoder;
+    private final Base64Encoder base64Encoder;
 
     @Override
     public Message convert(ValidationResult validationResult) {
-        try {
-            RBKMoneyGetChallengeRequest request = (RBKMoneyGetChallengeRequest) validationResult.getMessage();
-            request.setMessageVersion(request.getMessageVersion());
+        RBKMoneyGetChallengeRequest request = (RBKMoneyGetChallengeRequest) validationResult.getMessage();
 
-            RBKMoneyGetChallengeResponse response = RBKMoneyGetChallengeResponse.builder()
-                    .encodeCReq(cReqEncoder.createAndEncodeCReq(request))
-                    .build();
-            response.setMessageVersion(request.getMessageVersion());
-            return response;
-        } catch (JsonProcessingException ex) {
-            throw new RuntimeException("Parse error", ex);
-        }
+        RBKMoneyGetChallengeResponse response = RBKMoneyGetChallengeResponse.builder()
+                .encodeCReq(base64Encoder.encode(buildCReq(request)))
+                .build();
+        response.setMessageVersion(request.getMessageVersion());
+        return response;
+    }
+
+    private CReq buildCReq(RBKMoneyGetChallengeRequest request) {
+        return CReq.builder()
+                .acsTransID(request.getAcsTransID())
+                .challengeWindowSize(request.getChallengeWindowSize().getValue())
+                .messageVersion(request.getMessageVersion())
+                .threeDSServerTransID(request.getThreeDSServerTransID())
+                .build();
     }
 }

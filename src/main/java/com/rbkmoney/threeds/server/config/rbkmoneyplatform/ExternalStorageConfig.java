@@ -1,7 +1,7 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
-import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
-import com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfoStorageSrv;
+import com.rbkmoney.damsel.threeds.server.storage.CardRangesStorageSrv;
+import com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfoStorageSrv;
 import com.rbkmoney.woody.thrift.impl.http.THSpawnClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
