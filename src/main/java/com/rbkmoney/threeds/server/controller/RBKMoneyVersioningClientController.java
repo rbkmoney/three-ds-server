@@ -29,7 +29,7 @@ public class RBKMoneyVersioningClientController {
                 return ResponseEntity.badRequest().build();
             }
 
-            log.info("Trying to getThreeDsVersion, accountNumber={}", hideAccountNumber(accountNumber));
+            log.info("Trying to get ThreeDsVersion, accountNumber={}", hideAccountNumber(accountNumber));
 
             return ResponseEntity.of(
                     rbkMoneyCardRangesStorageService.getThreeDsVersion(

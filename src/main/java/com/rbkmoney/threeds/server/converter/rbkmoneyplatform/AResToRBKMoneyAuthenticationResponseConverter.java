@@ -101,7 +101,7 @@ public class AResToRBKMoneyAuthenticationResponseConverter implements Converter<
         String threeDSServerTransID = aRes.getThreeDSServerTransID();
 
         ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
-                .threeDSServerTransID(threeDSServerTransID)
+                .threeDsServerTransId(threeDSServerTransID)
                 .deviceChannel(aReq.getDeviceChannel())
                 .decoupledAuthMaxTime(aReq.getDecoupledAuthMaxTime())
                 .acsDecConInd(getValue(aRes.getAcsDecConInd()))

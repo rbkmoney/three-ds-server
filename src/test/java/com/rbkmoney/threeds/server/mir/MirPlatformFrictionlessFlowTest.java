@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class MirPlatformFrictionlessFlowTest extends AbstractMirPlatformConfig {
@@ -57,7 +56,6 @@ public class MirPlatformFrictionlessFlowTest extends AbstractMirPlatformConfig {
                 .content(frictionlessFlow.requestToThreeDsServer(testCase));
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(frictionlessFlow.responseFromThreeDsServer(testCase)));
     }
@@ -81,8 +79,7 @@ public class MirPlatformFrictionlessFlowTest extends AbstractMirPlatformConfig {
                     Arguments.of("5-2", "647f9aec-5b80-4ff4-97bd-1614ecc3e71f"),
                     Arguments.of("5-3", "9910b79f-9cd9-44f9-9ea6-d1e3717a3d63"),
                     Arguments.of("5-4", "66be9376-fb63-4adb-8bfa-fbfec8e3f585"),
-                    Arguments.of("5-5", "e8d82922-fb65-47c1-9c7a-dc301dfcb604")
-            );
+                    Arguments.of("5-5", "e8d82922-fb65-47c1-9c7a-dc301dfcb604"));
         }
     }
 }

@@ -1,9 +1,9 @@
 ## @vtlvariable name="threeDsMethodFormData" type="com.rbkmoney.threeds.server.dto.ThreeDsMethodFormData"
 <form name="ThreeDsMethodForm"
-      action="$!threeDsMethodFormData.threeDSMethodURL"
+      action="$!threeDsMethodFormData.threeDsMethodUrl"
       method="POST">
     <input type="hidden"
            name="threeDSMethodData"
-           value="$!threeDsMethodFormData.threeDSMethodData"
+           value="$!threeDsMethodFormData.encodeThreeDsMethodData"
     />
 </form>

@@ -44,16 +44,14 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
     private ChallengeFormData createChallengeFormData(PGcq pGcq) {
         var transactionInfo = testPlatformChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(pGcq.getThreeDSServerTransID());
 
-        String encodeCReq = base64Encoder.encode(buildCReq(pGcq));
-
         return ChallengeFormData.builder()
-                .acsURL(transactionInfo.getAcsUrl())
-                .encodeCReq(encodeCReq)
-                .threeDSSessionData(pGcq.getThreeDSSessionData())
+                .acsUrl(transactionInfo.getAcsUrl())
+                .encodeCreq(base64Encoder.encode(creq(pGcq)))
+                .threeDsSessionData(pGcq.getThreeDSSessionData())
                 .build();
     }
 
-    private CReq buildCReq(PGcq pGcq) {
+    private CReq creq(PGcq pGcq) {
         return CReq.builder()
                 .acsTransID(pGcq.getAcsTransID())
                 .challengeWindowSize(pGcq.getChallengeWindowSize().getValue())

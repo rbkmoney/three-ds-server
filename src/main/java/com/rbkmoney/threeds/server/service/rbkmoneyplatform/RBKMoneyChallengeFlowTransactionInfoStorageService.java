@@ -26,24 +26,24 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageService implements Chall
     }
 
     @Override
-    public void saveChallengeFlowTransactionInfo(String threeDSServerTransID, ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
+    public void saveChallengeFlowTransactionInfo(String threeDsServerTransId, ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
         try {
             var transactionInfo = challengeFlowTransactionInfoConverter.toThrift(challengeFlowTransactionInfo);
             challengeFlowTransactionInfoStorageClient.saveChallengeFlowTransactionInfo(transactionInfo);
-            transactionInfoByTransactionId.put(threeDSServerTransID, challengeFlowTransactionInfo);
+            transactionInfoByTransactionId.put(threeDsServerTransId, challengeFlowTransactionInfo);
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }
     }
 
     @Override
-    public ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDSServerTransID) {
-        return transactionInfoByTransactionId.get(threeDSServerTransID, this::getChallengeFlowTransactionInfoFromStorage);
+    public ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDsServerTransId) {
+        return transactionInfoByTransactionId.get(threeDsServerTransId, this::getChallengeFlowTransactionInfoFromStorage);
     }
 
-    private ChallengeFlowTransactionInfo getChallengeFlowTransactionInfoFromStorage(String threeDSServerTransID) {
+    private ChallengeFlowTransactionInfo getChallengeFlowTransactionInfoFromStorage(String threeDsServerTransId) {
         try {
-            var transactionInfo = challengeFlowTransactionInfoStorageClient.getChallengeFlowTransactionInfo(threeDSServerTransID);
+            var transactionInfo = challengeFlowTransactionInfoStorageClient.getChallengeFlowTransactionInfo(threeDsServerTransId);
             return challengeFlowTransactionInfoConverter.toDomain(transactionInfo);
         } catch (TException e) {
             throw new ExternalStorageException(e);

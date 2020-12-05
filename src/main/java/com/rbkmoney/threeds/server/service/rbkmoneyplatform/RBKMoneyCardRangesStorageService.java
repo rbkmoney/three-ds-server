@@ -126,6 +126,7 @@ public class RBKMoneyCardRangesStorageService {
 
     public Optional<ThreeDsVersion> getThreeDsVersion(Long accountNumber) {
         return Optional.of(getAccountNumberVersion(accountNumber))
+                .filter(AccountNumberVersion::isSetThreeDsSecondVersion)
                 .map(AccountNumberVersion::getThreeDsSecondVersion)
                 .map(
                         tThreeDsSecondVersion -> {

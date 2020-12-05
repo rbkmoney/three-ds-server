@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class VisaPlatformPreparationFlowTest extends AbstractVisaPlatformConfig {
@@ -66,7 +65,6 @@ public class VisaPlatformPreparationFlowTest extends AbstractVisaPlatformConfig 
                 .content(preparationFlow.requestToThreeDsServer(testCase));
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(preparationFlow.responseFromThreeDsServer(testCase)));
     }
@@ -82,7 +80,6 @@ public class VisaPlatformPreparationFlowTest extends AbstractVisaPlatformConfig 
                 .content(preparationFlow.requestToThreeDsServer(testCase));
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(preparationFlow.responseFromThreeDsServer(testCase)));
     }
@@ -94,8 +91,7 @@ public class VisaPlatformPreparationFlowTest extends AbstractVisaPlatformConfig 
             return Stream.of(
                     Arguments.of("3DSS-210-001", "f7d9f026-b18b-4889-8593-3e665b2e4ca3"),
                     Arguments.of("3DSS-220-001", "fe115f4d-d010-4d09-8c7c-032545dc381c"),
-                    Arguments.of("3DSS-220-001-bigsize-pres", "fe115f4d-d010-4d09-8c7c-032545dc381c")
-            );
+                    Arguments.of("3DSS-220-001-bigsize-pres", "fe115f4d-d010-4d09-8c7c-032545dc381c"));
         }
     }
 
@@ -105,8 +101,7 @@ public class VisaPlatformPreparationFlowTest extends AbstractVisaPlatformConfig 
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
             return Stream.of(
                     Arguments.of("3DSS-210-002", "3DSS-210-001", "f7d9f026-b18b-4889-8593-3e665b2e4ca3"),
-                    Arguments.of("3DSS-220-002", "3DSS-220-001", "fe115f4d-d010-4d09-8c7c-032545dc381c")
-            );
+                    Arguments.of("3DSS-220-002", "3DSS-220-001", "fe115f4d-d010-4d09-8c7c-032545dc381c"));
         }
     }
 }

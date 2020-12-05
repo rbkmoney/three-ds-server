@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
@@ -59,7 +58,6 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
                 .content(challengeFlow.requestToThreeDsServer());
 
         mockMvc.perform(authRequest)
-                .andDo(print())
                 .andExpect(content()
                         .json(challengeFlow.responseFromThreeDsServer()));
 
@@ -72,7 +70,6 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
                 .content(challengeFlow.requestFromDs());
 
         mockMvc.perform(resultRequest)
-                .andDo(print())
                 .andExpect(content()
                         .json(challengeFlow.responseToDs()));
     }
@@ -100,7 +97,6 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
 
         // When - Then
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(challengeFlow.responsePGcsFromThreeDsServer()));
     }

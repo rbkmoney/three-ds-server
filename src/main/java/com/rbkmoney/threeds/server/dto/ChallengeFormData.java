@@ -7,8 +7,8 @@ import lombok.Data;
 @Builder
 public class ChallengeFormData {
 
-    private String acsURL;
-    private String encodeCReq;
-    private String threeDSSessionData;
+    private String acsUrl;
+    private String encodeCreq;
+    private String threeDsSessionData;
 
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class ThreeDsMethodFormData {
 
-    private String threeDSMethodURL;
-    private String threeDSMethodData; // encoded
+    private String threeDsMethodUrl;
+    private String encodeThreeDsMethodData;
 
 }

@@ -19,13 +19,13 @@ public class RBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter 
         RBKMoneyGetChallengeRequest request = (RBKMoneyGetChallengeRequest) validationResult.getMessage();
 
         RBKMoneyGetChallengeResponse response = RBKMoneyGetChallengeResponse.builder()
-                .encodeCReq(base64Encoder.encode(buildCReq(request)))
+                .encodeCReq(base64Encoder.encode(creq(request)))
                 .build();
         response.setMessageVersion(request.getMessageVersion());
         return response;
     }
 
-    private CReq buildCReq(RBKMoneyGetChallengeRequest request) {
+    private CReq creq(RBKMoneyGetChallengeRequest request) {
         return CReq.builder()
                 .acsTransID(request.getAcsTransID())
                 .challengeWindowSize(request.getChallengeWindowSize().getValue())

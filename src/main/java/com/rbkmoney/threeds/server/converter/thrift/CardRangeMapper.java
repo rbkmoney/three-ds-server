@@ -61,13 +61,13 @@ public class CardRangeMapper {
 
     public ThreeDsVersion fromThriftToDomain(ThreeDsSecondVersion tThreeDsSecondVersion) {
         return ThreeDsVersion.builder()
-                .threeDSServerTransID(idGenerator.generateUUID())
+                .threeDsServerTransId(idGenerator.generateUUID())
                 .dsProviderId(tThreeDsSecondVersion.getProviderId())
                 .acsStartProtocolVersion(tThreeDsSecondVersion.getAcsStart())
                 .acsEndProtocolVersion(tThreeDsSecondVersion.getAcsEnd())
                 .dsStartProtocolVersion(tThreeDsSecondVersion.getDsStart())
                 .dsEndProtocolVersion(tThreeDsSecondVersion.getDsEnd())
-                .threeDSMethodURL(tThreeDsSecondVersion.getThreeDsMethodUrl())
+                .threeDsMethodUrl(tThreeDsSecondVersion.getThreeDsMethodUrl())
                 .build();
     }
 

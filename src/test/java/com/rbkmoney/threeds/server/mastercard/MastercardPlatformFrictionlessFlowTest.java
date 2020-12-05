@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class MastercardPlatformFrictionlessFlowTest extends AbstractMastercardPlatformConfig {
@@ -53,7 +52,6 @@ public class MastercardPlatformFrictionlessFlowTest extends AbstractMastercardPl
                 .content(frictionlessFlow.requestToThreeDsServer(testCase));
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(frictionlessFlow.responseFromThreeDsServer(testCase)));
     }
@@ -81,8 +79,7 @@ public class MastercardPlatformFrictionlessFlowTest extends AbstractMastercardPl
                     Arguments.of("TC_SERVER_00009_002", "c55195b6-b4a1-4a0b-a0f5-0c7ac8c07084"),
                     Arguments.of("TC_SERVER_00010_001", "658d5630-56ca-43d8-81e1-a43e9b14ab08"),
                     Arguments.of("TC_SERVER_00010_002", "d3565012-9aba-4607-86c2-6248272ab887"),
-                    Arguments.of("TC_SERVER_00011_001", "6f8ebd84-4dc0-4a2c-a783-3c7e180736a9")
-            );
+                    Arguments.of("TC_SERVER_00011_001", "6f8ebd84-4dc0-4a2c-a783-3c7e180736a9"));
         }
     }
 }

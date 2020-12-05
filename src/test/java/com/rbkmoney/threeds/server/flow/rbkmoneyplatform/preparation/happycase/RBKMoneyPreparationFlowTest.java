@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class RBKMoneyPreparationFlowTest extends AbstractRBKMoneyPlatformConfig {
@@ -52,7 +51,6 @@ public class RBKMoneyPreparationFlowTest extends AbstractRBKMoneyPlatformConfig 
                 .content(preparationFlow.requestToThreeDsServer());
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(preparationFlow.responseFromThreeDsServer()));
     }

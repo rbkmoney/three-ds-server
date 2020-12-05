@@ -16,12 +16,12 @@ public class TestPlatformChallengeFlowTransactionInfoStorageService implements C
     }
 
     @Override
-    public void saveChallengeFlowTransactionInfo(String threeDSServerTransID, ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
-        transactionInfoById.put(threeDSServerTransID, challengeFlowTransactionInfo);
+    public void saveChallengeFlowTransactionInfo(String threeDsServerTransId, ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
+        transactionInfoById.put(threeDsServerTransId, challengeFlowTransactionInfo);
     }
 
     @Override
-    public ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDSServerTransID) {
-        return transactionInfoById.getIfPresent(threeDSServerTransID);
+    public ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDsServerTransId) {
+        return transactionInfoById.getIfPresent(threeDsServerTransId);
     }
 }

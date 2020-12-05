@@ -1,6 +1,7 @@
 package com.rbkmoney.threeds.server.controller;
 
-import com.rbkmoney.threeds.server.domain.threedsmethod.ThreeDSMethod;
+import com.rbkmoney.threeds.server.domain.threedsmethod.ThreeDsMethodRequest;
+import com.rbkmoney.threeds.server.domain.threedsmethod.ThreeDsMethodResponse;
 import com.rbkmoney.threeds.server.dto.ThreeDsMethodFormData;
 import com.rbkmoney.threeds.server.utils.Base64Encoder;
 import com.rbkmoney.threeds.server.utils.TemplateBuilder;
@@ -25,20 +26,24 @@ public class RBKMoneyThreeDsMethodClientController {
     private final TemplateBuilder templateBuilder;
 
     @PostMapping("/three-ds-method")
-    public ResponseEntity<String> threeDSMethodHandler(@RequestBody ThreeDSMethod threeDSMethod) {
-        log.info("Build template with ThreeDSMethodData, threeDSMethod={}", threeDSMethod.toString());
+    public ResponseEntity<ThreeDsMethodResponse> threeDsMethodHandler(@RequestBody ThreeDsMethodRequest request) {
+        log.info("Build template with ThreeDsMethodData, threeDsMethodRequest={}", request.toString());
 
-        String form = templateBuilder.buildTemplate(
+        String htmlThreeDsMethodData = templateBuilder.buildTemplate(
                 TEMPLATE_PATH,
-                velocityContext -> velocityContext.put(TITLE, threeDsMethodFormData(threeDSMethod)));
+                velocityContext -> velocityContext.put(TITLE, threeDsMethodFormData(request)));
 
-        return ResponseEntity.ok(form);
+        return ResponseEntity.ok(
+                ThreeDsMethodResponse.builder()
+                        .htmlThreeDsMethodData(htmlThreeDsMethodData)
+                        .threeDsServerTransId(request.getThreeDsMethodData().getThreeDSServerTransID())
+                        .build());
     }
 
-    private ThreeDsMethodFormData threeDsMethodFormData(@RequestBody ThreeDSMethod threeDSMethod) {
+    private ThreeDsMethodFormData threeDsMethodFormData(ThreeDsMethodRequest request) {
         return ThreeDsMethodFormData.builder()
-                .threeDSMethodData(base64Encoder.encode(threeDSMethod.getThreeDSMethodData()))
-                .threeDSMethodURL(threeDSMethod.getThreeDSMethodURL())
+                .encodeThreeDsMethodData(base64Encoder.encode(request.getThreeDsMethodData()))
+                .threeDsMethodUrl(request.getThreeDsMethodUrl())
                 .build();
     }
 }

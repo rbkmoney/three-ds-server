@@ -32,7 +32,6 @@ import java.util.Base64;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class VisaPlatformChallengeFlowTest extends AbstractVisaPlatformConfig {
@@ -47,7 +46,7 @@ public class VisaPlatformChallengeFlowTest extends AbstractVisaPlatformConfig {
     private JsonMapper jsonMapper;
 
     @Autowired
-    private RestTemplate testRestTemplate;
+    private RestTemplate restTemplate;
 
     @Autowired
     private FrictionlessFlow frictionlessFlow;
@@ -76,7 +75,6 @@ public class VisaPlatformChallengeFlowTest extends AbstractVisaPlatformConfig {
                 .content(frictionlessFlow.requestToThreeDsServer(testCase));
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(frictionlessFlow.responseFromThreeDsServer(testCase)));
     }
@@ -90,7 +88,6 @@ public class VisaPlatformChallengeFlowTest extends AbstractVisaPlatformConfig {
                 .content(challengeFlow.requestFromDs(testCase));
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(challengeFlow.responseToDs(testCase)));
     }
@@ -111,7 +108,7 @@ public class VisaPlatformChallengeFlowTest extends AbstractVisaPlatformConfig {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
-        ResponseEntity<String> response = testRestTemplate.postForEntity(acsUrl, request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(acsUrl, request, String.class);
 
         String html = response.getBody();
         Document document = Jsoup.parse(html);
@@ -130,8 +127,7 @@ public class VisaPlatformChallengeFlowTest extends AbstractVisaPlatformConfig {
             return Stream.of(
                     Arguments.of("3DSS-220-107", "6c57c18f-e55b-4333-a991-460b04ee0730"),
                     Arguments.of("3DSS-220-501", "721276cb-a700-4cb5-be72-c991f1986f8c"),
-                    Arguments.of("3DSS-220-603", "14186090-9566-4b4f-ab1f-9f027a283d8e")
-            );
+                    Arguments.of("3DSS-220-603", "14186090-9566-4b4f-ab1f-9f027a283d8e"));
         }
     }
 }

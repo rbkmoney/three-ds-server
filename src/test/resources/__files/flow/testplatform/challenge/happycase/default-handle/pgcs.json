@@ -2,5 +2,5 @@
   "messageType": "pGcs",
   "messageVersion": "2.2.0",
   "p_messageVersion": "1.0.5",
-  "htmlCreq": "<form name=\"ChallengeForm\"\n      action=\"asd\"\n      method=\"POST\">\n    <input type=\"hidden\"\n           name=\"creq\"\n           value=\"eyJhY3NUcmFuc0lEIjoiYjI2M2YxNjktYzQ5NS00M2MwLWE5YjgtMGU0NTdlYmIwYTAxIiwiY2hhbGxlbmdlV2luZG93U2l6ZSI6IjA1IiwibWVzc2FnZVR5cGUiOiJDUmVxIiwibWVzc2FnZVZlcnNpb24iOiIyLjIuMCIsInRocmVlRFNTZXJ2ZXJUcmFuc0lEIjoiOGMzNTk1YzYtOGYyNi00ZGZiLWFmZjktY2Q2YTFmODQ3NTY3In0=\"\n    />\n    <input type=\"hidden\"\n           name=\"threeDSSessionData\"\n           value=\"threeDSSessionData\"\n    />\n</form>\n"
+  "htmlCreq": "<form name=\"ChallengeForm\"\n      action=\"asd\"\n      method=\"POST\">\n    <input type=\"hidden\"\n           name=\"creq\"\n           value=\"eyJhY3NUcmFuc0lEIjoiYjI2M2YxNjktYzQ5NS00M2MwLWE5YjgtMGU0NTdlYmIwYTAxIiwiY2hhbGxlbmdlV2luZG93U2l6ZSI6IjA1IiwibWVzc2FnZVR5cGUiOiJDUmVxIiwibWVzc2FnZVZlcnNpb24iOiIyLjIuMCIsInRocmVlRFNTZXJ2ZXJUcmFuc0lEIjoiOGMzNTk1YzYtOGYyNi00ZGZiLWFmZjktY2Q2YTFmODQ3NTY3In0=\"\n    />\n    <input type=\"hidden\"\n           name=\"threeDSSessionData\"\n           value=\"threeDSSessionData\"\n    />\n</form>"
 }

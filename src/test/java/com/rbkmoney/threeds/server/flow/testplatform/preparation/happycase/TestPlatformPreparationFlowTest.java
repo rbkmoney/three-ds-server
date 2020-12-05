@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig {
@@ -60,7 +59,6 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
                 .content(preparationFlow.requestToThreeDsServer());
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(preparationFlow.responseFromThreeDsServer()));
 
@@ -75,7 +73,6 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
         request.content(preparationFlow.secondRequestToThreeDsServer());
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content().json(preparationFlow.responseFromThreeDsServer()));
 
         // after update, pan is in card ranges

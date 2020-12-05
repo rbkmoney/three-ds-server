@@ -38,7 +38,7 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
     @Test
     public void shouldSaveAndGetTransactionInfo() throws TException {
         ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
-                .threeDSServerTransID(TEST_TAG)
+                .threeDsServerTransId(TEST_TAG)
                 .deviceChannel(DeviceChannel.APP_BASED)
                 .decoupledAuthMaxTime(LocalDateTime.MIN)
                 .acsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED)
