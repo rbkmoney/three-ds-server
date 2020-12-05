@@ -1,9 +1,10 @@
 package com.rbkmoney.threeds.server.handle.constraint.commonplatform.ares.transstatus;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorChallengeInd;
+import com.rbkmoney.threeds.server.ds.DsProvider;
+import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import com.rbkmoney.threeds.server.handle.constraint.commonplatform.ares.AResConstraintValidationHandler;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,11 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
-@ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
+@ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 @RequiredArgsConstructor
-public class AResInfoOnlyConstraintValidationHandlerImpl implements AResConstraintValidationHandler {
+public class RBKMoneyAResInfoOnlyConstraintValidationHandlerImpl implements AResConstraintValidationHandler {
 
-    private final EnvironmentProperties environmentProperties;
+    private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
 
     @Override
     public boolean canHandle(ARes o) {
@@ -33,7 +34,7 @@ public class AResInfoOnlyConstraintValidationHandlerImpl implements AResConstrai
 
         if (!(isSatisfactoryChallengeIndForTransStatus(threeDSRequestorChallengeInd)
                 || (threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.RESERVED_FOR_DS_USED_82
-                && environmentProperties.getThreeDsServerRefNumber().equals("3DS_LOA_SER_DIPL_020200_00236")))) {
+                && rbkMoneyDsProviderHolder.getDsProvider().get().equals(DsProvider.VISA.getId())))) {
             return ConstraintValidationResult.failure(PATTERN, "transStatus");
         }
 
