@@ -12,6 +12,7 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 
+@SuppressWarnings("Duplicates")
 @Component
 @RequiredArgsConstructor
 public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
@@ -28,12 +29,18 @@ public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHan
             return validationResult;
         }
 
+        DeviceChannel deviceChannel = getValue(o.getDeviceChannel());
+
+        // !!! OUR 3DS CANT HANDLE APP_BASED because not certified
+        if (deviceChannel == DeviceChannel.APP_BASED) {
+            return ConstraintValidationResult.failure(PATTERN, "deviceChannel");
+        }
+
         validationResult = validateRequiredConditionField(o.getMessageCategory(), "messageCategory");
         if (!validationResult.isValid()) {
             return validationResult;
         }
 
-        DeviceChannel deviceChannel = getValue(o.getDeviceChannel());
         MessageCategory messageCategory = getValue(o.getMessageCategory());
 
         if (deviceChannel == DeviceChannel.BROWSER) {
@@ -43,7 +50,8 @@ public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHan
             }
         }
 
-        if ((deviceChannel == DeviceChannel.APP_BASED || deviceChannel == DeviceChannel.BROWSER)) {
+//        if ((deviceChannel == DeviceChannel.APP_BASED || deviceChannel == DeviceChannel.BROWSER)) {
+        if (deviceChannel == DeviceChannel.BROWSER) {
             validationResult = validateRequiredConditionField(o.getThreeDSRequestorAuthenticationInd(), "threeDSRequestorAuthenticationInd");
             if (!validationResult.isValid()) {
                 return validationResult;
@@ -60,18 +68,6 @@ public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHan
                     && getValue(o.getThreeDSRequestorChallengeInd()).isReservedValueForNotRelevantMessageVersion()) {
                 return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorChallengeInd");
             }
-        }
-
-        if (o.getThreeDSRequestorID() == null) {
-            return ConstraintValidationResult.failure(NOT_NULL, "threeDSRequestorID");
-        }
-
-        if (o.getThreeDSRequestorName() == null) {
-            return ConstraintValidationResult.failure(NOT_NULL, "threeDSRequestorName");
-        }
-
-        if (o.getThreeDSRequestorURL() == null) {
-            return ConstraintValidationResult.failure(NOT_NULL, "threeDSRequestorURL");
         }
 
         if (deviceChannel == DeviceChannel.THREE_REQUESTOR_INITIATED) {
@@ -116,10 +112,10 @@ public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHan
             return ConstraintValidationResult.failure(NOT_NULL, "acctNumber");
         }
 
-        if (deviceChannel == DeviceChannel.APP_BASED
-                && o.getDeviceRenderOptions() == null) {
-            return ConstraintValidationResult.failure(NOT_NULL, "deviceRenderOptions");
-        }
+//        if (deviceChannel == DeviceChannel.APP_BASED
+//                && o.getDeviceRenderOptions() == null) {
+//            return ConstraintValidationResult.failure(NOT_NULL, "deviceRenderOptions");
+//        }
 
         if (messageCategory == MessageCategory.PAYMENT_AUTH
                 && o.getMcc() == null) {
@@ -163,35 +159,35 @@ public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHan
             }
         }
 
-        if (deviceChannel == DeviceChannel.APP_BASED
-                && o.getSdkAppID() == null) {
-            return ConstraintValidationResult.failure(NOT_NULL, "sdkAppID");
-        }
-
-        if (deviceChannel == DeviceChannel.APP_BASED
-                && o.getSdkEncData() == null) {
-            return ConstraintValidationResult.failure(NOT_NULL, "sdkEncData");
-        }
-
-        if (deviceChannel == DeviceChannel.APP_BASED
-                && (o.getSdkEphemPubKey() == null || o.getSdkEphemPubKey().isEmpty())) {
-            return ConstraintValidationResult.failure(NOT_NULL, "sdkEphemPubKey");
-        }
-
-        if (deviceChannel == DeviceChannel.APP_BASED
-                && o.getSdkMaxTimeout() == null) {
-            return ConstraintValidationResult.failure(NOT_NULL, "sdkMaxTimeout");
-        }
-
-        if (deviceChannel == DeviceChannel.APP_BASED
-                && o.getSdkReferenceNumber() == null) {
-            return ConstraintValidationResult.failure(NOT_NULL, "sdkReferenceNumber");
-        }
-
-        if (deviceChannel == DeviceChannel.APP_BASED
-                && o.getSdkTransID() == null) {
-            return ConstraintValidationResult.failure(NOT_NULL, "sdkTransID");
-        }
+//        if (deviceChannel == DeviceChannel.APP_BASED
+//                && o.getSdkAppID() == null) {
+//            return ConstraintValidationResult.failure(NOT_NULL, "sdkAppID");
+//        }
+//
+//        if (deviceChannel == DeviceChannel.APP_BASED
+//                && o.getSdkEncData() == null) {
+//            return ConstraintValidationResult.failure(NOT_NULL, "sdkEncData");
+//        }
+//
+//        if (deviceChannel == DeviceChannel.APP_BASED
+//                && (o.getSdkEphemPubKey() == null || o.getSdkEphemPubKey().isEmpty())) {
+//            return ConstraintValidationResult.failure(NOT_NULL, "sdkEphemPubKey");
+//        }
+//
+//        if (deviceChannel == DeviceChannel.APP_BASED
+//                && o.getSdkMaxTimeout() == null) {
+//            return ConstraintValidationResult.failure(NOT_NULL, "sdkMaxTimeout");
+//        }
+//
+//        if (deviceChannel == DeviceChannel.APP_BASED
+//                && o.getSdkReferenceNumber() == null) {
+//            return ConstraintValidationResult.failure(NOT_NULL, "sdkReferenceNumber");
+//        }
+//
+//        if (deviceChannel == DeviceChannel.APP_BASED
+//                && o.getSdkTransID() == null) {
+//            return ConstraintValidationResult.failure(NOT_NULL, "sdkTransID");
+//        }
 
         return ConstraintValidationResult.success();
     }
