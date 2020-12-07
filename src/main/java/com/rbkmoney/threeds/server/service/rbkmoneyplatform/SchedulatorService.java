@@ -20,7 +20,6 @@ public class SchedulatorService {
 
     public void registerJob(String dsProviderId, String messageVersion) {
         String jobId = scheduleProperties.getJobIdPrefix() + dsProviderId;
-        log.info("Register schedulator job with id={}", jobId);
 
         InitRBKMoneyPreparationFlowRequest initRBKMoneyPreparationFlowRequest = new InitRBKMoneyPreparationFlowRequest()
                 .setProviderId(dsProviderId)
@@ -42,13 +41,14 @@ public class SchedulatorService {
 
     public void deregisterJob(String dsProviderId) {
         String jobId = scheduleProperties.getJobIdPrefix() + dsProviderId;
-        log.info("Deregister schedulator job, jobId={}", jobId);
 
         deregisterJobById(jobId);
     }
 
     private void registerJobById(String jobId, RegisterJobRequest registerJobRequest) {
         try {
+            log.info("Register schedulator job , jobId={}", jobId);
+
             schedulatorClient.registerJob(jobId, registerJobRequest);
         } catch (ScheduleAlreadyExists e) {
             log.info("Job already exists. No register needed, jobId={}", jobId, e);
@@ -59,6 +59,8 @@ public class SchedulatorService {
 
     private void deregisterJobById(String jobId) {
         try {
+            log.info("Deregister schedulator job, jobId={}", jobId);
+
             schedulatorClient.deregisterJob(jobId);
         } catch (ScheduleNotFound e) {
             log.info("Job does not exist. No deregister needed, jobId={}", jobId, e);
