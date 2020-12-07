@@ -2,6 +2,7 @@ package com.rbkmoney.threeds.server.flow.rbkmoneyplatform.versioning;
 
 import com.rbkmoney.threeds.server.config.AbstractRBKMoneyPlatformConfig;
 import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersion;
+import com.rbkmoney.threeds.server.exception.ExternalStorageException;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,7 @@ public class RBKMoneyVersioningTest extends AbstractRBKMoneyPlatformConfig {
 
     @Test
     public void shouldReturnInternalServerErrorIfErrorsExists() throws Exception {
-        when(rbkMoneyCardRangesStorageService.getThreeDsVersion(anyLong())).thenThrow(RuntimeException.class);
+        when(rbkMoneyCardRangesStorageService.getThreeDsVersion(anyLong())).thenThrow(ExternalStorageException.class);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .get("/versioning")

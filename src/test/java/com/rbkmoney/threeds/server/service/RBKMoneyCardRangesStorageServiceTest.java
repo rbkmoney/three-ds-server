@@ -8,6 +8,7 @@ import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersion;
 import com.rbkmoney.threeds.server.ds.DsProvider;
+import com.rbkmoney.threeds.server.exception.ExternalStorageException;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.apache.thrift.TException;
@@ -123,6 +124,14 @@ public class RBKMoneyCardRangesStorageServiceTest {
 
         assertTrue(threeDsVersion.isPresent());
         assertEquals(providerId, threeDsVersion.get().getDsProviderId());
+    }
+
+    @Test
+    public void shouldThrowExternalStorageException() throws TException {
+        when(cardRangesStorageClient.getAccountNumberVersion(ACCT_NUMBER)).thenThrow(TException.class);
+
+        assertThrows(ExternalStorageException.class,
+                () -> rbkMoneyCardRangesStorageService.getThreeDsVersion(ACCT_NUMBER));
     }
 
     private PRes pRes(CardRange... elements) {
