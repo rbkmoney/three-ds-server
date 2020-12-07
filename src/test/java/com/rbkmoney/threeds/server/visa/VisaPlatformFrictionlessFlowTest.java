@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class VisaPlatformFrictionlessFlowTest extends AbstractVisaPlatformConfig {
@@ -57,7 +56,6 @@ public class VisaPlatformFrictionlessFlowTest extends AbstractVisaPlatformConfig
                 .content(frictionlessFlow.requestToThreeDsServer(testCase));
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(frictionlessFlow.responseFromThreeDsServer(testCase)));
     }
@@ -93,8 +91,7 @@ public class VisaPlatformFrictionlessFlowTest extends AbstractVisaPlatformConfig
                     Arguments.of("3DSS-220-505", "685991f6-5e5a-4546-953d-0069ed0eddbd"),
                     Arguments.of("3DSS-220-601", "bb0b289e-22d6-44d2-a056-9201fe4affa0"),
                     Arguments.of("3DSS-220-602", "b6d9e7f1-1ac2-414f-bc65-1cc94bf2a3bd"),
-                    Arguments.of("3DSS-220-701", "f47e5a77-a939-4b52-a9d6-4aa9cb5b0873")
-            );
+                    Arguments.of("3DSS-220-701", "f47e5a77-a939-4b52-a9d6-4aa9cb5b0873"));
         }
     }
 }

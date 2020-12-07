@@ -1,13 +1,13 @@
-## @vtlvariable name="cReqData" type="com.rbkmoney.threeds.server.converter.testplatform.PGcqToPGcsConverter.CReqData"
+## @vtlvariable name="challengeFormData" type="com.rbkmoney.threeds.server.dto.ChallengeFormData"
 <form name="ChallengeForm"
-      action="$!cReqData.acsURL"
+      action="$!challengeFormData.acsUrl"
       method="POST">
     <input type="hidden"
            name="creq"
-           value="$!cReqData.encodeCreq"
+           value="$!challengeFormData.encodeCreq"
     />
     <input type="hidden"
            name="threeDSSessionData"
-           value="$!cReqData.threeDSSessionData"
+           value="$!challengeFormData.threeDsSessionData"
     />
 </form>

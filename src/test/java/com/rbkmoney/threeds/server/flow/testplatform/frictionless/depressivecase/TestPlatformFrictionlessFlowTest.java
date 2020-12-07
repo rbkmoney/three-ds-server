@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class TestPlatformFrictionlessFlowTest extends AbstractTestPlatformConfig {
@@ -47,7 +46,6 @@ public class TestPlatformFrictionlessFlowTest extends AbstractTestPlatformConfig
                 .content(frictionlessFlow.requestToThreeDsServer());
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(frictionlessFlow.responseErroFromThreeDsServer()));
     }

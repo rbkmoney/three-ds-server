@@ -3,6 +3,7 @@ package com.rbkmoney.threeds.server.converter.testplatform;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.domain.account.AccountInfo;
 import com.rbkmoney.threeds.server.domain.account.AccountInfoWrapper;
+import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptions;
 import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptionsWrapper;
 import com.rbkmoney.threeds.server.domain.merchant.MerchantRiskIndicator;
@@ -25,7 +26,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.rbkmoney.threeds.server.utils.CrutchChecker.isMirCrutchCondition;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @RequiredArgsConstructor
@@ -162,7 +162,8 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
     }
 
     private String getThreeDsServerUrl(PArq pArq) {
-        if (isMirCrutchCondition(pArq.getDeviceChannel().getValue(), environmentProperties)) {
+        if (pArq.getDeviceChannel().getValue() == DeviceChannel.THREE_REQUESTOR_INITIATED
+                && environmentProperties.getThreeDsServerRefNumber().equals("2200040105")) {
             return null;
         } else {
             return environmentProperties.getThreeDsServerUrl();

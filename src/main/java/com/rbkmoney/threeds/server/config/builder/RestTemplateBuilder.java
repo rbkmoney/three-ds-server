@@ -35,8 +35,8 @@ public class RestTemplateBuilder {
             ResourceLoader resourceLoader) {
         return new org.springframework.boot.web.client.RestTemplateBuilder()
                 .requestFactory(() -> new HttpComponentsClientHttpRequestFactory(httpClient(keystoreProperties, resourceLoader)))
-                .setConnectTimeout(Duration.ofMillis(environmentProperties.getThreeDsServerNetworkTimeout()))
-                .setReadTimeout(Duration.ofMillis(environmentProperties.getThreeDsServerNetworkTimeout()))
+                .setConnectTimeout(Duration.ofMillis(environmentProperties.getThreeDsServerConnectTimeout()))
+                .setReadTimeout(Duration.ofMillis(environmentProperties.getThreeDsServerReadTimeout()))
                 .build();
     }
 

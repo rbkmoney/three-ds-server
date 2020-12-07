@@ -3,7 +3,7 @@ package com.rbkmoney.threeds.server.service.rbkmoneyplatform;
 import com.rbkmoney.damsel.domain.BusinessScheduleRef;
 import com.rbkmoney.damsel.domain.CalendarRef;
 import com.rbkmoney.damsel.schedule.*;
-import com.rbkmoney.damsel.three_ds_server_storage.InitRBKMoneyPreparationFlowRequest;
+import com.rbkmoney.damsel.threeds.server.storage.InitRBKMoneyPreparationFlowRequest;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
 import com.rbkmoney.threeds.server.serializer.ThriftSerializer;
 import lombok.RequiredArgsConstructor;

@@ -20,7 +20,6 @@ import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class MirPlatformPreparationFlowTest extends AbstractMirPlatformConfig {
@@ -56,7 +55,6 @@ public class MirPlatformPreparationFlowTest extends AbstractMirPlatformConfig {
                 .content(preparationFlow.requestToThreeDsServer(testCase));
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(preparationFlow.responseFromThreeDsServer(testCase)));
     }
@@ -67,8 +65,7 @@ public class MirPlatformPreparationFlowTest extends AbstractMirPlatformConfig {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
             return Stream.of(
-                    Arguments.of("1-8", "9bdfe2dd-d57b-453f-93a7-995701330872")
-            );
+                    Arguments.of("1-8", "9bdfe2dd-d57b-453f-93a7-995701330872"));
         }
     }
 }

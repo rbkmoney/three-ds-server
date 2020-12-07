@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 public class ChallengeFlowTransactionInfoConverter {
 
     public ChallengeFlowTransactionInfo toDomain(
-            com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo thriftTransactionInfo) {
+            com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfo thriftTransactionInfo) {
         return ChallengeFlowTransactionInfo.builder()
-                .threeDSServerTransID(thriftTransactionInfo.getTransactionId())
+                .threeDsServerTransId(thriftTransactionInfo.getTransactionId())
                 .deviceChannel(DeviceChannel.of(thriftTransactionInfo.getDeviceChannel()))
                 .decoupledAuthMaxTime(LocalDateTime.parse(thriftTransactionInfo.getDecoupledAuthMaxTime()))
                 .acsDecConInd(AcsDecConInd.of(thriftTransactionInfo.getAcsDecConInd()))
@@ -23,9 +23,9 @@ public class ChallengeFlowTransactionInfoConverter {
                 .build();
     }
 
-    public com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo toThrift(ChallengeFlowTransactionInfo domainTransactionInfo) {
-        return new com.rbkmoney.damsel.three_ds_server_storage.ChallengeFlowTransactionInfo()
-                .setTransactionId(domainTransactionInfo.getThreeDSServerTransID())
+    public com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfo toThrift(ChallengeFlowTransactionInfo domainTransactionInfo) {
+        return new com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfo()
+                .setTransactionId(domainTransactionInfo.getThreeDsServerTransId())
                 .setDeviceChannel(domainTransactionInfo.getDeviceChannel().getValue())
                 .setDecoupledAuthMaxTime(domainTransactionInfo.getDecoupledAuthMaxTime().toString())
                 .setAcsDecConInd(domainTransactionInfo.getAcsDecConInd().getValue())

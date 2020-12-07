@@ -34,7 +34,6 @@ import static com.rbkmoney.threeds.server.mir.utils.challenge.HttpBuilder.*;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class MirPlatformChallengeFlowTest extends AbstractMirPlatformConfig {
@@ -81,7 +80,6 @@ public class MirPlatformChallengeFlowTest extends AbstractMirPlatformConfig {
                 .content(frictionlessFlow.requestToThreeDsServer(testCase));
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(frictionlessFlow.responseFromThreeDsServer(testCase)));
     }
@@ -102,7 +100,6 @@ public class MirPlatformChallengeFlowTest extends AbstractMirPlatformConfig {
                 .content(challengeFlow.requestFromDs(testCase));
 
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(challengeFlow.responseToDs(testCase)));
     }
@@ -218,8 +215,7 @@ public class MirPlatformChallengeFlowTest extends AbstractMirPlatformConfig {
                     Arguments.of("6-1", "1dbf4543-1ad2-4f64-bbab-fa2ca5f28270", AcsResult.cres_success),
                     Arguments.of("6-2", "9ebb6698-3fbd-4acf-aa6c-47ab74dc868c", AcsResult.cres_success),
                     Arguments.of("6-3", "d29606f6-3321-4de4-ab04-abd2c9751b27", AcsResult.cres_after_cancel),
-                    Arguments.of("6-4", "e58bf997-f11b-4ba3-be5c-134462ed824b", AcsResult.cres_success)
-            );
+                    Arguments.of("6-4", "e58bf997-f11b-4ba3-be5c-134462ed824b", AcsResult.cres_success));
         }
     }
 }

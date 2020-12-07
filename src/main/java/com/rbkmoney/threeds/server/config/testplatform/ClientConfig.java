@@ -35,10 +35,8 @@ public class ClientConfig {
 
     @Bean
     @RequestScope
-    public DsProviderHolder dsProviderHolder(
-            TestPlatformDsClient testPlatformDsClient,
-            EnvironmentProperties environmentProperties) {
-        return new TestPlatformDsProviderHolder(testPlatformDsClient, environmentProperties);
+    public DsProviderHolder dsProviderHolder(TestPlatformDsClient testPlatformDsClient) {
+        return new TestPlatformDsProviderHolder(testPlatformDsClient);
     }
 
     @Bean

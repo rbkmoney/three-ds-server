@@ -1,7 +1,7 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
 import com.rbkmoney.damsel.schedule.SchedulatorSrv;
-import com.rbkmoney.damsel.three_ds_server_storage.InitRBKMoneyPreparationFlowRequest;
+import com.rbkmoney.damsel.threeds.server.storage.InitRBKMoneyPreparationFlowRequest;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowDsProviderProperties;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
 import com.rbkmoney.threeds.server.serializer.ThriftSerializer;

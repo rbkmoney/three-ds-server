@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ChallengeFlowTransactionInfo {
 
-    private String threeDSServerTransID;
+    private String threeDsServerTransId;
     private DeviceChannel deviceChannel;
     private LocalDateTime decoupledAuthMaxTime;
     private AcsDecConInd acsDecConInd;

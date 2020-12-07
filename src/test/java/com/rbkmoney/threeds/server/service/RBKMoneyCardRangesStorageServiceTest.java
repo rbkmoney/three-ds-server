@@ -1,13 +1,14 @@
 package com.rbkmoney.threeds.server.service;
 
-import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
-import com.rbkmoney.damsel.three_ds_server_storage.DirectoryServerProviderIDNotFound;
-import com.rbkmoney.threeds.server.converter.thrift.CardRangeConverter;
+import com.rbkmoney.damsel.threeds.server.storage.*;
+import com.rbkmoney.threeds.server.converter.thrift.CardRangeMapper;
 import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
+import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersion;
 import com.rbkmoney.threeds.server.ds.DsProvider;
+import com.rbkmoney.threeds.server.exception.ExternalStorageException;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.apache.thrift.TException;
@@ -37,8 +38,7 @@ public class RBKMoneyCardRangesStorageServiceTest {
         cardRangesStorageClient = mock(CardRangesStorageSrv.Iface.class);
         rbkMoneyCardRangesStorageService = new RBKMoneyCardRangesStorageService(
                 cardRangesStorageClient,
-                new CardRangeConverter(),
-                new IdGenerator());
+                new CardRangeMapper(new IdGenerator()));
     }
 
     @Test
@@ -96,6 +96,42 @@ public class RBKMoneyCardRangesStorageServiceTest {
         boolean isValidCardRanges = rbkMoneyCardRangesStorageService.isValidCardRanges(TEST_TAG, pRes);
 
         assertFalse(isValidCardRanges);
+    }
+
+    @Test
+    public void shouldReturnEmptyIfAcctNumberIsUnsupportedThreeDsVersion() throws TException {
+        when(cardRangesStorageClient.getAccountNumberVersion(ACCT_NUMBER)).thenReturn(AccountNumberVersion.unsupported_version(new UnsupportedVersion()));
+
+        Optional<ThreeDsVersion> threeDsVersion = rbkMoneyCardRangesStorageService.getThreeDsVersion(ACCT_NUMBER);
+
+        assertTrue(threeDsVersion.isEmpty());
+    }
+
+    @Test
+    public void shouldReturnThreeDsVersionIfAcctNumberIsSupportedThreeDsVersion() throws TException {
+        String providerId = "1";
+        when(cardRangesStorageClient.getAccountNumberVersion(ACCT_NUMBER)).thenReturn(
+                AccountNumberVersion.three_ds_second_version(
+                        new ThreeDsSecondVersion()
+                                .setProviderId(providerId)
+                                .setAcsStart("2.1.0")
+                                .setAcsEnd("2.1.0")
+                                .setDsStart("2.1.0")
+                                .setDsEnd("2.1.0")
+                                .setThreeDsMethodUrl("1")));
+
+        Optional<ThreeDsVersion> threeDsVersion = rbkMoneyCardRangesStorageService.getThreeDsVersion(ACCT_NUMBER);
+
+        assertTrue(threeDsVersion.isPresent());
+        assertEquals(providerId, threeDsVersion.get().getDsProviderId());
+    }
+
+    @Test
+    public void shouldThrowExternalStorageException() throws TException {
+        when(cardRangesStorageClient.getAccountNumberVersion(ACCT_NUMBER)).thenThrow(TException.class);
+
+        assertThrows(ExternalStorageException.class,
+                () -> rbkMoneyCardRangesStorageService.getThreeDsVersion(ACCT_NUMBER));
     }
 
     private PRes pRes(CardRange... elements) {

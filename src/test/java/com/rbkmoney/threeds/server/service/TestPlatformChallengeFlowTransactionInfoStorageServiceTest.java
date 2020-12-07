@@ -27,7 +27,7 @@ public class TestPlatformChallengeFlowTransactionInfoStorageServiceTest {
     @Test
     public void shouldSaveAndGetTransactionInfo() {
         ChallengeFlowTransactionInfo transactionInfo = ChallengeFlowTransactionInfo.builder()
-                .threeDSServerTransID(TEST_TAG)
+                .threeDsServerTransId(TEST_TAG)
                 .deviceChannel(DeviceChannel.APP_BASED)
                 .decoupledAuthMaxTime(LocalDateTime.MIN)
                 .acsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED)

@@ -1,10 +1,10 @@
 package com.rbkmoney.threeds.server.service.rbkmoneyplatform;
 
-import com.rbkmoney.damsel.three_ds_server_storage.AccountNumberVersion;
-import com.rbkmoney.damsel.three_ds_server_storage.CardRangesStorageSrv;
-import com.rbkmoney.damsel.three_ds_server_storage.DirectoryServerProviderIDNotFound;
-import com.rbkmoney.damsel.three_ds_server_storage.UpdateCardRangesRequest;
-import com.rbkmoney.threeds.server.converter.thrift.CardRangeConverter;
+import com.rbkmoney.damsel.threeds.server.storage.AccountNumberVersion;
+import com.rbkmoney.damsel.threeds.server.storage.CardRangesStorageSrv;
+import com.rbkmoney.damsel.threeds.server.storage.DirectoryServerProviderIDNotFound;
+import com.rbkmoney.damsel.threeds.server.storage.UpdateCardRangesRequest;
+import com.rbkmoney.threeds.server.converter.thrift.CardRangeMapper;
 import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
@@ -13,7 +13,6 @@ import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersion;
 import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.exception.ExternalStorageException;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.utils.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
@@ -32,8 +31,7 @@ import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 public class RBKMoneyCardRangesStorageService {
 
     private final CardRangesStorageSrv.Iface cardRangesStorageClient;
-    private final CardRangeConverter cardRangeConverter;
-    private final IdGenerator idGenerator;
+    private final CardRangeMapper cardRangeMapper;
 
     @Async
     public void updateCardRanges(String dsProviderId, PRes pRes) {
@@ -43,7 +41,7 @@ public class RBKMoneyCardRangesStorageService {
                 // fill default value in required fields
                 cardRanges.forEach(cardRange -> fillRequiredFields(pRes, cardRange));
 
-                var tCardRanges = cardRangeConverter.toThrift(cardRanges);
+                var tCardRanges = cardRangeMapper.fromDomainToThrift(cardRanges);
 
                 boolean isNeedStorageClear = isNeedStorageClear(pRes);
 
@@ -95,7 +93,7 @@ public class RBKMoneyCardRangesStorageService {
             if (!isEmptyCardRanges && !isNeedStorageClear && !isEmptyStorage) {
                 var tCardRanges = cardRanges.stream()
                         .peek(cardRange -> fillRequiredFields(pRes, cardRange))
-                        .map(cardRangeConverter::toThrift)
+                        .map(cardRangeMapper::fromDomainToThrift)
                         .collect(Collectors.toList());
 
                 boolean isValidCardRanges = cardRangesStorageClient.isValidCardRanges(dsProviderId, tCardRanges);
@@ -126,31 +124,19 @@ public class RBKMoneyCardRangesStorageService {
                 .map(DsProvider::of);
     }
 
-    public Optional<ThreeDsVersion> getAccountNumberVersion(Long accountNumber) {
-        try {
-            AccountNumberVersion accountNumberVersion = cardRangesStorageClient.getAccountNumberVersion(accountNumber);
-            if (accountNumberVersion.isSetThreeDsSecondVersion()) {
-                var tThreeDsSecondVersion = accountNumberVersion.getThreeDsSecondVersion();
+    public Optional<ThreeDsVersion> getThreeDsVersion(Long accountNumber) {
+        return Optional.of(getAccountNumberVersion(accountNumber))
+                .filter(AccountNumberVersion::isSetThreeDsSecondVersion)
+                .map(AccountNumberVersion::getThreeDsSecondVersion)
+                .map(
+                        tThreeDsSecondVersion -> {
+                            ThreeDsVersion threeDsVersion = cardRangeMapper.fromThriftToDomain(tThreeDsSecondVersion);
 
-                var threeDsVersion = ThreeDsVersion.builder()
-                        .threeDSServerTransID(idGenerator.generateUUID())
-                        .dsProviderId(tThreeDsSecondVersion.getProviderId())
-                        .acsStartProtocolVersion(tThreeDsSecondVersion.getAcsStart())
-                        .acsEndProtocolVersion(tThreeDsSecondVersion.getAcsEnd())
-                        .dsStartProtocolVersion(tThreeDsSecondVersion.getDsStart())
-                        .dsEndProtocolVersion(tThreeDsSecondVersion.getDsEnd())
-                        .threeDSMethodURL(tThreeDsSecondVersion.getThreeDsMethodUrl())
-                        .build();
+                            log.info("ThreeDsVersion by AccountNumber has been found, threeDsVersion={}", threeDsVersion.toString());
 
-                log.info("ThreeDsVersion by AccountNumber has been found, threeDsVersion={}", threeDsVersion.toString());
-
-                return Optional.of(threeDsVersion);
-            } else {
-                return Optional.empty();
-            }
-        } catch (TException e) {
-            throw new ExternalStorageException(e);
-        }
+                            return Optional.of(threeDsVersion);
+                        })
+                .orElseGet(Optional::empty);
     }
 
     private String getDirectoryServerProviderId(String accountNumber) {
@@ -162,6 +148,14 @@ public class RBKMoneyCardRangesStorageService {
             return dsProviderId;
         } catch (DirectoryServerProviderIDNotFound ex) {
             return null;
+        } catch (TException e) {
+            throw new ExternalStorageException(e);
+        }
+    }
+
+    private AccountNumberVersion getAccountNumberVersion(Long accountNumber) {
+        try {
+            return cardRangesStorageClient.getAccountNumberVersion(accountNumber);
         } catch (TException e) {
             throw new ExternalStorageException(e);
         }

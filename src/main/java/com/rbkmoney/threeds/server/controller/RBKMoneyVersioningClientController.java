@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,19 +23,14 @@ public class RBKMoneyVersioningClientController {
 
     @GetMapping("/versioning")
     public ResponseEntity<ThreeDsVersion> versioningHandler(@RequestParam("account_number") String accountNumber) {
-        try {
-            if (!StringUtils.isNumeric(accountNumber)) {
-                return ResponseEntity.badRequest().build();
-            }
-
-            log.info("Trying to getAccountNumberVersion, accountNumber={}", hideAccountNumber(accountNumber));
-
-            return ResponseEntity.of(
-                    rbkMoneyCardRangesStorageService.getAccountNumberVersion(
-                            Long.parseLong(accountNumber)));
-        } catch (Throwable ex) {
-            log.error("Error with /versioning", ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        if (!StringUtils.isNumeric(accountNumber)) {
+            return ResponseEntity.badRequest().build();
         }
+
+        log.info("Trying to get ThreeDsVersion, accountNumber={}", hideAccountNumber(accountNumber));
+
+        return ResponseEntity.of(
+                rbkMoneyCardRangesStorageService.getThreeDsVersion(
+                        Long.parseLong(accountNumber)));
     }
 }

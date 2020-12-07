@@ -10,12 +10,14 @@ public class EnvironmentProperties {
     private String dsUrl;
     @Length(max = 2048)
     private String threeDsRequestorUrl;
+    private String threeDsRequestorPrefix;
     @Length(max = 2048)
     private String threeDsServerUrl;
     @Length(max = 32)
     private String threeDsServerRefNumber;
     @Length(max = 32)
     private String threeDsServerOperatorId;
-    private int threeDsServerNetworkTimeout;
+    private int threeDsServerReadTimeout;
+    private int threeDsServerConnectTimeout;
 
 }

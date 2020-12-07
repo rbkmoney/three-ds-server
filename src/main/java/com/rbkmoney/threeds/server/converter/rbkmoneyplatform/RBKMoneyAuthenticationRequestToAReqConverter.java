@@ -1,9 +1,9 @@
 package com.rbkmoney.threeds.server.converter.rbkmoneyplatform;
 
+import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.domain.account.AccountInfo;
 import com.rbkmoney.threeds.server.domain.account.AccountInfoWrapper;
-import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptions;
-import com.rbkmoney.threeds.server.domain.device.DeviceRenderOptionsWrapper;
+import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
 import com.rbkmoney.threeds.server.domain.merchant.MerchantRiskIndicator;
 import com.rbkmoney.threeds.server.domain.merchant.MerchantRiskIndicatorWrapper;
 import com.rbkmoney.threeds.server.domain.root.Message;
@@ -11,10 +11,10 @@ import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyAuthenticationRequest;
 import com.rbkmoney.threeds.server.domain.threedsrequestor.*;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
+import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
-import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.serialization.TemporalAccessorWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
@@ -22,11 +22,10 @@ import org.springframework.core.convert.converter.Converter;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static com.rbkmoney.threeds.server.utils.CrutchChecker.isMirCrutchCondition;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
+@SuppressWarnings("Duplicates")
 @RequiredArgsConstructor
 public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<ValidationResult, Message> {
 
@@ -42,22 +41,23 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
 
     @Override
     public Message convert(ValidationResult validationResult) {
+        EnvironmentProperties environmentProperties = rbkMoneyDsProviderHolder.getEnvironmentProperties();
+
         RBKMoneyAuthenticationRequest request = (RBKMoneyAuthenticationRequest) validationResult.getMessage();
 
         AReq aReq = AReq.builder()
                 .threeDSCompInd(getValue(request.getThreeDSCompInd()))
                 .threeDSRequestorAuthenticationInd(getValue(request.getThreeDSRequestorAuthenticationInd()))
                 .threeDSRequestorAuthenticationInfo(getThreeDSRequestorAuthenticationInfo(request))
-//              .threeDSReqAuthMethodInd(null) todo null? emvco: -
                 .threeDSRequestorChallengeInd(getValue(request.getThreeDSRequestorChallengeInd()))
                 .threeDSRequestorDecMaxTime(request.getThreeDSRequestorDecMaxTime())
                 .threeDSRequestorDecReqInd(getValue(request.getThreeDSRequestorDecReqInd()))
-                .threeDSRequestorID(request.getThreeDSRequestorID())
-                .threeDSRequestorName(request.getThreeDSRequestorName())
+                .threeDSRequestorID(rbkMoneyDsProviderHolder.getThreeDsRequestorId(request.getAcquirerMerchantID()))
+                .threeDSRequestorName(rbkMoneyDsProviderHolder.getThreeDsRequestorName(request.getMerchantName()))
                 .threeDSRequestorPriorAuthenticationInfo(getThreeDSRequestorPriorAuthenticationInfo(request))
-                .threeDSRequestorURL(request.getThreeDSRequestorURL())
-                .threeDSServerRefNumber(rbkMoneyDsProviderHolder.getEnvironmentProperties().getThreeDsServerRefNumber())
-                .threeDSServerOperatorID(request.getThreeDSServerOperatorID())
+                .threeDSRequestorURL(environmentProperties.getThreeDsRequestorUrl())
+                .threeDSServerRefNumber(environmentProperties.getThreeDsServerRefNumber())
+                .threeDSServerOperatorID(environmentProperties.getThreeDsServerOperatorId())
                 .threeDSServerTransID(request.getThreeDSServerTransID())
                 .threeDSServerURL(getThreeDsServerUrl(request))
                 .threeRIInd(getValue(request.getThreeRIInd()))
@@ -108,11 +108,6 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
                 )
                 .workPhone(request.getWorkPhone())
                 .deviceChannel(getValue(request.getDeviceChannel()))
-//              .deviceInfo(null) emvco: source ds
-                .deviceRenderOptions(getDeviceRenderOptions(request))
-//              .dsReferenceNumber(null) emvco: source ds
-//              .dsTransID(null) emvco: source ds
-//              .dsURL(null) emvco: source ds
                 .payTokenInd(request.getPayTokenInd())
                 .payTokenSource(getValue(request.getPayTokenSource()))
                 .purchaseInstalData(getPurchaseInstalData(request))
@@ -129,11 +124,6 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
                 .purchaseDate(getValue(request.getPurchaseDate()))
                 .recurringExpiry(getValue(request.getRecurringExpiry()))
                 .recurringFrequency(request.getRecurringFrequency())
-                .sdkAppID(request.getSdkAppID())
-                .sdkEncData(request.getSdkEncData())
-                .sdkEphemPubKey(request.getSdkEphemPubKey())
-                .sdkMaxTimeout(request.getSdkMaxTimeout())
-                .sdkReferenceNumber(request.getSdkReferenceNumber())
                 .sdkTransID(request.getSdkTransID())
                 .transType(getValue(request.getTransType()))
                 .whiteListStatus(getValue(request.getWhiteListStatus()))
@@ -159,7 +149,8 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
     }
 
     private String getThreeDsServerUrl(RBKMoneyAuthenticationRequest request) {
-        if (isMirCrutchCondition(request.getDeviceChannel().getValue(), rbkMoneyDsProviderHolder.getEnvironmentProperties())) {
+        if (request.getDeviceChannel().getValue() == DeviceChannel.THREE_REQUESTOR_INITIATED
+                && rbkMoneyDsProviderHolder.getDsProvider().orElseThrow().equals(DsProvider.MIR.getId())) {
             return null;
         } else {
             return rbkMoneyDsProviderHolder.getEnvironmentProperties().getThreeDsServerUrl();
@@ -223,28 +214,6 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
             info.setThreeDSReqPriorAuthTimestamp(wrapper.map(ThreeDSRequestorPriorAuthenticationInfoWrapper::getThreeDSReqPriorAuthTimestamp).map(TemporalAccessorWrapper::getValue).orElse(null));
             info.setThreeDSReqPriorRef(wrapper.map(ThreeDSRequestorPriorAuthenticationInfoWrapper::getThreeDSReqPriorRef).orElse(null));
             return info;
-        } else {
-            return null;
-        }
-    }
-
-    private DeviceRenderOptions getDeviceRenderOptions(RBKMoneyAuthenticationRequest request) {
-        Optional<DeviceRenderOptionsWrapper> wrapper = Optional.ofNullable(request.getDeviceRenderOptions());
-
-        if (wrapper.isPresent()) {
-            DeviceRenderOptions deviceRenderOptions = new DeviceRenderOptions();
-            deviceRenderOptions.setSdkInterface(wrapper.map(DeviceRenderOptionsWrapper::getSdkInterface).map(EnumWrapper::getValue).orElse(null));
-            wrapper
-                    .map(DeviceRenderOptionsWrapper::getSdkUiType)
-                    .map(ListWrapper::getValue)
-                    .ifPresent(
-                            list -> deviceRenderOptions.setSdkUiType(
-                                    list.stream()
-                                            .map(EnumWrapper::getValue)
-                                            .collect(Collectors.toList())
-                            )
-                    );
-            return deviceRenderOptions;
         } else {
             return null;
         }

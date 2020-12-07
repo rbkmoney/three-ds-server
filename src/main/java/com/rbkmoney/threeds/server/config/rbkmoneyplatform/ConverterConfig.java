@@ -5,7 +5,7 @@ import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyChallengeFlowTransactionInfoStorageService;
-import com.rbkmoney.threeds.server.utils.CReqEncoder;
+import com.rbkmoney.threeds.server.utils.Base64Encoder;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +24,8 @@ public class ConverterConfig {
     }
 
     @Bean
-    public Converter<ValidationResult, Message> pResToRBKMoneyPreparationResponseConverter(RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder) {
+    public Converter<ValidationResult, Message> pResToRBKMoneyPreparationResponseConverter(
+            RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder) {
         return new PResToRBKMoneyPreparationResponseConverter(rbkMoneyDsProviderHolder);
     }
 
@@ -35,8 +36,9 @@ public class ConverterConfig {
     }
 
     @Bean
-    public Converter<ValidationResult, Message> rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter(CReqEncoder cReqEncoder) {
-        return new RBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter(cReqEncoder);
+    public Converter<ValidationResult, Message> rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter(
+            Base64Encoder base64Encoder) {
+        return new RBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter(base64Encoder);
     }
 
     @Bean

@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 public class RBKMoneyChallengeFlowTest extends AbstractRBKMoneyPlatformConfig {
@@ -54,7 +53,6 @@ public class RBKMoneyChallengeFlowTest extends AbstractRBKMoneyPlatformConfig {
 
         // When - Then
         mockMvc.perform(request)
-                .andDo(print())
                 .andExpect(content()
                         .json(challengeFlow.responseRGcsFromThreeDsServer()));
     }
