@@ -150,7 +150,7 @@ public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<V
 
     private String getThreeDsServerUrl(RBKMoneyAuthenticationRequest request) {
         if (request.getDeviceChannel().getValue() == DeviceChannel.THREE_REQUESTOR_INITIATED
-                && rbkMoneyDsProviderHolder.getDsProvider().get().equals(DsProvider.MIR.getId())) {
+                && rbkMoneyDsProviderHolder.getDsProvider().orElseThrow().equals(DsProvider.MIR.getId())) {
             return null;
         } else {
             return rbkMoneyDsProviderHolder.getEnvironmentProperties().getThreeDsServerUrl();

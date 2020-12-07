@@ -34,7 +34,7 @@ public class RBKMoneyAResInfoOnlyConstraintValidationHandlerImpl implements ARes
 
         if (!(isSatisfactoryChallengeIndForTransStatus(threeDSRequestorChallengeInd)
                 || (threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.RESERVED_FOR_DS_USED_82
-                && rbkMoneyDsProviderHolder.getDsProvider().get().equals(DsProvider.VISA.getId())))) {
+                && rbkMoneyDsProviderHolder.getDsProvider().orElseThrow().equals(DsProvider.VISA.getId())))) {
             return ConstraintValidationResult.failure(PATTERN, "transStatus");
         }
 
