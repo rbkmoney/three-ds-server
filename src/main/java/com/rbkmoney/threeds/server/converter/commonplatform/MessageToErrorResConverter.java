@@ -2,11 +2,11 @@ package com.rbkmoney.threeds.server.converter.commonplatform;
 
 import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.error.ErrorCode;
-import com.rbkmoney.threeds.server.domain.message.MessageType;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.TransactionalMessage;
 import com.rbkmoney.threeds.server.domain.root.emvco.Erro;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
+import com.rbkmoney.threeds.server.utils.MessageTypeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
@@ -41,7 +41,7 @@ public class MessageToErrorResConverter implements Converter<ValidationResult, M
                     .errorComponent(THREE_DS_SERVER)
                     .errorDescription(errorDescription)
                     .errorDetail(errorDetail)
-                    .errorMessageType(MessageType.valueOf(message.getClass().getSimpleName().toUpperCase()))
+                    .errorMessageType(MessageTypeUtils.resolve(message))
                     .sdkTransID(getNullableString(message.getSdkTransID(), getRequestId(requestMessage, TransactionalMessage::getSdkTransID)))
                     .build();
             error.setMessageVersion(getMessageVersion(message, requestMessage));

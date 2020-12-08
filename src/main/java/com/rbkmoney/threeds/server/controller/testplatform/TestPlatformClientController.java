@@ -1,4 +1,4 @@
-package com.rbkmoney.threeds.server.controller;
+package com.rbkmoney.threeds.server.controller.testplatform;
 
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformLogWrapper;
