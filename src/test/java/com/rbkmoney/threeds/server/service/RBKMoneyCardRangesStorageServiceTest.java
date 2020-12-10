@@ -6,8 +6,6 @@ import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
-import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersion;
-import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.exception.ExternalStorageException;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
@@ -16,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.rbkmoney.threeds.server.helper.CardRangeHelper.cardRange;
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,7 +42,7 @@ public class RBKMoneyCardRangesStorageServiceTest {
     public void shouldReturnValidIfAcctNumberIsInCardRangesInStorage() throws TException {
         when(cardRangesStorageClient.getDirectoryServerProviderId(ACCT_NUMBER)).thenReturn(TEST_TAG);
 
-        Optional<DsProvider> dsProvider = rbkMoneyCardRangesStorageService.getDsProvider(String.valueOf(ACCT_NUMBER));
+        var dsProvider = rbkMoneyCardRangesStorageService.getDsProvider(String.valueOf(ACCT_NUMBER));
 
         assertEquals(TEST_TAG, dsProvider.get().getId());
     }
@@ -54,7 +51,7 @@ public class RBKMoneyCardRangesStorageServiceTest {
     public void shouldReturnInvalidIfAcctNumberIsNotInCardRangesInStorage() throws TException {
         when(cardRangesStorageClient.getDirectoryServerProviderId(ACCT_NUMBER)).thenThrow(DirectoryServerProviderIDNotFound.class);
 
-        Optional<DsProvider> dsProvider = rbkMoneyCardRangesStorageService.getDsProvider(String.valueOf(ACCT_NUMBER));
+        var dsProvider = rbkMoneyCardRangesStorageService.getDsProvider(String.valueOf(ACCT_NUMBER));
 
         assertTrue(dsProvider.isEmpty());
     }
@@ -102,7 +99,7 @@ public class RBKMoneyCardRangesStorageServiceTest {
     public void shouldReturnEmptyIfAcctNumberIsUnsupportedThreeDsVersion() throws TException {
         when(cardRangesStorageClient.getAccountNumberVersion(ACCT_NUMBER)).thenReturn(AccountNumberVersion.unsupported_version(new UnsupportedVersion()));
 
-        Optional<ThreeDsVersion> threeDsVersion = rbkMoneyCardRangesStorageService.getThreeDsVersion(ACCT_NUMBER);
+        var threeDsVersion = rbkMoneyCardRangesStorageService.getThreeDsVersionResponse(ACCT_NUMBER);
 
         assertTrue(threeDsVersion.isEmpty());
     }
@@ -120,7 +117,7 @@ public class RBKMoneyCardRangesStorageServiceTest {
                                 .setDsEnd("2.1.0")
                                 .setThreeDsMethodUrl("1")));
 
-        Optional<ThreeDsVersion> threeDsVersion = rbkMoneyCardRangesStorageService.getThreeDsVersion(ACCT_NUMBER);
+        var threeDsVersion = rbkMoneyCardRangesStorageService.getThreeDsVersionResponse(ACCT_NUMBER);
 
         assertTrue(threeDsVersion.isPresent());
         assertEquals(providerId, threeDsVersion.get().getDsProviderId());
@@ -131,7 +128,7 @@ public class RBKMoneyCardRangesStorageServiceTest {
         when(cardRangesStorageClient.getAccountNumberVersion(ACCT_NUMBER)).thenThrow(TException.class);
 
         assertThrows(ExternalStorageException.class,
-                () -> rbkMoneyCardRangesStorageService.getThreeDsVersion(ACCT_NUMBER));
+                () -> rbkMoneyCardRangesStorageService.getThreeDsVersionResponse(ACCT_NUMBER));
     }
 
     private PRes pRes(CardRange... elements) {

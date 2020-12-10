@@ -9,7 +9,7 @@ import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
 import com.rbkmoney.threeds.server.domain.root.emvco.PReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
-import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersion;
+import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersionResponse;
 import com.rbkmoney.threeds.server.ds.DsProvider;
 import com.rbkmoney.threeds.server.exception.ExternalStorageException;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
@@ -124,13 +124,13 @@ public class RBKMoneyCardRangesStorageService {
                 .map(DsProvider::of);
     }
 
-    public Optional<ThreeDsVersion> getThreeDsVersion(Long accountNumber) {
+    public Optional<ThreeDsVersionResponse> getThreeDsVersionResponse(Long accountNumber) {
         return Optional.of(getAccountNumberVersion(accountNumber))
                 .filter(AccountNumberVersion::isSetThreeDsSecondVersion)
                 .map(AccountNumberVersion::getThreeDsSecondVersion)
                 .map(
                         tThreeDsSecondVersion -> {
-                            ThreeDsVersion threeDsVersion = cardRangeMapper.fromThriftToDomain(tThreeDsSecondVersion);
+                            var threeDsVersion = cardRangeMapper.fromThriftToDomain(tThreeDsSecondVersion);
 
                             log.info("ThreeDsVersion by AccountNumber has been found, threeDsVersion={}", threeDsVersion.toString());
 

@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>three-ds-server</artifactId>
-    <version>1.1.8-SNAPSHOT</version>
+    <version>1.1.9-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>three-ds-server</name>
@@ -65,7 +65,7 @@
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>three-ds-server-domain-lib</artifactId>
-            <version>1.1.8</version>
+            <version>1.1.9</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
