@@ -23,11 +23,10 @@ public class RBKMoneyThreeDsMethodTest extends AbstractRBKMoneyPlatformConfig {
 
     @Test
     public void shouldReturnThreeDsVersionIfAcctNumberIsSupportedThreeDsVersion() throws Exception {
-        String expectedId = "1";
         ThreeDsMethodRequest threeDsMethodRequest = ThreeDsMethodRequest.builder()
                 .threeDsMethodData(
                         ThreeDsMethodData.builder()
-                                .threeDSServerTransID(expectedId)
+                                .threeDSServerTransID("1")
                                 .threeDSMethodNotificationURL("url1")
                                 .build())
                 .threeDsMethodUrl("url2")
@@ -40,7 +39,6 @@ public class RBKMoneyThreeDsMethodTest extends AbstractRBKMoneyPlatformConfig {
                 .content(jsonMapper.writeValueAsString(threeDsMethodRequest));
 
         mockMvc.perform(request)
-                .andExpect(jsonPath("$.threeDsServerTransId").value(expectedId))
                 .andExpect(jsonPath("$.htmlThreeDsMethodData").value(html()));
     }
 

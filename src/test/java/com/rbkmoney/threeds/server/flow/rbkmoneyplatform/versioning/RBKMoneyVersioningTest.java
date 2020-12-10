@@ -1,7 +1,9 @@
 package com.rbkmoney.threeds.server.flow.rbkmoneyplatform.versioning;
 
 import com.rbkmoney.threeds.server.config.AbstractRBKMoneyPlatformConfig;
-import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersion;
+import com.rbkmoney.threeds.server.config.utils.JsonMapper;
+import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersionRequest;
+import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersionResponse;
 import com.rbkmoney.threeds.server.exception.ExternalStorageException;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyCardRangesStorageService;
 import org.junit.jupiter.api.Test;
@@ -23,24 +25,27 @@ public class RBKMoneyVersioningTest extends AbstractRBKMoneyPlatformConfig {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private JsonMapper jsonMapper;
+
     @MockBean
     private RBKMoneyCardRangesStorageService rbkMoneyCardRangesStorageService;
 
     @Test
     public void shouldReturnThreeDsVersionIfAcctNumberIsSupportedThreeDsVersion() throws Exception {
         String expectedValue = "2.1.0";
-        when(rbkMoneyCardRangesStorageService.getThreeDsVersion(anyLong())).thenReturn(
+        when(rbkMoneyCardRangesStorageService.getThreeDsVersionResponse(anyLong())).thenReturn(
                 Optional.of(
-                        ThreeDsVersion.builder()
+                        ThreeDsVersionResponse.builder()
                                 .threeDsServerTransId("1")
                                 .dsStartProtocolVersion(expectedValue)
                                 .build()));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get("/versioning")
+                .post("/versioning")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .param("account_number", "1");
+                .content(getContent());
 
         mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -51,13 +56,13 @@ public class RBKMoneyVersioningTest extends AbstractRBKMoneyPlatformConfig {
 
     @Test
     public void shouldReturnNotFoundIfAcctNumberIsUnsupportedThreeDsVersion() throws Exception {
-        when(rbkMoneyCardRangesStorageService.getThreeDsVersion(anyLong())).thenReturn(Optional.empty());
+        when(rbkMoneyCardRangesStorageService.getThreeDsVersionResponse(anyLong())).thenReturn(Optional.empty());
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get("/versioning")
+                .post("/versioning")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .param("account_number", "1");
+                .content(getContent());
 
         mockMvc.perform(request)
                 .andExpect(status().isNotFound());
@@ -66,10 +71,10 @@ public class RBKMoneyVersioningTest extends AbstractRBKMoneyPlatformConfig {
     @Test
     public void shouldReturnBadRequestIfAcctNumberIsInvalid() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get("/versioning")
+                .post("/versioning")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .param("account_number", "asd");
+                .content(jsonMapper.writeValueAsString(ThreeDsVersionRequest.builder().accountNumber("asd").build()));
 
         mockMvc.perform(request)
                 .andExpect(status().isBadRequest());
@@ -78,7 +83,7 @@ public class RBKMoneyVersioningTest extends AbstractRBKMoneyPlatformConfig {
     @Test
     public void shouldReturnBadRequestIfAcctNumberIsNull() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get("/versioning")
+                .post("/versioning")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
 
@@ -88,15 +93,19 @@ public class RBKMoneyVersioningTest extends AbstractRBKMoneyPlatformConfig {
 
     @Test
     public void shouldReturnInternalServerErrorIfErrorsExists() throws Exception {
-        when(rbkMoneyCardRangesStorageService.getThreeDsVersion(anyLong())).thenThrow(ExternalStorageException.class);
+        when(rbkMoneyCardRangesStorageService.getThreeDsVersionResponse(anyLong())).thenThrow(ExternalStorageException.class);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get("/versioning")
+                .post("/versioning")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .param("account_number", "1");
+                .content(getContent());
 
         mockMvc.perform(request)
                 .andExpect(status().isInternalServerError());
+    }
+
+    private String getContent() {
+        return jsonMapper.writeValueAsString(ThreeDsVersionRequest.builder().accountNumber("1").build());
     }
 }

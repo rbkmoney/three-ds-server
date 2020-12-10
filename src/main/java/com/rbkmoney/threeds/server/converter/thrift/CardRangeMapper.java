@@ -4,7 +4,7 @@ import com.rbkmoney.damsel.threeds.server.storage.*;
 import com.rbkmoney.threeds.server.domain.acs.AcsInfoInd;
 import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
-import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersion;
+import com.rbkmoney.threeds.server.domain.versioning.ThreeDsVersionResponse;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
 import com.rbkmoney.threeds.server.serialization.ListWrapper;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
@@ -59,8 +59,8 @@ public class CardRangeMapper {
                 .setThreeDsMethodUrl(domain.getThreeDSMethodURL());
     }
 
-    public ThreeDsVersion fromThriftToDomain(ThreeDsSecondVersion tThreeDsSecondVersion) {
-        return ThreeDsVersion.builder()
+    public ThreeDsVersionResponse fromThriftToDomain(ThreeDsSecondVersion tThreeDsSecondVersion) {
+        return ThreeDsVersionResponse.builder()
                 .threeDsServerTransId(idGenerator.generateUUID())
                 .dsProviderId(tThreeDsSecondVersion.getProviderId())
                 .acsStartProtocolVersion(tThreeDsSecondVersion.getAcsStart())

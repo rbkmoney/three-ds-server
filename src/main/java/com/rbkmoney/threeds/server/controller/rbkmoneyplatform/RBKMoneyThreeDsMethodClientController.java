@@ -36,7 +36,6 @@ public class RBKMoneyThreeDsMethodClientController {
         return ResponseEntity.ok(
                 ThreeDsMethodResponse.builder()
                         .htmlThreeDsMethodData(htmlThreeDsMethodData)
-                        .threeDsServerTransId(request.getThreeDsMethodData().getThreeDSServerTransID())
                         .build());
     }
 
