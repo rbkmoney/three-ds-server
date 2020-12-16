@@ -5,6 +5,7 @@ import com.rbkmoney.damsel.threeds.server.storage.PreparationFlowInitializerSrv;
 import com.rbkmoney.threeds.server.config.AbstractRBKMoneyPlatformSchedulerConfig;
 import com.rbkmoney.threeds.server.config.utils.JsonMapper;
 import com.rbkmoney.threeds.server.utils.IdGenerator;
+import org.awaitility.Duration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,7 +15,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.concurrent.TimeUnit;
+
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
@@ -43,11 +47,21 @@ public class RBKMoneyPreparationSchedulerFlowTest extends AbstractRBKMoneyPlatfo
         String testCase = "e8db9820-63b7-43ce-8831-36ce81a2e313";
         String path = "flow/rbkmoneyplatform/preparation/happycase/scheduler/";
 
+        // call PreparationFlowInitializer for three-ds-server-storage on application start up
         verify(preparationFlowInitializerClient, times(2)).initRBKMoneyPreparationFlow(any());
+
+        // call PreparationFlowInitializer for three-ds-server-storage on cron schedule
+        // cron = */5 * * * * ? (every 5 seconds)
+        await()
+                .pollDelay(Duration.ZERO)
+                .pollInterval(new Duration(1, TimeUnit.SECONDS))
+                .atMost(new Duration(6, TimeUnit.SECONDS))
+                .untilAsserted(() -> verify(preparationFlowInitializerClient, times(4)).initRBKMoneyPreparationFlow(any()));
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
         when(cardRangesStorageClient.isStorageEmpty(anyString())).thenReturn(true);
 
+        // DS return PRes on PReq request
         stubFor(post(urlEqualTo("/visa/DS2/authenticate"))
                 .withRequestBody(equalToJson(jsonMapper.readStringFromFile(path + "preq.json"), true, true))
                 .willReturn(
@@ -62,6 +76,7 @@ public class RBKMoneyPreparationSchedulerFlowTest extends AbstractRBKMoneyPlatfo
                 .accept(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.readStringFromFile(path + "rpq.json"));
 
+        // three-ds-server-storage handles PreparationFlowInitializer and starts PreparationFlow with three-ds-server
         mockMvc.perform(request)
                 .andExpect(content()
                         .json(jsonMapper.readStringFromFile(path + "rps.json")));

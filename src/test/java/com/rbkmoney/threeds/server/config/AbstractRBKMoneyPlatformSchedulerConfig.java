@@ -42,21 +42,21 @@ public abstract class AbstractRBKMoneyPlatformSchedulerConfig {
     @Import(ThreeDsServerApplication.class)
     public static class TestConfig {
 
-        //        @Bean
-//        public RestTemplate visaRestTemplate() {
-//            return restTemplate();
-//        }
-//
-//        @Bean
-//        public RestTemplate mastercardRestTemplate() {
-//            return restTemplate();
-//        }
-//
-//        @Bean
-//        public RestTemplate mirRestTemplate() {
-//            return restTemplate();
-//        }
-//
+        @Bean
+        public RestTemplate visaRestTemplate() {
+            return restTemplate();
+        }
+
+        @Bean
+        public RestTemplate mastercardRestTemplate() {
+            return restTemplate();
+        }
+
+        @Bean
+        public RestTemplate mirRestTemplate() {
+            return restTemplate();
+        }
+
         @Bean
         public JsonMapper jsonMapper(ObjectMapper objectMapper, ResourceLoader resourceLoader) {
             return new JsonMapper(objectMapper, resourceLoader);
@@ -85,7 +85,7 @@ public abstract class AbstractRBKMoneyPlatformSchedulerConfig {
                     "platform.mode=RBK_MONEY_PLATFORM",
                     "rbkmoney-preparation-flow.scheduler.enabled=true",
                     "rbkmoney-preparation-flow.scheduler.schedule.executor-url=http://localhost:" + serverExtension.getServer().port() + "/three-ds-server-storage/preparation-flow",
-                    "rbkmoney-preparation-flow.scheduler.schedule.cron=0 0 8-20 ? * *",
+                    "rbkmoney-preparation-flow.scheduler.schedule.cron=*/5 * * * * ?",
                     "rbkmoney-preparation-flow.scheduler.schedule.timeout=5000",
                     "rbkmoney-preparation-flow.scheduler.ds-provider.mastercard.enabled=true",
                     "rbkmoney-preparation-flow.scheduler.ds-provider.mastercard.message-version=2.1.0",

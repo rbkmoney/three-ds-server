@@ -67,7 +67,7 @@ rbkmoney-preparation-flow:
       revision-id: 16396
       scheduler-id: 64
       calendar-id: 1
-      cron: "0 0 8-20 ? * *"
+      cron: "0 0 * * * ?"
       timeout: 5000
     ds-provider:
       mastercard:
