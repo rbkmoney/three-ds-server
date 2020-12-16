@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: three_ds_server_storage
   three-ds-server-storage:
-    image: index.docker.io/rbkmoney/three-ds-server-storage:5695bccdc2f194bc6bdd563bb66c01fa4e1d7835
+    image: index.docker.io/rbkmoney/three-ds-server-storage:4df344a32bb5aa1ccb584c05b067cc9f5c311a36
     depends_on:
       - postgresql
     container_name: three-ds-server-storage
@@ -39,7 +39,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - /tmp/docker/three-ds-server/data:/opt/three-ds-server/cert/:ro
+      - /tmp/docker/three-ds-server/cert:/opt/three-ds-server/cert/:ro
     environment:
       SERVICE_NAME: three-ds-server
       SERVICE_CHECK_HTTP: /actuator/health
