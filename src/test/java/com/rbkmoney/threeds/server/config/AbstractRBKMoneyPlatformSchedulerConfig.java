@@ -30,7 +30,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
         classes = AbstractRBKMoneyPlatformSchedulerConfig.TestConfig.class,
         properties = "spring.main.allow-bean-definition-overriding=true")
 @ContextConfiguration(initializers = AbstractRBKMoneyPlatformSchedulerConfig.Initializer.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @TestPropertySource("classpath:application.yml")
 @AutoConfigureMockMvc
 public abstract class AbstractRBKMoneyPlatformSchedulerConfig {

@@ -43,10 +43,7 @@ public class RBKMoneyPreparationSchedulerFlowTest extends AbstractRBKMoneyPlatfo
     private PreparationFlowInitializerSrv.Iface preparationFlowInitializerClient;
 
     @Test
-    public void preparationFlowDefaultHandleTest() throws Exception {
-        String testCase = "e8db9820-63b7-43ce-8831-36ce81a2e313";
-        String path = "flow/rbkmoneyplatform/preparation/happycase/scheduler/";
-
+    public void cronTest() throws Exception {
         // call PreparationFlowInitializer for three-ds-server-storage on application start up
         verify(preparationFlowInitializerClient, times(2)).initRBKMoneyPreparationFlow(any());
 
@@ -54,9 +51,15 @@ public class RBKMoneyPreparationSchedulerFlowTest extends AbstractRBKMoneyPlatfo
         // cron = */5 * * * * ? (every 5 seconds)
         await()
                 .pollDelay(Duration.ZERO)
-                .pollInterval(new Duration(1, TimeUnit.SECONDS))
-                .atMost(new Duration(6, TimeUnit.SECONDS))
+                .pollInterval(new Duration(500, TimeUnit.MILLISECONDS))
+                .atMost(new Duration(9, TimeUnit.SECONDS))
                 .untilAsserted(() -> verify(preparationFlowInitializerClient, times(4)).initRBKMoneyPreparationFlow(any()));
+    }
+
+    @Test
+    void preparationFlowTest() throws Exception {
+        String testCase = "e8db9820-63b7-43ce-8831-36ce81a2e313";
+        String path = "flow/rbkmoneyplatform/preparation/happycase/scheduler/";
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
         when(cardRangesStorageClient.isStorageEmpty(anyString())).thenReturn(true);
