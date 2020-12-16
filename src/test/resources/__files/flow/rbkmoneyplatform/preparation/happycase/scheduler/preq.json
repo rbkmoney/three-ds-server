@@ -1,0 +1,7 @@
+{
+  "messageType": "PReq",
+  "messageVersion": "2.1.0",
+  "threeDSServerRefNumber": "visa",
+  "threeDSServerOperatorID": "visa",
+  "threeDSServerTransID": "e8db9820-63b7-43ce-8831-36ce81a2e313"
+}

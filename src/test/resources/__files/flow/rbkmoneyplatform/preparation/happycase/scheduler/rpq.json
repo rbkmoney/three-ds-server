@@ -1,0 +1,5 @@
+{
+  "messageType": "RBKMONEY_PREPARATION_REQUEST",
+  "providerId": "visa",
+  "messageVersion": "2.1.0"
+}
