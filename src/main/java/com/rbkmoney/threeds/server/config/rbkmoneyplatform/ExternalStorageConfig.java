@@ -2,6 +2,7 @@ package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
 import com.rbkmoney.damsel.threeds.server.storage.CardRangesStorageSrv;
 import com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfoStorageSrv;
+import com.rbkmoney.damsel.threeds.server.storage.PreparationFlowInitializerSrv;
 import com.rbkmoney.woody.thrift.impl.http.THSpawnClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,6 +15,16 @@ import java.io.IOException;
 @Configuration
 @ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 public class ExternalStorageConfig {
+
+    @Bean
+    public PreparationFlowInitializerSrv.Iface preparationFlowInitializerClient(
+            @Value("${rbkmoney-preparation-flow.scheduler.schedule.executor-url}") Resource url,
+            @Value("${rbkmoney-preparation-flow.scheduler.schedule.timeout}") int timeout) throws IOException {
+        return new THSpawnClientBuilder()
+                .withAddress(url.getURI())
+                .withNetworkTimeout(timeout)
+                .build(PreparationFlowInitializerSrv.Iface.class);
+    }
 
     @Bean
     public CardRangesStorageSrv.Iface cardRangesStorageClient(

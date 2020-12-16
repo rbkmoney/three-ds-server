@@ -1,0 +1,82 @@
+version: '2'
+services:
+  postgresql:
+    image: postgres:9.6
+    container_name: postgresql
+    hostname: postgresql
+    environment:
+      SERVICE_NAME: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: three_ds_server_storage
+  three-ds-server-storage:
+    image: index.docker.io/rbkmoney/three-ds-server-storage:5695bccdc2f194bc6bdd563bb66c01fa4e1d7835
+    depends_on:
+      - postgresql
+    container_name: three-ds-server-storage
+    hostname: three-ds-server-storage
+    environment:
+      SERVICE_NAME: three-ds-server-storage
+      SERVICE_CHECK_HTTP: /actuator/health
+      SERVICE_CHECK_INTERVAL: 3s
+      SERVICE_CHECK_TIMEOUT: 1s
+      spring.datasource.url: jdbc:postgresql://postgresql:5432/three_ds_server_storage
+      spring.datasource.username: postgres
+      spring.datasource.password: postgres
+      spring.flyway.url: jdbc:postgresql://postgresql:5432/three_ds_server_storage
+      spring.flyway.user: postgres
+      spring.flyway.password: postgres
+      spring.flyway.schemas: three_ds_server_storage
+      client.three-ds-server.url: http://three-ds-server:8080/sdk
+      client.three-ds-server.readTimeout: 5000
+  three-ds-server:
+    image:
+    depends_on:
+      - postgresql
+      - three-ds-server-storage
+    container_name: three-ds-server
+    hostname: three-ds-server
+    ports:
+      - "8080:8080"
+    volumes:
+      - /tmp/docker/three-ds-server/data:/opt/three-ds-server/cert/:ro
+    environment:
+      SERVICE_NAME: three-ds-server
+      SERVICE_CHECK_HTTP: /actuator/health
+      SERVICE_CHECK_INTERVAL: 3s
+      SERVICE_CHECK_TIMEOUT: 1s
+      client.ds.ssl.visa.trust-store: file:/opt/three-ds-server/cert/key.p12
+      client.ds.ssl.visa.trust-store-password: vYOAkEF7V4UHLfMn
+      client.ds.ssl.mastercard.trust-store: file:/opt/three-ds-server/cert/key.p12
+      client.ds.ssl.mastercard.trust-store-password: vYOAkEF7V4UHLfMn
+      client.three-ds-server-storage.card-ranges.url: http://three-ds-server-storage:8022/three-ds-server-storage/card-ranges
+      client.three-ds-server-storage.card-ranges.timeout: 5000
+      client.three-ds-server-storage.challenge-flow-transaction-info.url: http://three-ds-server-storage:8022/three-ds-server-storage/challenge-flow-transaction-info
+      client.three-ds-server-storage.challenge-flow-transaction-info.timeout: 5000
+      storage.challenge-flow-transaction-info.size: 1000
+      platform.mode: RBK_MONEY_PLATFORM
+      rbkmoney-preparation-flow.scheduler.enabled: true
+      rbkmoney-preparation-flow.scheduler.schedule.executor-url: http://three-ds-server-storage:8022/three-ds-server-storage/preparation-flow
+      rbkmoney-preparation-flow.scheduler.schedule.timeout: 5000
+      rbkmoney-preparation-flow.scheduler.schedule.cron: "0 0 8-20 ? * *"
+      rbkmoney-preparation-flow.scheduler.ds-provider.mastercard.enabled: true
+      rbkmoney-preparation-flow.scheduler.ds-provider.mastercard.message-version: 2.1.0
+      rbkmoney-preparation-flow.scheduler.ds-provider.visa.enabled: true
+      rbkmoney-preparation-flow.scheduler.ds-provider.visa.message-version: 2.1.0
+      environment.message.message-version: 2.2.0
+      environment.message.valid-message-versions[0]: 2.1.0
+      environment.message.valid-message-versions[1]: 2.2.0
+      environment.visa.ds-url: https://localhost:8022/visa/DS2/authenticate
+      environment.visa.three-ds-requestor-url: https://rbk.money/
+      environment.visa.three-ds-requestor-prefix: 100
+      environment.visa.three-ds-server-url: https://visa.3ds.rbk.money/ds
+      environment.visa.three-ds-server-ref-number: 3DS_LOA
+      environment.visa.three-ds-server-operator-id: 100
+      environment.visa.three-ds-server-read-timeout: 1800000
+      environment.mastercard.ds-url: https://localhost:8022/mastercard/DS2/authenticate
+      environment.mastercard.three-ds-requestor-url: https://rbk.money/
+      environment.mastercard.three-ds-requestor-prefix: 100
+      environment.mastercard.three-ds-server-url: https://mastercard.3ds.rbk.money/ds
+      environment.mastercard.three-ds-server-ref-number: 3DS_LOA
+      environment.mastercard.three-ds-server-operator-id: 100
+      environment.mastercard.three-ds-server-read-timeout: 1800000

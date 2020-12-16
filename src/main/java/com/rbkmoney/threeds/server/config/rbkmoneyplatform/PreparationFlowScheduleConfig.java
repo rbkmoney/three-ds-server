@@ -2,32 +2,38 @@ package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
 import com.rbkmoney.damsel.schedule.SchedulatorSrv;
 import com.rbkmoney.damsel.threeds.server.storage.InitRBKMoneyPreparationFlowRequest;
+import com.rbkmoney.damsel.threeds.server.storage.PreparationFlowInitializerSrv;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowDsProviderProperties;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
 import com.rbkmoney.threeds.server.serializer.ThriftSerializer;
-import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyPreparationFlowScheduler;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyPreparationFlowCronScheduler;
 import com.rbkmoney.threeds.server.service.rbkmoneyplatform.SchedulatorService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
+@EnableScheduling
 @ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 public class PreparationFlowScheduleConfig {
 
     @Bean
     @ConditionalOnProperty(name = "rbkmoney-preparation-flow.scheduler.enabled", havingValue = "true")
-    public RBKMoneyPreparationFlowScheduler rbkMoneyPreparationFlowScheduler(
+    public RBKMoneyPreparationFlowCronScheduler rbkMoneyPreparationFlowCronScheduler(
+            @Value("${rbkmoney-preparation-flow.scheduler.enabled}") boolean isEnabledOnSchedule,
             PreparationFlowDsProviderProperties visaPreparationFlowProperties,
             PreparationFlowDsProviderProperties mastercardPreparationFlowProperties,
             PreparationFlowDsProviderProperties mirPreparationFlowProperties,
-            SchedulatorService schedulatorService) {
-        return new RBKMoneyPreparationFlowScheduler(
+            PreparationFlowInitializerSrv.Iface preparationFlowInitializerClient) {
+        return new RBKMoneyPreparationFlowCronScheduler(
+                isEnabledOnSchedule,
                 visaPreparationFlowProperties,
                 mastercardPreparationFlowProperties,
                 mirPreparationFlowProperties,
-                schedulatorService);
+                preparationFlowInitializerClient);
     }
 
     @Bean
