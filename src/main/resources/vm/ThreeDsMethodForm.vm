@@ -1,5 +1,11 @@
 ## @vtlvariable name="threeDsMethodFormData" type="com.rbkmoney.threeds.server.dto.ThreeDsMethodFormData"
-<form name="ThreeDsMethodForm"
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>RBK.money 3D Secure Method Form</h2>
+
+<form id="rbkMoneyThreeDsMethodForm" name="ThreeDsMethodForm"
       action="$!threeDsMethodFormData.threeDsMethodUrl"
       method="POST">
     <input type="hidden"
@@ -7,3 +13,9 @@
            value="$!threeDsMethodFormData.encodeThreeDsMethodData"
     />
 </form>
+
+<script>
+    document.getElementById("rbkMoneyThreeDsMethodForm").submit()
+</script>
+</body>
+</html>
