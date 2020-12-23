@@ -22,7 +22,7 @@ public class RBKMoneyThreeDsMethodTest extends AbstractRBKMoneyPlatformConfig {
     private JsonMapper jsonMapper;
 
     @Test
-    public void shouldReturnThreeDsVersionIfAcctNumberIsSupportedThreeDsVersion() throws Exception {
+    public void shouldReturnHtmlThreeDsMethodData() throws Exception {
         ThreeDsMethodRequest threeDsMethodRequest = ThreeDsMethodRequest.builder()
                 .threeDsMethodData(
                         ThreeDsMethodData.builder()
@@ -43,13 +43,25 @@ public class RBKMoneyThreeDsMethodTest extends AbstractRBKMoneyPlatformConfig {
     }
 
     private String html() {
-        return "<form name=\"ThreeDsMethodForm\"\n" +
+        return "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<body>\n" +
+                "\n" +
+                "<h2>RBK.money 3D Secure Method Form</h2>\n" +
+                "\n" +
+                "<form id=\"rbkMoneyThreeDsMethodForm\" name=\"ThreeDsMethodForm\"\n" +
                 "      action=\"url2\"\n" +
                 "      method=\"POST\">\n" +
                 "    <input type=\"hidden\"\n" +
                 "           name=\"threeDSMethodData\"\n" +
                 "           value=\"eyJ0aHJlZURTU2VydmVyVHJhbnNJRCI6IjEiLCJ0aHJlZURTTWV0aG9kTm90aWZpY2F0aW9uVVJMIjoidXJsMSJ9\"\n" +
                 "    />\n" +
-                "</form>";
+                "</form>\n" +
+                "\n" +
+                "<script>\n" +
+                "    document.getElementById(\"rbkMoneyThreeDsMethodForm\").submit()\n" +
+                "</script>\n" +
+                "</body>\n" +
+                "</html>\n";
     }
 }
