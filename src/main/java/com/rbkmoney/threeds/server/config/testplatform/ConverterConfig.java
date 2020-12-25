@@ -1,6 +1,5 @@
 package com.rbkmoney.threeds.server.config.testplatform;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
 import com.rbkmoney.threeds.server.converter.testplatform.*;
 import com.rbkmoney.threeds.server.domain.root.Message;
@@ -21,9 +20,8 @@ public class ConverterConfig {
 
     @Bean
     public Converter<ValidationResult, Message> aResToPArsConverter(
-            TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService,
-            EnvironmentMessageProperties environmentMessageProperties) {
-        return new AResToPArsConverter(testPlatformChallengeFlowTransactionInfoStorageService, environmentMessageProperties);
+            TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService) {
+        return new AResToPArsConverter(testPlatformChallengeFlowTransactionInfoStorageService);
     }
 
     @Bean
@@ -49,8 +47,7 @@ public class ConverterConfig {
     }
 
     @Bean
-    public Converter<ValidationResult, Message> pResToPPrsConverter(
-            EnvironmentMessageProperties environmentMessageProperties) {
-        return new PResToPPrsConverter(environmentMessageProperties);
+    public Converter<ValidationResult, Message> pResToPPrsConverter() {
+        return new PResToPPrsConverter();
     }
 }

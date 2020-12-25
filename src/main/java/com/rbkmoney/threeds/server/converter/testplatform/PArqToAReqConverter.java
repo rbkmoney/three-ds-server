@@ -50,7 +50,6 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
                 .threeDSCompInd(getValue(pArq.getThreeDSCompInd()))
                 .threeDSRequestorAuthenticationInd(getValue(pArq.getThreeDSRequestorAuthenticationInd()))
                 .threeDSRequestorAuthenticationInfo(getThreeDSRequestorAuthenticationInfo(pArq))
-//              .threeDSReqAuthMethodInd(null) todo null? emvco: -
                 .threeDSRequestorChallengeInd(getValue(pArq.getThreeDSRequestorChallengeInd()))
                 .threeDSRequestorDecMaxTime(pArq.getThreeDSRequestorDecMaxTime())
                 .threeDSRequestorDecReqInd(getValue(pArq.getThreeDSRequestorDecReqInd()))

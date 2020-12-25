@@ -1,6 +1,5 @@
 package com.rbkmoney.threeds.server.converter.testplatform;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.acs.AcsRenderingType;
 import com.rbkmoney.threeds.server.domain.acs.AcsRenderingTypeWrapper;
 import com.rbkmoney.threeds.server.domain.device.DeviceChannel;
@@ -25,7 +24,6 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 public class AResToPArsConverter implements Converter<ValidationResult, Message> {
 
     private final TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService;
-    private final EnvironmentMessageProperties environmentMessageProperties;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -72,7 +70,7 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .map(Message::getRequestMessage)
                 .map(message -> (PArq) message)
                 .map(PArq::getP_messageVersion)
-                .orElse(environmentMessageProperties.getPMessageVersion());
+                .orElse("1.0.5");
     }
 
     private String getAcsURL(ARes aRes) {
