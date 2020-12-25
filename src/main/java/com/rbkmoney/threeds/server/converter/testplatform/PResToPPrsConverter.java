@@ -1,6 +1,5 @@
 package com.rbkmoney.threeds.server.converter.testplatform;
 
-import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.PRes;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PPrq;
@@ -16,8 +15,6 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 
 @RequiredArgsConstructor
 public class PResToPPrsConverter implements Converter<ValidationResult, Message> {
-
-    private final EnvironmentMessageProperties environmentMessageProperties;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -38,6 +35,6 @@ public class PResToPPrsConverter implements Converter<ValidationResult, Message>
                 .map(Message::getRequestMessage)
                 .map(message -> (PPrq) message)
                 .map(PPrq::getP_messageVersion)
-                .orElse(environmentMessageProperties.getPMessageVersion());
+                .orElse("1.0.5");
     }
 }
