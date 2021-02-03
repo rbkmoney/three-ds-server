@@ -65,7 +65,7 @@
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>three-ds-server-domain-lib</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.rbkmoney</groupId>
