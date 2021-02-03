@@ -6,6 +6,7 @@ import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Component
 public class ChallengeFlowTransactionInfoConverter {
@@ -23,12 +24,15 @@ public class ChallengeFlowTransactionInfoConverter {
                 .build();
     }
 
-    public com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfo toThrift(ChallengeFlowTransactionInfo domainTransactionInfo) {
+    public com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfo toThrift(
+            ChallengeFlowTransactionInfo domainTransactionInfo) {
         return new com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfo()
                 .setTransactionId(domainTransactionInfo.getThreeDsServerTransId())
                 .setDeviceChannel(domainTransactionInfo.getDeviceChannel().getValue())
                 .setDecoupledAuthMaxTime(domainTransactionInfo.getDecoupledAuthMaxTime().toString())
-                .setAcsDecConInd(domainTransactionInfo.getAcsDecConInd().getValue())
+                .setAcsDecConInd(Optional.ofNullable(domainTransactionInfo.getAcsDecConInd())
+                        .map(AcsDecConInd::getValue)
+                        .orElse(null))
                 .setProviderId(domainTransactionInfo.getDsProviderId())
                 .setMessageVersion(domainTransactionInfo.getMessageVersion())
                 .setAcsUrl(domainTransactionInfo.getAcsUrl());
