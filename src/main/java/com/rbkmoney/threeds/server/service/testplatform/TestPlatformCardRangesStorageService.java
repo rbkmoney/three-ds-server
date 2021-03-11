@@ -21,6 +21,7 @@ import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.lang.Long.parseLong;
 
+@SuppressWarnings({"checkstyle:parametername"})
 public class TestPlatformCardRangesStorageService {
 
     private final Cache<String, Set<CardRange>> cardRangesById;
@@ -79,6 +80,13 @@ public class TestPlatformCardRangesStorageService {
         return isInCardRange(storageCardRanges, parseLong(acctNumber));
     }
 
+    private boolean isInCardRange(Set<CardRange> storageCardRanges, Long acctNumber) {
+        return storageCardRanges.stream()
+                .anyMatch(
+                        cardRange -> parseLong(cardRange.getStartRange()) <= acctNumber
+                                && acctNumber <= parseLong(cardRange.getEndRange()));
+    }
+
     private Set<CardRange> getStorageCardRanges(String ulTestCaseId) {
         Set<CardRange> cardRanges = cardRangesById.getIfPresent(ulTestCaseId);
         if (cardRanges == null) {
@@ -107,13 +115,6 @@ public class TestPlatformCardRangesStorageService {
                 throw new IllegalArgumentException(
                         String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
         }
-    }
-
-    private boolean isInCardRange(Set<CardRange> storageCardRanges, Long acctNumber) {
-        return storageCardRanges.stream()
-                .anyMatch(
-                        cardRange -> parseLong(cardRange.getStartRange()) <= acctNumber
-                                && acctNumber <= parseLong(cardRange.getEndRange()));
     }
 
     private boolean existsFreeSpaceForNewCardRange(Set<CardRange> storageCardRanges, long startRange, long endRange) {

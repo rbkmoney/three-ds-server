@@ -11,6 +11,7 @@ import java.util.Base64;
 
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:parametername"})
 public class Base64Encoder {
 
     private final ObjectMapper objectMapper;

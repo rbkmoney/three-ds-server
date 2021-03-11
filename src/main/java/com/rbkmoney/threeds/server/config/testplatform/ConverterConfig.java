@@ -20,11 +20,13 @@ import org.springframework.core.convert.converter.Converter;
 
 @Configuration
 @ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
+@SuppressWarnings({"checkstyle:methodname"})
 public class ConverterConfig {
 
     @Bean
     public Converter<ValidationResult, Message> aResToPArsConverter(
-            TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService) {
+            TestPlatformChallengeFlowTransactionInfoStorageService
+                    testPlatformChallengeFlowTransactionInfoStorageService) {
         return new AResToPArsConverter(testPlatformChallengeFlowTransactionInfoStorageService);
     }
 
@@ -37,7 +39,8 @@ public class ConverterConfig {
 
     @Bean
     public Converter<ValidationResult, Message> pGcqToPGcsConverter(
-            TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService,
+            TestPlatformChallengeFlowTransactionInfoStorageService
+                    testPlatformChallengeFlowTransactionInfoStorageService,
             TemplateBuilder templateBuilder,
             Base64Encoder base64Encoder) {
         return new PGcqToPGcsConverter(testPlatformChallengeFlowTransactionInfoStorageService, templateBuilder,

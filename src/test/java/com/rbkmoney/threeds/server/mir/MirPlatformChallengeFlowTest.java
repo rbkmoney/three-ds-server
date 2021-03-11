@@ -40,6 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
+@SuppressWarnings({"checkstyle:localvariablename"})
 public class MirPlatformChallengeFlowTest extends AbstractMirPlatformConfig {
 
     @MockBean
@@ -146,9 +147,9 @@ public class MirPlatformChallengeFlowTest extends AbstractMirPlatformConfig {
                 return acsActionWithCResErrorResult();
             case cres_after_cancel:
                 return acsActionWithCResCancelResult();
+            default:
+                throw new IllegalArgumentException(acsResult.toString());
         }
-
-        throw new IllegalArgumentException(acsResult.toString());
     }
 
     private AcsAction acsActionWithCResSuccessResult() {

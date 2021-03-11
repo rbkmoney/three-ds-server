@@ -22,6 +22,7 @@ public class MessageConstants {
     public static final String TIMEOUT_EXPIRY_REACHED_FOR_THE_TRANSACTION_AS_DEFINED_IN_SECTION_5_5 =
             "Timeout expiry reached for the transaction as defined in Section 5.5";
     public static final String UNSUPPORTED_MESSAGE_TYPE =
-            "Valid Message Type is sent to or from an inappropriate component (such as AReq message being sent to the 3DS Server)";
+            "Valid Message Type is sent to or from an inappropriate component " +
+                    "(such as AReq message being sent to the 3DS Server)";
 
 }

@@ -2,6 +2,7 @@ package com.rbkmoney.threeds.server.handle.constraint.commonplatform.utils;
 
 import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 
+@SuppressWarnings({"checkstyle:abbreviationaswordinname"})
 public interface StringValidator {
 
     boolean isNotNull(String candidate);

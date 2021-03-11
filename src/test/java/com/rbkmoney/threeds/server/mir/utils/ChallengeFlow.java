@@ -15,6 +15,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:localvariablename"})
 public class ChallengeFlow {
 
     private final JsonMapper jsonMapper;
@@ -118,9 +119,9 @@ public class ChallengeFlow {
                 return readHtmlFormSubmitIncorrect(testCase);
             case html_form_cres_after_cancel:
                 return readHtmlFormSubmitCancel(testCase);
+            default:
+                throw new IllegalArgumentException(testCase + "." + acsFormType);
         }
-
-        throw new IllegalArgumentException(testCase + "." + acsFormType);
     }
 
     private String readHtmlFormAuthentication(String testCase) {

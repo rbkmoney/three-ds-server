@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
+@SuppressWarnings({"checkstyle:abbreviationaswordinname"})
 public class CRes {
 
     private String acsTransID;

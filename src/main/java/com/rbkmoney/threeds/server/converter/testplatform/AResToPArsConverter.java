@@ -21,6 +21,7 @@ import java.util.Optional;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:parametername", "checkstyle:localvariablename"})
 public class AResToPArsConverter implements Converter<ValidationResult, Message> {
 
     private final TestPlatformChallengeFlowTransactionInfoStorageService

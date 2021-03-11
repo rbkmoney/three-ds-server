@@ -16,6 +16,7 @@ import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRe
 
 @Configuration
 @ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
+@SuppressWarnings({"checkstyle:parametername", "checkstyle:methodname"})
 public class RequestHandlerConfig {
 
     @Bean

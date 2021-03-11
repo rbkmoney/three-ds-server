@@ -24,9 +24,6 @@ public class AResRequiredContentConstraintValidationHandlerImpl implements AResC
 
     @Override
     public ConstraintValidationResult handle(ARes o) {
-        DeviceChannel deviceChannel = ((AReq) o.getRequestMessage()).getDeviceChannel();
-        MessageCategory messageCategory = ((AReq) o.getRequestMessage()).getMessageCategory();
-
         if (!o.isRelevantMessageVersion() && getValue(o.getTransStatusReason()) != null
                 && getValue(o.getTransStatusReason()).isReservedValueForNotRelevantMessageVersion()) {
             return ConstraintValidationResult.failure(PATTERN, "transStatusReason");
@@ -52,11 +49,13 @@ public class AResRequiredContentConstraintValidationHandlerImpl implements AResC
             return ConstraintValidationResult.failure(NOT_NULL, "dsTransID");
         }
 
+        DeviceChannel deviceChannel = ((AReq) o.getRequestMessage()).getDeviceChannel();
         if (deviceChannel == DeviceChannel.APP_BASED
                 && o.getSdkTransID() == null) {
             return ConstraintValidationResult.failure(NOT_NULL, "sdkTransID");
         }
 
+        MessageCategory messageCategory = ((AReq) o.getRequestMessage()).getMessageCategory();
         if (messageCategory == MessageCategory.PAYMENT_AUTH) {
             return validateRequiredConditionField(o.getTransStatus(), "transStatus");
         }

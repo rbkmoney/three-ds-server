@@ -10,6 +10,7 @@ import com.rbkmoney.threeds.server.service.AbstractSenderService;
 import com.rbkmoney.threeds.server.service.RequestHandleService;
 import com.rbkmoney.threeds.server.service.ResponseHandleService;
 
+@SuppressWarnings({"checkstyle:localvariablename"})
 public class RBKMoneySenderService extends AbstractSenderService {
 
     private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
@@ -43,10 +44,10 @@ public class RBKMoneySenderService extends AbstractSenderService {
         Message sdkResponseMessage = responseHandleService.handle(dsResponseMessage);
         if (sdkResponseMessage instanceof RBKMoneyPreparationResponse
                 && dsResponseMessage instanceof PRes) {
-            RBKMoneyPreparationResponse rBKMoneyPreparationResponse = (RBKMoneyPreparationResponse) sdkResponseMessage;
+            RBKMoneyPreparationResponse rbkMoneyPreparationResponse = (RBKMoneyPreparationResponse) sdkResponseMessage;
             PRes pRes = (PRes) dsResponseMessage;
 
-            rbkMoneyCardRangesStorageService.updateCardRanges(rBKMoneyPreparationResponse.getProviderId(), pRes);
+            rbkMoneyCardRangesStorageService.updateCardRanges(rbkMoneyPreparationResponse.getProviderId(), pRes);
         }
         return sdkResponseMessage;
     }

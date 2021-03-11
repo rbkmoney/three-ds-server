@@ -18,6 +18,7 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 @Component
 @ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:localvariablename"})
 public class RBKMoneyAResInfoOnlyConstraintValidationHandlerImpl implements AResConstraintValidationHandler {
 
     private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;

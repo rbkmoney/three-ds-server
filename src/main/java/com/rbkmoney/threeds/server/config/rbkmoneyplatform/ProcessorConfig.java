@@ -12,6 +12,7 @@ import static com.rbkmoney.threeds.server.config.builder.ProcessorBuilder.create
 
 @Configuration
 @ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
+@SuppressWarnings({"checkstyle:parametername", "checkstyle:methodname"})
 public class ProcessorConfig {
 
     @Bean

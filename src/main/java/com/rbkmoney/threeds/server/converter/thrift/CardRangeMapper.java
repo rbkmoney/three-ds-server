@@ -70,15 +70,15 @@ public class CardRangeMapper {
                 .setThreeDsMethodUrl(domain.getThreeDSMethodURL());
     }
 
-    public ThreeDsVersionResponse fromThriftToDomain(ThreeDsSecondVersion thriftThreeDsSecondVersion) {
+    public ThreeDsVersionResponse fromThriftToDomain(ThreeDsSecondVersion version) {
         return ThreeDsVersionResponse.builder()
                 .threeDsServerTransId(idGenerator.generateUUID())
-                .dsProviderId(thriftThreeDsSecondVersion.getProviderId())
-                .acsStartProtocolVersion(thriftThreeDsSecondVersion.getAcsStart())
-                .acsEndProtocolVersion(thriftThreeDsSecondVersion.getAcsEnd())
-                .dsStartProtocolVersion(thriftThreeDsSecondVersion.getDsStart())
-                .dsEndProtocolVersion(thriftThreeDsSecondVersion.getDsEnd())
-                .threeDsMethodUrl(thriftThreeDsSecondVersion.getThreeDsMethodUrl())
+                .dsProviderId(version.getProviderId())
+                .acsStartProtocolVersion(version.getAcsStart())
+                .acsEndProtocolVersion(version.getAcsEnd())
+                .dsStartProtocolVersion(version.getDsStart())
+                .dsEndProtocolVersion(version.getDsEnd())
+                .threeDsMethodUrl(version.getThreeDsMethodUrl())
                 .build();
     }
 

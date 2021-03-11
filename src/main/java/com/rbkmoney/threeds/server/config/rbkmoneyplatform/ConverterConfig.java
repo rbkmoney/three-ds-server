@@ -18,6 +18,7 @@ import org.springframework.core.convert.converter.Converter;
 
 @Configuration
 @ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
+@SuppressWarnings({"checkstyle:methodname"})
 public class ConverterConfig {
 
     @Bean

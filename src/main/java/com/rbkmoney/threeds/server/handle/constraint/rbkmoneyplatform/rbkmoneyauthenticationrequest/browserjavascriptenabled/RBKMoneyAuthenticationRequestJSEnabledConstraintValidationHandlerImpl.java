@@ -13,6 +13,7 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:abbreviationaswordinname"})
 public class RBKMoneyAuthenticationRequestJSEnabledConstraintValidationHandlerImpl
         implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 

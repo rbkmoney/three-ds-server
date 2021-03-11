@@ -14,6 +14,7 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings({"Duplicates"})
 public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqConstraintValidationHandler {
 
     @Override
@@ -35,8 +36,6 @@ public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqC
         }
 
         DeviceChannel deviceChannel = getValue(o.getDeviceChannel());
-        MessageCategory messageCategory = getValue(o.getMessageCategory());
-
         if (deviceChannel == DeviceChannel.BROWSER) {
             validationResult = validateRequiredConditionField(o.getThreeDSCompInd(), "threeDSCompInd");
             if (!validationResult.isValid()) {
@@ -83,6 +82,7 @@ public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqC
             }
         }
 
+        MessageCategory messageCategory = getValue(o.getMessageCategory());
         if (messageCategory == MessageCategory.PAYMENT_AUTH
                 && o.getAcquirerBIN() == null) {
             return ConstraintValidationResult.failure(NOT_NULL, "acquirerBIN");

@@ -14,6 +14,7 @@ import org.springframework.core.convert.converter.Converter;
 import static com.rbkmoney.threeds.server.config.builder.HandlerBuilder.createRequestHandler;
 
 @Configuration("commonRequestHandlerConfig")
+@SuppressWarnings({"checkstyle:parametername", "checkstyle:methodname"})
 public class RequestHandlerConfig {
 
     @Bean

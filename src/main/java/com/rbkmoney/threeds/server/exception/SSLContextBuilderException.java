@@ -1,5 +1,6 @@
 package com.rbkmoney.threeds.server.exception;
 
+@SuppressWarnings({"checkstyle:abbreviationaswordinname"})
 public class SSLContextBuilderException extends RuntimeException {
 
     public SSLContextBuilderException() {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:abbreviationaswordinname"})
 public class AcquirerBINContentConstraintValidationHandlerImpl implements PArqConstraintValidationHandler {
 
     private final StringValidator stringValidator;

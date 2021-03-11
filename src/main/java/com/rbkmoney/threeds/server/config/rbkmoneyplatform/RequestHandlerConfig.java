@@ -40,7 +40,8 @@ public class RequestHandlerConfig {
     public RequestHandler rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseHandler(
             RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder,
             RBKMoneyGetChallengeRequestDsProviderRouter rbkMoneyGetChallengeRequestDsProviderRouter,
-            Processor<ValidationResult, Message> rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseProcessorChain,
+            Processor<ValidationResult, Message>
+                    rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseProcessorChain,
             MessageValidatorService messageValidatorService) {
         return createRequestHandlerWithRouting(
                 rbkMoneyDsProviderHolder,

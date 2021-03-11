@@ -12,6 +12,7 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:abbreviationaswordinname"})
 public class BrowserTZContentConstraintValidationHandlerImpl implements PArqConstraintValidationHandler {
 
     private final StringValidator stringValidator;

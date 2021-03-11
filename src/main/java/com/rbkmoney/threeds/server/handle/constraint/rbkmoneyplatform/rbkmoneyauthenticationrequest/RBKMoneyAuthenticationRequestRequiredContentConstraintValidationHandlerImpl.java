@@ -43,7 +43,6 @@ public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHan
             return validationResult;
         }
 
-        MessageCategory messageCategory = getValue(o.getMessageCategory());
 
         if (deviceChannel == DeviceChannel.BROWSER) {
             validationResult = validateRequiredConditionField(o.getThreeDSCompInd(), "threeDSCompInd");
@@ -80,6 +79,7 @@ public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHan
             }
         }
 
+        MessageCategory messageCategory = getValue(o.getMessageCategory());
         if (messageCategory == MessageCategory.PAYMENT_AUTH
                 && o.getAcquirerBIN() == null) {
             return ConstraintValidationResult.failure(NOT_NULL, "acquirerBIN");

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:abbreviationaswordinname"})
 public class RBKMoneyAuthenticationRequestAcquirerBINContentConstraintValidationHandlerImpl
         implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 

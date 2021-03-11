@@ -17,6 +17,7 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:localvariablename"})
 public class AResChallengeRequiredDecoupledAuthConstraintValidationHandlerImpl
         implements AResConstraintValidationHandler {
 

@@ -10,11 +10,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
+@SuppressWarnings({"checkstyle:linelength"})
 public class StorageServiceConfig {
 
     @Bean
     public ChallengeFlowTransactionInfoStorageService challengeFlowTransactionInfoStorageService(
-            TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService) {
+            TestPlatformChallengeFlowTransactionInfoStorageService
+                    testPlatformChallengeFlowTransactionInfoStorageService) {
         return testPlatformChallengeFlowTransactionInfoStorageService;
     }
 

@@ -17,6 +17,7 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 @Component
 @ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:localvariablename"})
 public class AResInfoOnlyConstraintValidationHandlerImpl implements AResConstraintValidationHandler {
 
     private final EnvironmentProperties environmentProperties;

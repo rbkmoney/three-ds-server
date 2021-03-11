@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.Base64;
 
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:localvariablename"})
 public class ChallengeFlow {
 
     private final JsonMapper jsonMapper;

@@ -28,6 +28,7 @@ import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 
 @RequiredArgsConstructor
 @Slf4j
+@SuppressWarnings({"checkstyle:parametername", "checkstyle:localvariablename"})
 public class RBKMoneyCardRangesStorageService {
 
     private final CardRangesStorageSrv.Iface cardRangesStorageClient;
@@ -71,7 +72,8 @@ public class RBKMoneyCardRangesStorageService {
                         tCardRanges.size());
             } else {
                 log.info(
-                        "CardRanges does NOT need to update in storage BECAUSE CardRanges is empty (during the current 'Initialization PreparationFlow'), " +
+                        "CardRanges does NOT need to update in storage BECAUSE CardRanges is empty " +
+                                "(during the current 'Initialization PreparationFlow'), " +
                                 "dsProviderId={}, serialNumber={}, cardRanges={}",
                         dsProviderId,
                         pRes.getSerialNum(),
@@ -104,9 +106,11 @@ public class RBKMoneyCardRangesStorageService {
                 return isValidCardRanges;
             } else {
                 log.info(
-                        "CardRanges for dsProviderId = '{}' does NOT need to validate in storage BECAUSE (one of them):\n" +
+                        "CardRanges for dsProviderId = '{}' does NOT need to validate in storage " +
+                                "BECAUSE (one of them):\n" +
                                 "- CardRanges is empty = '{}';\n" +
-                                "- Storage needs to be cleaned the obsolete CardRanges (OR just add the new CardRanges in empty storage) = '{}';\n" +
+                                "- Storage needs to be cleaned the obsolete CardRanges " +
+                                "(OR just add the new CardRanges in empty storage) = '{}';\n" +
                                 "- Storage is empty = '{}'.",
                         dsProviderId,
                         isEmptyCardRanges,
@@ -130,8 +134,8 @@ public class RBKMoneyCardRangesStorageService {
                 .filter(AccountNumberVersion::isSetThreeDsSecondVersion)
                 .map(AccountNumberVersion::getThreeDsSecondVersion)
                 .map(
-                        tThreeDsSecondVersion -> {
-                            var threeDsVersion = cardRangeMapper.fromThriftToDomain(tThreeDsSecondVersion);
+                        version -> {
+                            var threeDsVersion = cardRangeMapper.fromThriftToDomain(version);
 
                             log.info("ThreeDsVersion by AccountNumber has been found, threeDsVersion={}",
                                     threeDsVersion.toString());

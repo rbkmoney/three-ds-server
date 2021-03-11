@@ -62,8 +62,8 @@ public class ClientExceptionController extends ResponseEntityExceptionHandler {
                                                              HttpStatus status, WebRequest request) {
         log.warn(
                 String.format("Some ServletException level error with handle servlet request, " +
-                                "request=%s, response headers=%s, response status=%s", request.toString(), headers.toString(),
-                        status.toString()),
+                                "request=%s, response headers=%s, response status=%s",
+                        request.toString(), headers.toString(), status.toString()),
                 ex);
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }

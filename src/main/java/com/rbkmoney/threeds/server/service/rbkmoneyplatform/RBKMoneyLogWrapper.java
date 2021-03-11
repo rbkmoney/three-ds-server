@@ -33,7 +33,8 @@ public class RBKMoneyLogWrapper implements LogWrapper {
             String json = objectMapper.writeValueAsString(data);
 
             JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-            // удаляется часть логируемых параметров, которые могут потенциально связаться в определение персональных данных,
+            // удаляется часть логируемых параметров,
+            // которые могут потенциально связаться в определение персональных данных,
             // но которые, при этом не сильно будут нужны и нам и платежным системам (при их запросе)
             jsonObject.remove("shipAddrCity");
             jsonObject.remove("shipAddrCountry");

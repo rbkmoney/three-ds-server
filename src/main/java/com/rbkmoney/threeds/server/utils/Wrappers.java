@@ -23,12 +23,12 @@ public class Wrappers {
         return Optional.ofNullable(enumWrapper).map(EnumWrapper::getValue).orElse(null);
     }
 
-    public static Object getGarbageValue(EnumWrapper enumWrapper) {
-        return Optional.ofNullable(enumWrapper).map(EnumWrapper::getGarbageValue).orElse(null);
-    }
-
     public static <T extends TemporalAccessor> T getValue(TemporalAccessorWrapper<T> temporalAccessorWrapper) {
         return Optional.ofNullable(temporalAccessorWrapper).map(TemporalAccessorWrapper::getValue).orElse(null);
+    }
+
+    public static Object getGarbageValue(EnumWrapper enumWrapper) {
+        return Optional.ofNullable(enumWrapper).map(EnumWrapper::getGarbageValue).orElse(null);
     }
 
     public static Object getGarbageValue(TemporalAccessorWrapper temporalAccessorWrapper) {

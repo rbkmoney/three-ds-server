@@ -45,15 +45,6 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
             return validationResult;
         }
 
-        MessageCategory messageCategory = getValue(o.getMessageCategory());
-
-        ChallengeFlowTransactionInfo transactionInfo =
-                challengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(o.getThreeDSServerTransID());
-
-        DeviceChannel deviceChannel = transactionInfo.getDeviceChannel();
-        LocalDateTime decoupledAuthMaxTime = transactionInfo.getDecoupledAuthMaxTime();
-        AcsDecConInd acsDecConInd = transactionInfo.getAcsDecConInd();
-
         if (!o.isRelevantMessageVersion()) {
             if (getValue(o.getTransStatusReason()) != null
                     && getValue(o.getTransStatusReason()).isReservedValueForNotRelevantMessageVersion()) {
@@ -79,12 +70,16 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
             return ConstraintValidationResult.failure(NOT_NULL, "dsTransID");
         }
 
+        ChallengeFlowTransactionInfo transactionInfo =
+                challengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(o.getThreeDSServerTransID());
+        DeviceChannel deviceChannel = transactionInfo.getDeviceChannel();
         if (deviceChannel == DeviceChannel.APP_BASED
                 && o.isRelevantMessageVersion()
                 && o.getSdkTransID() == null) {
             return ConstraintValidationResult.failure(NOT_NULL, "sdkTransID");
         }
 
+        MessageCategory messageCategory = getValue(o.getMessageCategory());
         if (messageCategory == MessageCategory.PAYMENT_AUTH) {
             validationResult = validateRequiredConditionField(o.getTransStatus(), "transStatus");
             if (!validationResult.isValid()) {
@@ -92,6 +87,8 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
             }
         }
 
+        LocalDateTime decoupledAuthMaxTime = transactionInfo.getDecoupledAuthMaxTime();
+        AcsDecConInd acsDecConInd = transactionInfo.getAcsDecConInd();
         if (acsDecConInd == null) {
             if ((deviceChannel == DeviceChannel.APP_BASED || deviceChannel == DeviceChannel.BROWSER)
                     && o.getInteractionCounter() == null) {

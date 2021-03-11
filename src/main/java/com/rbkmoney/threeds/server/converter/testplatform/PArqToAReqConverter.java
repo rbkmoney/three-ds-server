@@ -33,8 +33,8 @@ import java.util.stream.Collectors;
 
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
-@SuppressWarnings("Duplicates")
 @RequiredArgsConstructor
+@SuppressWarnings({"checkstyle:parametername", "checkstyle:localvariablename", "Duplicates"})
 public class PArqToAReqConverter implements Converter<ValidationResult, Message> {
 
     /**

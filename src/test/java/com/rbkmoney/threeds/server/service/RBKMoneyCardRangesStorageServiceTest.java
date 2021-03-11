@@ -29,6 +29,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings({"checkstyle:localvariablename", "checkstyle:methodname"})
 public class RBKMoneyCardRangesStorageServiceTest {
 
     private static final String TEST_TAG = "visa";
