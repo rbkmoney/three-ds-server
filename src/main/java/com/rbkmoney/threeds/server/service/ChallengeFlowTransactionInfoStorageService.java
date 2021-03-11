@@ -4,7 +4,8 @@ import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 
 public interface ChallengeFlowTransactionInfoStorageService {
 
-    void saveChallengeFlowTransactionInfo(String threeDSServerTransID, ChallengeFlowTransactionInfo challengeFlowTransactionInfo);
+    void saveChallengeFlowTransactionInfo(String threeDSServerTransID,
+                                          ChallengeFlowTransactionInfo challengeFlowTransactionInfo);
 
     ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDSServerTransID);
 

@@ -25,23 +25,29 @@ public class ThreeDSReqAuthInfoContentConstraintValidationHandlerImpl implements
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        ThreeDSRequestorAuthenticationInfoWrapper threeDSRequestorAuthenticationInfo = o.getThreeDSRequestorAuthenticationInfo();
+        ThreeDSRequestorAuthenticationInfoWrapper threeDSRequestorAuthenticationInfo =
+                o.getThreeDSRequestorAuthenticationInfo();
 
         if (stringValidator.isNotNull(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthData())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("threeDSRequestorAuthenticationInfo.threeDSReqAuthData", 20000, threeDSRequestorAuthenticationInfo.getThreeDSReqAuthData());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithMaxLength("threeDSRequestorAuthenticationInfo.threeDSReqAuthData", 20000,
+                            threeDSRequestorAuthenticationInfo.getThreeDSReqAuthData());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
         } else {
-            return ConstraintValidationResult.failure(NOT_NULL, "threeDSRequestorAuthenticationInfo.threeDSReqAuthData");
+            return ConstraintValidationResult
+                    .failure(NOT_NULL, "threeDSRequestorAuthenticationInfo.threeDSReqAuthData");
         }
 
         if (getGarbageValue(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthMethod()) != null) {
-            return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod");
+            return ConstraintValidationResult
+                    .failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod");
         }
 
         if (getGarbageValue(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthTimestamp()) != null) {
-            return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthTimestamp");
+            return ConstraintValidationResult
+                    .failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthTimestamp");
         }
 
         return ConstraintValidationResult.success();

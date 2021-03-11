@@ -11,7 +11,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestWhiteListStatusSourceContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestWhiteListStatusSourceContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RBKMoneyAuthenticationRequest o) {

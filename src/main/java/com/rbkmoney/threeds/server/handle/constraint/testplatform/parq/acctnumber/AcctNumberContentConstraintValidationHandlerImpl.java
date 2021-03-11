@@ -28,7 +28,8 @@ public class AcctNumberContentConstraintValidationHandlerImpl implements PArqCon
     public ConstraintValidationResult handle(PArq o) {
         String acctNumber = o.getAcctNumber();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("acctNumber", 19, 13, acctNumber);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMinAndMaxLength("acctNumber", 19, 13, acctNumber);
         if (!validationResult.isValid()) {
             return validationResult;
         }

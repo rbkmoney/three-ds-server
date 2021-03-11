@@ -12,7 +12,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestBrowserTZContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestBrowserTZContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     private final StringValidator stringValidator;
 
@@ -24,7 +25,8 @@ public class RBKMoneyAuthenticationRequestBrowserTZContentConstraintValidationHa
     @Override
     public ConstraintValidationResult handle(RBKMoneyAuthenticationRequest o) {
         String browserTZ = o.getBrowserTZ();
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("browserTZ", 5, 1, browserTZ);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMinAndMaxLength("browserTZ", 5, 1, browserTZ);
         if (!validationResult.isValid()) {
             return validationResult;
         }

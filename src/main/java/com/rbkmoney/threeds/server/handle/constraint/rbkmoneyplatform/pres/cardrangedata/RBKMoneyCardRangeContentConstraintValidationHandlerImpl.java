@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+
 import java.util.Set;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;

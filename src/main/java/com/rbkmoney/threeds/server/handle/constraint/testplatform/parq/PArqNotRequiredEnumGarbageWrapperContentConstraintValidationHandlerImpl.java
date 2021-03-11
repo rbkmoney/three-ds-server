@@ -17,7 +17,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
-public class PArqNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl implements PArqConstraintValidationHandler {
+public class PArqNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl
+        implements PArqConstraintValidationHandler {
 
     @Override
     public boolean canHandle(PArq o) {
@@ -33,7 +34,9 @@ public class PArqNotRequiredEnumGarbageWrapperContentConstraintValidationHandler
             return ConstraintValidationResult.failure(PATTERN, "addrMatch");
         }
 
-        if (!(o.getBrowserJavascriptEnabled() != null && o.getBrowserJavascriptEnabled() && deviceChannel == DeviceChannel.BROWSER)
+        if (!(o.getBrowserJavascriptEnabled() != null
+                && o.getBrowserJavascriptEnabled()
+                && deviceChannel == DeviceChannel.BROWSER)
                 && getGarbageValue(o.getBrowserColorDepth()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "browserColorDepth");
         }

@@ -10,7 +10,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
-public class PGcqNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl implements PGcqConstraintValidationHandler {
+public class PGcqNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl
+        implements PGcqConstraintValidationHandler {
 
     @Override
     public boolean canHandle(PGcq o) {

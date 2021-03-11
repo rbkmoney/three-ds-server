@@ -35,7 +35,8 @@ public class Wrappers {
         return Optional.ofNullable(temporalAccessorWrapper).map(TemporalAccessorWrapper::getGarbageValue).orElse(null);
     }
 
-    public static <T extends Valuable> ConstraintValidationResult validateRequiredConditionField(EnumWrapper<T> enumWrapper, String fieldName) {
+    public static <T extends Valuable> ConstraintValidationResult validateRequiredConditionField(
+            EnumWrapper<T> enumWrapper, String fieldName) {
         if (enumWrapper == null) {
             return ConstraintValidationResult.failure(NOT_NULL, fieldName);
         }
@@ -44,7 +45,8 @@ public class Wrappers {
         return validate(fieldName, garbageValue);
     }
 
-    public static <T extends TemporalAccessor> ConstraintValidationResult validateRequiredConditionField(TemporalAccessorWrapper<T> enumWrapper, String fieldName) {
+    public static <T extends TemporalAccessor> ConstraintValidationResult validateRequiredConditionField(
+            TemporalAccessorWrapper<T> enumWrapper, String fieldName) {
         if (enumWrapper == null) {
             return ConstraintValidationResult.failure(NOT_NULL, fieldName);
         }

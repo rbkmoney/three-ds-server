@@ -9,7 +9,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyPreparationRequestRequiredContentConstraintValidationHandlerImpl implements RBKMoneyPreparationRequestConstraintValidationHandler {
+public class RBKMoneyPreparationRequestRequiredContentConstraintValidationHandlerImpl
+        implements RBKMoneyPreparationRequestConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RBKMoneyPreparationRequest o) {

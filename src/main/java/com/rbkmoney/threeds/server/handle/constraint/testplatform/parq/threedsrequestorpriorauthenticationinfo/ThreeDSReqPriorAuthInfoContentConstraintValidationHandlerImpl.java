@@ -24,28 +24,35 @@ public class ThreeDSReqPriorAuthInfoContentConstraintValidationHandlerImpl imple
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        ThreeDSRequestorPriorAuthenticationInfoWrapper threeDSRequestorPriorAuthenticationInfo = o.getThreeDSRequestorPriorAuthenticationInfo();
+        ThreeDSRequestorPriorAuthenticationInfoWrapper threeDSRequestorPriorAuthenticationInfo =
+                o.getThreeDSRequestorPriorAuthenticationInfo();
 
         if (stringValidator.isNotNull(threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorAuthData())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthData", 2048, threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorAuthData());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithMaxLength("threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthData",
+                            2048, threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorAuthData());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
         }
 
         if (stringValidator.isNotNull(threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorRef())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorRef", 36, threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorRef());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithMaxLength("threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorRef", 36,
+                            threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorRef());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
         }
 
         if (getGarbageValue(threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorAuthMethod()) != null) {
-            return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthMethod");
+            return ConstraintValidationResult
+                    .failure(PATTERN, "threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthMethod");
         }
 
         if (getGarbageValue(threeDSRequestorPriorAuthenticationInfo.getThreeDSReqPriorAuthTimestamp()) != null) {
-            return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthTimestamp");
+            return ConstraintValidationResult
+                    .failure(PATTERN, "threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthTimestamp");
         }
 
         return ConstraintValidationResult.success();

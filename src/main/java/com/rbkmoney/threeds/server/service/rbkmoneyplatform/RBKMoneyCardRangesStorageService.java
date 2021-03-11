@@ -98,7 +98,8 @@ public class RBKMoneyCardRangesStorageService {
 
                 boolean isValidCardRanges = cardRangesStorageClient.isValidCardRanges(dsProviderId, tCardRanges);
 
-                log.info("CardRanges is valid = '{}', dsProviderId={}, cardRanges={}", isValidCardRanges, dsProviderId, cardRanges.size());
+                log.info("CardRanges is valid = '{}', dsProviderId={}, cardRanges={}", isValidCardRanges, dsProviderId,
+                        cardRanges.size());
 
                 return isValidCardRanges;
             } else {
@@ -132,7 +133,8 @@ public class RBKMoneyCardRangesStorageService {
                         tThreeDsSecondVersion -> {
                             var threeDsVersion = cardRangeMapper.fromThriftToDomain(tThreeDsSecondVersion);
 
-                            log.info("ThreeDsVersion by AccountNumber has been found, threeDsVersion={}", threeDsVersion.toString());
+                            log.info("ThreeDsVersion by AccountNumber has been found, threeDsVersion={}",
+                                    threeDsVersion.toString());
 
                             return Optional.of(threeDsVersion);
                         })
@@ -143,7 +145,8 @@ public class RBKMoneyCardRangesStorageService {
         try {
             String dsProviderId = cardRangesStorageClient.getDirectoryServerProviderId(Long.parseLong(accountNumber));
 
-            log.info("DsProviderId by AccountNumber has been found, dsProviderId={}, accountNumber={}", dsProviderId, hideAccountNumber(accountNumber));
+            log.info("DsProviderId by AccountNumber has been found, dsProviderId={}, accountNumber={}", dsProviderId,
+                    hideAccountNumber(accountNumber));
 
             return dsProviderId;
         } catch (DirectoryServerProviderIDNotFound ex) {

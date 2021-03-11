@@ -46,13 +46,15 @@ public class ThreeRIIndInstalmentTransactionConstraintValidationHandlerImpl impl
             }
 
             if (messageCategory == MessageCategory.NON_PAYMENT_AUTH) {
-                ConstraintValidationResult validationResult = validateRequiredConditionField(o.getPurchaseDate(), "purchaseDate");
+                ConstraintValidationResult validationResult =
+                        validateRequiredConditionField(o.getPurchaseDate(), "purchaseDate");
                 if (!validationResult.isValid()) {
                     return validationResult;
                 }
             }
 
-            ConstraintValidationResult validationResult = validateRequiredConditionField(o.getRecurringExpiry(), "recurringExpiry");
+            ConstraintValidationResult validationResult =
+                    validateRequiredConditionField(o.getRecurringExpiry(), "recurringExpiry");
             if (!validationResult.isValid()) {
                 return validationResult;
             }

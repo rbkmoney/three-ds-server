@@ -23,7 +23,8 @@ public class RReqAuthDeniedConstraintValidationHandlerImpl implements RReqConstr
     @Override
     public ConstraintValidationResult handle(RReq o) {
         if (getValue(o.getMessageCategory()) == MessageCategory.PAYMENT_AUTH) {
-            ConstraintValidationResult validationResult = validateRequiredConditionField(o.getTransStatusReason(), "transStatusReason");
+            ConstraintValidationResult validationResult =
+                    validateRequiredConditionField(o.getTransStatusReason(), "transStatusReason");
             if (!validationResult.isValid()) {
                 return validationResult;
             }

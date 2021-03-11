@@ -25,7 +25,8 @@ public class RecurringFrequencyContentConstraintValidationHandlerImpl implements
     public ConstraintValidationResult handle(PArq o) {
         String recurringFrequency = o.getRecurringFrequency();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("recurringFrequency", 4, recurringFrequency);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("recurringFrequency", 4, recurringFrequency);
         if (!validationResult.isValid()) {
             return validationResult;
         }

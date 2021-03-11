@@ -17,7 +17,8 @@ public class RBKMoneyAuthenticationRequestPhoneContentConstraintValidationHelper
 
     public ConstraintValidationResult validate(Phone phone) {
         if (stringValidator.isNotNull(phone.getCc())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("phone.cc", 3, 1, phone.getCc());
+            ConstraintValidationResult validationResult =
+                    stringValidator.validateStringWithMinAndMaxLength("phone.cc", 3, 1, phone.getCc());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
@@ -28,7 +29,8 @@ public class RBKMoneyAuthenticationRequestPhoneContentConstraintValidationHelper
         }
 
         if (stringValidator.isNotNull(phone.getSubscriber())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("phone.subscriber", 15, phone.getSubscriber());
+            ConstraintValidationResult validationResult =
+                    stringValidator.validateStringWithMaxLength("phone.subscriber", 15, phone.getSubscriber());
             if (!validationResult.isValid()) {
                 return validationResult;
             }

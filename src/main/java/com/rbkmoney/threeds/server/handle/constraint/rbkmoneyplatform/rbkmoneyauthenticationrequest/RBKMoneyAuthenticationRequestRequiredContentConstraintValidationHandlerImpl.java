@@ -15,7 +15,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 @SuppressWarnings("Duplicates")
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RBKMoneyAuthenticationRequest o) {
@@ -24,7 +25,8 @@ public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHan
 
     @Override
     public ConstraintValidationResult handle(RBKMoneyAuthenticationRequest o) {
-        ConstraintValidationResult validationResult = validateRequiredConditionField(o.getDeviceChannel(), "deviceChannel");
+        ConstraintValidationResult validationResult =
+                validateRequiredConditionField(o.getDeviceChannel(), "deviceChannel");
         if (!validationResult.isValid()) {
             return validationResult;
         }
@@ -52,7 +54,8 @@ public class RBKMoneyAuthenticationRequestRequiredContentConstraintValidationHan
 
 //        if ((deviceChannel == DeviceChannel.APP_BASED || deviceChannel == DeviceChannel.BROWSER)) {
         if (deviceChannel == DeviceChannel.BROWSER) {
-            validationResult = validateRequiredConditionField(o.getThreeDSRequestorAuthenticationInd(), "threeDSRequestorAuthenticationInd");
+            validationResult = validateRequiredConditionField(o.getThreeDSRequestorAuthenticationInd(),
+                    "threeDSRequestorAuthenticationInd");
             if (!validationResult.isValid()) {
                 return validationResult;
             }

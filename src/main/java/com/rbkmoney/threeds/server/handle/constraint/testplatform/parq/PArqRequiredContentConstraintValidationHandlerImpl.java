@@ -23,7 +23,8 @@ public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqC
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        ConstraintValidationResult validationResult = validateRequiredConditionField(o.getDeviceChannel(), "deviceChannel");
+        ConstraintValidationResult validationResult =
+                validateRequiredConditionField(o.getDeviceChannel(), "deviceChannel");
         if (!validationResult.isValid()) {
             return validationResult;
         }
@@ -44,7 +45,8 @@ public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqC
         }
 
         if ((deviceChannel == DeviceChannel.APP_BASED || deviceChannel == DeviceChannel.BROWSER)) {
-            validationResult = validateRequiredConditionField(o.getThreeDSRequestorAuthenticationInd(), "threeDSRequestorAuthenticationInd");
+            validationResult = validateRequiredConditionField(o.getThreeDSRequestorAuthenticationInd(),
+                    "threeDSRequestorAuthenticationInd");
             if (!validationResult.isValid()) {
                 return validationResult;
             }

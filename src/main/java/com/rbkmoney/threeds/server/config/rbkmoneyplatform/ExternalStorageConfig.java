@@ -28,7 +28,8 @@ public class ExternalStorageConfig {
     @Bean
     public ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient(
             @Value("${client.three-ds-server-storage.challenge-flow-transaction-info.url}") Resource url,
-            @Value("${client.three-ds-server-storage.challenge-flow-transaction-info.timeout}") int timeout) throws IOException {
+            @Value("${client.three-ds-server-storage.challenge-flow-transaction-info.timeout}") int timeout)
+            throws IOException {
         return new THSpawnClientBuilder()
                 .withAddress(url.getURI())
                 .withNetworkTimeout(timeout)

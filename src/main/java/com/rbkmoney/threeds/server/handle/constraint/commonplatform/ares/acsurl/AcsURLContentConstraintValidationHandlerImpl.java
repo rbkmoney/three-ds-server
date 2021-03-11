@@ -24,7 +24,8 @@ public class AcsURLContentConstraintValidationHandlerImpl implements AResConstra
 
     @Override
     public ConstraintValidationResult handle(ARes o) {
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("acsURL", 2048, o.getAcsURL());
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("acsURL", 2048, o.getAcsURL());
         if (!validationResult.isValid()) {
             return validationResult;
         }

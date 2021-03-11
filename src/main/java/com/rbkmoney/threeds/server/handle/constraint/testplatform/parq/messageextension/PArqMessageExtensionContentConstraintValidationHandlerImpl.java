@@ -11,7 +11,12 @@ import java.util.List;
 
 import static com.rbkmoney.threeds.server.dto.ConstraintType.CRITICAL_MESSAGE_EXTENSION_NOT_RECOGNISED;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
-import static com.rbkmoney.threeds.server.utils.MessageExtensions.*;
+import static com.rbkmoney.threeds.server.utils.MessageExtensions.getIdCriticalMessage;
+import static com.rbkmoney.threeds.server.utils.MessageExtensions.isCriticalMessage;
+import static com.rbkmoney.threeds.server.utils.MessageExtensions.isInvalidData;
+import static com.rbkmoney.threeds.server.utils.MessageExtensions.isInvalidId;
+import static com.rbkmoney.threeds.server.utils.MessageExtensions.isInvalidName;
+import static com.rbkmoney.threeds.server.utils.MessageExtensions.isInvalidSize;
 
 @Component
 @RequiredArgsConstructor
@@ -40,7 +45,8 @@ public class PArqMessageExtensionContentConstraintValidationHandlerImpl implemen
 
         // Test Harness Specification: 2.9 Message Extensions
         if (isCriticalMessage(messageExtension)) {
-            return ConstraintValidationResult.failure(CRITICAL_MESSAGE_EXTENSION_NOT_RECOGNISED, getIdCriticalMessage(messageExtension));
+            return ConstraintValidationResult
+                    .failure(CRITICAL_MESSAGE_EXTENSION_NOT_RECOGNISED, getIdCriticalMessage(messageExtension));
         }
 
         if (isInvalidId(messageExtension)) {

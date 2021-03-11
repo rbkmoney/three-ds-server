@@ -17,7 +17,8 @@ public class SSLContextBuilderException extends RuntimeException {
         super(cause);
     }
 
-    public SSLContextBuilderException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public SSLContextBuilderException(String message, Throwable cause, boolean enableSuppression,
+                                      boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

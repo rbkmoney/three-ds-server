@@ -12,7 +12,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
-public class AcsStartProtocolVersionContentConstraintValidationHandlerImpl implements CardRangeConstraintValidationHandler {
+public class AcsStartProtocolVersionContentConstraintValidationHandlerImpl
+        implements CardRangeConstraintValidationHandler {
 
     private final StringValidator stringValidator;
     private final EnvironmentMessageProperties messageProperties;
@@ -24,7 +25,8 @@ public class AcsStartProtocolVersionContentConstraintValidationHandlerImpl imple
 
     @Override
     public ConstraintValidationResult handle(CardRange o) {
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("acsStartProtocolVersion", 8, 5, o.getAcsStartProtocolVersion());
+        ConstraintValidationResult validationResult = stringValidator
+                .validateStringWithMinAndMaxLength("acsStartProtocolVersion", 8, 5, o.getAcsStartProtocolVersion());
         if (!validationResult.isValid()) {
             return validationResult;
         }

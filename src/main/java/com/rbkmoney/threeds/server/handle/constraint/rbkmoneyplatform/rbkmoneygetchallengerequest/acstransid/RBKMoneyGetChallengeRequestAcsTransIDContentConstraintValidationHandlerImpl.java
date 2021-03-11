@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyGetChallengeRequestAcsTransIDContentConstraintValidationHandlerImpl implements RBKMoneyGetChallengeRequestConstraintValidationHandler {
+public class RBKMoneyGetChallengeRequestAcsTransIDContentConstraintValidationHandlerImpl
+        implements RBKMoneyGetChallengeRequestConstraintValidationHandler {
 
     private final StringValidator stringValidator;
 

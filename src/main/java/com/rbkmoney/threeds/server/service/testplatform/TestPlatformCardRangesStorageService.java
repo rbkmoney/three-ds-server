@@ -14,7 +14,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.*;
+import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.ADD_CARD_RANGE_TO_CACHE;
+import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.DELETE_CARD_RANGE_FROM_CACHE;
+import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.MODIFY_CARD_RANGE_DATA;
 import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.lang.Long.parseLong;
@@ -102,7 +104,8 @@ public class TestPlatformCardRangesStorageService {
             case DELETE_CARD_RANGE_FROM_CACHE:
                 return existsCardRange(storageCardRanges, startRange, endRange);
             default:
-                throw new IllegalArgumentException(String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
+                throw new IllegalArgumentException(
+                        String.format("Action Indicator missing in Card Range Data, cardRange=%s", cardRange));
         }
     }
 

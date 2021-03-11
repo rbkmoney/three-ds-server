@@ -14,7 +14,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestThreeDSReqAuthInfoContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestThreeDSReqAuthInfoContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     private final StringValidator stringValidator;
 
@@ -25,23 +26,29 @@ public class RBKMoneyAuthenticationRequestThreeDSReqAuthInfoContentConstraintVal
 
     @Override
     public ConstraintValidationResult handle(RBKMoneyAuthenticationRequest o) {
-        ThreeDSRequestorAuthenticationInfoWrapper threeDSRequestorAuthenticationInfo = o.getThreeDSRequestorAuthenticationInfo();
+        ThreeDSRequestorAuthenticationInfoWrapper threeDSRequestorAuthenticationInfo =
+                o.getThreeDSRequestorAuthenticationInfo();
 
         if (stringValidator.isNotNull(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthData())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("threeDSRequestorAuthenticationInfo.threeDSReqAuthData", 20000, threeDSRequestorAuthenticationInfo.getThreeDSReqAuthData());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithMaxLength("threeDSRequestorAuthenticationInfo.threeDSReqAuthData", 20000,
+                            threeDSRequestorAuthenticationInfo.getThreeDSReqAuthData());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
         } else {
-            return ConstraintValidationResult.failure(NOT_NULL, "threeDSRequestorAuthenticationInfo.threeDSReqAuthData");
+            return ConstraintValidationResult
+                    .failure(NOT_NULL, "threeDSRequestorAuthenticationInfo.threeDSReqAuthData");
         }
 
         if (getGarbageValue(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthMethod()) != null) {
-            return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod");
+            return ConstraintValidationResult
+                    .failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod");
         }
 
         if (getGarbageValue(threeDSRequestorAuthenticationInfo.getThreeDSReqAuthTimestamp()) != null) {
-            return ConstraintValidationResult.failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthTimestamp");
+            return ConstraintValidationResult
+                    .failure(PATTERN, "threeDSRequestorAuthenticationInfo.threeDSReqAuthTimestamp");
         }
 
         return ConstraintValidationResult.success();

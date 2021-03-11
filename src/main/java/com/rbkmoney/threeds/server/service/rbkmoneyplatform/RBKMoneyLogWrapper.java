@@ -46,7 +46,8 @@ public class RBKMoneyLogWrapper implements LogWrapper {
             jsonObject.remove("browserIP");
             jsonObject.remove("cardholderName");
 
-            Optional<String> acctNumber = Optional.ofNullable(jsonObject.get("acctNumber")).map(JsonElement::getAsString);
+            Optional<String> acctNumber =
+                    Optional.ofNullable(jsonObject.get("acctNumber")).map(JsonElement::getAsString);
             if (acctNumber.isPresent()) {
                 jsonObject.remove("acctNumber");
                 jsonObject.addProperty("acctNumber", AccountNumberUtils.hideAccountNumber(acctNumber.get()));
@@ -54,7 +55,8 @@ public class RBKMoneyLogWrapper implements LogWrapper {
 
             jsonObject.remove("authenticationValue");
 
-            log.info("{}: dsProviderId={}, {}", message, rbkMoneyDsProviderHolder.getDsProvider().toString(), jsonObject.toString());
+            log.info("{}: dsProviderId={}, {}", message, rbkMoneyDsProviderHolder.getDsProvider().toString(),
+                    jsonObject.toString());
         } else {
             log.info("{}: dsProviderId={}, {}", message, rbkMoneyDsProviderHolder.getDsProvider().toString(), data);
         }
@@ -62,6 +64,7 @@ public class RBKMoneyLogWrapper implements LogWrapper {
 
     @Override
     public void warn(String message, Throwable ex) {
-        log.warn(String.format("%s: dsProviderId=%s", message, rbkMoneyDsProviderHolder.getDsProvider().toString()), ex);
+        log.warn(String.format("%s: dsProviderId=%s", message, rbkMoneyDsProviderHolder.getDsProvider().toString()),
+                ex);
     }
 }

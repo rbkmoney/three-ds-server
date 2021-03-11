@@ -23,7 +23,8 @@ public class StartRangeContentConstraintValidationHandlerImpl implements CardRan
 
     @Override
     public ConstraintValidationResult handle(CardRange o) {
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("startRange", 19, 13, o.getStartRange());
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMinAndMaxLength("startRange", 19, 13, o.getStartRange());
         if (!validationResult.isValid()) {
             return validationResult;
         }

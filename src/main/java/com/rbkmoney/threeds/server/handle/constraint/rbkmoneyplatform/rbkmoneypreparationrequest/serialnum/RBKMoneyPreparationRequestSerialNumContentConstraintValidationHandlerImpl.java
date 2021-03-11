@@ -11,7 +11,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyPreparationRequestSerialNumContentConstraintValidationHandlerImpl implements RBKMoneyPreparationRequestConstraintValidationHandler {
+public class RBKMoneyPreparationRequestSerialNumContentConstraintValidationHandlerImpl
+        implements RBKMoneyPreparationRequestConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RBKMoneyPreparationRequest o) {

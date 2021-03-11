@@ -13,7 +13,8 @@ import static org.apache.http.conn.util.InetAddressUtils.isIPv6Address;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestBrowserIPContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestBrowserIPContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RBKMoneyAuthenticationRequest o) {

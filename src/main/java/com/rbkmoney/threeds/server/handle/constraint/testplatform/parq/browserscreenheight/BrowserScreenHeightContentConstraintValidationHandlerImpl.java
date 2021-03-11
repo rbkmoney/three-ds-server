@@ -25,7 +25,8 @@ public class BrowserScreenHeightContentConstraintValidationHandlerImpl implement
     public ConstraintValidationResult handle(PArq o) {
         String browserScreenHeight = o.getBrowserScreenHeight();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("browserScreenHeight", 6, 1, browserScreenHeight);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMinAndMaxLength("browserScreenHeight", 6, 1, browserScreenHeight);
         if (!validationResult.isValid()) {
             return validationResult;
         }

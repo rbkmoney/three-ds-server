@@ -17,7 +17,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RBKMoneyAuthenticationRequest o) {
@@ -33,7 +34,9 @@ public class RBKMoneyAuthenticationRequestNotRequiredEnumGarbageWrapperContentCo
             return ConstraintValidationResult.failure(PATTERN, "addrMatch");
         }
 
-        if (!(o.getBrowserJavascriptEnabled() != null && o.getBrowserJavascriptEnabled() && deviceChannel == DeviceChannel.BROWSER)
+        if (!(o.getBrowserJavascriptEnabled() != null
+                && o.getBrowserJavascriptEnabled()
+                && deviceChannel == DeviceChannel.BROWSER)
                 && getGarbageValue(o.getBrowserColorDepth()) != null) {
             return ConstraintValidationResult.failure(PATTERN, "browserColorDepth");
         }

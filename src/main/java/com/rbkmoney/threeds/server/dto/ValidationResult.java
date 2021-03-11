@@ -29,7 +29,8 @@ public class ValidationResult {
         return validationResult;
     }
 
-    public static ValidationResult failure(ErrorCode errorCode, String errorDetail, String errorDescription, Message message) {
+    public static ValidationResult failure(ErrorCode errorCode, String errorDetail, String errorDescription,
+                                           Message message) {
         ValidationResult validationResult = new ValidationResult();
         validationResult.setValid(false);
         validationResult.setErrorCode(errorCode);

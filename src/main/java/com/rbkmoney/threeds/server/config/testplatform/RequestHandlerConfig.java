@@ -22,20 +22,23 @@ public class RequestHandlerConfig {
     public RequestHandler pArqToAReqHandler(
             Processor<ValidationResult, Message> pArqToAReqProcessorChain,
             MessageValidatorService messageValidatorService) {
-        return createRequestHandler(pArqToAReqProcessorChain, messageValidatorService, message -> message instanceof PArq);
+        return createRequestHandler(pArqToAReqProcessorChain, messageValidatorService,
+                message -> message instanceof PArq);
     }
 
     @Bean
     public RequestHandler pGcqToPGcsHandler(
             Processor<ValidationResult, Message> pGcqToPGcsProcessorChain,
             MessageValidatorService messageValidatorService) {
-        return createRequestHandler(pGcqToPGcsProcessorChain, messageValidatorService, message -> message instanceof PGcq);
+        return createRequestHandler(pGcqToPGcsProcessorChain, messageValidatorService,
+                message -> message instanceof PGcq);
     }
 
     @Bean
     public RequestHandler pPrqToPReqHandler(
             Processor<ValidationResult, Message> pPrqToPReqProcessorChain,
             MessageValidatorService messageValidatorService) {
-        return createRequestHandler(pPrqToPReqProcessorChain, messageValidatorService, message -> message instanceof PPrq);
+        return createRequestHandler(pPrqToPReqProcessorChain, messageValidatorService,
+                message -> message instanceof PPrq);
     }
 }

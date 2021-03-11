@@ -3,6 +3,7 @@ package com.rbkmoney.threeds.server.handle.constraint.rbkmoneyplatform.rbkmoneya
 import com.rbkmoney.threeds.server.domain.root.rbkmoney.RBKMoneyAuthenticationRequest;
 import com.rbkmoney.threeds.server.handle.constraint.ConstraintValidationHandler;
 
-public interface RBKMoneyAuthenticationRequestConstraintValidationHandler extends ConstraintValidationHandler<RBKMoneyAuthenticationRequest> {
+public interface RBKMoneyAuthenticationRequestConstraintValidationHandler
+        extends ConstraintValidationHandler<RBKMoneyAuthenticationRequest> {
 
 }

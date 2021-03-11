@@ -1,6 +1,10 @@
 package com.rbkmoney.threeds.server.config.rbkmoneyplatform;
 
-import com.rbkmoney.threeds.server.converter.rbkmoneyplatform.*;
+import com.rbkmoney.threeds.server.converter.rbkmoneyplatform.AResToRBKMoneyAuthenticationResponseConverter;
+import com.rbkmoney.threeds.server.converter.rbkmoneyplatform.PResToRBKMoneyPreparationResponseConverter;
+import com.rbkmoney.threeds.server.converter.rbkmoneyplatform.RBKMoneyAuthenticationRequestToAReqConverter;
+import com.rbkmoney.threeds.server.converter.rbkmoneyplatform.RBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter;
+import com.rbkmoney.threeds.server.converter.rbkmoneyplatform.RBKMoneyPreparationRequestToPReqConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
@@ -20,7 +24,8 @@ public class ConverterConfig {
     public Converter<ValidationResult, Message> aResToRBKMoneyAuthenticationResponseConverter(
             RBKMoneyChallengeFlowTransactionInfoStorageService rbkMoneyChallengeFlowTransactionInfoStorageService,
             RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder) {
-        return new AResToRBKMoneyAuthenticationResponseConverter(rbkMoneyChallengeFlowTransactionInfoStorageService, rbkMoneyDsProviderHolder);
+        return new AResToRBKMoneyAuthenticationResponseConverter(rbkMoneyChallengeFlowTransactionInfoStorageService,
+                rbkMoneyDsProviderHolder);
     }
 
     @Bean

@@ -5,7 +5,12 @@ import com.rbkmoney.threeds.server.ds.DsProviderHolder;
 import com.rbkmoney.threeds.server.ds.RBKMoneyDsProviderRouter;
 import com.rbkmoney.threeds.server.ds.rbkmoneyplatform.RBKMoneyDsProviderHolder;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
-import com.rbkmoney.threeds.server.handle.*;
+import com.rbkmoney.threeds.server.handle.AbstractRequestHandler;
+import com.rbkmoney.threeds.server.handle.AbstractRequestHandlerWithRouting;
+import com.rbkmoney.threeds.server.handle.AbstractResponseHandler;
+import com.rbkmoney.threeds.server.handle.DsRequestHandler;
+import com.rbkmoney.threeds.server.handle.RequestHandler;
+import com.rbkmoney.threeds.server.handle.ResponseHandler;
 import com.rbkmoney.threeds.server.processor.Processor;
 import com.rbkmoney.threeds.server.service.MessageValidatorService;
 
@@ -32,7 +37,8 @@ public class HandlerBuilder {
             Processor<ValidationResult, Message> processor,
             MessageValidatorService messageValidatorService,
             Predicate<Message> messagePredicate) {
-        return new AbstractRequestHandlerWithRouting(rbkMoneyDsProviderHolder, rbkMoneyDsProviderRouter, processor, messageValidatorService) {
+        return new AbstractRequestHandlerWithRouting(rbkMoneyDsProviderHolder, rbkMoneyDsProviderRouter, processor,
+                messageValidatorService) {
 
             @Override
             public boolean canHandle(Message message) {

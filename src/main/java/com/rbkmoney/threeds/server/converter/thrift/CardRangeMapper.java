@@ -1,6 +1,10 @@
 package com.rbkmoney.threeds.server.converter.thrift;
 
-import com.rbkmoney.damsel.threeds.server.storage.*;
+import com.rbkmoney.damsel.threeds.server.storage.Action;
+import com.rbkmoney.damsel.threeds.server.storage.Add;
+import com.rbkmoney.damsel.threeds.server.storage.Delete;
+import com.rbkmoney.damsel.threeds.server.storage.Modify;
+import com.rbkmoney.damsel.threeds.server.storage.ThreeDsSecondVersion;
 import com.rbkmoney.threeds.server.domain.acs.AcsInfoInd;
 import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
@@ -11,10 +15,16 @@ import com.rbkmoney.threeds.server.utils.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.*;
+import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.ADD_CARD_RANGE_TO_CACHE;
+import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.DELETE_CARD_RANGE_FROM_CACHE;
+import static com.rbkmoney.threeds.server.domain.cardrange.ActionInd.MODIFY_CARD_RANGE_DATA;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.lang.Long.parseLong;
 
@@ -30,20 +40,21 @@ public class CardRangeMapper {
 
     private final IdGenerator idGenerator;
 
-    public List<com.rbkmoney.damsel.threeds.server.storage.CardRange> fromDomainToThrift(List<CardRange> cardRangeData) {
-        var tCardRanges = new ArrayList<com.rbkmoney.damsel.threeds.server.storage.CardRange>();
+    public List<com.rbkmoney.damsel.threeds.server.storage.CardRange> fromDomainToThrift(
+            List<CardRange> cardRangeData) {
+        var thriftCardRanges = new ArrayList<com.rbkmoney.damsel.threeds.server.storage.CardRange>();
 
         Iterator<CardRange> iterator = cardRangeData.iterator();
 
         while (iterator.hasNext()) {
             CardRange cardRange = iterator.next();
 
-            tCardRanges.add(fromDomainToThrift(cardRange));
+            thriftCardRanges.add(fromDomainToThrift(cardRange));
 
             iterator.remove();
         }
 
-        return tCardRanges;
+        return thriftCardRanges;
     }
 
     public com.rbkmoney.damsel.threeds.server.storage.CardRange fromDomainToThrift(CardRange domain) {
@@ -59,15 +70,15 @@ public class CardRangeMapper {
                 .setThreeDsMethodUrl(domain.getThreeDSMethodURL());
     }
 
-    public ThreeDsVersionResponse fromThriftToDomain(ThreeDsSecondVersion tThreeDsSecondVersion) {
+    public ThreeDsVersionResponse fromThriftToDomain(ThreeDsSecondVersion thriftThreeDsSecondVersion) {
         return ThreeDsVersionResponse.builder()
                 .threeDsServerTransId(idGenerator.generateUUID())
-                .dsProviderId(tThreeDsSecondVersion.getProviderId())
-                .acsStartProtocolVersion(tThreeDsSecondVersion.getAcsStart())
-                .acsEndProtocolVersion(tThreeDsSecondVersion.getAcsEnd())
-                .dsStartProtocolVersion(tThreeDsSecondVersion.getDsStart())
-                .dsEndProtocolVersion(tThreeDsSecondVersion.getDsEnd())
-                .threeDsMethodUrl(tThreeDsSecondVersion.getThreeDsMethodUrl())
+                .dsProviderId(thriftThreeDsSecondVersion.getProviderId())
+                .acsStartProtocolVersion(thriftThreeDsSecondVersion.getAcsStart())
+                .acsEndProtocolVersion(thriftThreeDsSecondVersion.getAcsEnd())
+                .dsStartProtocolVersion(thriftThreeDsSecondVersion.getDsStart())
+                .dsEndProtocolVersion(thriftThreeDsSecondVersion.getDsEnd())
+                .threeDsMethodUrl(thriftThreeDsSecondVersion.getThreeDsMethodUrl())
                 .build();
     }
 

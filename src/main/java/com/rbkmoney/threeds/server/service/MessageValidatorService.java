@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+
 import java.util.Set;
 
 import static com.rbkmoney.threeds.server.dto.ValidationResult.success;

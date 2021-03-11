@@ -2,7 +2,12 @@ package com.rbkmoney.threeds.server.service.rbkmoneyplatform;
 
 import com.rbkmoney.damsel.domain.BusinessScheduleRef;
 import com.rbkmoney.damsel.domain.CalendarRef;
-import com.rbkmoney.damsel.schedule.*;
+import com.rbkmoney.damsel.schedule.DominantBasedSchedule;
+import com.rbkmoney.damsel.schedule.RegisterJobRequest;
+import com.rbkmoney.damsel.schedule.SchedulatorSrv;
+import com.rbkmoney.damsel.schedule.Schedule;
+import com.rbkmoney.damsel.schedule.ScheduleAlreadyExists;
+import com.rbkmoney.damsel.schedule.ScheduleNotFound;
 import com.rbkmoney.damsel.threeds.server.storage.InitRBKMoneyPreparationFlowRequest;
 import com.rbkmoney.threeds.server.config.properties.PreparationFlowScheduleProperties;
 import com.rbkmoney.threeds.server.serializer.ThriftSerializer;

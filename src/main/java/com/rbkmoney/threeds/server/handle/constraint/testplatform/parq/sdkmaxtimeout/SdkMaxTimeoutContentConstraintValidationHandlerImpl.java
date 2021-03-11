@@ -25,7 +25,8 @@ public class SdkMaxTimeoutContentConstraintValidationHandlerImpl implements PArq
     public ConstraintValidationResult handle(PArq o) {
         String sdkMaxTimeout = o.getSdkMaxTimeout();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithConstLength("sdkMaxTimeout", 2, sdkMaxTimeout);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithConstLength("sdkMaxTimeout", 2, sdkMaxTimeout);
         if (!validationResult.isValid()) {
             return validationResult;
         }

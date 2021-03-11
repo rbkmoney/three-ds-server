@@ -11,6 +11,7 @@ import org.springframework.core.convert.converter.Converter;
 
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
+@SuppressWarnings("CheckStyle")
 @RequiredArgsConstructor
 public class PPrqToPReqConverter implements Converter<ValidationResult, Message> {
 

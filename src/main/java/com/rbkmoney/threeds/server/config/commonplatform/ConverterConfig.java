@@ -1,7 +1,11 @@
 package com.rbkmoney.threeds.server.config.commonplatform;
 
 import com.rbkmoney.threeds.server.config.properties.EnvironmentMessageProperties;
-import com.rbkmoney.threeds.server.converter.commonplatform.*;
+import com.rbkmoney.threeds.server.converter.commonplatform.DummyConverter;
+import com.rbkmoney.threeds.server.converter.commonplatform.ErroWrapperToErroConverter;
+import com.rbkmoney.threeds.server.converter.commonplatform.MessageToErrorResConverter;
+import com.rbkmoney.threeds.server.converter.commonplatform.PReqToFixedPReqConverter;
+import com.rbkmoney.threeds.server.converter.commonplatform.RReqToRResConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +26,8 @@ public class ConverterConfig {
     }
 
     @Bean
-    public Converter<ValidationResult, Message> messageToErrorResConverter(EnvironmentMessageProperties environmentMessageProperties) {
+    public Converter<ValidationResult, Message> messageToErrorResConverter(
+            EnvironmentMessageProperties environmentMessageProperties) {
         return new MessageToErrorResConverter(environmentMessageProperties);
     }
 

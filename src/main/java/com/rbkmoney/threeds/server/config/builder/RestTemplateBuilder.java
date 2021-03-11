@@ -13,6 +13,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,13 +35,15 @@ public class RestTemplateBuilder {
             KeystoreProperties keystoreProperties,
             ResourceLoader resourceLoader) {
         return new org.springframework.boot.web.client.RestTemplateBuilder()
-                .requestFactory(() -> new HttpComponentsClientHttpRequestFactory(httpClient(keystoreProperties, resourceLoader)))
+                .requestFactory(() -> new HttpComponentsClientHttpRequestFactory(
+                        httpClient(keystoreProperties, resourceLoader)))
                 .setConnectTimeout(Duration.ofMillis(environmentProperties.getThreeDsServerConnectTimeout()))
                 .setReadTimeout(Duration.ofMillis(environmentProperties.getThreeDsServerReadTimeout()))
                 .build();
     }
 
-    private static CloseableHttpClient httpClient(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader) {
+    private static CloseableHttpClient httpClient(KeystoreProperties keystoreProperties,
+                                                  ResourceLoader resourceLoader) {
         SSLContext sslContext = sslContext(keystoreProperties, resourceLoader);
 
         return HttpClients.custom()
@@ -64,7 +67,8 @@ public class RestTemplateBuilder {
         }
     }
 
-    private static File trustStore(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader) throws IOException {
+    private static File trustStore(KeystoreProperties keystoreProperties, ResourceLoader resourceLoader)
+            throws IOException {
         return resourceLoader
                 .getResource(keystoreProperties.getTrustStore())
                 .getFile();
@@ -72,7 +76,8 @@ public class RestTemplateBuilder {
 
     private static KeyStore keyStore(
             KeystoreProperties keystoreProperties,
-            ResourceLoader resourceLoader) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
+            ResourceLoader resourceLoader)
+            throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
         KeyStore keyStore = KeyStore.getInstance(PKCS_12);
         URI uri = resourceLoader.getResource(keystoreProperties.getTrustStore()).getURI();
 

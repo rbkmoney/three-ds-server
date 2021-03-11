@@ -24,7 +24,8 @@ public class PArqThreeDSReqURLContentConstraintValidationHandlerImpl implements 
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("threeDSRequestorURL", 2048, o.getThreeDSRequestorURL());
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("threeDSRequestorURL", 2048, o.getThreeDSRequestorURL());
         if (!validationResult.isValid()) {
             return validationResult;
         }

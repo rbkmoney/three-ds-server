@@ -24,7 +24,8 @@ public class BrowserTZContentConstraintValidationHandlerImpl implements PArqCons
     @Override
     public ConstraintValidationResult handle(PArq o) {
         String browserTZ = o.getBrowserTZ();
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("browserTZ", 5, 1, browserTZ);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMinAndMaxLength("browserTZ", 5, 1, browserTZ);
         if (!validationResult.isValid()) {
             return validationResult;
         }

@@ -1,7 +1,11 @@
 package com.rbkmoney.threeds.server.config.testplatform;
 
 import com.rbkmoney.threeds.server.config.properties.EnvironmentProperties;
-import com.rbkmoney.threeds.server.converter.testplatform.*;
+import com.rbkmoney.threeds.server.converter.testplatform.AResToPArsConverter;
+import com.rbkmoney.threeds.server.converter.testplatform.PArqToAReqConverter;
+import com.rbkmoney.threeds.server.converter.testplatform.PGcqToPGcsConverter;
+import com.rbkmoney.threeds.server.converter.testplatform.PPrqToPReqConverter;
+import com.rbkmoney.threeds.server.converter.testplatform.PResToPPrsConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.service.testplatform.TestPlatformChallengeFlowTransactionInfoStorageService;
@@ -36,7 +40,8 @@ public class ConverterConfig {
             TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService,
             TemplateBuilder templateBuilder,
             Base64Encoder base64Encoder) {
-        return new PGcqToPGcsConverter(testPlatformChallengeFlowTransactionInfoStorageService, templateBuilder, base64Encoder);
+        return new PGcqToPGcsConverter(testPlatformChallengeFlowTransactionInfoStorageService, templateBuilder,
+                base64Encoder);
     }
 
     @Bean

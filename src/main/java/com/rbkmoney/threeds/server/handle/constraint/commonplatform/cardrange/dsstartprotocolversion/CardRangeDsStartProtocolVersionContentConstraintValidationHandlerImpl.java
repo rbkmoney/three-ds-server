@@ -12,7 +12,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
-public class CardRangeDsStartProtocolVersionContentConstraintValidationHandlerImpl implements CardRangeConstraintValidationHandler {
+public class CardRangeDsStartProtocolVersionContentConstraintValidationHandlerImpl
+        implements CardRangeConstraintValidationHandler {
 
     private final StringValidator stringValidator;
     private final EnvironmentMessageProperties messageProperties;
@@ -24,7 +25,8 @@ public class CardRangeDsStartProtocolVersionContentConstraintValidationHandlerIm
 
     @Override
     public ConstraintValidationResult handle(CardRange o) {
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("dsStartProtocolVersion", 8, 5, o.getDsStartProtocolVersion());
+        ConstraintValidationResult validationResult = stringValidator
+                .validateStringWithMinAndMaxLength("dsStartProtocolVersion", 8, 5, o.getDsStartProtocolVersion());
         if (!validationResult.isValid()) {
             return validationResult;
         }

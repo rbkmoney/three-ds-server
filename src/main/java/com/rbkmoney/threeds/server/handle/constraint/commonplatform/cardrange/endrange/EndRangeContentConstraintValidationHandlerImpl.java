@@ -23,7 +23,8 @@ public class EndRangeContentConstraintValidationHandlerImpl implements CardRange
 
     @Override
     public ConstraintValidationResult handle(CardRange o) {
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("endRange", 19, 13, o.getEndRange());
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMinAndMaxLength("endRange", 19, 13, o.getEndRange());
         if (!validationResult.isValid()) {
             return validationResult;
         }

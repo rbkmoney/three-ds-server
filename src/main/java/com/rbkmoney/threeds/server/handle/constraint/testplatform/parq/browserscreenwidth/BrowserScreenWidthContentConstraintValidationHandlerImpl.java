@@ -25,7 +25,8 @@ public class BrowserScreenWidthContentConstraintValidationHandlerImpl implements
     public ConstraintValidationResult handle(PArq o) {
         String browserScreenWidth = o.getBrowserScreenWidth();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("browserScreenWidth", 6, 1, browserScreenWidth);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMinAndMaxLength("browserScreenWidth", 6, 1, browserScreenWidth);
         if (!validationResult.isValid()) {
             return validationResult;
         }

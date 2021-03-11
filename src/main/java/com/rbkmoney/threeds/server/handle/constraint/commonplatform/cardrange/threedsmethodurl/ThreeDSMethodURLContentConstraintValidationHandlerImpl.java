@@ -22,7 +22,8 @@ public class ThreeDSMethodURLContentConstraintValidationHandlerImpl implements C
 
     @Override
     public ConstraintValidationResult handle(CardRange o) {
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("threeDSMethodURL", 256, o.getThreeDSMethodURL());
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("threeDSMethodURL", 256, o.getThreeDSMethodURL());
         if (!validationResult.isValid()) {
             return validationResult;
         }

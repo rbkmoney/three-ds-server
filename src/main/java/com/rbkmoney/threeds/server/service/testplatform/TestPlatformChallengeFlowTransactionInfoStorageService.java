@@ -5,7 +5,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
 
-public class TestPlatformChallengeFlowTransactionInfoStorageService implements ChallengeFlowTransactionInfoStorageService {
+public class TestPlatformChallengeFlowTransactionInfoStorageService
+        implements ChallengeFlowTransactionInfoStorageService {
 
     private final Cache<String, ChallengeFlowTransactionInfo> transactionInfoById;
 
@@ -16,7 +17,8 @@ public class TestPlatformChallengeFlowTransactionInfoStorageService implements C
     }
 
     @Override
-    public void saveChallengeFlowTransactionInfo(String threeDsServerTransId, ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
+    public void saveChallengeFlowTransactionInfo(String threeDsServerTransId,
+                                                 ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
         transactionInfoById.put(threeDsServerTransId, challengeFlowTransactionInfo);
     }
 

@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PResDsStartProtocolVersionContentConstraintValidationHandlerImpl implements PResConstraintValidationHandler {
+public class PResDsStartProtocolVersionContentConstraintValidationHandlerImpl
+        implements PResConstraintValidationHandler {
 
     private final StringValidator stringValidator;
 
@@ -20,6 +21,7 @@ public class PResDsStartProtocolVersionContentConstraintValidationHandlerImpl im
 
     @Override
     public ConstraintValidationResult handle(PRes o) {
-        return stringValidator.validateStringWithMinAndMaxLength("dsStartProtocolVersion", 8, 5, o.getDsStartProtocolVersion());
+        return stringValidator
+                .validateStringWithMinAndMaxLength("dsStartProtocolVersion", 8, 5, o.getDsStartProtocolVersion());
     }
 }

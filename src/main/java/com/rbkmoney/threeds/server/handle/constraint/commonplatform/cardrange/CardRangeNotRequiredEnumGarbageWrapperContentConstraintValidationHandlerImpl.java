@@ -10,7 +10,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
-public class CardRangeNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl implements CardRangeConstraintValidationHandler {
+public class CardRangeNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl
+        implements CardRangeConstraintValidationHandler {
 
     @Override
     public boolean canHandle(CardRange o) {

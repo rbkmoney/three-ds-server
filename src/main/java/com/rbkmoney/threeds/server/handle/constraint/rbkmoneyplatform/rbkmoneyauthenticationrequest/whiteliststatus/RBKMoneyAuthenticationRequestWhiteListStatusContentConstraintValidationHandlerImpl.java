@@ -13,7 +13,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestWhiteListStatusContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestWhiteListStatusContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RBKMoneyAuthenticationRequest o) {
@@ -22,13 +23,14 @@ public class RBKMoneyAuthenticationRequestWhiteListStatusContentConstraintValida
 
     @Override
     public ConstraintValidationResult handle(RBKMoneyAuthenticationRequest o) {
-        ConstraintValidationResult validationResult = validateRequiredConditionField(o.getWhiteListStatus(), "whiteListStatus");
+        ConstraintValidationResult validationResult =
+                validateRequiredConditionField(o.getWhiteListStatus(), "whiteListStatus");
         if (!validationResult.isValid()) {
             return validationResult;
         }
 
-        if (getValue(o.getWhiteListStatus()) != WhiteListStatus.WHITELISTED &&
-                getValue(o.getWhiteListStatus()) != WhiteListStatus.NOT_WHITELISTED) {
+        if (getValue(o.getWhiteListStatus()) != WhiteListStatus.WHITELISTED
+                && getValue(o.getWhiteListStatus()) != WhiteListStatus.NOT_WHITELISTED) {
             return ConstraintValidationResult.failure(PATTERN, "whiteListStatus");
         }
 

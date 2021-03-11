@@ -24,7 +24,8 @@ public class DecoupledAuthWillBeUsedConstraintValidationHandlerImpl implements A
 
     @Override
     public ConstraintValidationResult handle(ARes o) {
-        ThreeDSRequestorDecReqInd threeDSRequestorDecReqInd = ((AReq) o.getRequestMessage()).getThreeDSRequestorDecReqInd();
+        ThreeDSRequestorDecReqInd threeDSRequestorDecReqInd =
+                ((AReq) o.getRequestMessage()).getThreeDSRequestorDecReqInd();
 
         if (o.getCardholderInfo() == null) {
             return ConstraintValidationResult.failure(NOT_NULL, "cardholderInfo");

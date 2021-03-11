@@ -29,7 +29,8 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
         AccountInfoWrapper acctInfo = o.getAcctInfo();
 
         if (stringValidator.isNotNull(acctInfo.getNbPurchaseAccount())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("acctInfo.nbPurchaseAccount", 4, acctInfo.getNbPurchaseAccount());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithMaxLength("acctInfo.nbPurchaseAccount", 4, acctInfo.getNbPurchaseAccount());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
@@ -42,7 +43,9 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
         }
 
         if (stringValidator.isNotNull(acctInfo.getProvisionAttemptsDay())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("acctInfo.provisionAttemptsDay", 3, acctInfo.getProvisionAttemptsDay());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithMaxLength("acctInfo.provisionAttemptsDay", 3,
+                            acctInfo.getProvisionAttemptsDay());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
@@ -55,7 +58,8 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
         }
 
         if (stringValidator.isNotNull(acctInfo.getTxnActivityDay())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("acctInfo.txnActivityDay", 3, acctInfo.getTxnActivityDay());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithMaxLength("acctInfo.txnActivityDay", 3, acctInfo.getTxnActivityDay());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
@@ -68,7 +72,8 @@ public class AcctInfoContentConstraintValidationHandlerImpl implements PArqConst
         }
 
         if (stringValidator.isNotNull(acctInfo.getTxnActivityYear())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("acctInfo.txnActivityYear", 3, acctInfo.getTxnActivityYear());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithMaxLength("acctInfo.txnActivityYear", 3, acctInfo.getTxnActivityYear());
             if (!validationResult.isValid()) {
                 return validationResult;
             }

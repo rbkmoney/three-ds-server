@@ -16,7 +16,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.OUT_OF_CARD_RANGE;
 @Component
 @ConditionalOnProperty(name = "platform.mode", havingValue = "RBK_MONEY_PLATFORM")
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestAcctNumberContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestAcctNumberContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
     private final StringValidator stringValidator;
@@ -30,7 +31,8 @@ public class RBKMoneyAuthenticationRequestAcctNumberContentConstraintValidationH
     public ConstraintValidationResult handle(RBKMoneyAuthenticationRequest o) {
         String acctNumber = o.getAcctNumber();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("acctNumber", 19, 13, acctNumber);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMinAndMaxLength("acctNumber", 19, 13, acctNumber);
         if (!validationResult.isValid()) {
             return validationResult;
         }
