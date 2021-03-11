@@ -12,7 +12,6 @@ import com.rbkmoney.threeds.server.utils.TemplateBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
-@SuppressWarnings("CheckStyle")
 @RequiredArgsConstructor
 public class PGcqToPGcsConverter implements Converter<ValidationResult, Message> {
 

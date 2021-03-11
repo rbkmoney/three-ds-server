@@ -13,7 +13,6 @@ import java.util.Optional;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
-@SuppressWarnings("CheckStyle")
 @RequiredArgsConstructor
 public class PResToPPrsConverter implements Converter<ValidationResult, Message> {
 

@@ -20,7 +20,6 @@ import java.util.Optional;
 
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
-@SuppressWarnings("CheckStyle")
 @RequiredArgsConstructor
 public class AResToPArsConverter implements Converter<ValidationResult, Message> {
 

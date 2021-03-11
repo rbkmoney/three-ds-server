@@ -6,7 +6,6 @@ import com.rbkmoney.threeds.server.dto.ValidationResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
-@SuppressWarnings("CheckStyle")
 @RequiredArgsConstructor
 public class PReqToFixedPReqConverter implements Converter<ValidationResult, Message> {
 
