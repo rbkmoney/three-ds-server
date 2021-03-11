@@ -24,6 +24,7 @@
         <dockerfile.base.service.tag>c0612d6052ac049496b72a23a04acb142035f249</dockerfile.base.service.tag>
         <dockerfile.registry>${env.REGISTRY}</dockerfile.registry>
         <elon.version>1.0.8</elon.version>
+        <checkstyle.skip>true</checkstyle.skip>
     </properties>
 
     <dependencies>
