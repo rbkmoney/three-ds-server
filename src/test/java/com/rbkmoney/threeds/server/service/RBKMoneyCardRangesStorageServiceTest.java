@@ -1,6 +1,10 @@
 package com.rbkmoney.threeds.server.service;
 
-import com.rbkmoney.damsel.threeds.server.storage.*;
+import com.rbkmoney.damsel.threeds.server.storage.AccountNumberVersion;
+import com.rbkmoney.damsel.threeds.server.storage.CardRangesStorageSrv;
+import com.rbkmoney.damsel.threeds.server.storage.DirectoryServerProviderIDNotFound;
+import com.rbkmoney.damsel.threeds.server.storage.ThreeDsSecondVersion;
+import com.rbkmoney.damsel.threeds.server.storage.UnsupportedVersion;
 import com.rbkmoney.threeds.server.converter.thrift.CardRangeMapper;
 import com.rbkmoney.threeds.server.domain.cardrange.ActionInd;
 import com.rbkmoney.threeds.server.domain.cardrange.CardRange;
@@ -16,7 +20,10 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static com.rbkmoney.threeds.server.helper.CardRangeHelper.cardRange;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -49,7 +56,8 @@ public class RBKMoneyCardRangesStorageServiceTest {
 
     @Test
     public void shouldReturnInvalidIfAcctNumberIsNotInCardRangesInStorage() throws TException {
-        when(cardRangesStorageClient.getDirectoryServerProviderId(ACCT_NUMBER)).thenThrow(DirectoryServerProviderIDNotFound.class);
+        when(cardRangesStorageClient.getDirectoryServerProviderId(ACCT_NUMBER))
+                .thenThrow(DirectoryServerProviderIDNotFound.class);
 
         var dsProvider = rbkMoneyCardRangesStorageService.getDsProvider(String.valueOf(ACCT_NUMBER));
 
@@ -97,7 +105,8 @@ public class RBKMoneyCardRangesStorageServiceTest {
 
     @Test
     public void shouldReturnEmptyIfAcctNumberIsUnsupportedThreeDsVersion() throws TException {
-        when(cardRangesStorageClient.getAccountNumberVersion(ACCT_NUMBER)).thenReturn(AccountNumberVersion.unsupported_version(new UnsupportedVersion()));
+        when(cardRangesStorageClient.getAccountNumberVersion(ACCT_NUMBER))
+                .thenReturn(AccountNumberVersion.unsupported_version(new UnsupportedVersion()));
 
         var threeDsVersion = rbkMoneyCardRangesStorageService.getThreeDsVersionResponse(ACCT_NUMBER);
 

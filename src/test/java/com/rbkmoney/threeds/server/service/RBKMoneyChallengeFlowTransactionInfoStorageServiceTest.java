@@ -16,7 +16,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
 
@@ -51,7 +54,8 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
                 ArgumentCaptor.forClass(com.rbkmoney.damsel.threeds.server.storage.ChallengeFlowTransactionInfo.class);
 
         rbkMoneyChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
-        ChallengeFlowTransactionInfo result = rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
+        ChallengeFlowTransactionInfo result =
+                rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
 
         assertThat(result).isEqualTo(transactionInfo);
 
@@ -82,7 +86,8 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageServiceTest {
         when(challengeFlowTransactionInfoStorageClient.getChallengeFlowTransactionInfo(TEST_TAG))
                 .thenReturn(stored);
 
-        ChallengeFlowTransactionInfo result = rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
+        ChallengeFlowTransactionInfo result =
+                rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
 
         verify(challengeFlowTransactionInfoStorageClient, only())
                 .getChallengeFlowTransactionInfo(TEST_TAG);

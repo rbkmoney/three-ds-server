@@ -29,8 +29,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Base64;
 import java.util.stream.Stream;
 
-import static com.rbkmoney.threeds.server.mir.utils.challenge.HtmlExtractor.*;
-import static com.rbkmoney.threeds.server.mir.utils.challenge.HttpBuilder.*;
+import static com.rbkmoney.threeds.server.mir.utils.challenge.HtmlExtractor.extractEncodedCResFromHtmlResponse;
+import static com.rbkmoney.threeds.server.mir.utils.challenge.HtmlExtractor.extractUrlFromHtmlResponseForCResErrorResult;
+import static com.rbkmoney.threeds.server.mir.utils.challenge.HtmlExtractor.extractUrlFromHtmlResponseForNextRequestWithHtmlResult;
+import static com.rbkmoney.threeds.server.mir.utils.challenge.HttpBuilder.buildHttpRequestWithCorrectPassword;
+import static com.rbkmoney.threeds.server.mir.utils.challenge.HttpBuilder.buildHttpRequestWithIncorrectPassword;
+import static com.rbkmoney.threeds.server.mir.utils.challenge.HttpBuilder.buildHttpRequestWithInitEncodedCReq;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -128,7 +132,8 @@ public class MirPlatformChallengeFlowTest extends AbstractMirPlatformConfig {
     private ResponseEntity<String> firstAuthenticationRequestInAcs(String testCase) {
         challengeFlow.givenAcsStubForFirstAuthenticationRequest(testCase);
 
-        HttpEntity<MultiValueMap<String, String>> request = buildHttpRequestWithInitEncodedCReq(challengeFlow.readEncodeCReq(testCase));
+        HttpEntity<MultiValueMap<String, String>> request =
+                buildHttpRequestWithInitEncodedCReq(challengeFlow.readEncodeCReq(testCase));
 
         return testRestTemplate.postForEntity(wireMockServerUrl + "form/authentication", request, String.class);
     }
@@ -165,13 +170,15 @@ public class MirPlatformChallengeFlowTest extends AbstractMirPlatformConfig {
 
             HttpEntity<MultiValueMap<String, String>> request = buildHttpRequestWithIncorrectPassword();
 
-            ResponseEntity<String> response = testRestTemplate.postForEntity(wireMockServerUrl + "form/authentication/second", request, String.class);
+            ResponseEntity<String> response = testRestTemplate
+                    .postForEntity(wireMockServerUrl + "form/authentication/second", request, String.class);
 
             String urlSubmit = extractUrlFromHtmlResponseForNextRequestWithHtmlResult(response);
 
             assertTrue(urlSubmit.contains("acs.vendorcert.mirconnect.ru"));
 
-            response = testRestTemplate.postForEntity(wireMockServerUrl + "form/authentication/third", request, String.class);
+            response = testRestTemplate
+                    .postForEntity(wireMockServerUrl + "form/authentication/third", request, String.class);
 
             urlSubmit = extractUrlFromHtmlResponseForNextRequestWithHtmlResult(response);
 

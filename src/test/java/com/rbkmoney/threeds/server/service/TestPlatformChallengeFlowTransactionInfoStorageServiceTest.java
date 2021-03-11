@@ -17,11 +17,13 @@ public class TestPlatformChallengeFlowTransactionInfoStorageServiceTest {
     private static final String TEST_TAG = UUID.randomUUID().toString();
     private static final String TRAP = "TRAP";
 
-    private TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService;
+    private TestPlatformChallengeFlowTransactionInfoStorageService
+            testPlatformChallengeFlowTransactionInfoStorageService;
 
     @BeforeEach
     public void setUp() {
-        testPlatformChallengeFlowTransactionInfoStorageService = new TestPlatformChallengeFlowTransactionInfoStorageService();
+        testPlatformChallengeFlowTransactionInfoStorageService =
+                new TestPlatformChallengeFlowTransactionInfoStorageService();
     }
 
     @Test
@@ -40,10 +42,12 @@ public class TestPlatformChallengeFlowTransactionInfoStorageServiceTest {
         testPlatformChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(TRAP, trap);
 
         // When
-        testPlatformChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
+        testPlatformChallengeFlowTransactionInfoStorageService
+                .saveChallengeFlowTransactionInfo(TEST_TAG, transactionInfo);
 
         // Then
-        ChallengeFlowTransactionInfo actual = testPlatformChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
+        ChallengeFlowTransactionInfo actual =
+                testPlatformChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(TEST_TAG);
         assertThat(actual).isEqualTo(transactionInfo);
     }
 }

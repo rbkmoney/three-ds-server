@@ -11,7 +11,8 @@ public class TestPlatformSerialNumStorageServiceTest {
 
     private static final String TRAP = "TRAP";
 
-    private TestPlatformSerialNumStorageService testPlatformSerialNumStorageService = new TestPlatformSerialNumStorageService();
+    private TestPlatformSerialNumStorageService testPlatformSerialNumStorageService =
+            new TestPlatformSerialNumStorageService();
 
     @Test
     public void shouldSaveAndGetTransactionInfo() {
