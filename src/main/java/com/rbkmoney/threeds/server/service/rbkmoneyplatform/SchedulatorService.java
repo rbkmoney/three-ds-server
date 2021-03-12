@@ -40,7 +40,6 @@ public class SchedulatorService {
                         .setRevision(scheduleProperties.getRevisionId())))
                 .setContext(preparationFlowRequestSerializer.serialize(initRBKMoneyPreparationFlowRequest));
 
-        deregisterJobById(jobId);
         registerJobById(jobId, registerJobRequest);
     }
 
