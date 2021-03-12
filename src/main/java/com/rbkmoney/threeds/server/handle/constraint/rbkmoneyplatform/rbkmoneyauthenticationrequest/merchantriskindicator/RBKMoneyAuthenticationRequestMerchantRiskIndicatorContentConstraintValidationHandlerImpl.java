@@ -15,7 +15,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestMerchantRiskIndicatorContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestMerchantRiskIndicatorContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     private final StringValidator stringValidator;
     private final EmailValidator emailValidator = EmailValidator.getInstance();
@@ -35,7 +36,9 @@ public class RBKMoneyAuthenticationRequestMerchantRiskIndicatorContentConstraint
         }
 
         if (stringValidator.isNotNull(merchantRiskIndicator.getGiftCardAmount())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("merchantRiskIndicator.giftCardAmount", 15, merchantRiskIndicator.getGiftCardAmount());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithMaxLength("merchantRiskIndicator.giftCardAmount", 15,
+                            merchantRiskIndicator.getGiftCardAmount());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
@@ -46,7 +49,9 @@ public class RBKMoneyAuthenticationRequestMerchantRiskIndicatorContentConstraint
         }
 
         if (stringValidator.isNotNull(merchantRiskIndicator.getGiftCardCount())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithConstLength("merchantRiskIndicator.giftCardCount", 2, merchantRiskIndicator.getGiftCardCount());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithConstLength("merchantRiskIndicator.giftCardCount", 2,
+                            merchantRiskIndicator.getGiftCardCount());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
@@ -57,7 +62,9 @@ public class RBKMoneyAuthenticationRequestMerchantRiskIndicatorContentConstraint
         }
 
         if (stringValidator.isNotNull(merchantRiskIndicator.getGiftCardCurr())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithConstLength("merchantRiskIndicator.giftCardCurr", 3, merchantRiskIndicator.getGiftCardCurr());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithConstLength("merchantRiskIndicator.giftCardCurr", 3,
+                            merchantRiskIndicator.getGiftCardCurr());
             if (!validationResult.isValid()) {
                 return validationResult;
             }

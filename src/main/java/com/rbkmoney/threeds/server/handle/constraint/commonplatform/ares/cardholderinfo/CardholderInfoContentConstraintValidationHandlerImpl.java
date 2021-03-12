@@ -25,7 +25,8 @@ public class CardholderInfoContentConstraintValidationHandlerImpl implements ARe
     @Override
     public ConstraintValidationResult handle(ARes o) {
         AcsDecConInd acsDecConInd = getValue(o.getAcsDecConInd());
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("cardholderInfo", 128, o.getCardholderInfo());
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("cardholderInfo", 128, o.getCardholderInfo());
 
         if (acsDecConInd == AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED) {
             return validationResult;

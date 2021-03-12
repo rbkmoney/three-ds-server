@@ -22,13 +22,14 @@ public class PArqWhiteListStatusContentConstraintValidationHandlerImpl implement
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        ConstraintValidationResult validationResult = validateRequiredConditionField(o.getWhiteListStatus(), "whiteListStatus");
+        ConstraintValidationResult validationResult =
+                validateRequiredConditionField(o.getWhiteListStatus(), "whiteListStatus");
         if (!validationResult.isValid()) {
             return validationResult;
         }
 
-        if (getValue(o.getWhiteListStatus()) != WhiteListStatus.WHITELISTED &&
-                getValue(o.getWhiteListStatus()) != WhiteListStatus.NOT_WHITELISTED) {
+        if (getValue(o.getWhiteListStatus()) != WhiteListStatus.WHITELISTED
+                && getValue(o.getWhiteListStatus()) != WhiteListStatus.NOT_WHITELISTED) {
             return ConstraintValidationResult.failure(PATTERN, "whiteListStatus");
         }
 

@@ -17,7 +17,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
-public class AResChallengeRequiredDecoupledAuthConstraintValidationHandlerImpl implements AResConstraintValidationHandler {
+public class AResChallengeRequiredDecoupledAuthConstraintValidationHandlerImpl
+        implements AResConstraintValidationHandler {
 
     @Override
     public boolean canHandle(ARes o) {
@@ -33,7 +34,8 @@ public class AResChallengeRequiredDecoupledAuthConstraintValidationHandlerImpl i
             return ConstraintValidationResult.failure(PATTERN, "transStatus");
         }
 
-        ConstraintValidationResult validationResult = validateRequiredConditionField(o.getAcsChallengeMandated(), "acsChallengeMandated");
+        ConstraintValidationResult validationResult =
+                validateRequiredConditionField(o.getAcsChallengeMandated(), "acsChallengeMandated");
         if (!validationResult.isValid()) {
             return validationResult;
         }

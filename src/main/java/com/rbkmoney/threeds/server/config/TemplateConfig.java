@@ -11,7 +11,8 @@ public class TemplateConfig {
     public VelocityEngine templateEngine() {
         VelocityEngine engine = new VelocityEngine();
         engine.setProperty("resource.loader", "class");
-        engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        engine.setProperty("class.resource.loader.class",
+                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         engine.setProperty("input.encoding", "UTF-8");
         engine.setProperty("output.encoding", "UTF-8");
 

@@ -19,17 +19,18 @@ import java.net.URL;
 @RequiredArgsConstructor
 public abstract class AbstractDsClient implements DsClient {
 
+    protected final ErrorCodeResolver errorCodeResolver;
     private final RestTemplate restTemplate;
     private final EnvironmentProperties environmentProperties;
     private final Converter<ValidationResult, Message> messageToErrorResConverter;
-    protected final ErrorCodeResolver errorCodeResolver;
     private final ErrorMessageResolver errorMessageResolver;
 
     @Override
     public void notifyDsAboutError(Erro message) {
         info("responseHandle return 'Erro', DS will be notified", message);
 
-        ResponseEntity<Message> response = restTemplate.postForEntity(environmentProperties.getDsUrl(), message, Message.class);
+        ResponseEntity<Message> response =
+                restTemplate.postForEntity(environmentProperties.getDsUrl(), message, Message.class);
 
         if (response.getStatusCode().is2xxSuccessful()) {
             info("responseHandle return 'Erro', DS was notified", message);
@@ -41,7 +42,8 @@ public abstract class AbstractDsClient implements DsClient {
     protected ResponseEntity<Message> processRequest(Message requestMessage) {
         info(format("-> Req [%s]:"), requestMessage);
 
-        ResponseEntity<Message> responseMessageEntity = restTemplate.postForEntity(environmentProperties.getDsUrl(), requestMessage, Message.class);
+        ResponseEntity<Message> responseMessageEntity =
+                restTemplate.postForEntity(environmentProperties.getDsUrl(), requestMessage, Message.class);
 
         Message responseMessage = responseMessageEntity.getBody();
 

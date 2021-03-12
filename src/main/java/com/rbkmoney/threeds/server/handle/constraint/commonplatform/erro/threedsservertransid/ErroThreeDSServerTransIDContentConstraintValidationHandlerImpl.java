@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ErroThreeDSServerTransIDContentConstraintValidationHandlerImpl implements ErroWrapperConstraintValidationHandler {
+public class ErroThreeDSServerTransIDContentConstraintValidationHandlerImpl
+        implements ErroWrapperConstraintValidationHandler {
 
     private final StringValidator stringValidator;
 

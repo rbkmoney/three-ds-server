@@ -26,7 +26,9 @@ public class DeviceRenderOptionsConstraintValidationHandlerImpl implements PArqC
     public ConstraintValidationResult handle(PArq o) {
         DeviceRenderOptionsWrapper deviceRenderOptions = o.getDeviceRenderOptions();
 
-        ConstraintValidationResult validationResult = validateRequiredConditionField(deviceRenderOptions.getSdkInterface(), "deviceRenderOptions.sdkInterface");
+        ConstraintValidationResult validationResult =
+                validateRequiredConditionField(deviceRenderOptions.getSdkInterface(),
+                        "deviceRenderOptions.sdkInterface");
         if (!validationResult.isValid()) {
             return validationResult;
         }

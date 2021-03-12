@@ -22,7 +22,7 @@ public class RBKMoneyDsClient extends AbstractDsClient {
             Converter<ValidationResult, Message> messageToErrorResConverter,
             ErrorCodeResolver errorCodeResolver,
             ErrorMessageResolver errorMessageResolver, RBKMoneyLogWrapper rbkMoneyLogWrapper) {
-        super(restTemplate, environmentProperties, messageToErrorResConverter, errorCodeResolver, errorMessageResolver);
+        super(errorCodeResolver, restTemplate, environmentProperties, messageToErrorResConverter, errorMessageResolver);
         this.rbkMoneyLogWrapper = rbkMoneyLogWrapper;
     }
 

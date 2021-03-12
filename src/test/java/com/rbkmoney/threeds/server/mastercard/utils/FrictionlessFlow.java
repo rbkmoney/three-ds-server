@@ -10,7 +10,11 @@ import org.springframework.http.MediaType;
 import java.nio.charset.Charset;
 import java.util.Base64;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 
 @RequiredArgsConstructor
 public class FrictionlessFlow {
@@ -59,9 +63,11 @@ public class FrictionlessFlow {
     }
 
     private String readARes(String testCase) {
-        JsonObject parsJsonObject = gson.fromJson(readMessage("mastercard/" + testCase + "/pars.json"), JsonObject.class);
+        JsonObject parsJsonObject =
+                gson.fromJson(readMessage("mastercard/" + testCase + "/pars.json"), JsonObject.class);
 
-        JsonObject aresJsonObject = gson.fromJson(readMessage("mastercard/" + testCase + "/ares.json"), JsonObject.class);
+        JsonObject aresJsonObject =
+                gson.fromJson(readMessage("mastercard/" + testCase + "/ares.json"), JsonObject.class);
         aresJsonObject.remove("authenticationValue");
         aresJsonObject.add("authenticationValue", parsJsonObject.get("authenticationValue"));
         return aresJsonObject.toString();

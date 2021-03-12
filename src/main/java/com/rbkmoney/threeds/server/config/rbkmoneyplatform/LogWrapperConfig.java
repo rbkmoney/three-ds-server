@@ -25,7 +25,8 @@ public class LogWrapperConfig {
     }
 
     @Bean
-    public RBKMoneyLogWrapper rbkMoneyLogWrapper(RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder, ObjectMapper objectMapper, Gson gson) {
+    public RBKMoneyLogWrapper rbkMoneyLogWrapper(RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder,
+                                                 ObjectMapper objectMapper, Gson gson) {
         return new RBKMoneyLogWrapper(rbkMoneyDsProviderHolder, objectMapper, gson);
     }
 }

@@ -40,7 +40,8 @@ public class AResInfoOnlyConstraintValidationHandlerImpl implements AResConstrai
         return ConstraintValidationResult.success();
     }
 
-    private boolean isSatisfactoryChallengeIndForTransStatus(ThreeDSRequestorChallengeInd threeDSRequestorChallengeInd) {
+    private boolean isSatisfactoryChallengeIndForTransStatus(
+            ThreeDSRequestorChallengeInd threeDSRequestorChallengeInd) {
         return threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_RISK_ANALYSIS_PERFORMED
                 || threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_DATA_SHARE_ONLY
                 || threeDSRequestorChallengeInd == ThreeDSRequestorChallengeInd.NO_CHALLENGE_AUTH_ALREADY_PERFORMED;

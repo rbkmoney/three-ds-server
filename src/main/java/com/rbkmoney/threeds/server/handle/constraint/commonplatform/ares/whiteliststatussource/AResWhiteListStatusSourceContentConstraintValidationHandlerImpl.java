@@ -11,7 +11,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
-public class AResWhiteListStatusSourceContentConstraintValidationHandlerImpl implements AResConstraintValidationHandler {
+public class AResWhiteListStatusSourceContentConstraintValidationHandlerImpl
+        implements AResConstraintValidationHandler {
 
     @Override
     public boolean canHandle(ARes o) {

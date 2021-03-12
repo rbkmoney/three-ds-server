@@ -10,7 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
 @RequiredArgsConstructor
-public class RBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter implements Converter<ValidationResult, Message> {
+public class RBKMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter
+        implements Converter<ValidationResult, Message> {
 
     private final Base64Encoder base64Encoder;
 

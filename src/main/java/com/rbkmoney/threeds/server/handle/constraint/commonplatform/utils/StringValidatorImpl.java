@@ -14,7 +14,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 @RequiredArgsConstructor
 public class StringValidatorImpl implements StringValidator {
 
-    private final Pattern uuidPattern = Pattern.compile("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})", Pattern.CASE_INSENSITIVE);
+    private final Pattern uuidPattern =
+            Pattern.compile("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})", Pattern.CASE_INSENSITIVE);
 
     @Override
     public boolean isNotNull(String candidate) {
@@ -31,7 +32,8 @@ public class StringValidatorImpl implements StringValidator {
     }
 
     @Override
-    public ConstraintValidationResult validateStringWithConstLength(String fieldName, Integer length, String candidate) {
+    public ConstraintValidationResult validateStringWithConstLength(String fieldName, Integer length,
+                                                                    String candidate) {
         if (StringUtils.isBlank(candidate)) {
             return ConstraintValidationResult.failure(NOT_BLANK, fieldName);
         }
@@ -44,7 +46,8 @@ public class StringValidatorImpl implements StringValidator {
     }
 
     @Override
-    public ConstraintValidationResult validateStringWithMaxLength(String fieldName, Integer maxLength, String candidate) {
+    public ConstraintValidationResult validateStringWithMaxLength(String fieldName, Integer maxLength,
+                                                                  String candidate) {
         if (StringUtils.isBlank(candidate)) {
             return ConstraintValidationResult.failure(NOT_BLANK, fieldName);
         }
@@ -57,7 +60,8 @@ public class StringValidatorImpl implements StringValidator {
     }
 
     @Override
-    public ConstraintValidationResult validateStringWithMinAndMaxLength(String fieldName, Integer maxLength, Integer minLength, String candidate) {
+    public ConstraintValidationResult validateStringWithMinAndMaxLength(String fieldName, Integer maxLength,
+                                                                        Integer minLength, String candidate) {
         if (StringUtils.isBlank(candidate)) {
             return ConstraintValidationResult.failure(NOT_BLANK, fieldName);
         }

@@ -12,7 +12,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyPreparationRequestThreeDSReqIdContentConstraintValidationHandlerImpl implements RBKMoneyPreparationRequestConstraintValidationHandler {
+public class RBKMoneyPreparationRequestThreeDSReqIdContentConstraintValidationHandlerImpl
+        implements RBKMoneyPreparationRequestConstraintValidationHandler {
 
     private final StringValidator stringValidator;
 

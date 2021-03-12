@@ -21,7 +21,8 @@ public class RBKMoneyVersioningClientController {
     private final RBKMoneyCardRangesStorageService rbkMoneyCardRangesStorageService;
 
     @PostMapping("/versioning")
-    public ResponseEntity<ThreeDsVersionResponse> threeDsVersioningHandler(@RequestBody ThreeDsVersionRequest threeDsVersionRequest) {
+    public ResponseEntity<ThreeDsVersionResponse> threeDsVersioningHandler(
+            @RequestBody ThreeDsVersionRequest threeDsVersionRequest) {
         String accountNumber = threeDsVersionRequest.getAccountNumber();
 
         if (!StringUtils.isNumeric(accountNumber)) {

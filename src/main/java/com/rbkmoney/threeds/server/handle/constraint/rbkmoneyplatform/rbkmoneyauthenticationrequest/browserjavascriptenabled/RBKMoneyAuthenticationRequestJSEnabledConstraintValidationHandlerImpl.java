@@ -13,7 +13,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestJSEnabledConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestJSEnabledConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RBKMoneyAuthenticationRequest o) {

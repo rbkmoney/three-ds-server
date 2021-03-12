@@ -12,7 +12,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestPurchaseAmountContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestPurchaseAmountContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     private final StringValidator stringValidator;
 
@@ -25,7 +26,8 @@ public class RBKMoneyAuthenticationRequestPurchaseAmountContentConstraintValidat
     public ConstraintValidationResult handle(RBKMoneyAuthenticationRequest o) {
         String purchaseAmount = o.getPurchaseAmount();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("purchaseAmount", 48, purchaseAmount);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("purchaseAmount", 48, purchaseAmount);
         if (!validationResult.isValid()) {
             return validationResult;
         }

@@ -24,7 +24,8 @@ public class NotificationURLContentConstraintValidationHandlerImpl implements PA
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("notificationURL", 256, o.getNotificationURL());
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("notificationURL", 256, o.getNotificationURL());
         if (!validationResult.isValid()) {
             return validationResult;
         }

@@ -8,7 +8,11 @@ import org.springframework.http.MediaType;
 
 import java.util.Base64;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 
 @RequiredArgsConstructor
 public class ChallengeFlow {
@@ -114,9 +118,9 @@ public class ChallengeFlow {
                 return readHtmlFormSubmitIncorrect(testCase);
             case html_form_cres_after_cancel:
                 return readHtmlFormSubmitCancel(testCase);
+            default:
+                throw new IllegalArgumentException(testCase + "." + acsFormType);
         }
-
-        throw new IllegalArgumentException(testCase + "." + acsFormType);
     }
 
     private String readHtmlFormAuthentication(String testCase) {

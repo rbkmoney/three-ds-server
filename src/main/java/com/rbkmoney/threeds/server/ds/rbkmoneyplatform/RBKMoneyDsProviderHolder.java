@@ -36,13 +36,19 @@ public class RBKMoneyDsProviderHolder implements DsProviderHolder {
         dsClientMap.put(DsProvider.MASTERCARD, mastercardDsClient);
         dsClientMap.put(DsProvider.MIR, mirDsClient);
 
-        threeDsRequestorIdMap.put(DsProvider.VISA, merchantId -> visaThreeDsRequestorId(visaEnvironmentProperties, merchantId));
-        threeDsRequestorIdMap.put(DsProvider.MASTERCARD, merchantId -> mastercardThreeDsRequestorId(mastercardEnvironmentProperties, merchantId));
-        threeDsRequestorIdMap.put(DsProvider.MIR, merchantId -> mirThreeDsRequestorId(mirEnvironmentProperties, merchantId));
+        threeDsRequestorIdMap
+                .put(DsProvider.VISA, merchantId -> visaThreeDsRequestorId(visaEnvironmentProperties, merchantId));
+        threeDsRequestorIdMap.put(DsProvider.MASTERCARD,
+                merchantId -> mastercardThreeDsRequestorId(mastercardEnvironmentProperties, merchantId));
+        threeDsRequestorIdMap
+                .put(DsProvider.MIR, merchantId -> mirThreeDsRequestorId(mirEnvironmentProperties, merchantId));
 
-        threeDsRequestorNameMap.put(DsProvider.VISA, merchantName -> visaThreeDsRequestorName(visaEnvironmentProperties, merchantName));
-        threeDsRequestorNameMap.put(DsProvider.MASTERCARD, merchantName -> mastercardThreeDsRequestorName(mastercardEnvironmentProperties, merchantName));
-        threeDsRequestorNameMap.put(DsProvider.MIR, merchantName -> mirThreeDsRequestorName(mirEnvironmentProperties, merchantName));
+        threeDsRequestorNameMap.put(DsProvider.VISA,
+                merchantName -> visaThreeDsRequestorName(visaEnvironmentProperties, merchantName));
+        threeDsRequestorNameMap.put(DsProvider.MASTERCARD,
+                merchantName -> mastercardThreeDsRequestorName(mastercardEnvironmentProperties, merchantName));
+        threeDsRequestorNameMap
+                .put(DsProvider.MIR, merchantName -> mirThreeDsRequestorName(mirEnvironmentProperties, merchantName));
 
         dsEnvironmentPropertiesMap.put(DsProvider.VISA, visaEnvironmentProperties);
         dsEnvironmentPropertiesMap.put(DsProvider.MASTERCARD, mastercardEnvironmentProperties);
@@ -66,14 +72,14 @@ public class RBKMoneyDsProviderHolder implements DsProviderHolder {
         return dsEnvironmentPropertiesMap.get(dsProvider);
     }
 
+    public Optional<String> getDsProvider() {
+        return Optional.ofNullable(dsProvider).map(DsProvider::getId);
+    }
+
     public void setDsProvider(DsProvider dsProvider) {
         log.debug("Set dsProvider={}", dsProvider);
 
         this.dsProvider = dsProvider;
-    }
-
-    public Optional<String> getDsProvider() {
-        return Optional.ofNullable(dsProvider).map(DsProvider::getId);
     }
 
     public String getThreeDsRequestorId(String merchantId) {

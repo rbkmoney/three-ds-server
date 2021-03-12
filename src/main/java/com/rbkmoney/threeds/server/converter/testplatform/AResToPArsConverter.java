@@ -23,7 +23,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 @RequiredArgsConstructor
 public class AResToPArsConverter implements Converter<ValidationResult, Message> {
 
-    private final TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService;
+    private final TestPlatformChallengeFlowTransactionInfoStorageService
+            testPlatformChallengeFlowTransactionInfoStorageService;
 
     @Override
     public Message convert(ValidationResult validationResult) {
@@ -96,8 +97,10 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
 
         if (optional.isPresent()) {
             AcsRenderingType acsRenderingType = new AcsRenderingType();
-            acsRenderingType.setAcsInterface(optional.map(AcsRenderingTypeWrapper::getAcsInterface).map(EnumWrapper::getValue).orElse(null));
-            acsRenderingType.setAcsUiTemplate(optional.map(AcsRenderingTypeWrapper::getAcsUiTemplate).map(EnumWrapper::getValue).orElse(null));
+            acsRenderingType.setAcsInterface(
+                    optional.map(AcsRenderingTypeWrapper::getAcsInterface).map(EnumWrapper::getValue).orElse(null));
+            acsRenderingType.setAcsUiTemplate(
+                    optional.map(AcsRenderingTypeWrapper::getAcsUiTemplate).map(EnumWrapper::getValue).orElse(null));
             return acsRenderingType;
         } else {
             return null;
@@ -118,6 +121,7 @@ public class AResToPArsConverter implements Converter<ValidationResult, Message>
                 .acsUrl(aRes.getAcsURL())
                 .build();
 
-        testPlatformChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
+        testPlatformChallengeFlowTransactionInfoStorageService
+                .saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
     }
 }

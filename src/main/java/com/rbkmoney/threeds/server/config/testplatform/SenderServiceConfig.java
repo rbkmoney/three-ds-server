@@ -23,6 +23,7 @@ public class SenderServiceConfig {
             TestPlatformDsClient testPlatformDsClient,
             TestPlatformSerialNumStorageService testPlatformSerialNumStorageService,
             TestPlatformCardRangesStorageService testPlatformCardRangesStorageService) {
-        return new TestPlatformSenderService(requestHandleService, responseHandleService, testPlatformLogWrapper, testPlatformDsClient, testPlatformSerialNumStorageService, testPlatformCardRangesStorageService);
+        return new TestPlatformSenderService(requestHandleService, responseHandleService, testPlatformLogWrapper,
+                testPlatformDsClient, testPlatformSerialNumStorageService, testPlatformCardRangesStorageService);
     }
 }

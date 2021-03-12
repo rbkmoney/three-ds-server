@@ -24,7 +24,8 @@ public class PurchaseInstalDataContentConstraintValidationHandlerImpl implements
     @Override
     public ConstraintValidationResult handle(PArq o) {
         String purchaseInstalData = o.getPurchaseInstalData();
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("purchaseInstalData", 3, purchaseInstalData);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("purchaseInstalData", 3, purchaseInstalData);
         if (!validationResult.isValid()) {
             return validationResult;
         }

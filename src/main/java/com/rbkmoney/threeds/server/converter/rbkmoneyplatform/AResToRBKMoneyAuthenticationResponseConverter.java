@@ -87,8 +87,10 @@ public class AResToRBKMoneyAuthenticationResponseConverter implements Converter<
 
         if (optional.isPresent()) {
             AcsRenderingType acsRenderingType = new AcsRenderingType();
-            acsRenderingType.setAcsInterface(optional.map(AcsRenderingTypeWrapper::getAcsInterface).map(EnumWrapper::getValue).orElse(null));
-            acsRenderingType.setAcsUiTemplate(optional.map(AcsRenderingTypeWrapper::getAcsUiTemplate).map(EnumWrapper::getValue).orElse(null));
+            acsRenderingType.setAcsInterface(
+                    optional.map(AcsRenderingTypeWrapper::getAcsInterface).map(EnumWrapper::getValue).orElse(null));
+            acsRenderingType.setAcsUiTemplate(
+                    optional.map(AcsRenderingTypeWrapper::getAcsUiTemplate).map(EnumWrapper::getValue).orElse(null));
             return acsRenderingType;
         } else {
             return null;
@@ -110,6 +112,7 @@ public class AResToRBKMoneyAuthenticationResponseConverter implements Converter<
                 .acsUrl(aRes.getAcsURL())
                 .build();
 
-        rbkMoneyChallengeFlowTransactionInfoStorageService.saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
+        rbkMoneyChallengeFlowTransactionInfoStorageService
+                .saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
     }
 }

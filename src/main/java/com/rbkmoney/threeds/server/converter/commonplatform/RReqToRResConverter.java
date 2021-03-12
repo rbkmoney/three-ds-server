@@ -47,7 +47,9 @@ public class RReqToRResConverter implements Converter<ValidationResult, Message>
             case TRANSACTION_TIMED_OUT_FIRST_CREQ_NOT_RECEIVED:
                 return ResultsStatus.CREQ_NOT_SENT_TO_ACS;
             default:
-                throw new IllegalArgumentException(String.format("ChallengeCancel is reserved value, unsupported, challengeCancel='%s'", message.getChallengeCancel()));
+                throw new IllegalArgumentException(
+                        String.format("ChallengeCancel is reserved value, unsupported, challengeCancel='%s'",
+                                message.getChallengeCancel()));
         }
     }
 }

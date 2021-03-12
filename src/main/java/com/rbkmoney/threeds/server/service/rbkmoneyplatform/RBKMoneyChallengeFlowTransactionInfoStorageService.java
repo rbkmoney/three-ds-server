@@ -15,9 +15,10 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageService implements Chall
     private final ChallengeFlowTransactionInfoConverter challengeFlowTransactionInfoConverter;
     private final Cache<String, ChallengeFlowTransactionInfo> transactionInfoByTransactionId;
 
-    public RBKMoneyChallengeFlowTransactionInfoStorageService(ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient,
-                                                              ChallengeFlowTransactionInfoConverter challengeFlowTransactionInfoConverter,
-                                                              long challengeFlowTransactionInfoCacheSize) {
+    public RBKMoneyChallengeFlowTransactionInfoStorageService(
+            ChallengeFlowTransactionInfoStorageSrv.Iface challengeFlowTransactionInfoStorageClient,
+            ChallengeFlowTransactionInfoConverter challengeFlowTransactionInfoConverter,
+            long challengeFlowTransactionInfoCacheSize) {
         this.challengeFlowTransactionInfoStorageClient = challengeFlowTransactionInfoStorageClient;
         this.challengeFlowTransactionInfoConverter = challengeFlowTransactionInfoConverter;
         this.transactionInfoByTransactionId = Caffeine.newBuilder()
@@ -26,7 +27,8 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageService implements Chall
     }
 
     @Override
-    public void saveChallengeFlowTransactionInfo(String threeDsServerTransId, ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
+    public void saveChallengeFlowTransactionInfo(String threeDsServerTransId,
+                                                 ChallengeFlowTransactionInfo challengeFlowTransactionInfo) {
         try {
             var transactionInfo = challengeFlowTransactionInfoConverter.toThrift(challengeFlowTransactionInfo);
             challengeFlowTransactionInfoStorageClient.saveChallengeFlowTransactionInfo(transactionInfo);
@@ -38,12 +40,14 @@ public class RBKMoneyChallengeFlowTransactionInfoStorageService implements Chall
 
     @Override
     public ChallengeFlowTransactionInfo getChallengeFlowTransactionInfo(String threeDsServerTransId) {
-        return transactionInfoByTransactionId.get(threeDsServerTransId, this::getChallengeFlowTransactionInfoFromStorage);
+        return transactionInfoByTransactionId
+                .get(threeDsServerTransId, this::getChallengeFlowTransactionInfoFromStorage);
     }
 
     private ChallengeFlowTransactionInfo getChallengeFlowTransactionInfoFromStorage(String threeDsServerTransId) {
         try {
-            var transactionInfo = challengeFlowTransactionInfoStorageClient.getChallengeFlowTransactionInfo(threeDsServerTransId);
+            var transactionInfo =
+                    challengeFlowTransactionInfoStorageClient.getChallengeFlowTransactionInfo(threeDsServerTransId);
             return challengeFlowTransactionInfoConverter.toDomain(transactionInfo);
         } catch (TException e) {
             throw new ExternalStorageException(e);

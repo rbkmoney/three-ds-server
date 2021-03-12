@@ -26,7 +26,8 @@ public class AResChallengeRequiredConstraintValidationHandlerImpl implements ARe
 
     @Override
     public ConstraintValidationResult handle(ARes o) {
-        ThreeDSRequestorChallengeInd threeDSRequestorChallengeInd = ((AReq) o.getRequestMessage()).getThreeDSRequestorChallengeInd();
+        ThreeDSRequestorChallengeInd threeDSRequestorChallengeInd =
+                ((AReq) o.getRequestMessage()).getThreeDSRequestorChallengeInd();
         DeviceChannel deviceChannel = ((AReq) o.getRequestMessage()).getDeviceChannel();
 
         if (deviceChannel == DeviceChannel.THREE_REQUESTOR_INITIATED) {
@@ -52,7 +53,8 @@ public class AResChallengeRequiredConstraintValidationHandlerImpl implements ARe
             return ConstraintValidationResult.failure(NOT_NULL, "acsUrl");
         }
 
-        ConstraintValidationResult validationResult = validateRequiredConditionField(o.getAcsChallengeMandated(), "acsChallengeMandated");
+        ConstraintValidationResult validationResult =
+                validateRequiredConditionField(o.getAcsChallengeMandated(), "acsChallengeMandated");
         if (!validationResult.isValid()) {
             return validationResult;
         }

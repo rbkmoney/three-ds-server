@@ -14,7 +14,10 @@ import org.springframework.stereotype.Component;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
-import static com.rbkmoney.threeds.server.dto.ConstraintType.*;
+import static com.rbkmoney.threeds.server.dto.ConstraintType.AUTH_DEC_TIME_IS_EXPIRED;
+import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_BLANK;
+import static com.rbkmoney.threeds.server.dto.ConstraintType.NOT_NULL;
+import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditionField;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -36,18 +39,11 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
             return ConstraintValidationResult.failure(NOT_BLANK, "threeDSServerTransID");
         }
 
-        ConstraintValidationResult validationResult = validateRequiredConditionField(o.getMessageCategory(), "messageCategory");
+        ConstraintValidationResult validationResult =
+                validateRequiredConditionField(o.getMessageCategory(), "messageCategory");
         if (!validationResult.isValid()) {
             return validationResult;
         }
-
-        MessageCategory messageCategory = getValue(o.getMessageCategory());
-
-        ChallengeFlowTransactionInfo transactionInfo = challengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(o.getThreeDSServerTransID());
-
-        DeviceChannel deviceChannel = transactionInfo.getDeviceChannel();
-        LocalDateTime decoupledAuthMaxTime = transactionInfo.getDecoupledAuthMaxTime();
-        AcsDecConInd acsDecConInd = transactionInfo.getAcsDecConInd();
 
         if (!o.isRelevantMessageVersion()) {
             if (getValue(o.getTransStatusReason()) != null
@@ -74,12 +70,16 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
             return ConstraintValidationResult.failure(NOT_NULL, "dsTransID");
         }
 
+        ChallengeFlowTransactionInfo transactionInfo =
+                challengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(o.getThreeDSServerTransID());
+        DeviceChannel deviceChannel = transactionInfo.getDeviceChannel();
         if (deviceChannel == DeviceChannel.APP_BASED
                 && o.isRelevantMessageVersion()
                 && o.getSdkTransID() == null) {
             return ConstraintValidationResult.failure(NOT_NULL, "sdkTransID");
         }
 
+        MessageCategory messageCategory = getValue(o.getMessageCategory());
         if (messageCategory == MessageCategory.PAYMENT_AUTH) {
             validationResult = validateRequiredConditionField(o.getTransStatus(), "transStatus");
             if (!validationResult.isValid()) {
@@ -87,6 +87,8 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
             }
         }
 
+        LocalDateTime decoupledAuthMaxTime = transactionInfo.getDecoupledAuthMaxTime();
+        AcsDecConInd acsDecConInd = transactionInfo.getAcsDecConInd();
         if (acsDecConInd == null) {
             if ((deviceChannel == DeviceChannel.APP_BASED || deviceChannel == DeviceChannel.BROWSER)
                     && o.getInteractionCounter() == null) {
@@ -99,7 +101,8 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
             }
         } else if (acsDecConInd == AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED) {
             if (decoupledAuthMaxTime.isBefore(LocalDateTime.now(Clock.systemUTC()))) {
-                return ConstraintValidationResult.failure(AUTH_DEC_TIME_IS_EXPIRED, "Timeout expiry reached for the transaction as defined in Section 5.5");
+                return ConstraintValidationResult.failure(AUTH_DEC_TIME_IS_EXPIRED,
+                        "Timeout expiry reached for the transaction as defined in Section 5.5");
             }
 
             AuthenticationType authenticationType = getValue(o.getAuthenticationType());

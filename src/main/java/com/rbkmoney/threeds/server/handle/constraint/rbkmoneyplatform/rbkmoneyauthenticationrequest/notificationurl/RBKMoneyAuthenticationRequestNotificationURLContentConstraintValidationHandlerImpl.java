@@ -12,7 +12,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestNotificationURLContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestNotificationURLContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     private final UrlValidator urlValidator = new UrlValidator();
     private final StringValidator stringValidator;
@@ -24,7 +25,8 @@ public class RBKMoneyAuthenticationRequestNotificationURLContentConstraintValida
 
     @Override
     public ConstraintValidationResult handle(RBKMoneyAuthenticationRequest o) {
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("notificationURL", 256, o.getNotificationURL());
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("notificationURL", 256, o.getNotificationURL());
         if (!validationResult.isValid()) {
             return validationResult;
         }

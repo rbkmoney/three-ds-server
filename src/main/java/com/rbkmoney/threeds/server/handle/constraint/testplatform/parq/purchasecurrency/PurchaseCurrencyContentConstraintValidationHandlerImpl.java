@@ -25,7 +25,8 @@ public class PurchaseCurrencyContentConstraintValidationHandlerImpl implements P
     public ConstraintValidationResult handle(PArq o) {
         String purchaseCurrency = o.getPurchaseCurrency();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithConstLength("purchaseCurrency", 3, purchaseCurrency);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithConstLength("purchaseCurrency", 3, purchaseCurrency);
         if (!validationResult.isValid()) {
             return validationResult;
         }

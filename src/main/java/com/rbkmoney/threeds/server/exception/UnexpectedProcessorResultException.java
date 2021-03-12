@@ -18,7 +18,8 @@ public class UnexpectedProcessorResultException extends RuntimeException {
         super(cause);
     }
 
-    public UnexpectedProcessorResultException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public UnexpectedProcessorResultException(String message, Throwable cause, boolean enableSuppression,
+                                              boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

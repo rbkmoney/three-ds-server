@@ -20,6 +20,7 @@ public class PResDsEndProtocolVersionContentConstraintValidationHandlerImpl impl
 
     @Override
     public ConstraintValidationResult handle(PRes o) {
-        return stringValidator.validateStringWithMinAndMaxLength("dsEndProtocolVersion", 8, 5, o.getDsEndProtocolVersion());
+        return stringValidator
+                .validateStringWithMinAndMaxLength("dsEndProtocolVersion", 8, 5, o.getDsEndProtocolVersion());
     }
 }

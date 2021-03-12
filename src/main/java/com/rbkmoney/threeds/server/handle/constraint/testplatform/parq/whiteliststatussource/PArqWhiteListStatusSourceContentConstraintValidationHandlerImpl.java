@@ -11,7 +11,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
-public class PArqWhiteListStatusSourceContentConstraintValidationHandlerImpl implements PArqConstraintValidationHandler {
+public class PArqWhiteListStatusSourceContentConstraintValidationHandlerImpl
+        implements PArqConstraintValidationHandler {
 
     @Override
     public boolean canHandle(PArq o) {

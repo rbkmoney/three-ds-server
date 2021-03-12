@@ -20,11 +20,13 @@ public class DsRequestHandlerConfig {
     public DsRequestHandler rReqToRResHandler(
             Processor<ValidationResult, Message> rReqToRResProcessorChain,
             MessageValidatorService messageValidatorService) {
-        return createDsRequestHandler(rReqToRResProcessorChain, messageValidatorService, message -> message instanceof RReq);
+        return createDsRequestHandler(rReqToRResProcessorChain, messageValidatorService,
+                message -> message instanceof RReq);
     }
 
     @Bean
-    public DsRequestHandler unsupportedMessageTypeDsRequestHandler(Converter<ValidationResult, Message> messageToErrorResConverter) {
+    public DsRequestHandler unsupportedMessageTypeDsRequestHandler(
+            Converter<ValidationResult, Message> messageToErrorResConverter) {
         return new UnsupportedMessageTypeRequestHandler(messageToErrorResConverter);
     }
 }

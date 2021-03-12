@@ -26,7 +26,8 @@ public class ThreeDSReqDecMaxTimeContentConstraintValidationHandlerImpl implemen
     public ConstraintValidationResult handle(PArq o) {
         String threeDSRequestorDecMaxTime = o.getThreeDSRequestorDecMaxTime();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithConstLength("threeDSRequestorDecMaxTime", 5, threeDSRequestorDecMaxTime);
+        ConstraintValidationResult validationResult = stringValidator
+                .validateStringWithConstLength("threeDSRequestorDecMaxTime", 5, threeDSRequestorDecMaxTime);
         if (!validationResult.isValid()) {
             return validationResult;
         }

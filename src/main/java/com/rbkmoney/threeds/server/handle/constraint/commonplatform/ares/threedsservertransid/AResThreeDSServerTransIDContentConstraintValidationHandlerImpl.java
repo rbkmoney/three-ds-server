@@ -22,7 +22,8 @@ public class AResThreeDSServerTransIDContentConstraintValidationHandlerImpl impl
 
     @Override
     public ConstraintValidationResult handle(ARes o) {
-        ConstraintValidationResult validationResult = stringValidator.validateUUID("threeDSServerTransID", o.getThreeDSServerTransID());
+        ConstraintValidationResult validationResult =
+                stringValidator.validateUUID("threeDSServerTransID", o.getThreeDSServerTransID());
         if (!validationResult.isValid()) {
             return validationResult;
         }

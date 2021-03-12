@@ -23,13 +23,14 @@ public class RReqTimeoutAtAcsConstraintValidationHandlerImpl implements RReqCons
 
     @Override
     public ConstraintValidationResult handle(RReq o) {
-        ConstraintValidationResult validationResult = validateRequiredConditionField(o.getChallengeCancel(), "challengeCancel");
+        ConstraintValidationResult validationResult =
+                validateRequiredConditionField(o.getChallengeCancel(), "challengeCancel");
         if (!validationResult.isValid()) {
             return validationResult;
         }
 
-        if (!(getValue(o.getChallengeCancel()) == ChallengeCancel.TRANSACTION_TIMED_OUT_OTHER_TIMEOUTS ||
-                getValue(o.getChallengeCancel()) == ChallengeCancel.TRANSACTION_TIMED_OUT_FIRST_CREQ_NOT_RECEIVED)) {
+        if (!(getValue(o.getChallengeCancel()) == ChallengeCancel.TRANSACTION_TIMED_OUT_OTHER_TIMEOUTS
+                || getValue(o.getChallengeCancel()) == ChallengeCancel.TRANSACTION_TIMED_OUT_FIRST_CREQ_NOT_RECEIVED)) {
             return ConstraintValidationResult.failure(PATTERN, "challengeCancel");
         }
 

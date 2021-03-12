@@ -20,11 +20,13 @@ public class RequestHandlerConfig {
     public RequestHandler pReqToFixedPReqHandler(
             Processor<ValidationResult, Message> pReqToFixedPReqProcessorChain,
             MessageValidatorService messageValidatorService) {
-        return createRequestHandler(pReqToFixedPReqProcessorChain, messageValidatorService, message -> message instanceof PReq);
+        return createRequestHandler(pReqToFixedPReqProcessorChain, messageValidatorService,
+                message -> message instanceof PReq);
     }
 
     @Bean
-    public RequestHandler unsupportedMessageTypeRequestHandler(Converter<ValidationResult, Message> messageToErrorResConverter) {
+    public RequestHandler unsupportedMessageTypeRequestHandler(
+            Converter<ValidationResult, Message> messageToErrorResConverter) {
         return new UnsupportedMessageTypeRequestHandler(messageToErrorResConverter);
     }
 }

@@ -12,7 +12,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
-public class RReqChallengeRequiredDecoupledAuthConstraintValidationHandlerImpl implements RReqConstraintValidationHandler {
+public class RReqChallengeRequiredDecoupledAuthConstraintValidationHandlerImpl
+        implements RReqConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RReq o) {

@@ -48,7 +48,8 @@ public class VisaPlatformPreparationFlowTest extends AbstractVisaPlatformConfig 
     @ParameterizedTest(name = "#{index} - Run Visa platform Preparation Flow with second request test case number {0}")
     @ArgumentsSource(VisaPreparationFlowWithSecondRequestArgumentsProvider.class)
     @SneakyThrows
-    public void preparationFlowWithSecondRequestTests(String testCase, String testCaseHeader, String threeDSServerTransID) {
+    public void preparationFlowWithSecondRequestTests(String testCase, String testCaseHeader,
+                                                      String threeDSServerTransID) {
         when(idGenerator.generateUUID()).thenReturn(threeDSServerTransID);
 
         visaPreparationFlowWithChangedHeaderTest(testCase, testCaseHeader);

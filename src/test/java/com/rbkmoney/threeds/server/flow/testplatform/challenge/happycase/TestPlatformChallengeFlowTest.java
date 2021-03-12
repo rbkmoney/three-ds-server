@@ -31,7 +31,8 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
     private IdGenerator idGenerator;
 
     @MockBean
-    private TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService;
+    private TestPlatformChallengeFlowTransactionInfoStorageService
+            testPlatformChallengeFlowTransactionInfoStorageService;
 
     @Test
     public void challengeFlowWithCardholderSelectedCancelTest() throws Exception {
@@ -42,8 +43,10 @@ public class TestPlatformChallengeFlowTest extends AbstractTestPlatformConfig {
                 .build();
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
-        doNothing().when(testPlatformChallengeFlowTransactionInfoStorageService).saveChallengeFlowTransactionInfo(testCase, transactionInfo);
-        when(testPlatformChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(eq(testCase))).thenReturn(transactionInfo);
+        doNothing().when(testPlatformChallengeFlowTransactionInfoStorageService)
+                .saveChallengeFlowTransactionInfo(testCase, transactionInfo);
+        when(testPlatformChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(eq(testCase)))
+                .thenReturn(transactionInfo);
 
         ChallengeFlow challengeFlow = new ChallengeFlow(jsonMapper, path);
 

@@ -11,7 +11,12 @@ import com.rbkmoney.threeds.server.domain.merchant.MerchantRiskIndicatorWrapper;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
 import com.rbkmoney.threeds.server.domain.root.proprietary.PArq;
-import com.rbkmoney.threeds.server.domain.threedsrequestor.*;
+import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInd;
+import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInfo;
+import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorAuthenticationInfoWrapper;
+import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorPriorAuthenticationInfo;
+import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeDSRequestorPriorAuthenticationInfoWrapper;
+import com.rbkmoney.threeds.server.domain.threedsrequestor.ThreeRIInd;
 import com.rbkmoney.threeds.server.domain.unwrapped.Address;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
 import com.rbkmoney.threeds.server.serialization.EnumWrapper;
@@ -29,6 +34,7 @@ import java.util.stream.Collectors;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @RequiredArgsConstructor
+@SuppressWarnings("Duplicates")
 public class PArqToAReqConverter implements Converter<ValidationResult, Message> {
 
     /**
@@ -147,13 +153,20 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
     }
 
     private ThreeDSRequestorAuthenticationInfo getThreeDSRequestorAuthenticationInfo(PArq pArq) {
-        Optional<ThreeDSRequestorAuthenticationInfoWrapper> wrapper = Optional.ofNullable(pArq.getThreeDSRequestorAuthenticationInfo());
+        Optional<ThreeDSRequestorAuthenticationInfoWrapper> wrapper =
+                Optional.ofNullable(pArq.getThreeDSRequestorAuthenticationInfo());
 
         if (wrapper.isPresent()) {
-            ThreeDSRequestorAuthenticationInfo threeDSRequestorAuthenticationInfo = new ThreeDSRequestorAuthenticationInfo();
-            threeDSRequestorAuthenticationInfo.setThreeDSReqAuthData(wrapper.map(ThreeDSRequestorAuthenticationInfoWrapper::getThreeDSReqAuthData).orElse(null));
-            threeDSRequestorAuthenticationInfo.setThreeDSReqAuthMethod(wrapper.map(ThreeDSRequestorAuthenticationInfoWrapper::getThreeDSReqAuthMethod).map(EnumWrapper::getValue).orElse(null));
-            threeDSRequestorAuthenticationInfo.setThreeDSReqAuthTimestamp(wrapper.map(ThreeDSRequestorAuthenticationInfoWrapper::getThreeDSReqAuthTimestamp).map(TemporalAccessorWrapper::getValue).orElse(null));
+            ThreeDSRequestorAuthenticationInfo threeDSRequestorAuthenticationInfo =
+                    new ThreeDSRequestorAuthenticationInfo();
+            threeDSRequestorAuthenticationInfo.setThreeDSReqAuthData(
+                    wrapper.map(ThreeDSRequestorAuthenticationInfoWrapper::getThreeDSReqAuthData).orElse(null));
+            threeDSRequestorAuthenticationInfo.setThreeDSReqAuthMethod(
+                    wrapper.map(ThreeDSRequestorAuthenticationInfoWrapper::getThreeDSReqAuthMethod)
+                            .map(EnumWrapper::getValue).orElse(null));
+            threeDSRequestorAuthenticationInfo.setThreeDSReqAuthTimestamp(
+                    wrapper.map(ThreeDSRequestorAuthenticationInfoWrapper::getThreeDSReqAuthTimestamp)
+                            .map(TemporalAccessorWrapper::getValue).orElse(null));
             return threeDSRequestorAuthenticationInfo;
         } else {
             return null;
@@ -174,15 +187,29 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
 
         if (wrapper.isPresent()) {
             MerchantRiskIndicator merchantRiskIndicator = new MerchantRiskIndicator();
-            merchantRiskIndicator.setDeliveryEmailAddress(wrapper.map(MerchantRiskIndicatorWrapper::getDeliveryEmailAddress).orElse(null));
-            merchantRiskIndicator.setDeliveryTimeframe(wrapper.map(MerchantRiskIndicatorWrapper::getDeliveryTimeframe).map(EnumWrapper::getValue).orElse(null));
-            merchantRiskIndicator.setGiftCardAmount(wrapper.map(MerchantRiskIndicatorWrapper::getGiftCardAmount).orElse(null));
-            merchantRiskIndicator.setGiftCardCount(wrapper.map(MerchantRiskIndicatorWrapper::getGiftCardCount).orElse(null));
-            merchantRiskIndicator.setGiftCardCurr(wrapper.map(MerchantRiskIndicatorWrapper::getGiftCardCurr).orElse(null));
-            merchantRiskIndicator.setPreOrderDate(wrapper.map(MerchantRiskIndicatorWrapper::getPreOrderDate).map(TemporalAccessorWrapper::getValue).orElse(null));
-            merchantRiskIndicator.setPreOrderPurchaseInd(wrapper.map(MerchantRiskIndicatorWrapper::getPreOrderPurchaseInd).map(EnumWrapper::getValue).orElse(null));
-            merchantRiskIndicator.setReorderItemsInd(wrapper.map(MerchantRiskIndicatorWrapper::getReorderItemsInd).map(EnumWrapper::getValue).orElse(null));
-            merchantRiskIndicator.setShipIndicator(wrapper.map(MerchantRiskIndicatorWrapper::getShipIndicator).map(EnumWrapper::getValue).orElse(null));
+            merchantRiskIndicator.setDeliveryEmailAddress(
+                    wrapper.map(MerchantRiskIndicatorWrapper::getDeliveryEmailAddress).orElse(null));
+            merchantRiskIndicator.setDeliveryTimeframe(
+                    wrapper.map(MerchantRiskIndicatorWrapper::getDeliveryTimeframe).map(EnumWrapper::getValue)
+                            .orElse(null));
+            merchantRiskIndicator
+                    .setGiftCardAmount(wrapper.map(MerchantRiskIndicatorWrapper::getGiftCardAmount).orElse(null));
+            merchantRiskIndicator
+                    .setGiftCardCount(wrapper.map(MerchantRiskIndicatorWrapper::getGiftCardCount).orElse(null));
+            merchantRiskIndicator
+                    .setGiftCardCurr(wrapper.map(MerchantRiskIndicatorWrapper::getGiftCardCurr).orElse(null));
+            merchantRiskIndicator.setPreOrderDate(
+                    wrapper.map(MerchantRiskIndicatorWrapper::getPreOrderDate).map(TemporalAccessorWrapper::getValue)
+                            .orElse(null));
+            merchantRiskIndicator.setPreOrderPurchaseInd(
+                    wrapper.map(MerchantRiskIndicatorWrapper::getPreOrderPurchaseInd).map(EnumWrapper::getValue)
+                            .orElse(null));
+            merchantRiskIndicator.setReorderItemsInd(
+                    wrapper.map(MerchantRiskIndicatorWrapper::getReorderItemsInd).map(EnumWrapper::getValue)
+                            .orElse(null));
+            merchantRiskIndicator.setShipIndicator(
+                    wrapper.map(MerchantRiskIndicatorWrapper::getShipIndicator).map(EnumWrapper::getValue)
+                            .orElse(null));
             return merchantRiskIndicator;
         } else {
             return null;
@@ -194,22 +221,38 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
 
         if (wrapper.isPresent()) {
             AccountInfo accountInfo = new AccountInfo();
-            accountInfo.setChAccAgeInd(wrapper.map(AccountInfoWrapper::getChAccAgeInd).map(EnumWrapper::getValue).orElse(null));
-            accountInfo.setChAccChange(wrapper.map(AccountInfoWrapper::getChAccChange).map(TemporalAccessorWrapper::getValue).orElse(null));
-            accountInfo.setChAccChangeInd(wrapper.map(AccountInfoWrapper::getChAccChangeInd).map(EnumWrapper::getValue).orElse(null));
-            accountInfo.setChAccDate(wrapper.map(AccountInfoWrapper::getChAccDate).map(TemporalAccessorWrapper::getValue).orElse(null));
-            accountInfo.setChAccPwChange(wrapper.map(AccountInfoWrapper::getChAccPwChange).map(TemporalAccessorWrapper::getValue).orElse(null));
-            accountInfo.setChAccPwChangeInd(wrapper.map(AccountInfoWrapper::getChAccPwChangeInd).map(EnumWrapper::getValue).orElse(null));
+            accountInfo.setChAccAgeInd(
+                    wrapper.map(AccountInfoWrapper::getChAccAgeInd).map(EnumWrapper::getValue).orElse(null));
+            accountInfo.setChAccChange(
+                    wrapper.map(AccountInfoWrapper::getChAccChange).map(TemporalAccessorWrapper::getValue)
+                            .orElse(null));
+            accountInfo.setChAccChangeInd(
+                    wrapper.map(AccountInfoWrapper::getChAccChangeInd).map(EnumWrapper::getValue).orElse(null));
+            accountInfo.setChAccDate(
+                    wrapper.map(AccountInfoWrapper::getChAccDate).map(TemporalAccessorWrapper::getValue).orElse(null));
+            accountInfo.setChAccPwChange(
+                    wrapper.map(AccountInfoWrapper::getChAccPwChange).map(TemporalAccessorWrapper::getValue)
+                            .orElse(null));
+            accountInfo.setChAccPwChangeInd(
+                    wrapper.map(AccountInfoWrapper::getChAccPwChangeInd).map(EnumWrapper::getValue).orElse(null));
             accountInfo.setNbPurchaseAccount(wrapper.map(AccountInfoWrapper::getNbPurchaseAccount).orElse(null));
             accountInfo.setProvisionAttemptsDay(wrapper.map(AccountInfoWrapper::getProvisionAttemptsDay).orElse(null));
             accountInfo.setTxnActivityDay(wrapper.map(AccountInfoWrapper::getTxnActivityDay).orElse(null));
             accountInfo.setTxnActivityYear(wrapper.map(AccountInfoWrapper::getTxnActivityYear).orElse(null));
-            accountInfo.setPaymentAccAge(wrapper.map(AccountInfoWrapper::getPaymentAccAge).map(TemporalAccessorWrapper::getValue).orElse(null));
-            accountInfo.setPaymentAccInd(wrapper.map(AccountInfoWrapper::getPaymentAccInd).map(EnumWrapper::getValue).orElse(null));
-            accountInfo.setShipAddressUsage(wrapper.map(AccountInfoWrapper::getShipAddressUsage).map(TemporalAccessorWrapper::getValue).orElse(null));
-            accountInfo.setShipAddressUsageInd(wrapper.map(AccountInfoWrapper::getShipAddressUsageInd).map(EnumWrapper::getValue).orElse(null));
-            accountInfo.setShipNameIndicator(wrapper.map(AccountInfoWrapper::getShipNameIndicator).map(EnumWrapper::getValue).orElse(null));
-            accountInfo.setSuspiciousAccActivity(wrapper.map(AccountInfoWrapper::getSuspiciousAccActivity).map(EnumWrapper::getValue).orElse(null));
+            accountInfo.setPaymentAccAge(
+                    wrapper.map(AccountInfoWrapper::getPaymentAccAge).map(TemporalAccessorWrapper::getValue)
+                            .orElse(null));
+            accountInfo.setPaymentAccInd(
+                    wrapper.map(AccountInfoWrapper::getPaymentAccInd).map(EnumWrapper::getValue).orElse(null));
+            accountInfo.setShipAddressUsage(
+                    wrapper.map(AccountInfoWrapper::getShipAddressUsage).map(TemporalAccessorWrapper::getValue)
+                            .orElse(null));
+            accountInfo.setShipAddressUsageInd(
+                    wrapper.map(AccountInfoWrapper::getShipAddressUsageInd).map(EnumWrapper::getValue).orElse(null));
+            accountInfo.setShipNameIndicator(
+                    wrapper.map(AccountInfoWrapper::getShipNameIndicator).map(EnumWrapper::getValue).orElse(null));
+            accountInfo.setSuspiciousAccActivity(
+                    wrapper.map(AccountInfoWrapper::getSuspiciousAccActivity).map(EnumWrapper::getValue).orElse(null));
             return accountInfo;
         } else {
             return null;
@@ -217,14 +260,22 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
     }
 
     private ThreeDSRequestorPriorAuthenticationInfo getThreeDSRequestorPriorAuthenticationInfo(PArq pArq) {
-        Optional<ThreeDSRequestorPriorAuthenticationInfoWrapper> wrapper = Optional.ofNullable(pArq.getThreeDSRequestorPriorAuthenticationInfo());
+        Optional<ThreeDSRequestorPriorAuthenticationInfoWrapper> wrapper =
+                Optional.ofNullable(pArq.getThreeDSRequestorPriorAuthenticationInfo());
 
         if (wrapper.isPresent()) {
             ThreeDSRequestorPriorAuthenticationInfo info = new ThreeDSRequestorPriorAuthenticationInfo();
-            info.setThreeDSReqPriorAuthData(wrapper.map(ThreeDSRequestorPriorAuthenticationInfoWrapper::getThreeDSReqPriorAuthData).orElse(null));
-            info.setThreeDSReqPriorAuthMethod(wrapper.map(ThreeDSRequestorPriorAuthenticationInfoWrapper::getThreeDSReqPriorAuthMethod).map(EnumWrapper::getValue).orElse(null));
-            info.setThreeDSReqPriorAuthTimestamp(wrapper.map(ThreeDSRequestorPriorAuthenticationInfoWrapper::getThreeDSReqPriorAuthTimestamp).map(TemporalAccessorWrapper::getValue).orElse(null));
-            info.setThreeDSReqPriorRef(wrapper.map(ThreeDSRequestorPriorAuthenticationInfoWrapper::getThreeDSReqPriorRef).orElse(null));
+            info.setThreeDSReqPriorAuthData(
+                    wrapper.map(ThreeDSRequestorPriorAuthenticationInfoWrapper::getThreeDSReqPriorAuthData)
+                            .orElse(null));
+            info.setThreeDSReqPriorAuthMethod(
+                    wrapper.map(ThreeDSRequestorPriorAuthenticationInfoWrapper::getThreeDSReqPriorAuthMethod)
+                            .map(EnumWrapper::getValue).orElse(null));
+            info.setThreeDSReqPriorAuthTimestamp(
+                    wrapper.map(ThreeDSRequestorPriorAuthenticationInfoWrapper::getThreeDSReqPriorAuthTimestamp)
+                            .map(TemporalAccessorWrapper::getValue).orElse(null));
+            info.setThreeDSReqPriorRef(
+                    wrapper.map(ThreeDSRequestorPriorAuthenticationInfoWrapper::getThreeDSReqPriorRef).orElse(null));
             return info;
         } else {
             return null;
@@ -236,7 +287,8 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
 
         if (wrapper.isPresent()) {
             DeviceRenderOptions deviceRenderOptions = new DeviceRenderOptions();
-            deviceRenderOptions.setSdkInterface(wrapper.map(DeviceRenderOptionsWrapper::getSdkInterface).map(EnumWrapper::getValue).orElse(null));
+            deviceRenderOptions.setSdkInterface(
+                    wrapper.map(DeviceRenderOptionsWrapper::getSdkInterface).map(EnumWrapper::getValue).orElse(null));
             wrapper
                     .map(DeviceRenderOptionsWrapper::getSdkUiType)
                     .map(ListWrapper::getValue)
@@ -254,7 +306,8 @@ public class PArqToAReqConverter implements Converter<ValidationResult, Message>
     }
 
     private String getPurchaseInstalData(PArq pArq) {
-        if (getValue(pArq.getThreeDSRequestorAuthenticationInd()) == ThreeDSRequestorAuthenticationInd.INSTALMENT_TRANSACTION
+        if (getValue(pArq.getThreeDSRequestorAuthenticationInd()) ==
+                ThreeDSRequestorAuthenticationInd.INSTALMENT_TRANSACTION
                 || getValue(pArq.getThreeRIInd()) == ThreeRIInd.INSTALMENT_TRANSACTION) {
             return pArq.getPurchaseInstalData();
         }

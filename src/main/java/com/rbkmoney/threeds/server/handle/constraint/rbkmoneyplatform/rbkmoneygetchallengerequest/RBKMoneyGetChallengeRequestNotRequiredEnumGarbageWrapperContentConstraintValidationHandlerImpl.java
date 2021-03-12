@@ -10,7 +10,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyGetChallengeRequestNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl implements RBKMoneyGetChallengeRequestConstraintValidationHandler {
+public class RBKMoneyGetChallengeRequestNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl
+        implements RBKMoneyGetChallengeRequestConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RBKMoneyGetChallengeRequest o) {

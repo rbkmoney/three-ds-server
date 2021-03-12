@@ -11,7 +11,8 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
-public class RReqWhiteListStatusSourceContentConstraintValidationHandlerImpl implements RReqConstraintValidationHandler {
+public class RReqWhiteListStatusSourceContentConstraintValidationHandlerImpl
+        implements RReqConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RReq o) {

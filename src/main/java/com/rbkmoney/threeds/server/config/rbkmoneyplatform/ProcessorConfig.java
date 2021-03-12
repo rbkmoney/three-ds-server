@@ -39,7 +39,8 @@ public class ProcessorConfig {
     public Processor<ValidationResult, Message> rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseProcessorChain(
             Converter<ValidationResult, Message> rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter,
             Converter<ValidationResult, Message> messageToErrorResConverter) {
-        return createProcessorChain(rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter, messageToErrorResConverter);
+        return createProcessorChain(rbkMoneyGetChallengeRequestToRBKMoneyGetChallengeResponseConverter,
+                messageToErrorResConverter);
     }
 
     @Bean

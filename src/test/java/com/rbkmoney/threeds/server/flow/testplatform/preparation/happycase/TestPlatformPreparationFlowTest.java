@@ -14,7 +14,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
@@ -38,7 +41,6 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
     @Test
     public void preparationFlowWithRepeatRequestTest() throws Exception {
         String testCase = "bc9f0b90-1041-47f0-94df-d692170ea0d7";
-        String path = "flow/testplatform/preparation/happycase/with-repeat-request/";
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
 
@@ -46,6 +48,7 @@ public class TestPlatformPreparationFlowTest extends AbstractTestPlatformConfig 
         assertNull(testPlatformSerialNumStorageService.getSerialNum(testCase));
         assertTrue(testPlatformCardRangesStorageService.isInCardRange(testCase, "7654320500000001"));
 
+        String path = "flow/testplatform/preparation/happycase/with-repeat-request/";
         PreparationFlow preparationFlow = new PreparationFlow(jsonMapper, path);
 
         // first stub

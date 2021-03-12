@@ -12,7 +12,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestBrowserScreenWidthContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestBrowserScreenWidthContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     private final StringValidator stringValidator;
 
@@ -25,7 +26,8 @@ public class RBKMoneyAuthenticationRequestBrowserScreenWidthContentConstraintVal
     public ConstraintValidationResult handle(RBKMoneyAuthenticationRequest o) {
         String browserScreenWidth = o.getBrowserScreenWidth();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMinAndMaxLength("browserScreenWidth", 6, 1, browserScreenWidth);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMinAndMaxLength("browserScreenWidth", 6, 1, browserScreenWidth);
         if (!validationResult.isValid()) {
             return validationResult;
         }

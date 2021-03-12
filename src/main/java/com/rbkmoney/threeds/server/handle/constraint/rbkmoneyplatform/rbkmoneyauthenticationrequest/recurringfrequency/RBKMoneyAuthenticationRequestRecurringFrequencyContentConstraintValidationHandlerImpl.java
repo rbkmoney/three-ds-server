@@ -12,7 +12,8 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestRecurringFrequencyContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestRecurringFrequencyContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     private final StringValidator stringValidator;
 
@@ -25,7 +26,8 @@ public class RBKMoneyAuthenticationRequestRecurringFrequencyContentConstraintVal
     public ConstraintValidationResult handle(RBKMoneyAuthenticationRequest o) {
         String recurringFrequency = o.getRecurringFrequency();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("recurringFrequency", 4, recurringFrequency);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("recurringFrequency", 4, recurringFrequency);
         if (!validationResult.isValid()) {
             return validationResult;
         }

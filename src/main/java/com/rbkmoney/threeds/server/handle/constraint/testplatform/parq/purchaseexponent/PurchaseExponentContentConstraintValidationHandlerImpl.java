@@ -25,7 +25,8 @@ public class PurchaseExponentContentConstraintValidationHandlerImpl implements P
     public ConstraintValidationResult handle(PArq o) {
         String purchaseExponent = o.getPurchaseExponent();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithConstLength("purchaseExponent", 1, purchaseExponent);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithConstLength("purchaseExponent", 1, purchaseExponent);
         if (!validationResult.isValid()) {
             return validationResult;
         }

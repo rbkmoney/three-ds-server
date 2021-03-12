@@ -40,7 +40,8 @@ public class PResMessageVersionContentConstraintValidationHandlerImpl implements
 
         String messageVersionAReq = o.getRequestMessage().getMessageVersion();
 
-        if (messageProperties.getValidMessageVersions().contains(o.getMessageVersion()) && !messageVersionAReq.equals(o.getMessageVersion())) {
+        if (messageProperties.getValidMessageVersions().contains(o.getMessageVersion())
+                && !messageVersionAReq.equals(o.getMessageVersion())) {
             return ConstraintValidationResult.failure(PATTERN, "messageVersion");
         }
 

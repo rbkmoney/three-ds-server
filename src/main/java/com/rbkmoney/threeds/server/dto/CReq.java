@@ -12,9 +12,9 @@ import lombok.Data;
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
 public class CReq {
 
+    private final String messageType = "CReq";
     private String acsTransID;
     private ChallengeWindowSize challengeWindowSize;
-    private final String messageType = "CReq";
     private String messageVersion;
     private String threeDSServerTransID;
 

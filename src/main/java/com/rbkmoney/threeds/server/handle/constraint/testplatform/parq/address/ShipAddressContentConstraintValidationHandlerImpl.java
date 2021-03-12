@@ -28,14 +28,16 @@ public class ShipAddressContentConstraintValidationHandlerImpl implements PArqCo
         Address shippingAddress = o.getShippingAddress();
 
         if (stringValidator.isNotNull(shippingAddress.getAddrCity())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("shipAddrCity", 50, shippingAddress.getAddrCity());
+            ConstraintValidationResult validationResult =
+                    stringValidator.validateStringWithMaxLength("shipAddrCity", 50, shippingAddress.getAddrCity());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
         }
 
         if (stringValidator.isNotNull(shippingAddress.getAddrCountry())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("shipAddrCountry", 3, shippingAddress.getAddrCountry());
+            ConstraintValidationResult validationResult =
+                    stringValidator.validateStringWithMaxLength("shipAddrCountry", 3, shippingAddress.getAddrCountry());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
@@ -46,35 +48,40 @@ public class ShipAddressContentConstraintValidationHandlerImpl implements PArqCo
         }
 
         if (stringValidator.isNotNull(shippingAddress.getAddrLine1())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("shipAddrLine1", 50, shippingAddress.getAddrLine1());
+            ConstraintValidationResult validationResult =
+                    stringValidator.validateStringWithMaxLength("shipAddrLine1", 50, shippingAddress.getAddrLine1());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
         }
 
         if (stringValidator.isNotNull(shippingAddress.getAddrLine2())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("shipAddrLine2", 50, shippingAddress.getAddrLine2());
+            ConstraintValidationResult validationResult =
+                    stringValidator.validateStringWithMaxLength("shipAddrLine2", 50, shippingAddress.getAddrLine2());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
         }
 
         if (stringValidator.isNotNull(shippingAddress.getAddrLine3())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("shipAddrLine3", 50, shippingAddress.getAddrLine3());
+            ConstraintValidationResult validationResult =
+                    stringValidator.validateStringWithMaxLength("shipAddrLine3", 50, shippingAddress.getAddrLine3());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
         }
 
         if (stringValidator.isNotNull(shippingAddress.getAddrPostCode())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("shipAddrPostCode", 16, shippingAddress.getAddrPostCode());
+            ConstraintValidationResult validationResult = stringValidator
+                    .validateStringWithMaxLength("shipAddrPostCode", 16, shippingAddress.getAddrPostCode());
             if (!validationResult.isValid()) {
                 return validationResult;
             }
         }
 
         if (stringValidator.isNotNull(shippingAddress.getAddrState())) {
-            ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("shipAddrState", 3, shippingAddress.getAddrState());
+            ConstraintValidationResult validationResult =
+                    stringValidator.validateStringWithMaxLength("shipAddrState", 3, shippingAddress.getAddrState());
             if (!validationResult.isValid()) {
                 return validationResult;
             }

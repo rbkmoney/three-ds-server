@@ -21,6 +21,7 @@ public class SenderServiceConfig {
             RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder,
             RBKMoneyLogWrapper rbkMoneyLogWrapper,
             RBKMoneyCardRangesStorageService rbkMoneyCardRangesStorageService) {
-        return new RBKMoneySenderService(requestHandleService, responseHandleService, rbkMoneyDsProviderHolder, rbkMoneyLogWrapper, rbkMoneyCardRangesStorageService);
+        return new RBKMoneySenderService(requestHandleService, responseHandleService, rbkMoneyDsProviderHolder,
+                rbkMoneyLogWrapper, rbkMoneyCardRangesStorageService);
     }
 }

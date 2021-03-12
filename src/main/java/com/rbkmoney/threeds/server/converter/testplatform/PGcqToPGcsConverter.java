@@ -18,7 +18,8 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
     private static final String TITLE = "challengeFormData";
     private static final String TEMPLATE_PATH = "vm/ChallengeForm.vm";
 
-    private final TestPlatformChallengeFlowTransactionInfoStorageService testPlatformChallengeFlowTransactionInfoStorageService;
+    private final TestPlatformChallengeFlowTransactionInfoStorageService
+            testPlatformChallengeFlowTransactionInfoStorageService;
     private final TemplateBuilder templateBuilder;
     private final Base64Encoder base64Encoder;
 
@@ -42,7 +43,8 @@ public class PGcqToPGcsConverter implements Converter<ValidationResult, Message>
     }
 
     private ChallengeFormData createChallengeFormData(PGcq pGcq) {
-        var transactionInfo = testPlatformChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(pGcq.getThreeDSServerTransID());
+        var transactionInfo = testPlatformChallengeFlowTransactionInfoStorageService
+                .getChallengeFlowTransactionInfo(pGcq.getThreeDSServerTransID());
 
         return ChallengeFormData.builder()
                 .acsUrl(transactionInfo.getAcsUrl())

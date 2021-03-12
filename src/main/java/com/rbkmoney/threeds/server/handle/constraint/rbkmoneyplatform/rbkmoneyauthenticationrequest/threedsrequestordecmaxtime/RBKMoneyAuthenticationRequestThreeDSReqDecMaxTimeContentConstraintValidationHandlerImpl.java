@@ -13,7 +13,8 @@ import static java.lang.Integer.valueOf;
 
 @Component
 @RequiredArgsConstructor
-public class RBKMoneyAuthenticationRequestThreeDSReqDecMaxTimeContentConstraintValidationHandlerImpl implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
+public class RBKMoneyAuthenticationRequestThreeDSReqDecMaxTimeContentConstraintValidationHandlerImpl
+        implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 
     private final StringValidator stringValidator;
 
@@ -26,7 +27,8 @@ public class RBKMoneyAuthenticationRequestThreeDSReqDecMaxTimeContentConstraintV
     public ConstraintValidationResult handle(RBKMoneyAuthenticationRequest o) {
         String threeDSRequestorDecMaxTime = o.getThreeDSRequestorDecMaxTime();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithConstLength("threeDSRequestorDecMaxTime", 5, threeDSRequestorDecMaxTime);
+        ConstraintValidationResult validationResult = stringValidator
+                .validateStringWithConstLength("threeDSRequestorDecMaxTime", 5, threeDSRequestorDecMaxTime);
         if (!validationResult.isValid()) {
             return validationResult;
         }

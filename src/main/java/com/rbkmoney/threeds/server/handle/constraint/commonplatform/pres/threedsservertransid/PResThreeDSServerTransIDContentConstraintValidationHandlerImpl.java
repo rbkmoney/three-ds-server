@@ -22,7 +22,8 @@ public class PResThreeDSServerTransIDContentConstraintValidationHandlerImpl impl
 
     @Override
     public ConstraintValidationResult handle(PRes o) {
-        ConstraintValidationResult validationResult = stringValidator.validateUUID("threeDSServerTransID", o.getThreeDSServerTransID());
+        ConstraintValidationResult validationResult =
+                stringValidator.validateUUID("threeDSServerTransID", o.getThreeDSServerTransID());
 
         if (!validationResult.isValid()) {
             return validationResult;

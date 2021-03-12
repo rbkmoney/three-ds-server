@@ -43,10 +43,10 @@ public class RBKMoneySenderService extends AbstractSenderService {
         Message sdkResponseMessage = responseHandleService.handle(dsResponseMessage);
         if (sdkResponseMessage instanceof RBKMoneyPreparationResponse
                 && dsResponseMessage instanceof PRes) {
-            RBKMoneyPreparationResponse rBKMoneyPreparationResponse = (RBKMoneyPreparationResponse) sdkResponseMessage;
+            RBKMoneyPreparationResponse rbkMoneyPreparationResponse = (RBKMoneyPreparationResponse) sdkResponseMessage;
             PRes pRes = (PRes) dsResponseMessage;
 
-            rbkMoneyCardRangesStorageService.updateCardRanges(rBKMoneyPreparationResponse.getProviderId(), pRes);
+            rbkMoneyCardRangesStorageService.updateCardRanges(rbkMoneyPreparationResponse.getProviderId(), pRes);
         }
         return sdkResponseMessage;
     }

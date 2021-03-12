@@ -25,7 +25,8 @@ public class PurchaseAmountContentConstraintValidationHandlerImpl implements PAr
     public ConstraintValidationResult handle(PArq o) {
         String purchaseAmount = o.getPurchaseAmount();
 
-        ConstraintValidationResult validationResult = stringValidator.validateStringWithMaxLength("purchaseAmount", 48, purchaseAmount);
+        ConstraintValidationResult validationResult =
+                stringValidator.validateStringWithMaxLength("purchaseAmount", 48, purchaseAmount);
         if (!validationResult.isValid()) {
             return validationResult;
         }

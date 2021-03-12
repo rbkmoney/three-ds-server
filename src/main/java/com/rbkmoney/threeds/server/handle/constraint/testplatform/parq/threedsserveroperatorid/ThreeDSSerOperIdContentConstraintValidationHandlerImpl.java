@@ -20,6 +20,7 @@ public class ThreeDSSerOperIdContentConstraintValidationHandlerImpl implements P
 
     @Override
     public ConstraintValidationResult handle(PArq o) {
-        return stringValidator.validateStringWithMaxLength("threeDSServerOperatorID", 32, o.getThreeDSServerOperatorID());
+        return stringValidator
+                .validateStringWithMaxLength("threeDSServerOperatorID", 32, o.getThreeDSServerOperatorID());
     }
 }

@@ -1,29 +1,41 @@
 spring:
   application:
-    name: @name@
+    name: '@name@'
     description: @description@
   output:
     ansi:
       enabled: always
 
 management:
-  endpoint:
-    health:
-      show-details: always
   security:
     flag: false
+  server:
+    port: '@management.port@'
   metrics:
     export:
       statsd:
         flavor: etsy
         enabled: false
+      prometheus:
+        enabled: false
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
 
 info:
-  version: @version@
+  version: '@version@'
   stage: dev
 
 server:
-  port: @server.port@
+  port: '@server.port@'
 
 client:
   ds:

@@ -8,14 +8,18 @@ import com.rbkmoney.threeds.server.dto.ConstraintValidationResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.*;
+import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.AUTHENTICATION_REJECTED;
+import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.AUTHENTICATION_VERIFICATION_SUCCESSFUL;
+import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.NOT_AUTHENTICATED_DENIED;
+import static com.rbkmoney.threeds.server.domain.transaction.TransactionStatus.TECHNICAL_PROBLEM;
 import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getGarbageValue;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @Component
 @RequiredArgsConstructor
-public class RReqNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl implements RReqConstraintValidationHandler {
+public class RReqNotRequiredEnumGarbageWrapperContentConstraintValidationHandlerImpl
+        implements RReqConstraintValidationHandler {
 
     @Override
     public boolean canHandle(RReq o) {
@@ -64,7 +68,9 @@ public class RReqNotRequiredEnumGarbageWrapperContentConstraintValidationHandler
     }
 
     private boolean isRequiredCondition(TransactionStatus transactionStatus, MessageCategory messageCategory) {
-        return (transactionStatus == AUTHENTICATION_REJECTED || transactionStatus == TECHNICAL_PROBLEM || transactionStatus == NOT_AUTHENTICATED_DENIED)
+        return (transactionStatus == AUTHENTICATION_REJECTED
+                || transactionStatus == TECHNICAL_PROBLEM
+                || transactionStatus == NOT_AUTHENTICATED_DENIED)
                 && messageCategory == MessageCategory.PAYMENT_AUTH;
     }
 }

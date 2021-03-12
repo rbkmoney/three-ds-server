@@ -19,8 +19,11 @@ public class TestPlatformDsClient extends AbstractDsClient {
 
     private final TestPlatformLogWrapper testPlatformLogWrapper;
 
-    public TestPlatformDsClient(RestTemplate restTemplate, EnvironmentProperties environmentProperties, Converter<ValidationResult, Message> messageToErrorResConverter, ErrorCodeResolver errorCodeResolver, ErrorMessageResolver errorMessageResolver, TestPlatformLogWrapper testPlatformLogWrapper) {
-        super(restTemplate, environmentProperties, messageToErrorResConverter, errorCodeResolver, errorMessageResolver);
+    public TestPlatformDsClient(RestTemplate restTemplate, EnvironmentProperties environmentProperties,
+                                Converter<ValidationResult, Message> messageToErrorResConverter,
+                                ErrorCodeResolver errorCodeResolver, ErrorMessageResolver errorMessageResolver,
+                                TestPlatformLogWrapper testPlatformLogWrapper) {
+        super(errorCodeResolver, restTemplate, environmentProperties, messageToErrorResConverter, errorMessageResolver);
         this.testPlatformLogWrapper = testPlatformLogWrapper;
     }
 

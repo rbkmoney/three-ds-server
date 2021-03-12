@@ -18,7 +18,9 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class RBKMoneyVersioningTest extends AbstractRBKMoneyPlatformConfig {
 
@@ -93,7 +95,8 @@ public class RBKMoneyVersioningTest extends AbstractRBKMoneyPlatformConfig {
 
     @Test
     public void shouldReturnInternalServerErrorIfErrorsExists() throws Exception {
-        when(rbkMoneyCardRangesStorageService.getThreeDsVersionResponse(anyLong())).thenThrow(ExternalStorageException.class);
+        when(rbkMoneyCardRangesStorageService.getThreeDsVersionResponse(anyLong()))
+                .thenThrow(ExternalStorageException.class);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/versioning")

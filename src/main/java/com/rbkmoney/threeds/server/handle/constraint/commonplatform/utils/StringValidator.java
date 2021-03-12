@@ -12,7 +12,8 @@ public interface StringValidator {
 
     ConstraintValidationResult validateStringWithMaxLength(String fieldName, Integer maxLength, String candidate);
 
-    ConstraintValidationResult validateStringWithMinAndMaxLength(String fieldName, Integer maxLength, Integer minLength, String candidate);
+    ConstraintValidationResult validateStringWithMinAndMaxLength(String fieldName, Integer maxLength, Integer minLength,
+                                                                 String candidate);
 
     ConstraintValidationResult validateUUID(String fieldName, String candidate);
 

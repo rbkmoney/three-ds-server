@@ -58,10 +58,12 @@ public class ClientExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
+                                                             HttpStatus status, WebRequest request) {
         log.warn(
                 String.format("Some ServletException level error with handle servlet request, " +
-                        "request=%s, response headers=%s, response status=%s", request.toString(), headers.toString(), status.toString()),
+                                "request=%s, response headers=%s, response status=%s",
+                        request.toString(), headers.toString(), status.toString()),
                 ex);
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
@@ -77,10 +79,12 @@ public class ClientExceptionController extends ResponseEntityExceptionHandler {
     }
 
     private Message getMessage(ErrorCode errorCode) {
-        return getMessage(errorCode, errorMessageResolver.resolveDefaultErrorDetail(errorCode), errorMessageResolver.resolveDefaultErrorDescription(errorCode));
+        return getMessage(errorCode, errorMessageResolver.resolveDefaultErrorDetail(errorCode),
+                errorMessageResolver.resolveDefaultErrorDescription(errorCode));
     }
 
     private Message getMessage(ErrorCode errorCode, String errorDetail, String errorDescription) {
-        return messageToErrorResConverter.convert(ValidationResult.failure(errorCode, errorDetail, errorDescription, null));
+        return messageToErrorResConverter
+                .convert(ValidationResult.failure(errorCode, errorDetail, errorDescription, null));
     }
 }

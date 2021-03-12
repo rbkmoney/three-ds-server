@@ -4,7 +4,18 @@ import com.rbkmoney.threeds.server.domain.error.ErrorCode;
 import com.rbkmoney.threeds.server.dto.ConstraintType;
 import org.springframework.stereotype.Component;
 
-import static com.rbkmoney.threeds.server.constants.MessageConstants.*;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.A_MESSAGE_ELEMENT_REQUIRED_AS_DEFINED_IN_TABLE_A_1_IS_MISSING_FROM_THE_MESSAGE;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.CARDHOLDER_ACCOUNT_NUMBER_IS_NOT_IN_A_RANGE_BELONGING_TO_ISSUER;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.CRITICAL_MESSAGE_EXTENSION_NOT_RECOGNISED;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.DATA_ELEMENT_NOT_IN_THE_REQUIRED_FORMAT_OR_VALUE_IS_INVALID_AS_DEFINED_IN_TABLE_A_1;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.INVALID_MESSAGE_FOR_THE_RECEIVING_COMPONENT;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.MESSAGE_NOT_RECOGNISED;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.MESSAGE_TYPE;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.SYSTEM_CONNECTION_FAILURE;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.THE_SENDING_COMPONENT_IS_UNABLE_TO_ESTABLISH_CONNECTION_TO_THE_RECEIVING_COMPONENT;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.TIMEOUT_EXPIRY_REACHED_FOR_THE_TRANSACTION_AS_DEFINED_IN_SECTION_5_5;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.TRANSACTION_ID_RECEIVED_IS_NOT_VALID_FOR_THE_RECEIVING_COMPONENT;
+import static com.rbkmoney.threeds.server.constants.MessageConstants.TRANSACTION_TIMED_OUT;
 
 @Component
 public class ErrorMessageResolver {
@@ -42,9 +53,9 @@ public class ErrorMessageResolver {
                 return A_MESSAGE_ELEMENT_REQUIRED_AS_DEFINED_IN_TABLE_A_1_IS_MISSING_FROM_THE_MESSAGE;
             case TRANSACTION_TIMED_OUT_402:
                 return TRANSACTION_TIMED_OUT;
+            default:
+                return null;
         }
-
-        return null;
     }
 
     public String resolveDefaultErrorDetail(ErrorCode errorCode) {
@@ -58,8 +69,8 @@ public class ErrorMessageResolver {
                 return MESSAGE_TYPE;
             case TRANSACTION_TIMED_OUT_402:
                 return TIMEOUT_EXPIRY_REACHED_FOR_THE_TRANSACTION_AS_DEFINED_IN_SECTION_5_5;
+            default:
+                return null;
         }
-
-        return null;
     }
 }

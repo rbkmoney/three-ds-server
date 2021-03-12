@@ -22,7 +22,8 @@ public class AResAcsRenderingTypeContentConstraintValidationHandlerImpl implemen
     public ConstraintValidationResult handle(ARes o) {
         AcsRenderingTypeWrapper acsRenderingType = o.getAcsRenderingType();
 
-        ConstraintValidationResult validationResult = validateRequiredConditionField(acsRenderingType.getAcsInterface(), "acsRenderingType.acsInterface");
+        ConstraintValidationResult validationResult =
+                validateRequiredConditionField(acsRenderingType.getAcsInterface(), "acsRenderingType.acsInterface");
         if (!validationResult.isValid()) {
             return validationResult;
         }

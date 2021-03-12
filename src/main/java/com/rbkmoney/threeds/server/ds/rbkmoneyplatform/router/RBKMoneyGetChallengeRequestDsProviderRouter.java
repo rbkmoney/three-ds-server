@@ -16,7 +16,8 @@ public class RBKMoneyGetChallengeRequestDsProviderRouter implements RBKMoneyDsPr
     @Override
     public DsProvider route(Message message) {
         RBKMoneyGetChallengeRequest request = (RBKMoneyGetChallengeRequest) message;
-        ChallengeFlowTransactionInfo challengeFlowTransactionInfo = rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(request.getThreeDSServerTransID());
+        ChallengeFlowTransactionInfo challengeFlowTransactionInfo = rbkMoneyChallengeFlowTransactionInfoStorageService
+                .getChallengeFlowTransactionInfo(request.getThreeDSServerTransID());
         return DsProvider.of(challengeFlowTransactionInfo.getDsProviderId());
     }
 }

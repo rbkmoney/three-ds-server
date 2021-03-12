@@ -41,7 +41,8 @@ public class RBKMoneyChallengeFlowTest extends AbstractRBKMoneyPlatformConfig {
                 .build();
 
         when(idGenerator.generateUUID()).thenReturn(testCase);
-        when(rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(testCase)).thenReturn(transactionInfo);
+        when(rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(testCase))
+                .thenReturn(transactionInfo);
 
         ChallengeFlow challengeFlow = new ChallengeFlow(jsonMapper, path);
 
