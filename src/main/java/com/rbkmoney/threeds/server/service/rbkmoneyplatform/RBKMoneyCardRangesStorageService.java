@@ -28,7 +28,6 @@ import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 
 @RequiredArgsConstructor
 @Slf4j
-@SuppressWarnings({"checkstyle:parametername", "checkstyle:localvariablename"})
 public class RBKMoneyCardRangesStorageService {
 
     private final CardRangesStorageSrv.Iface cardRangesStorageClient;

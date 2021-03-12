@@ -10,7 +10,6 @@ import org.springframework.core.convert.converter.Converter;
 import static com.rbkmoney.threeds.server.config.builder.ProcessorBuilder.createProcessorChain;
 
 @Configuration("commonProcessorConfig")
-@SuppressWarnings({"checkstyle:parametername", "checkstyle:methodname"})
 public class ProcessorConfig {
 
     @Bean

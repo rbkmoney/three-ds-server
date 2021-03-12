@@ -31,7 +31,7 @@ import java.util.Optional;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 
 @RequiredArgsConstructor
-@SuppressWarnings({"checkstyle:localvariablename", "Duplicates"})
+@SuppressWarnings("Duplicates")
 public class RBKMoneyAuthenticationRequestToAReqConverter implements Converter<ValidationResult, Message> {
 
     /**

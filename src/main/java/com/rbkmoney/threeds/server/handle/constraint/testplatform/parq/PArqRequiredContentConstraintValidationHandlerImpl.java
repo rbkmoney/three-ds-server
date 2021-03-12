@@ -14,7 +14,7 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.validateRequiredConditi
 
 @Component
 @RequiredArgsConstructor
-@SuppressWarnings({"Duplicates"})
+@SuppressWarnings("Duplicates")
 public class PArqRequiredContentConstraintValidationHandlerImpl implements PArqConstraintValidationHandler {
 
     @Override

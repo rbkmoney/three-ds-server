@@ -15,7 +15,6 @@ import static com.rbkmoney.threeds.server.helper.CardRangeHelper.cardRange;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SuppressWarnings({"checkstyle:localvariablename", "checkstyle:methodname"})
 public class TestPlatformCardRangesStorageServiceTest {
 
     private static final String TEST_TAG = UUID.randomUUID().toString();

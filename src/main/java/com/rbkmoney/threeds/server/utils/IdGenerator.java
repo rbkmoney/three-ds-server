@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-@SuppressWarnings({"checkstyle:abbreviationaswordinname"})
 public class IdGenerator {
 
     public String generateUUID() {

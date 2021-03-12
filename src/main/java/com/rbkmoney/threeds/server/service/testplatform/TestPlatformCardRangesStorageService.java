@@ -21,7 +21,6 @@ import static com.rbkmoney.threeds.server.utils.Collections.safeList;
 import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 import static java.lang.Long.parseLong;
 
-@SuppressWarnings({"checkstyle:parametername"})
 public class TestPlatformCardRangesStorageService {
 
     private final Cache<String, Set<CardRange>> cardRangesById;

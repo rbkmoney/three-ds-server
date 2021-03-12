@@ -12,7 +12,6 @@ import static com.rbkmoney.threeds.server.dto.ConstraintType.PATTERN;
 
 @Component
 @RequiredArgsConstructor
-@SuppressWarnings({"checkstyle:abbreviationaswordinname"})
 public class RBKMoneyAuthenticationRequestBrowserTZContentConstraintValidationHandlerImpl
         implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 

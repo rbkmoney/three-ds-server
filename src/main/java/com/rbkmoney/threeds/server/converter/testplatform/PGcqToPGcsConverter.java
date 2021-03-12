@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
 @RequiredArgsConstructor
-@SuppressWarnings({"checkstyle:parametername", "checkstyle:localvariablename"})
 public class PGcqToPGcsConverter implements Converter<ValidationResult, Message> {
 
     private static final String TITLE = "challengeFormData";

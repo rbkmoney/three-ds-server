@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
 @RequiredArgsConstructor
-@SuppressWarnings({"checkstyle:localvariablename"})
 public class PReqToFixedPReqConverter implements Converter<ValidationResult, Message> {
 
     @Override

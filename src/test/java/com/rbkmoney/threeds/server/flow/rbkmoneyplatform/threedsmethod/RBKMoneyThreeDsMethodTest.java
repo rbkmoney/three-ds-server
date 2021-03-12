@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@SuppressWarnings({"checkstyle:linelength"})
 public class RBKMoneyThreeDsMethodTest extends AbstractRBKMoneyPlatformConfig {
 
     @Autowired

@@ -34,7 +34,6 @@ import java.util.stream.Stream;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-@SuppressWarnings({"checkstyle:parametername"})
 public class VisaPlatformChallengeFlowTest extends AbstractVisaPlatformConfig {
 
     @MockBean

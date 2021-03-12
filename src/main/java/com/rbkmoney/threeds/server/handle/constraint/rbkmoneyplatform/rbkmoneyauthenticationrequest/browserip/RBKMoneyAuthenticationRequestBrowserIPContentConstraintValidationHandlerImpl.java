@@ -13,7 +13,6 @@ import static org.apache.http.conn.util.InetAddressUtils.isIPv6Address;
 
 @Component
 @RequiredArgsConstructor
-@SuppressWarnings({"checkstyle:abbreviationaswordinname"})
 public class RBKMoneyAuthenticationRequestBrowserIPContentConstraintValidationHandlerImpl
         implements RBKMoneyAuthenticationRequestConstraintValidationHandler {
 

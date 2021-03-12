@@ -20,7 +20,6 @@ import org.springframework.core.convert.converter.Converter;
 
 @Configuration
 @ConditionalOnProperty(name = "platform.mode", havingValue = "TEST_PLATFORM")
-@SuppressWarnings({"checkstyle:methodname"})
 public class ConverterConfig {
 
     @Bean

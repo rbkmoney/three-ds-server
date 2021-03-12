@@ -10,7 +10,6 @@ import com.rbkmoney.threeds.server.service.AbstractSenderService;
 import com.rbkmoney.threeds.server.service.RequestHandleService;
 import com.rbkmoney.threeds.server.service.ResponseHandleService;
 
-@SuppressWarnings({"checkstyle:localvariablename"})
 public class RBKMoneySenderService extends AbstractSenderService {
 
     private final RBKMoneyDsProviderHolder rbkMoneyDsProviderHolder;
