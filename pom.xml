@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.rbkmoney</groupId>
         <artifactId>service-parent-pom</artifactId>
-        <version>1.0.8</version>
+        <version>1.0.9</version>
     </parent>
 
     <artifactId>three-ds-server</artifactId>
@@ -17,7 +17,6 @@
     <description>RBK.Money 3DS Server implementation</description>
 
     <properties>
-        <java.version>11</java.version>
         <server.port>8080</server.port>
         <management.port>8023</management.port>
         <exposed.ports>${server.port} ${management.port}</exposed.ports>
@@ -125,7 +124,6 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>2.8.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
@@ -151,7 +149,6 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.5</version>
         </dependency>
 
         <!--test-->
@@ -180,7 +177,6 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.16.1</version>
             <scope>test</scope>
         </dependency>
         <!-- Provide JUnit 5 API -->
