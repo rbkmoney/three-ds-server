@@ -68,9 +68,33 @@ public class RBKMoneyResultTest extends AbstractRBKMoneyPlatformConfig {
                 .andExpect(jsonPath("$.authenticationValue").exists())
                 .andExpect(jsonPath("$.eci").value(expectedValue));
     }
+    @Test
+    public void shouldReturnNotFoundIfAuthenticationValueIsNull() throws Exception {
+        String expectedValue = "eci";
+        when(rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(anyString()))
+                .thenReturn(ChallengeFlowTransactionInfo.builder()
+                        .threeDsServerTransId("1")
+                        .deviceChannel(DeviceChannel.BROWSER)
+                        .decoupledAuthMaxTime(LocalDateTime.now())
+                        .acsDecConInd(AcsDecConInd.DECOUPLED_AUTH_WILL_BE_USED)
+                        .dsProviderId("1")
+                        .messageVersion("2.1.0")
+                        .acsUrl("1")
+                        .eci(expectedValue)
+                        .build());
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post("/result")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(getContent());
+
+        mockMvc.perform(request)
+                .andExpect(status().isNotFound());
+    }
 
     @Test
-    public void shouldReturnNotFoundIfAcctNumberIsUnsupportedThreeDsVersion() throws Exception {
+    public void shouldReturnNotFoundIfTransactionNotFound() throws Exception {
         when(rbkMoneyChallengeFlowTransactionInfoStorageService.getChallengeFlowTransactionInfo(anyString()))
                 .thenThrow(ChallengeFlowTransactionInfoNotFoundException.class);
 
@@ -83,7 +107,6 @@ public class RBKMoneyResultTest extends AbstractRBKMoneyPlatformConfig {
         mockMvc.perform(request)
                 .andExpect(status().isNotFound());
     }
-
 
     @Test
     public void shouldReturnBadRequestIfThreeDsServerTransIdIsNull() throws Exception {

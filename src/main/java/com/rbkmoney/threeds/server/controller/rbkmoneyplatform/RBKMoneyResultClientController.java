@@ -43,6 +43,10 @@ public class RBKMoneyResultClientController {
             ChallengeFlowTransactionInfo transactionInfo = rbkMoneyChallengeFlowTransactionInfoStorageService
                     .getChallengeFlowTransactionInfo(threeDsServerTransId);
 
+            if (transactionInfo.getAuthenticationValue() == null) {
+                return ResponseEntity.notFound().build();
+            }
+
             ThreeDsResultResponse response = ThreeDsResultResponse.builder()
                     .authenticationValue(transactionInfo.getAuthenticationValue())
                     .eci(transactionInfo.getEci())
