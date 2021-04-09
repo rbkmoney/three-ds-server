@@ -8,6 +8,7 @@ import com.rbkmoney.threeds.server.converter.commonplatform.PReqToFixedPReqConve
 import com.rbkmoney.threeds.server.converter.commonplatform.RReqToRResConverter;
 import com.rbkmoney.threeds.server.domain.root.Message;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
+import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -37,7 +38,9 @@ public class ConverterConfig {
     }
 
     @Bean
-    public Converter<ValidationResult, Message> rReqToRResConverter() {
-        return new RReqToRResConverter();
+    public Converter<ValidationResult, Message> rReqToRResConverter(
+            ChallengeFlowTransactionInfoStorageService challengeFlowTransactionInfoStorageService
+    ) {
+        return new RReqToRResConverter(challengeFlowTransactionInfoStorageService);
     }
 }
