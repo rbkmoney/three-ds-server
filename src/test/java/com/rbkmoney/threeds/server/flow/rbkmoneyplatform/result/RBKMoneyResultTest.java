@@ -68,6 +68,7 @@ public class RBKMoneyResultTest extends AbstractRBKMoneyPlatformConfig {
                 .andExpect(jsonPath("$.authenticationValue").exists())
                 .andExpect(jsonPath("$.eci").value(expectedValue));
     }
+
     @Test
     public void shouldReturnNotFoundIfAuthenticationValueIsNull() throws Exception {
         String expectedValue = "eci";
