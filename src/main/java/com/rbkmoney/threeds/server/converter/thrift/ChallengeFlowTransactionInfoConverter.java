@@ -21,6 +21,8 @@ public class ChallengeFlowTransactionInfoConverter {
                 .dsProviderId(thriftTransactionInfo.getProviderId())
                 .messageVersion(thriftTransactionInfo.getMessageVersion())
                 .acsUrl(thriftTransactionInfo.getAcsUrl())
+                .eci(thriftTransactionInfo.getEci())
+                .authenticationValue(thriftTransactionInfo.getAuthenticationValue())
                 .build();
     }
 
@@ -35,6 +37,8 @@ public class ChallengeFlowTransactionInfoConverter {
                         .orElse(null))
                 .setProviderId(domainTransactionInfo.getDsProviderId())
                 .setMessageVersion(domainTransactionInfo.getMessageVersion())
-                .setAcsUrl(domainTransactionInfo.getAcsUrl());
+                .setAcsUrl(domainTransactionInfo.getAcsUrl())
+                .setEci(domainTransactionInfo.getEci())
+                .setAuthenticationValue(domainTransactionInfo.getAuthenticationValue());
     }
 }

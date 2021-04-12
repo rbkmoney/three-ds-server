@@ -111,6 +111,8 @@ public class RReqRequiredContentConstraintValidationHandlerImpl implements RReqC
             }
         }
 
+        o.setChallengeFlowTransactionInfo(transactionInfo);
+
         return ConstraintValidationResult.success();
     }
 }

@@ -3,9 +3,14 @@ package com.rbkmoney.threeds.server.converter.commonplatform;
 import com.rbkmoney.threeds.server.domain.challenge.ChallengeCancel;
 import com.rbkmoney.threeds.server.domain.result.ResultsStatus;
 import com.rbkmoney.threeds.server.domain.root.Message;
+import com.rbkmoney.threeds.server.domain.root.emvco.AReq;
+import com.rbkmoney.threeds.server.domain.root.emvco.ARes;
 import com.rbkmoney.threeds.server.domain.root.emvco.RReq;
 import com.rbkmoney.threeds.server.domain.root.emvco.RRes;
+import com.rbkmoney.threeds.server.dto.ChallengeFlowTransactionInfo;
 import com.rbkmoney.threeds.server.dto.ValidationResult;
+import com.rbkmoney.threeds.server.service.ChallengeFlowTransactionInfoStorageService;
+import com.rbkmoney.threeds.server.service.rbkmoneyplatform.RBKMoneyChallengeFlowTransactionInfoStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 
@@ -14,9 +19,13 @@ import static com.rbkmoney.threeds.server.utils.Wrappers.getValue;
 @RequiredArgsConstructor
 public class RReqToRResConverter implements Converter<ValidationResult, Message> {
 
+    private final ChallengeFlowTransactionInfoStorageService challengeFlowTransactionInfoStorageService;
+
     @Override
     public Message convert(ValidationResult validationResult) {
         RReq rReq = (RReq) validationResult.getMessage();
+
+        saveInStorageChallengeFlowTransactionInfo(rReq);
 
         RRes rRes = RRes.builder()
                 .threeDSServerTransID(rReq.getThreeDSServerTransID())
@@ -51,5 +60,16 @@ public class RReqToRResConverter implements Converter<ValidationResult, Message>
                         String.format("ChallengeCancel is reserved value, unsupported, challengeCancel='%s'",
                                 message.getChallengeCancel()));
         }
+    }
+
+    private void saveInStorageChallengeFlowTransactionInfo(RReq rReq) {
+        String threeDSServerTransID = rReq.getThreeDSServerTransID();
+        ChallengeFlowTransactionInfo transactionInfo = rReq.getChallengeFlowTransactionInfo();
+
+        transactionInfo.setEci(rReq.getEci());
+        transactionInfo.setAuthenticationValue(rReq.getAuthenticationValue());
+
+        challengeFlowTransactionInfoStorageService
+                .saveChallengeFlowTransactionInfo(threeDSServerTransID, transactionInfo);
     }
 }
