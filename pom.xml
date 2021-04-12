@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.rbkmoney</groupId>
             <artifactId>three-ds-server-storage-proto</artifactId>
-            <version></version>
+            <version>1.24-ab05a55</version>
         </dependency>
 
         <!--spring-->
